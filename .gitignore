@@ -1,6 +1,6 @@
 out/
 **/*.class
-/.idea
-/.iml
+**/.idea
+.iml
 /bin
 .DS_Store
