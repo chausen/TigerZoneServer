@@ -1,6 +1,7 @@
 out/
 **/*.class
 **/.idea
+TigerZone.iml
 **/*.iml
 /bin
 .DS_Store
