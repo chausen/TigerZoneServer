@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.Area;
 
+import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+
 import java.util.List;
 
 /**
@@ -13,9 +15,9 @@ public class AreaManager {
         this.areas = areas;
     }
 
-//    public void updateAreas(AreaTile at){
-//
-//    }
+    public void updateAreas(AreaTile areaTile){
+
+    }
 
     private void merge(Mergeable m1, Mergeable m2) {
 

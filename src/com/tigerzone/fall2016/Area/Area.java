@@ -1,5 +1,8 @@
 package com.tigerzone.fall2016.Area;
 
+import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.FreeSpaceTile;
+
 import java.util.List;
 
 /**
@@ -7,7 +10,7 @@ import java.util.List;
  */
 public abstract class Area {
 
-//    private List<FreeSpaceTile> freeSpaceTiles;
+    private List<FreeSpaceTile> freeSpaceTiles;
 //    private List<Followers> followerList;
 
     public Area() {
@@ -17,8 +20,8 @@ public abstract class Area {
         return 0;
     }
 
-//    public void addTile(AreaTile areaTile) {
-//    }
+    public void addTile(AreaTile areaTile) {
+    }
 
     public boolean hasAreaUpdated() {
         return false;
