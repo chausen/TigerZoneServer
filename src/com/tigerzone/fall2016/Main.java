@@ -5,6 +5,6 @@ package com.tigerzone.fall2016;
  */
 public class Main {
     public static void main(String args[]){
-        System.out.println("Test");
+        System.out.println("日本語入力できるかな～？(´･ω･｀)");
     }
 }
