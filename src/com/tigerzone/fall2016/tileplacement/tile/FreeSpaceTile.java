@@ -5,5 +5,4 @@ package com.tigerzone.fall2016.tileplacement.tile;
  */
 public class FreeSpaceTile {
 
-
 }
