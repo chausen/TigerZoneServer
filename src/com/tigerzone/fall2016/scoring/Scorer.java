@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.scoring;
 
+import com.tigerzone.fall2016.Area.Area;
+
 import java.util.Map;
 
 public class Scorer {
@@ -20,7 +22,7 @@ public class Scorer {
      * @return int: playerId
      */
     public int announceWinner() {
-
+        return 0;
     }
 
 }
