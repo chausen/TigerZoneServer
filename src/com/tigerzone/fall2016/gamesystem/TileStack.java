@@ -7,7 +7,9 @@ public class TileStack
 {
     Stack stack = new Stack<AreaTile>();
 
-    //"Shuffles" the TileStack to have a random order
+    /**
+     *
+     */
     public void shuffle()
     {
 
