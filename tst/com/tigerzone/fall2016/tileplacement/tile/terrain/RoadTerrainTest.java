@@ -6,9 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by Aidan on 11/7/2016.
+ * Created by Aidan on 11/8/2016.
  */
-public class CityTerrainTest {
+public class RoadTerrainTest {
     @Before
     public void setUp() throws Exception {
 
@@ -21,10 +21,10 @@ public class CityTerrainTest {
         FarmTerrain farmTerrain = new FarmTerrain();
         RoadTerrain roadTerrain = new RoadTerrain();
         FreeTerain freeTerain = new FreeTerain();
-        assertTrue(cityTerrain.accept(cityTerrain));
-        assertFalse(cityTerrain.accept(cloisterTerrain));
-        assertFalse(cityTerrain.accept(farmTerrain));
-        assertFalse(cityTerrain.accept(roadTerrain));
+        assertFalse(roadTerrain.accept(cityTerrain));
+        assertFalse(roadTerrain.accept(cloisterTerrain));
+        assertFalse(roadTerrain.accept(farmTerrain));
+        assertTrue(roadTerrain.accept(roadTerrain));
     }
 
     @Test
@@ -44,6 +44,11 @@ public class CityTerrainTest {
 
     @Test
     public void visit3() throws Exception {
+
+    }
+
+    @Test
+    public void visit4() throws Exception {
 
     }
 

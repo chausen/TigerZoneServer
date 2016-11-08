@@ -13,15 +13,6 @@ import static org.junit.Assert.*;
  * Created by Aidan on 11/8/2016.
  */
 public class FreeSpaceBoardTest {
-    @Test
-    public void isPlaceable1() throws Exception {
-
-    }
-
-    @Test
-    public void placeTile1() throws Exception {
-
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +21,21 @@ public class FreeSpaceBoardTest {
 
     @Test
     public void needToRemove() throws Exception {
-
+        FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
+        AreaTile areaTile1 = new AreaTile(new Point2D(1.0, 0.0),
+                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
+                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
+                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
+                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
+                new FarmTerrain());
+        AreaTile areaTile2 = new AreaTile(null,
+                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
+                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
+                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
+                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
+                new FarmTerrain());
+        freeSpaceBoard.placeTile(areaTile1);
+        assertTrue(freeSpaceBoard.needToRemove(areaTile2));
     }
 
     @Test
