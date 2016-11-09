@@ -7,7 +7,6 @@ import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.terrain.FreeTerain;
 import javafx.geometry.Point2D;
-
 import java.util.*;
 
 /**
