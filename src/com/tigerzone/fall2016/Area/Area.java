@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.Area;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,8 @@ public abstract class Area {
     public Area() {
     }
 
-    public int getOwnerID() {
-        return 0;
+    public List<Integer> getOwnerIDs() {
+        return new ArrayList<Integer>();
     }
 
     public void addTile(AreaTile areaTile) {
@@ -28,5 +29,9 @@ public abstract class Area {
     }
 
     abstract boolean isComplete();
+
+    public int size() {
+        return freeSpaces.size();
+    }
 
 }

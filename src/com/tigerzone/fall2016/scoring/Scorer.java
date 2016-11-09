@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.scoring;
 
-import com.tigerzone.fall2016.Area.AreaManager;
+import com.tigerzone.fall2016.Area.*;
 
 import java.util.*;
 
@@ -21,33 +21,51 @@ public class Scorer {
 
     //==================== During Game Scoring ====================//
     /**
-     * Scores an incomplete DenArea
+     * Scores a DenArea
      * @param DenArea
      */
     public void score(DenArea den) {
+        // The point value equals the number of tiles in the area
         Integer points = den.size();
-        Integer ownerID = den.getOwnerID();
-        Integer currentScore = playerScores.get(ownerID);
-        playerScores.put(ownerID, currentScore + points);
+
+        List<Integer> ownerIDs = den.getOwnerIDs();
+
+        for(int id: ownerIDs) {
+            Integer currentScore = playerScores.get(id);
+            playerScores.put(id, currentScore + points);
+        }
     }
 
     /**
-     * Scores an incomplete LakeArea
+     * Scores a LakeArea
      * @param LakeArea
      */
     public void score(LakeArea lake) {
-        Integer points = den.size();
-        Integer ownerID = den.getOwnerID();
-        Integer currentScore = playerScores.get(ownerID);
-        playerScores.put(ownerID, currentScore + points);
+        // points = 2 * (# of tiles) * (# of unique animals)
+        Integer points = lake.size() * uniqueAnimalCount(lake);
+
+        List<Integer> ownerIDs = lake.getOwnerIDs();
+
+        for(int id: ownerIDs) {
+            Integer currentScore = playerScores.get(id);
+            playerScores.put(id, currentScore + points);
+        }
     }
 
     /**
-     * Scores an incomplete TrailArea
+     * Scores a TrailArea
      * @param TrailArea
      */
     public void score(TrailArea trail) {
+        // points = (# of tiles) + (# of unique animals)
+        Integer points = trail.size() + uniqueAnimalCount(trail);
 
+        List<Integer> ownerIDs = trail.getOwnerIDs();
+
+        for(int id: ownerIDs) {
+            Integer currentScore = playerScores.get(id);
+            playerScores.put(id, currentScore + points);
+        }
     }
 
 
@@ -64,26 +82,37 @@ public class Scorer {
 
     }
 
-    //========== Helper Methods ===========//
+    //========== End Game Scoring Helper Methods ===========//
     // Score incomplete dens
-    private void endGameScore(List<DenArea> dens) {
+    private void endGameScoreDens(List<DenArea> dens) {
 
     }
 
     // Score incomplete lakes
-    private void endGameScore(List<LakeArea> lakes) {
+    private void endGameScoreLakes(List<LakeArea> lakes) {
 
     }
 
     // Score incomplete trails
-    private void endGameScore(List<TrailArea> trails) {
+    private void endGameScoreTrails(List<TrailArea> trails) {
 
     }
 
     // Score jungles
-    private void endGameScore(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
+    private void endGameScoreJungles(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
 
     }
+
+
+    //========== Other Helper Methods ===========//
+    /**
+     *
+     */
+    private int uniqueAnimalCount(Area area) {
+        //TODO add logic for unique animal multiplier
+        return 1;
+    }
+
 
     /**
      * Returns a set of playerIDs for the Players with the highest score
@@ -97,13 +126,11 @@ public class Scorer {
 
         // Find the highest score
         Integer highestScore = 0;
-        Integer currentPlayerID;
-        Integer currentScore;
 
         Iterator<Integer> iterator = playerIDs.iterator();
         while(iterator.hasNext()) {
-            currentPlayerID = iterator.next();
-            currentScore = playerScores.get(currentPlayerID);
+            Integer currentPlayerID = iterator.next();
+            Integer currentScore = playerScores.get(currentPlayerID);
             if (currentScore > highestScore) {
                 highestScore = currentScore;
             }
@@ -112,8 +139,8 @@ public class Scorer {
         // Add each player with a score equal to the highest one found to the set of winners
         iterator = playerIDs.iterator(); // reset iterator
         while(iterator.hasNext()) {
-            currentPlayerID = iterator.next();
-            currentScore = playerScores.get(currentPlayerID);
+            Integer currentPlayerID = iterator.next();
+            Integer currentScore = playerScores.get(currentPlayerID);
             if (currentScore == highestScore) {
                 winners.add(currentPlayerID);
             }
