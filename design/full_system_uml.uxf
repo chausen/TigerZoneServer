@@ -52,7 +52,7 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
       <w>88</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>CityArea</panel_attributes>
+    <panel_attributes>LakeArea</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -63,7 +63,7 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
       <w>80</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>FarmArea</panel_attributes>
+    <panel_attributes>JungleArea</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -74,7 +74,7 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
       <w>80</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>RoadArea</panel_attributes>
+    <panel_attributes>TrailArea</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -96,7 +96,7 @@ fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
       <w>80</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>CloisterArea</panel_attributes>
+    <panel_attributes>DenArea</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -506,7 +506,7 @@ fg=black
       <w>96</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>CityTerrain</panel_attributes>
+    <panel_attributes>LakeTerrain</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -517,7 +517,7 @@ fg=black
       <w>96</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>FarmTerrain</panel_attributes>
+    <panel_attributes>JungleTerrain</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -528,7 +528,7 @@ fg=black
       <w>96</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>RoadTerrain</panel_attributes>
+    <panel_attributes>TrailTerrain</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -600,7 +600,7 @@ TerrainVisitor
       <w>96</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>CloisterTerrain</panel_attributes>
+    <panel_attributes>DenTerrain</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
