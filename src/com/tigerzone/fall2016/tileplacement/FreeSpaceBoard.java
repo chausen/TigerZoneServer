@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016.tileplacement;
 
-import com.tigerzone.fall2016.Area.Area;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.tile.terrain.*;
@@ -21,13 +20,13 @@ public class FreeSpaceBoard {
     //tile is automatically added at the start of the game
     public FreeSpaceBoard() {
         freeSpaceMap.put(new Point2D(0.0, 1.0),
-                new FreeSpace(new FreeTerain(), new FreeTerain(), new RoadTerrain(), new FreeTerain()));
+                new FreeSpace(new FreeTerain(), new FreeTerain(), new TrailTerrain(), new FreeTerain()));
         freeSpaceMap.put(new Point2D(1.0, 0.0),
-                new FreeSpace(new FreeTerain(), new FreeTerain(), new FreeTerain(), new CityTerrain()));
+                new FreeSpace(new FreeTerain(), new FreeTerain(), new FreeTerain(), new LakeTerrain()));
         freeSpaceMap.put(new Point2D(0.0, -1.0),
-                new FreeSpace(new RoadTerrain(), new FreeTerain(), new FreeTerain(), new FreeTerain()));
+                new FreeSpace(new TrailTerrain(), new FreeTerain(), new FreeTerain(), new FreeTerain()));
         freeSpaceMap.put(new Point2D(-1.0, 0.0),
-                new FreeSpace(new FreeTerain(), new FarmTerrain(), new FreeTerain(), new FreeTerain()));
+                new FreeSpace(new FreeTerain(), new JungleTerrain(), new FreeTerain(), new FreeTerain()));
     }
 
     public boolean needToRemove(AreaTile areaTile) {

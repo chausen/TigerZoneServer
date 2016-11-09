@@ -3,9 +3,9 @@ package com.tigerzone.fall2016.Area;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class FarmArea extends Area implements Mergeable {
+public class JungleArea extends Area implements Mergeable {
 
-    public FarmArea() {
+    public JungleArea() {
     }
 
     @Override

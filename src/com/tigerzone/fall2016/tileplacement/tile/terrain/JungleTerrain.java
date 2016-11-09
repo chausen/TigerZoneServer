@@ -3,7 +3,7 @@ package com.tigerzone.fall2016.tileplacement.tile.terrain;
 /**
  * Created by Aidan on 11/7/2016.
  */
-public class RoadTerrain extends Terrain{
+public class JungleTerrain extends Terrain {
 
     @Override
     public boolean accept(TerrainVisitor terrainVisitor) {
@@ -11,22 +11,22 @@ public class RoadTerrain extends Terrain{
     }
 
     @Override
-    public boolean visit(CityTerrain cityTerrain) {
+    public boolean visit(LakeTerrain lakeTerrain) {
         return false;
     }
 
     @Override
-    public boolean visit(FarmTerrain farmTerrain) {
-        return false;
-    }
-
-    @Override
-    public boolean visit(RoadTerrain roadTerrain) {
+    public boolean visit(JungleTerrain jungleTerrain) {
         return true;
     }
 
     @Override
-    public boolean visit(CloisterTerrain cloisterTerrainTerrain) {
+    public boolean visit(TrailTerrain trailTerrain) {
+        return false;
+    }
+
+    @Override
+    public boolean visit(DenTerrain denTerrainTerrain) {
         return false;
     }
 

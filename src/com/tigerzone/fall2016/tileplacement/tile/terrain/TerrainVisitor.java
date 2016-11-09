@@ -5,10 +5,10 @@ package com.tigerzone.fall2016.tileplacement.tile.terrain;
  */
 public interface TerrainVisitor {
 
-    public boolean visit(CityTerrain cityTerrain);
-    public boolean visit(FarmTerrain farmTerrain);
-    public boolean visit(RoadTerrain roadTerrain);
-    public boolean visit(CloisterTerrain cloisterTerrainTerrain);
+    public boolean visit(LakeTerrain lakeTerrain);
+    public boolean visit(JungleTerrain jungleTerrain);
+    public boolean visit(TrailTerrain trailTerrain);
+    public boolean visit(DenTerrain denTerrainTerrain);
     public boolean visit(FreeTerain freeTerain);
 
 }

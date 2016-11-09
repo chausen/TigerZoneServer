@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Aidan on 11/8/2016.
  */
-public class CloisterTerrainTest {
+public class DenTerrainTest {
     @Before
     public void setUp() throws Exception {
 
@@ -16,15 +16,15 @@ public class CloisterTerrainTest {
 
     @Test
     public void accept() throws Exception {
-        CityTerrain cityTerrain = new CityTerrain();
-        CloisterTerrain cloisterTerrain = new CloisterTerrain();
-        FarmTerrain farmTerrain = new FarmTerrain();
-        RoadTerrain roadTerrain = new RoadTerrain();
+        LakeTerrain lakeTerrain = new LakeTerrain();
+        DenTerrain denTerrain = new DenTerrain();
+        JungleTerrain jungleTerrain = new JungleTerrain();
+        TrailTerrain trailTerrain = new TrailTerrain();
         FreeTerain freeTerain = new FreeTerain();
-        assertFalse(cloisterTerrain.accept(cityTerrain));
-        assertTrue(cloisterTerrain.accept(cloisterTerrain));
-        assertFalse(cloisterTerrain.accept(farmTerrain));
-        assertFalse(cloisterTerrain.accept(roadTerrain));
+        assertFalse(denTerrain.accept(lakeTerrain));
+        assertTrue(denTerrain.accept(denTerrain));
+        assertFalse(denTerrain.accept(jungleTerrain));
+        assertFalse(denTerrain.accept(trailTerrain));
     }
 
     @Test

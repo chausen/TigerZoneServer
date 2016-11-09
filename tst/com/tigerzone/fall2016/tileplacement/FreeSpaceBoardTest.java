@@ -23,17 +23,17 @@ public class FreeSpaceBoardTest {
     public void needToRemove() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
         AreaTile areaTile1 = new AreaTile(new Point2D(1.0, 0.0),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new FarmTerrain());
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new JungleTerrain());
         AreaTile areaTile2 = new AreaTile(null,
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new FarmTerrain());
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new JungleTerrain());
         freeSpaceBoard.placeTile(areaTile1);
         assertTrue(freeSpaceBoard.needToRemove(areaTile2));
     }
@@ -42,17 +42,17 @@ public class FreeSpaceBoardTest {
     public void isPlaceable() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
         AreaTile areaTile1 = new AreaTile(new Point2D(0.0, 0.0),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new FarmTerrain());
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new JungleTerrain());
         AreaTile areaTile2 = new AreaTile(new Point2D(0.0, 1.0),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new FarmTerrain());
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new JungleTerrain());
         assertFalse(freeSpaceBoard.isPlaceable(areaTile1));
         assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
     }
@@ -61,35 +61,35 @@ public class FreeSpaceBoardTest {
     public void placeTile() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
         AreaTile areaTile1 = new AreaTile(new Point2D(0.0, 1.0),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new RoadTerrain());
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new TrailTerrain());
         AreaTile areaTile2 = new AreaTile(new Point2D(-1.0, 0.0),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new FarmTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new FarmTerrain());
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new JungleTerrain());
         AreaTile areaTile3 = new AreaTile(new Point2D(-1.0, -1.0),
-                new Edge(new FarmTerrain(), new RoadTerrain(), new FarmTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new RoadTerrain());
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new TrailTerrain());
         AreaTile areaTile4 = new AreaTile(new Point2D(-1.0, -2.0),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new CityTerrain());
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new LakeTerrain());
         AreaTile areaTile5 = new AreaTile(new Point2D(0.0, -1.0),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new Edge(new CityTerrain(), new CityTerrain(), new CityTerrain()),
-                new CityTerrain());
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
+                new LakeTerrain());
         assertTrue(freeSpaceBoard.isPlaceable(areaTile1));
         freeSpaceBoard.placeTile(areaTile1);
         assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
@@ -97,8 +97,8 @@ public class FreeSpaceBoardTest {
         assertTrue(freeSpaceBoard.isPlaceable(areaTile3));
         freeSpaceBoard.placeTile(areaTile3);
         FreeSpace freeSpace = freeSpaceBoard.freeSpaceMap.get(new Point2D(0.0, -1.0));
-        assertTrue(freeSpace.getNorthTerrain().visit(new RoadTerrain()));
-        assertTrue(freeSpace.getEastTerrain().visit(new CityTerrain()));
+        assertTrue(freeSpace.getNorthTerrain().visit(new TrailTerrain()));
+        assertTrue(freeSpace.getEastTerrain().visit(new LakeTerrain()));
         assertTrue(freeSpaceBoard.isPlaceable(areaTile4));
         freeSpaceBoard.placeTile(areaTile4);
         assertEquals(freeSpaceBoard.freeSpaceMap.size(), 10);
