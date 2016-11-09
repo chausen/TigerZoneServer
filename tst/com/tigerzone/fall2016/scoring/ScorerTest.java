@@ -1,24 +1,27 @@
 package com.tigerzone.fall2016.scoring;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
- * Created by matthewdiaz on 11/7/16.
+ * Created by Aidan on 11/9/2016.
  */
 public class ScorerTest {
-
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
 
     }
 
-    @org.junit.Test
-    public void testUpdateScore() throws Exception {
+    @Test
+    public void updateScore() throws Exception {
 
     }
 
-    @org.junit.Test
-    public void testAnnounceWinner() throws Exception {
+    @Test
+    public void announceWinner() throws Exception {
 
     }
+
 }
