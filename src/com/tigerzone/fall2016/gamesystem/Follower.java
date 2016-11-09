@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016;
+package com.tigerzone.fall2016.gamesystem;
 
 /**
  * Created by clayhausen on 11/7/16.

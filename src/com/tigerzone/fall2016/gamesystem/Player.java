@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016;
+package com.tigerzone.fall2016.gamesystem;
 
 import java.util.List;
 
@@ -7,7 +7,14 @@ import java.util.List;
  */
 public class Player {
     private int playerId;
-    private int supply;
+    private int goodSupply; // Tigers
+    private int badSupply;  // Crocodiles
+
+    public Player(int playerId) {
+        this.playerId = playerId;
+        this.goodSupply = 7;
+        this.badSupply = 2;
+    }
 
     /**
      * Increase supply by 1.
@@ -38,6 +45,6 @@ public class Player {
      * @return int
      */
     public int getSupply() {
-        return supply;
+        return goodSupply;
     }
 }
