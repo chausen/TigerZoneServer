@@ -16,15 +16,15 @@ public class FreeTerainTest {
 
     @Test
     public void accept() throws Exception {
-        CityTerrain cityTerrain = new CityTerrain();
-        CloisterTerrain cloisterTerrain = new CloisterTerrain();
-        FarmTerrain farmTerrain = new FarmTerrain();
-        RoadTerrain roadTerrain = new RoadTerrain();
+        LakeTerrain lakeTerrain = new LakeTerrain();
+        DenTerrain denTerrain = new DenTerrain();
+        JungleTerrain jungleTerrain = new JungleTerrain();
+        TrailTerrain trailTerrain = new TrailTerrain();
         FreeTerain freeTerain = new FreeTerain();
-        assertTrue(freeTerain.accept(cityTerrain));
-        assertTrue(freeTerain.accept(cloisterTerrain));
-        assertTrue(freeTerain.accept(farmTerrain));
-        assertTrue(freeTerain.accept(roadTerrain));
+        assertTrue(freeTerain.accept(lakeTerrain));
+        assertTrue(freeTerain.accept(denTerrain));
+        assertTrue(freeTerain.accept(jungleTerrain));
+        assertTrue(freeTerain.accept(trailTerrain));
     }
 
     @Test

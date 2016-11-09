@@ -1,6 +1,7 @@
-package com.tigerzone.fall2016.tileplacement.tile.terrain;
+package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.tileplacement.Direction;
+import com.tigerzone.fall2016.tileplacement.tile.terrain.Terrain;
 
 /**
  * Created by Aidan on 11/7/2016.

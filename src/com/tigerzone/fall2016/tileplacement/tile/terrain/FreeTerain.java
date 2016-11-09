@@ -11,22 +11,22 @@ public class FreeTerain extends Terrain {
     }
 
     @Override
-    public boolean visit(CityTerrain cityTerrain) {
+    public boolean visit(LakeTerrain lakeTerrain) {
         return true;
     }
 
     @Override
-    public boolean visit(FarmTerrain farmTerrain) {
+    public boolean visit(JungleTerrain jungleTerrain) {
         return true;
     }
 
     @Override
-    public boolean visit(RoadTerrain roadTerrain) {
+    public boolean visit(TrailTerrain trailTerrain) {
         return true;
     }
 
     @Override
-    public boolean visit(CloisterTerrain cloisterTerrainTerrain) {
+    public boolean visit(DenTerrain denTerrainTerrain) {
         return true;
     }
 
