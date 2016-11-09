@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.tileplacement;
 
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.tile.terrain.*;
 import javafx.geometry.Point2D;
@@ -14,14 +15,21 @@ import static org.junit.Assert.*;
  */
 public class FreeSpaceBoardTest {
 
+    FreeSpaceBoard freeSpaceBoard;
+
     @Before
     public void setUp() throws Exception {
-
+        freeSpaceBoard = new FreeSpaceBoard();
     }
 
+    //This is testing the method that enables the FreeSpaceBoard
+    //to know whether a tile on the stack cannot be placed.
+    //The FreeSpace board starts with 4 freespaces created by the initial tile.
+    //If I place a LakeTile which takes up the Lake sport of the initial tile
+    //and doesnt provide any more lake edges I shouldnt be able to place an
+    //all lake tile.
     @Test
     public void needToRemove() throws Exception {
-        FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
         AreaTile areaTile1 = new AreaTile(new Point2D(1.0, 0.0),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
@@ -38,6 +46,8 @@ public class FreeSpaceBoardTest {
         assertTrue(freeSpaceBoard.needToRemove(areaTile2));
     }
 
+
+    //I shouldnt be able to place a tile at the origin but can place a tile above it
     @Test
     public void isPlaceable() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
@@ -57,6 +67,7 @@ public class FreeSpaceBoardTest {
         assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
     }
 
+    //This is the most complicated test case that is going over a random game progression. 
     @Test
     public void placeTile() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
