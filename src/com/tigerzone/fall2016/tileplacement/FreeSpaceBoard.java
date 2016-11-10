@@ -7,6 +7,7 @@ import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.terrain.FreeTerain;
 import javafx.geometry.Point2D;
+
 import java.util.*;
 
 /**
@@ -52,8 +53,7 @@ public class FreeSpaceBoard {
         return placeable;
     }
 
-    public boolean isPlaceable(AreaTile areaTile){
-        Point2D position = areaTile.getPosition();
+    public boolean isPlaceable(AreaTile areaTile, Point2D position){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
             return false;
@@ -70,18 +70,18 @@ public class FreeSpaceBoard {
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go
     //from O(n) to O(1). Need to ask team what they think -Aidan
-    public void placeTile(AreaTile areaTile){
-        FreeSpace freeSpace = freeSpaceMap.get(areaTile.getPosition());
+    public void placeTile(AreaTile areaTile, Point2D position){
+        FreeSpace freeSpace = freeSpaceMap.get(position);
         FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, freeSpaceMap);
-        makeFreeSpace(freeSpaceBuilder);
+        makeFreeSpace(freeSpaceBuilder, position);
     }
 
-    private void makeFreeSpace(FreeSpaceBuilder freeSpaceBuilder){
-        freeSpaceMap.remove(freeSpaceBuilder.getAreaTilePosition());
-        freeSpaceBuilder.buildNorthTerrain();
-        freeSpaceBuilder.buildEastTerrain();
-        freeSpaceBuilder.buildSouthTerrain();
-        freeSpaceBuilder.buildWestTerrain();
+    private void makeFreeSpace(FreeSpaceBuilder freeSpaceBuilder, Point2D position){
+        freeSpaceMap.remove(position);
+        freeSpaceBuilder.buildNorthTerrain(position);
+        freeSpaceBuilder.buildEastTerrain(position);
+        freeSpaceBuilder.buildSouthTerrain(position);
+        freeSpaceBuilder.buildWestTerrain(position);
     }
 
 }
