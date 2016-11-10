@@ -1,15 +1,14 @@
-package com.tigerzone.fall2016.tileplacement.tile.terrain;
+package com.tigerzone.fall2016.tileplacement.terrain;
 
-import com.tigerzone.fall2016.tileplacement.terrain.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by Aidan on 11/8/2016.
+ * Created by Aidan on 11/7/2016.
  */
-public class DenTerrainTest {
+public class LakeTerrainTest {
     @Before
     public void setUp() throws Exception {
 
@@ -22,10 +21,10 @@ public class DenTerrainTest {
         JungleTerrain jungleTerrain = new JungleTerrain();
         TrailTerrain trailTerrain = new TrailTerrain();
         FreeTerain freeTerain = new FreeTerain();
-        assertFalse(denTerrain.accept(lakeTerrain));
-        assertTrue(denTerrain.accept(denTerrain));
-        assertFalse(denTerrain.accept(jungleTerrain));
-        assertFalse(denTerrain.accept(trailTerrain));
+        assertTrue(lakeTerrain.accept(lakeTerrain));
+        assertFalse(lakeTerrain.accept(denTerrain));
+        assertFalse(lakeTerrain.accept(jungleTerrain));
+        assertFalse(lakeTerrain.accept(trailTerrain));
     }
 
     @Test
@@ -45,11 +44,6 @@ public class DenTerrainTest {
 
     @Test
     public void visit3() throws Exception {
-
-    }
-
-    @Test
-    public void visit4() throws Exception {
 
     }
 

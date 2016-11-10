@@ -1,9 +1,9 @@
-package com.tigerzone.fall2016.tileplacement.tile.terrain;
+package com.tigerzone.fall2016.tileplacement.terrain;
 
 /**
  * Created by Aidan on 11/7/2016.
  */
-public class DenTerrain extends Terrain {
+public class FreeTerain extends Terrain {
 
     @Override
     public boolean accept(TerrainVisitor terrainVisitor) {
@@ -12,17 +12,17 @@ public class DenTerrain extends Terrain {
 
     @Override
     public boolean visit(LakeTerrain lakeTerrain) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean visit(JungleTerrain jungleTerrain) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean visit(TrailTerrain trailTerrain) {
-        return false;
+        return true;
     }
 
     @Override
@@ -32,6 +32,11 @@ public class DenTerrain extends Terrain {
 
     @Override
     public boolean visit(FreeTerain freeTerain) {
+        return true;
+    }
+
+    @Override
+    public boolean isFree() {
         return true;
     }
 }

@@ -3,7 +3,7 @@ package com.tigerzone.fall2016.tileplacement;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import com.tigerzone.fall2016.tileplacement.tile.terrain.*;
+import com.tigerzone.fall2016.tileplacement.terrain.*;
 import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class FreeSpaceBoardTest {
         assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
     }
 
-    //This is the most complicated test case that is going over a random game progression. 
+    //This is the most complicated test case that is going over a random game progression.
     @Test
     public void placeTile() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();

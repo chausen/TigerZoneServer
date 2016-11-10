@@ -1,7 +1,7 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-import com.tigerzone.fall2016.tileplacement.tile.terrain.LakeTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.terrain.JungleTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
 import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;

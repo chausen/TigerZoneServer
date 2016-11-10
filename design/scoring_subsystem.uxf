@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>104</y>
+      <w>272</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>Scorer
+--
+-playerscores:HashMap&lt;Integer,Integer&gt;
+--
+&lt;&lt;During Game Scoring&gt;&gt;
++score(DenArea denArea):void
++score(LakeArea lakeArea):void
+...
+&lt;&lt;End Game Scoring&gt;&gt;
++endGameScoring()
+-endGameScore(DenArea denArea):void
+-endGameScore(LakeArea lakeArea): void
+...
++announceWinners():Set&lt;Integer&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>248</x>
+      <y>592</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>GoodFollower
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>336</x>
+      <y>480</y>
+      <w>112</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>/Follower/
+--
+--
++getPlayerID():int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>592</y>
+      <w>112</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>BadFollower
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>256</x>
+      <y>216</y>
+      <w>280</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>AreaManager
+--
+--
++updateAreas(at:AreaTile):void
++getIncompleteDens(): List&lt;DenArea&gt;
++getIncompleteLakes(): List&lt;LakeArea&gt;
++getIncompleteTrails(): List&lt;TrailArea&gt;
++getJungles(): List&lt;JungleArea&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>408</x>
+      <y>80</y>
+      <w>128</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>GameSystem
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>88</y>
+      <w>112</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;80.0;120.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>528</x>
+      <y>208</y>
+      <w>112</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-&gt;</panel_attributes>
+    <additional_attributes>10.0;60.0;60.0;60.0;60.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>304</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>360</y>
+      <w>144</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>/Area/
+--
+--
+getOwnerID():int
+size():int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>424</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>520</y>
+      <w>24</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>552</y>
+      <w>224</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;260.0;10.0;260.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>392</x>
+      <y>456</y>
+      <w>56</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>owner
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

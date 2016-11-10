@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.tileplacement.tile.terrain;
 
+import com.tigerzone.fall2016.tileplacement.terrain.*;
 import org.junit.Before;
 import org.junit.Test;
 

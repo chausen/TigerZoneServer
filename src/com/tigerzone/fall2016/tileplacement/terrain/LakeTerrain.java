@@ -1,9 +1,9 @@
-package com.tigerzone.fall2016.tileplacement.tile.terrain;
+package com.tigerzone.fall2016.tileplacement.terrain;
 
 /**
  * Created by Aidan on 11/7/2016.
  */
-public class JungleTerrain extends Terrain {
+public class LakeTerrain extends Terrain{
 
     @Override
     public boolean accept(TerrainVisitor terrainVisitor) {
@@ -12,12 +12,12 @@ public class JungleTerrain extends Terrain {
 
     @Override
     public boolean visit(LakeTerrain lakeTerrain) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean visit(JungleTerrain jungleTerrain) {
-        return true;
+        return false;
     }
 
     @Override

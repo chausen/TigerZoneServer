@@ -1,9 +1,10 @@
-package com.tigerzone.fall2016.tileplacement.tile.terrain;
+package com.tigerzone.fall2016.tileplacement;
 
 import com.tigerzone.fall2016.Area.Area;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
+import com.tigerzone.fall2016.tileplacement.terrain.FreeTerain;
 
 import java.util.HashMap;
 
