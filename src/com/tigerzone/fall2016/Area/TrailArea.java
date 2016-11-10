@@ -3,10 +3,12 @@ package com.tigerzone.fall2016.Area;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class CityArea extends Area implements Mergeable {
+public class TrailArea extends Area implements Mergeable {
 
-    public CityArea() {
+
+    public TrailArea() {
     }
+
 
     @Override
     boolean isComplete() {
@@ -17,6 +19,4 @@ public class CityArea extends Area implements Mergeable {
     public void merge(Mergeable mergeable) {
 
     }
-
-
 }

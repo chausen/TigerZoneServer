@@ -5,9 +5,10 @@ package com.tigerzone.fall2016.tileplacement.terrain;
  */
 public interface TerrainVisitor {
 
-    public void visit(CityTerrain cityTerrain);
-    public void visit(FarmTerrain farmTerrain);
-    public void visit(RoadTerrain roadTerrain);
-    public void visit(CloisterTerrain cloisterTerrainTerrain);
+    public boolean visit(LakeTerrain lakeTerrain);
+    public boolean visit(JungleTerrain jungleTerrain);
+    public boolean visit(TrailTerrain trailTerrain);
+    public boolean visit(DenTerrain denTerrainTerrain);
+    public boolean visit(FreeTerain freeTerain);
 
 }
