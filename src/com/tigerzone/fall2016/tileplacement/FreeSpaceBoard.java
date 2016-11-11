@@ -48,12 +48,12 @@ public class FreeSpaceBoard {
                 }
                 areaTile.rotateCW();
             }
-            areaTile.rotateCW();
+            //areaTile.rotateCW();
         }
         return placeable;
     }
 
-    public boolean isPlaceable(AreaTile areaTile, Point2D position){
+    public boolean isPlaceable(Point2D position, AreaTile areaTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
             return false;
@@ -70,7 +70,7 @@ public class FreeSpaceBoard {
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go
     //from O(n) to O(1). Need to ask team what they think -Aidan
-    public void placeTile(AreaTile areaTile, Point2D position){
+    public void placeTile(Point2D position, AreaTile areaTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, freeSpaceMap);
         makeFreeSpace(freeSpaceBuilder, position);
