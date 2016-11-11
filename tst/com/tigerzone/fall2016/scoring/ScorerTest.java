@@ -1,7 +1,7 @@
 package com.tigerzone.fall2016.scoring;
 
-import com.tigerzone.fall2016.Area.Area;
-import com.tigerzone.fall2016.Area.AreaManager;
+import com.tigerzone.fall2016.area.Area;
+import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.gamesystem.Player;
 
 import java.util.*;

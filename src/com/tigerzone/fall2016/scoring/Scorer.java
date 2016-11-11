@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.scoring;
 
-import com.tigerzone.fall2016.Area.*;
+import com.tigerzone.fall2016.area.*;
 
 import java.util.*;
 
@@ -136,7 +136,7 @@ public class Scorer {
 
     // Score jungles
     private void endGameScoreJungles(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
-
+        //TODO add logic
     }
 
 

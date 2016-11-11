@@ -1,11 +1,11 @@
-package com.tigerzone.fall2016.Area;
+package com.tigerzone.fall2016.area;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class LakeArea extends Area implements Mergeable {
+public class JungleArea extends Area implements Mergeable {
 
-    public LakeArea() {
+    public JungleArea() {
     }
 
     @Override
@@ -17,6 +17,4 @@ public class LakeArea extends Area implements Mergeable {
     public void merge(Mergeable mergeable) {
 
     }
-
-
 }
