@@ -6,6 +6,10 @@ package com.tigerzone.fall2016;
 public class Follower {
     private int playerId;
 
+    public Follower(int playerId){
+        this.playerId = playerId;
+    }
+
     /**
      * Accessor for playerId (unique identifier for player)
      * @return int
