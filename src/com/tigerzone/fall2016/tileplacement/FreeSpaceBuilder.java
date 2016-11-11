@@ -3,7 +3,7 @@ package com.tigerzone.fall2016.tileplacement;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
-import com.tigerzone.fall2016.tileplacement.terrain.FreeTerain;
+import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
 
 import java.util.HashMap;
 
@@ -31,8 +31,8 @@ public class FreeSpaceBuilder {
             needUpdateFreeSpace.setSouthTerrain(areaTile.getNorthEdgeCenter());
         }
         else{
-            FreeSpace freeSpaceNorth = new FreeSpace(new FreeTerain(), new FreeTerain(),
-                    areaTile.getNorthEdgeCenter(), new FreeTerain());
+            FreeSpace freeSpaceNorth = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
+                    areaTile.getNorthEdgeCenter(), new FreeTerrain());
             freeSpaceMap.put(position.add(0.0, 1.0), freeSpaceNorth);
         }
     }
@@ -46,8 +46,8 @@ public class FreeSpaceBuilder {
             needUpdateFreeSpace.setWestTerrain(areaTile.getEastEdgeCenter());
         }
         else{
-            FreeSpace freeSpaceEast = new FreeSpace(new FreeTerain(), new FreeTerain(),
-                    new FreeTerain(), areaTile.getNorthEdgeCenter());
+            FreeSpace freeSpaceEast = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
+                    new FreeTerrain(), areaTile.getNorthEdgeCenter());
             freeSpaceMap.put(position.add(1.0, 0.0), freeSpaceEast);
         }
     }
@@ -61,8 +61,8 @@ public class FreeSpaceBuilder {
             needUpdateFreeSpace.setNorthTerrain(areaTile.getSouthEdgeCenter());
         }
         else{
-            FreeSpace freeSpaceSouth = new FreeSpace(areaTile.getSouthEdgeCenter(), new FreeTerain(),
-                    new FreeTerain(), new FreeTerain());
+            FreeSpace freeSpaceSouth = new FreeSpace(areaTile.getSouthEdgeCenter(), new FreeTerrain(),
+                    new FreeTerrain(), new FreeTerrain());
             freeSpaceMap.put(position.add(0.0, -1.0), freeSpaceSouth);
         }
     }
@@ -76,8 +76,8 @@ public class FreeSpaceBuilder {
             needUpdateFreeSpace.setEastTerrain(areaTile.getWestEdgeCenter());
         }
         else{
-            FreeSpace freeSpaceWest = new FreeSpace(areaTile.getWestEdgeCenter(), new FreeTerain(),
-                    new FreeTerain(), new FreeTerain());
+            FreeSpace freeSpaceWest = new FreeSpace(areaTile.getWestEdgeCenter(), new FreeTerrain(),
+                    new FreeTerrain(), new FreeTerrain());
             freeSpaceMap.put(position.add(-1.0, 0.0), freeSpaceWest);
         }
     }

@@ -11,6 +11,11 @@ public class DenTerrain extends Terrain {
     }
 
     @Override
+    public void accept(SegmentVisitor segmentVisitor) {
+        segmentVisitor.visitDen(this);
+    }
+
+    @Override
     public boolean visit(LakeTerrain lakeTerrain) {
         return false;
     }
@@ -31,7 +36,7 @@ public class DenTerrain extends Terrain {
     }
 
     @Override
-    public boolean visit(FreeTerain freeTerain) {
+    public boolean visit(FreeTerrain freeTerrain) {
         return true;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.1.1">
+<diagram program="umlet" version="14.2">
   <help_text>// Uncomment the following line to change the fontsize and font:
 fontsize=14
 fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
@@ -579,9 +579,9 @@ fg=black
     <id>UMLClass</id>
     <coordinates>
       <x>256</x>
-      <y>520</y>
+      <y>504</y>
       <w>184</w>
-      <h>88</h>
+      <h>104</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 TerrainVisitor
@@ -589,7 +589,8 @@ TerrainVisitor
 +visit(c:CityTerrain):bool
 +visit(f:FarmTerrain):bool
 +visit(r:RoadTerrain):bool
-+visit(cl:CloiserTerrain):bool</panel_attributes>
++visit(cl:CloiserTerrain):bool
++visit(ft:FreeTerrain):bool</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -940,6 +941,7 @@ bg=#99FF99</panel_attributes>
     <panel_attributes>/Predator/
 --
 --
+
 
 </panel_attributes>
     <additional_attributes/>

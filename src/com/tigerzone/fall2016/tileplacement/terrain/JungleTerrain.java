@@ -31,7 +31,7 @@ public class JungleTerrain extends Terrain {
     }
 
     @Override
-    public boolean visit(FreeTerain freeTerain) {
+    public boolean visit(FreeTerrain freeTerrain) {
         return true;
     }
 }

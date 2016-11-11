@@ -7,6 +7,8 @@ public abstract class Terrain implements TerrainVisitor {
 
     public abstract boolean accept(TerrainVisitor terrainVisitor);
 
+    public abstract void accept(SegmentVisitor segmentVisitor);
+
     public boolean isFree(){
         return false;
     }

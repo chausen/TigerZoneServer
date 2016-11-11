@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Aidan on 11/8/2016.
  */
-public class FreeTerainTest {
+public class FreeTerrainTest {
     @Before
     public void setUp() throws Exception {
 
@@ -21,11 +21,11 @@ public class FreeTerainTest {
         DenTerrain denTerrain = new DenTerrain();
         JungleTerrain jungleTerrain = new JungleTerrain();
         TrailTerrain trailTerrain = new TrailTerrain();
-        FreeTerain freeTerain = new FreeTerain();
-        assertTrue(freeTerain.accept(lakeTerrain));
-        assertTrue(freeTerain.accept(denTerrain));
-        assertTrue(freeTerain.accept(jungleTerrain));
-        assertTrue(freeTerain.accept(trailTerrain));
+        FreeTerrain freeTerrain = new FreeTerrain();
+        assertTrue(freeTerrain.accept(lakeTerrain));
+        assertTrue(freeTerrain.accept(denTerrain));
+        assertTrue(freeTerrain.accept(jungleTerrain));
+        assertTrue(freeTerrain.accept(trailTerrain));
     }
 
     @Test
