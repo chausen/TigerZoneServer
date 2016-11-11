@@ -6,4 +6,7 @@ import com.tigerzone.fall2016.Follower;
  * Created by Aidan on 11/9/2016.
  */
 public class Tiger extends Follower {
+    public Tiger(int playerId) {
+        super(playerId);
+    }
 }

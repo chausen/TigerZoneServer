@@ -31,4 +31,8 @@ public class AreaTileTest {
 
     }
 
+    @Test
+    public void testGetOwnerID() throws Exception {
+
+    }
 }
