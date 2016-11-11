@@ -1,6 +1,6 @@
-package com.tigerzone.fall2016.Area;
+package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.tileplacement.Tiger;
+import com.tigerzone.fall2016.animals.Tiger;
 import org.junit.Before;
 import org.junit.Test;
 

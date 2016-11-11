@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016.Area;
+package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.terrain.SegmentAdder;
