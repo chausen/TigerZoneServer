@@ -30,19 +30,19 @@ public class FreeSpaceBoardTest {
     //all lake tile.
     @Test
     public void needToRemove() throws Exception {
-        AreaTile areaTile1 = new AreaTile(new Point2D(1.0, 0.0),
+        AreaTile areaTile1 = new AreaTile(
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new JungleTerrain());
-        AreaTile areaTile2 = new AreaTile(null,
+        AreaTile areaTile2 = new AreaTile(
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new JungleTerrain());
-        freeSpaceBoard.placeTile(areaTile1);
+        freeSpaceBoard.placeTile(new Point2D(1.0, 0.0),areaTile1);
         assertTrue(freeSpaceBoard.needToRemove(areaTile2));
     }
 
@@ -51,69 +51,69 @@ public class FreeSpaceBoardTest {
     @Test
     public void isPlaceable() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
-        AreaTile areaTile1 = new AreaTile(new Point2D(0.0, 0.0),
+        AreaTile areaTile1 = new AreaTile(
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new JungleTerrain());
-        AreaTile areaTile2 = new AreaTile(new Point2D(0.0, 1.0),
+        AreaTile areaTile2 = new AreaTile(
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new JungleTerrain());
-        assertFalse(freeSpaceBoard.isPlaceable(areaTile1));
-        assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), areaTile1));
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), areaTile2));
     }
 
     //This is the most complicated test case that is going over a random game progression.
     @Test
     public void placeTile() throws Exception {
         FreeSpaceBoard freeSpaceBoard = new FreeSpaceBoard();
-        AreaTile areaTile1 = new AreaTile(new Point2D(0.0, 1.0),
+        AreaTile areaTile1 = new AreaTile(
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new TrailTerrain());
-        AreaTile areaTile2 = new AreaTile(new Point2D(-1.0, 0.0),
+        AreaTile areaTile2 = new AreaTile(
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new JungleTerrain());
-        AreaTile areaTile3 = new AreaTile(new Point2D(-1.0, -1.0),
+        AreaTile areaTile3 = new AreaTile(
                 new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new TrailTerrain());
-        AreaTile areaTile4 = new AreaTile(new Point2D(-1.0, -2.0),
+        AreaTile areaTile4 = new AreaTile(
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new LakeTerrain());
-        AreaTile areaTile5 = new AreaTile(new Point2D(0.0, -1.0),
+        AreaTile areaTile5 = new AreaTile(
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new LakeTerrain());
-        assertTrue(freeSpaceBoard.isPlaceable(areaTile1));
-        freeSpaceBoard.placeTile(areaTile1);
-        assertTrue(freeSpaceBoard.isPlaceable(areaTile2));
-        freeSpaceBoard.placeTile(areaTile2);
-        assertTrue(freeSpaceBoard.isPlaceable(areaTile3));
-        freeSpaceBoard.placeTile(areaTile3);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), areaTile1));
+        freeSpaceBoard.placeTile(new Point2D(0.0, 1.0), areaTile1);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, 0.0), areaTile2));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, 0.0), areaTile2);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -1.0), areaTile3));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, -1.0), areaTile3);
         FreeSpace freeSpace = freeSpaceBoard.freeSpaceMap.get(new Point2D(0.0, -1.0));
         assertTrue(freeSpace.getNorthTerrain().visit(new TrailTerrain()));
         assertTrue(freeSpace.getEastTerrain().visit(new LakeTerrain()));
-        assertTrue(freeSpaceBoard.isPlaceable(areaTile4));
-        freeSpaceBoard.placeTile(areaTile4);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -2.0),areaTile4));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, -2.0),areaTile4);
         assertEquals(freeSpaceBoard.freeSpaceMap.size(), 10);
-        assertFalse(freeSpaceBoard.isPlaceable(areaTile5));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(0.0, -1.0), areaTile5));
     }
 
 }
