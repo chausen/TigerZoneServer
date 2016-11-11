@@ -1,6 +1,7 @@
-package com.tigerzone.fall2016.Area;
+package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.tileplacement.Tiger;
+import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 
@@ -68,15 +69,22 @@ public abstract class Area {
         return areaOwners;
     }
 
+    private void addTile(AreaTile tile){
+
+    }
+
+    private void addAnimal(Animal animal){
+
+    }
+
+//    -
+//    +updateArea(t:AreaTile):void
+//    +updateArea(t:AnimalAreaTile):void
+//    +hasAreaUpdated():bool
+//    +isAnimalPlaceable(): bool
+
     public void placeTiger(Tiger tiger){
         this.tigerList.add(tiger);
-    }
-
-    public void addTile(AreaTile areaTile) {
-    }
-
-    public boolean hasAreaUpdated() {
-        return false;
     }
 
     abstract boolean isComplete();
