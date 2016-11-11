@@ -1,22 +1,21 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
-import javafx.geometry.Point2D;
 
 /**
  * Created by Aidan on 11/7/2016.
  */
 public class AreaTile {
 
-    Point2D position;
+
+    //Point2D position;
     Edge northEdge;
     Edge eastEdge;
     Edge southEdge;
     Edge westEdge;
     Terrain center;
 
-    public AreaTile(Point2D position, Edge northEdge, Edge eastEdge, Edge southEdge, Edge westEdge, Terrain center) {
-        this.position = position;
+    public AreaTile(Edge northEdge, Edge eastEdge, Edge southEdge, Edge westEdge, Terrain center) {
         this.northEdge = northEdge;
         this.eastEdge = eastEdge;
         this.southEdge = southEdge;
@@ -38,14 +37,6 @@ public class AreaTile {
         eastEdge = southEdge;
         southEdge = westEdge;
         westEdge = tempEdge;
-    }
-
-    public Point2D getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point2D position) {
-        this.position = position;
     }
 
     public Edge getNorthEdge() {
