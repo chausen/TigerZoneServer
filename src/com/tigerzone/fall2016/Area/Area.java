@@ -72,6 +72,7 @@ public abstract class Area {
         this.tigerList.add(tiger);
     }
 
+
     public void addTile(AreaTile areaTile) {
     }
 
