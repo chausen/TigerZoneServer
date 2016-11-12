@@ -9,5 +9,5 @@ public interface SegmentVisitor {
     public void visitFree(FreeTerrain freeTerrain);
     public void visitLake(LakeTerrain lakeTerrain);
     public void visitTrail(TrailTerrain trailTerrain);
-
+    public void visitJungle(JungleTerrain jungleTerrain);
 }

@@ -11,6 +11,11 @@ public class JungleTerrain extends Terrain {
     }
 
     @Override
+    public void accept(SegmentVisitor segmentVisitor) {
+        segmentVisitor.visitJungle(this);
+    }
+
+    @Override
     public boolean visit(LakeTerrain lakeTerrain) {
         return false;
     }

@@ -29,11 +29,11 @@ public class SegmentAdder implements SegmentVisitor{
 
     @Override
     public void visitTrail(TrailTerrain trailTerrain) {
-        denTerrains.put(count++, denTerrain);
+        trailTerrains.put(count++, trailTerrain);
     }
 
     @Override
-    public void visitTrail(TrailTerrain trailTerrain) {
-        denTerrains.put(count++, denTerrain);
+    public void visitJungle(JungleTerrain jungleTerrain) {
+        jungleTerrains.put(count++, jungleTerrain);
     }
 }
