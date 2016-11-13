@@ -2,10 +2,22 @@ package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by lenovo on 11/12/2016.
  */
 public abstract class Tile {
+
+    private HashMap<Terrain, TileArea> tileArea = new HashMap<>(); //this is simple, but probably stupid.
+    private List<TileArea> tileAreas; //instead, can just loop through tileareas to see if contains
+
+    public TileArea getTileAreaFromTerrain(Terrain terrain) {
+        return tileArea.get(terrain);
+    }
+
+
 
     //Point2D position;
     Edge northEdge;

@@ -20,6 +20,11 @@ public class Board {
         }
     }
 
+    //we get the location player is attempting to place tile at
+    //check the adjacent slots (merge this with freespace concept?)
+    //actually, the whole placement seems to be handled
+    //so at some point perhaps we just go through each tile and check adjacent
+
     public Tile getTile(Point2D boardPosition) {
         return board.get(boardPosition);
     }
