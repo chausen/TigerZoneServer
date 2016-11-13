@@ -65,7 +65,6 @@ public class FreeSpaceBoard {
                 ? true : false;
     }
 
-
     //when the player wants to add the tile, they need to specify the
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go

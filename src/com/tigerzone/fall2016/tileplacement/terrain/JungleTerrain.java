@@ -13,8 +13,13 @@ public class JungleTerrain extends Terrain {
     }
 
     @Override
+<<<<<<< HEAD
     public void accept(SegmentVisitor segmentVisitor, Direction direction) {
         segmentVisitor.visitJungle(this, direction);
+=======
+    public void accept(SegmentVisitor segmentVisitor) {
+        segmentVisitor.visitJungle(this);
+>>>>>>> 9151f4f99e54e59172a7942c7093ac3823736a31
     }
 
     @Override

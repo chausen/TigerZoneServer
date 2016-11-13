@@ -35,7 +35,6 @@ public class SegmentAdder implements SegmentVisitor{
         lakeTerrains.put(count++, lakeTerrain);
     }
 
-    @Override
     public void visitTrail(TrailTerrain trailTerrain, Direction direction) {
         trailTerrains.put(count++, trailTerrain);
     }
