@@ -19,7 +19,7 @@ public class Board {
             System.out.println("there is already a tile there"); // TODO: 11/12/2016 alert GM that an illegal move has been made?
         }
     }
-    
+
     //at some point perhaps we just go through each tile and check adjacent
 
     public Tile getTile(Point2D boardPosition) {
