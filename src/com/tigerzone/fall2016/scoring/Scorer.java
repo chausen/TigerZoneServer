@@ -99,8 +99,20 @@ public class Scorer {
         endGameScoreTrails(trails);
 
         List<JungleArea> jungles = am.getDenAreas();
-        List<LakeArea> completedLakes = am.getCompletedLakeAreas();
-        List<DenArea> completedDens = am.getCompletedDenAreas();
+        // Get list of complete lakes
+        List<LakeArea> completedLakes = new ArrayList<LakeArea>();
+        for (LakeArea lake: lakes) {
+            if (lake.isComplete()) {
+                completedLakes.add(lake);
+            }
+        }
+        // Get list of complete dens
+        List<DenArea> completedDens = new ArrayList<DenArea>();
+        for (DenArea den: dens) {
+            if (den.isComplete()) {
+                completedDens.add(den);
+            }
+        }
         endGameScoreJungles(jungles, completedLakes, completedDens);
     }
 
@@ -141,13 +153,21 @@ public class Scorer {
 
 
     //========== Helper Methods ===========//
-    /**
-     *
-     */
+    // Determines the number of unique animals in an area
+    // Range: [0, 3]
+    // Used by:
+    //   score(LakeArea)
+    //   score(TrailArea)
     private int uniqueAnimalCount(Area area) {
-        //TODO add logic for unique animal multiplier
-        
-        return 1;
+        int uniqueAnimals = 0;
+        uniqueAnimals += area.containsBoar();
+        uniqueAnimals += area.containsDeer();
+        uniqueAnimals += area.containsBuffalo();
+        uniqueAnimals -= area.getCrocs();
+        if (uniqueAnimals < 0) {
+            uniqueAnimals = 0;
+        }
+        return uniqueAnimals;
     }
 
 
