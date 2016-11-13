@@ -1,18 +1,26 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.Prey;
+
+import java.util.List;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class LakeArea extends Area implements Mergeable {
+public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
+    private List<Prey> preyList;
 
-    public LakeArea() {
+    public LakeArea() {}
+
+    @Override
+    boolean isPredatorPlacable(Predator predator) {
+        return predator.placeableInLake();
     }
 
     @Override
-    boolean isAnimalPlacable(Animal animal) {
-        return false;
+    void addAnimalFromAnimalAreaTile(Prey prey){
+        preyList.add(prey);
     }
 
     @Override
@@ -22,8 +30,5 @@ public class LakeArea extends Area implements Mergeable {
 
     @Override
     public void merge(Mergeable mergeable) {
-
     }
-
-
 }

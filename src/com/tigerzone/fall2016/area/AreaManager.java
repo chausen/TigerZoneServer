@@ -1,9 +1,10 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.tileplacement.Direction;
-import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
+import com.tigerzone.fall2016.tileplacement.FreeSpaceBuilder;
 import com.tigerzone.fall2016.tileplacement.terrain.SegmentAdder;
 import com.tigerzone.fall2016.tileplacement.terrain.SegmentVisitor;
+import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
@@ -24,23 +25,52 @@ public class AreaManager {
     private List<LakeArea> lakeAreas;
     private List<TrailArea> trailAreas;
     private HashMap<Point2D, AreaTile> areaTileHashMap;
-    private FreeSpaceBoard freeSpaceBoard;
+    private HashMap<Point2D, FreeSpace> freeSpaceHashMap;
 
-    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas,
-    FreeSpaceBoard freeSpaceBoard) {
+    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
         this.denAreas = denAreas;
         this.jungleAreas = jungleAreas;
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
-        this.freeSpaceBoard = freeSpaceBoard;
         //You know what these need to be built at the beginning of the game
-        this.areaTileHashMap = areaTileHashMap;
+        areaTileHashMap = new HashMap<>();
+        freeSpaceHashMap = new HashMap<>();
     }
 
     public void updateAreas(Point2D position, AreaTile areaTile){
-        updateTrail(position, areaTile);
+        areaTileHashMap.put(position, areaTile);
+        FreeSpace freeSpace = freeSpaceHashMap.get(position);
+        updateTrail(position, areaTile, freeSpace);
+        updateJungle(position, areaTile, freeSpace);
+    }
+
+    private void updateTrail(Point2D position, AreaTile areaTile, FreeSpace freeSpace){
+        for(TrailArea trailArea: trailAreas){
+            HashMap<Point2D, FreeSpace> taFreeSpaceMap = trailArea.getFreeSpaceMap();
+            if(taFreeSpaceMap.get(position) != null){
+                trailArea.updateArea(areaTile);
+            }
+            FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, trailArea.getFreeSpaceMap());
+            freeSpaceBuilder.makeFreeSpace(position);
+        }
+
+        if(freeSpace.getNorthTerrain().isFree() && areaTile.getNorthEdge().getMiddleTerrain().accept(new TrailTerrain())){
+            HashMap<Point2D, FreeSpace> newFSHashMap = new HashMap<>();
+            TrailArea trailArea = new TrailArea(areaTile,position,newFSHashMap);
+        }
+        if(freeSpace.getEastTerrain().isFree() && areaTile.getEastEdge().getMiddleTerrain().accept(new TrailTerrain())){
+
+        }
+        if(freeSpace.getSouthTerrain().isFree() && areaTile.getSouthEdge().getMiddleTerrain().accept(new TrailTerrain())){
+
+        }
+        if(freeSpace.getWestTerrain().isFree() && areaTile.getWestEdge().getMiddleTerrain().accept(new TrailTerrain())){
+
+        }
+    }
+
+    private void updateJungle(Point2D position, AreaTile areaTile, FreeSpace freeSpace){
         SegmentAdder segmentAdder = new SegmentAdder();
-        FreeSpace freeSpace = freeSpaceBoard.getFreeSpace(position);
         if(freeSpace.getNorthTerrain().isFree()){
             Edge edge = areaTile.getNorthEdge();
             visitEdge(edge, segmentAdder, Direction.NORTH);
@@ -58,18 +88,6 @@ public class AreaManager {
             visitEdge(edge, segmentAdder, Direction.WEST);
         }
         //segmentAdder.createAreas();
-    }
-
-    private void updateTrail(Point2D position, AreaTile areaTile){
-        List<TrailArea> newTrailAreas = new ArrayList<>();
-        for(TrailArea ta: trailAreas){
-            Set<Point2D> keySet = ta.getFreeSpaceMap().keySet();
-            for(Point2D point2D: keySet){
-                if(point2D == position){
-                    ta.updateArea(areaTile);
-                }
-            }
-        }
     }
 
     private void merge(Mergeable m1, Mergeable m2) {

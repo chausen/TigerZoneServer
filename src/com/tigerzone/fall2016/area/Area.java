@@ -1,7 +1,6 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
-import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.tileplacement.tile.AnimalAreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
@@ -29,8 +28,17 @@ public abstract class Area {
         areaTileMap.put(position, tile);
     }
 
-    private void addAnimal(Animal animal){
+    public void visit(Crocodile crocodile){
+        crocodile.accept(this);
+    }
+    public void visit(Tiger tiger){
+        tiger.accept(this);
+    }
 
+    void addAnimalFromAnimalAreaTile(Prey prey){}
+
+    void addAnimalFromAnimalAreaTile(Predator crocodile){
+        //this.crocodileList.add(crocodile);
     }
 
     public void updateArea(Point2D position, AreaTile areaTile){
@@ -39,27 +47,36 @@ public abstract class Area {
         }
     }
 
-    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
-        if(freeSpaceMap.containsKey(position)){
-            addTile(position, animalAreaTile);
-        }
-        Animal animalOnTile = animalAreaTile.getAnimal();
-        if(isAnimalPlacable(animalOnTile)){
-            addAnimal(animalOnTile);
-        }
-    }
+//    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
+//        if(freeSpaceMap.containsKey(position)){
+//            addTile(position, animalAreaTile);
+//        }
+//        Animal animalOnTile = animalAreaTile.getAnimal();
+//        //if(isAnimalPlacable(animalOnTile)){
+//            addAnimalFromAnimalAreaTile(animalOnTile);
+//        //}
+//    }
 
     public boolean hasAreaUpdated(){
         return true;
     }
 
-    public void placeTiger(Tiger tiger){
+    public void placePredator(Tiger tiger){
         this.tigerList.add(tiger);
     }
 
-    abstract boolean isAnimalPlacable(Animal animal);
+    public void placePredator(Crocodile crocodile){}
+
+    abstract boolean isPredatorPlacable(Predator predator);
 
     abstract boolean isComplete();
+
+    public void placePredator(Predator predator){
+        if (isPredatorPlacable(predator)) {
+            predator.accept(this);
+        }
+    }
+
 
     /**
      * Returns a list of playerID's that have equal max tiger counts for an area.

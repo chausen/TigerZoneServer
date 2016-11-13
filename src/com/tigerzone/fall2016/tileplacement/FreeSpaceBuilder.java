@@ -22,7 +22,15 @@ public class FreeSpaceBuilder {
         this.freeSpaceMap = freeSpaceMap;
     }
 
-    public void buildNorthTerrain(Point2D position){
+    public void makeFreeSpace(Point2D position){
+        freeSpaceMap.remove(position);
+        buildNorthTerrain(position);
+        buildEastTerrain(position);
+        buildSouthTerrain(position);
+        buildWestTerrain(position);
+    }
+
+    private void buildNorthTerrain(Point2D position){
         if(!freeSpace.getNorthTerrain().isFree()){
             return;
         }
@@ -37,7 +45,7 @@ public class FreeSpaceBuilder {
         }
     }
 
-    public void buildEastTerrain(Point2D position){
+    private void buildEastTerrain(Point2D position){
         if(!freeSpace.getEastTerrain().isFree()){
             return;
         }
@@ -52,7 +60,7 @@ public class FreeSpaceBuilder {
         }
     }
 
-    public void buildSouthTerrain(Point2D position){
+    private void buildSouthTerrain(Point2D position){
         if(!freeSpace.getSouthTerrain().isFree()){
             return;
         }
@@ -67,7 +75,7 @@ public class FreeSpaceBuilder {
         }
     }
 
-    public void buildWestTerrain(Point2D position){
+    private void buildWestTerrain(Point2D position){
         if(!freeSpace.getWestTerrain().isFree()){
             return;
         }

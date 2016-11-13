@@ -72,15 +72,7 @@ public class FreeSpaceBoard {
     public void placeTile(Point2D position, AreaTile areaTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, freeSpaceMap);
-        makeFreeSpace(freeSpaceBuilder, position);
-    }
-
-    private void makeFreeSpace(FreeSpaceBuilder freeSpaceBuilder, Point2D position){
-        freeSpaceMap.remove(position);
-        freeSpaceBuilder.buildNorthTerrain(position);
-        freeSpaceBuilder.buildEastTerrain(position);
-        freeSpaceBuilder.buildSouthTerrain(position);
-        freeSpaceBuilder.buildWestTerrain(position);
+        freeSpaceBuilder.makeFreeSpace(position);
     }
 
     public FreeSpace getFreeSpace(Point2D position){
