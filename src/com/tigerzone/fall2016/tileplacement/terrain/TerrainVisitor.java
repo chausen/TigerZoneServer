@@ -9,6 +9,6 @@ public interface TerrainVisitor {
     public boolean visit(JungleTerrain jungleTerrain);
     public boolean visit(TrailTerrain trailTerrain);
     public boolean visit(DenTerrain denTerrainTerrain);
-    public boolean visit(FreeTerain freeTerain);
+    public boolean visit(FreeTerrain freeTerrain);
 
 }

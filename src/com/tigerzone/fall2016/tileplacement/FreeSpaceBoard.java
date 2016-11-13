@@ -5,7 +5,7 @@ import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import com.tigerzone.fall2016.tileplacement.terrain.FreeTerain;
+import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -23,13 +23,13 @@ public class FreeSpaceBoard {
     //tile is automatically added at the start of the game
     public FreeSpaceBoard() {
         freeSpaceMap.put(new Point2D(0.0, 1.0),
-                new FreeSpace(new FreeTerain(), new FreeTerain(), new TrailTerrain(), new FreeTerain()));
+                new FreeSpace(new FreeTerrain(), new FreeTerrain(), new TrailTerrain(), new FreeTerrain()));
         freeSpaceMap.put(new Point2D(1.0, 0.0),
-                new FreeSpace(new FreeTerain(), new FreeTerain(), new FreeTerain(), new LakeTerrain()));
+                new FreeSpace(new FreeTerrain(), new FreeTerrain(), new FreeTerrain(), new LakeTerrain()));
         freeSpaceMap.put(new Point2D(0.0, -1.0),
-                new FreeSpace(new TrailTerrain(), new FreeTerain(), new FreeTerain(), new FreeTerain()));
+                new FreeSpace(new TrailTerrain(), new FreeTerrain(), new FreeTerrain(), new FreeTerrain()));
         freeSpaceMap.put(new Point2D(-1.0, 0.0),
-                new FreeSpace(new FreeTerain(), new JungleTerrain(), new FreeTerain(), new FreeTerain()));
+                new FreeSpace(new FreeTerrain(), new JungleTerrain(), new FreeTerrain(), new FreeTerrain()));
     }
 
     public boolean needToRemove(AreaTile areaTile) {
@@ -65,7 +65,6 @@ public class FreeSpaceBoard {
                 ? true : false;
     }
 
-
     //when the player wants to add the tile, they need to specify the
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go
@@ -82,6 +81,10 @@ public class FreeSpaceBoard {
         freeSpaceBuilder.buildEastTerrain(position);
         freeSpaceBuilder.buildSouthTerrain(position);
         freeSpaceBuilder.buildWestTerrain(position);
+    }
+
+    public FreeSpace getFreeSpace(Point2D position){
+        return freeSpaceMap.get(position);
     }
 
 }

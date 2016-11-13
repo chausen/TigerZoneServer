@@ -3,11 +3,16 @@ package com.tigerzone.fall2016.tileplacement.terrain;
 /**
  * Created by Aidan on 11/7/2016.
  */
-public class FreeTerain extends Terrain {
+public class FreeTerrain extends Terrain {
 
     @Override
     public boolean accept(TerrainVisitor terrainVisitor) {
         return terrainVisitor.visit(this);
+    }
+
+    @Override
+    public void accept(SegmentVisitor segmentVisitor) {
+        segmentVisitor.visitFree(this);
     }
 
     @Override
@@ -31,7 +36,7 @@ public class FreeTerain extends Terrain {
     }
 
     @Override
-    public boolean visit(FreeTerain freeTerain) {
+    public boolean visit(FreeTerrain freeTerrain) {
         return true;
     }
 
