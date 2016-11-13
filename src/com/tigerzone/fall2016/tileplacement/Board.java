@@ -19,11 +19,8 @@ public class Board {
             System.out.println("there is already a tile there"); // TODO: 11/12/2016 alert GM that an illegal move has been made?
         }
     }
-
-    //we get the location player is attempting to place tile at
-    //check the adjacent slots (merge this with freespace concept?)
-    //actually, the whole placement seems to be handled
-    //so at some point perhaps we just go through each tile and check adjacent
+    
+    //at some point perhaps we just go through each tile and check adjacent
 
     public Tile getTile(Point2D boardPosition) {
         return board.get(boardPosition);
