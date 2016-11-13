@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +16,14 @@ import static org.junit.Assert.*;
  */
 public class AreaTest {
     private Area area;
+    private Predator tiger;
+    private Predator crocodile;
 
     @Before
     public void setUp() throws Exception {
         area = new JungleArea();
+        tiger = new Tiger(0);
+        crocodile = new Crocodile();
     }
 
     @Test
@@ -26,28 +32,17 @@ public class AreaTest {
     }
 
     @Test
-    public void testPlaceTiger() throws Exception {
-        Tiger t1 = new Tiger(1);
-        Tiger t2 = new Tiger(1);
+    public void testPlacePredatorCrocodile() throws Exception {
+        area.placePredator(crocodile);
+    }
 
-        Tiger t3 = new Tiger(0);
-        Tiger t4 = new Tiger(0);
+    @Test
+    public void testPlacePredatorTiger() throws Exception {
+        area.placePredator(tiger);
+    }
 
-        Tiger t6 = new Tiger(2);
-        Tiger t7 = new Tiger(2);
+    @Test
+    public void testGetSize() throws Exception {
 
-        area.placeTiger(t1);
-        area.placeTiger(t2);
-        area.placeTiger(t3);
-        area.placeTiger(t4);
-        area.placeTiger(t6);
-        area.placeTiger(t7);
-        List<Integer> expectedOwners = new ArrayList<>();
-        expectedOwners.add(0);
-        expectedOwners.add(1);
-        expectedOwners.add(2);
-
-        List<Integer> actualOwners = area.getOwnerID();
-        assertEquals(expectedOwners,actualOwners);
     }
 }
