@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.tileplacement.terrain;
 
+import com.tigerzone.fall2016.tileplacement.Direction;
+
 /**
  * Created by Aidan on 11/7/2016.
  */
@@ -11,8 +13,8 @@ public class FreeTerrain extends Terrain {
     }
 
     @Override
-    public void accept(SegmentVisitor segmentVisitor) {
-        segmentVisitor.visitFree(this);
+    public void accept(SegmentVisitor segmentVisitor, Direction direction) {
+        segmentVisitor.visitFree(this, direction);
     }
 
     @Override

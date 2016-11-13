@@ -9,7 +9,6 @@ public class TrailArea extends Area implements Mergeable {
     public TrailArea() {
     }
 
-
     @Override
     boolean isComplete() {
         return false;

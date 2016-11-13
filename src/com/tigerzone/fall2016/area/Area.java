@@ -4,16 +4,16 @@ import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import javafx.geometry.Point2D;
 
-import java.awt.geom.Point2D;
 import java.util.*;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area {
-    private Map<Point2D, FreeSpace> freeSpaceMap;
-    private Map<Point2D, AreaTile> areaTileMap;
+    private HashMap<Point2D, FreeSpace> freeSpaceMap;
+    private HashMap<Point2D, AreaTile> areaTileMap;
     private List<Tiger> tigerList;
     private List<FreeSpace> freeSpaces;
 
@@ -69,6 +69,10 @@ public abstract class Area {
         return areaOwners;
     }
 
+    public void updateArea(AreaTile areaTile) {
+
+    }
+
     private void addTile(AreaTile tile){
 
     }
@@ -88,5 +92,9 @@ public abstract class Area {
     }
 
     abstract boolean isComplete();
+
+    public HashMap<Point2D, FreeSpace> getFreeSpaceMap(){
+        return freeSpaceMap;
+    }
 
 }

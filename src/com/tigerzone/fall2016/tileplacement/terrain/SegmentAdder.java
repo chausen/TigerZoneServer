@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.tileplacement.terrain;
 
+import com.tigerzone.fall2016.tileplacement.Direction;
+
 import java.util.HashMap;
 
 /**
@@ -14,26 +16,33 @@ public class SegmentAdder implements SegmentVisitor{
     int count = 0;
 
     @Override
-    public void visitDen(DenTerrain denTerrain) {
+    public void visitJungle(JungleTerrain jungleTerrain, Direction direction) {
+        jungleTerrains.put(count++, jungleTerrain);
+    }
+
+    @Override
+    public void visitDen(DenTerrain denTerrain, Direction direction) {
         denTerrains.put(count++, denTerrain);
     }
 
     @Override
-    public void visitFree(FreeTerrain freeTerrain) {
+    public void visitFree(FreeTerrain freeTerrain, Direction direction) {
+
     }
 
     @Override
-    public void visitLake(LakeTerrain lakeTerrain) {
+    public void visitLake(LakeTerrain lakeTerrain, Direction direction) {
         lakeTerrains.put(count++, lakeTerrain);
     }
 
     @Override
-    public void visitTrail(TrailTerrain trailTerrain) {
-        denTerrains.put(count++, denTerrain);
+    public void visitTrail(TrailTerrain trailTerrain, Direction direction) {
+        trailTerrains.put(count++, trailTerrain);
     }
 
-    @Override
-    public void visitTrail(TrailTerrain trailTerrain) {
-        denTerrains.put(count++, denTerrain);
+    public void createJungleAreas(){
+
     }
+
+
 }
