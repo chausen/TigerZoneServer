@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016.Area;
+package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.tileplacement.Tiger;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;

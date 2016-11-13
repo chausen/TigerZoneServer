@@ -3,10 +3,10 @@ package com.tigerzone.fall2016;
 /**
  * Created by clayhausen on 11/7/16.
  */
-public class Follower {
+public abstract class Animal {
     private int playerId;
 
-    public Follower(int playerId){
+    public Animal(int playerId){
         this.playerId = playerId;
     }
 
