@@ -5,6 +5,9 @@ package com.tigerzone.fall2016.tileplacement.terrain;
  */
 public abstract class Terrain implements TerrainVisitor {
 
+    public Terrain() {
+    }
+
     public abstract boolean accept(TerrainVisitor terrainVisitor);
 
     public boolean isFree(){

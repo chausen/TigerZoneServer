@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016;
+package com.tigerzone.fall2016.tileplacement.animal;
 
 /**
  * Created by clayhausen on 11/7/16.
@@ -8,6 +8,9 @@ public abstract class Animal {
 
     public Animal(int playerId){
         this.playerId = playerId;
+    }
+
+    public Animal() {
     }
 
     /**

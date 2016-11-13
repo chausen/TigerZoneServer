@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.tileplacement.Tiger;
+import com.tigerzone.fall2016.tileplacement.animal.Tiger;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 

@@ -1,6 +1,6 @@
-package com.tigerzone.fall2016.tileplacement;
+package com.tigerzone.fall2016.tileplacement.animal;
 
-import com.tigerzone.fall2016.Animal;
+import com.tigerzone.fall2016.tileplacement.animal.Animal;
 
 /**
  * Created by Aidan on 11/9/2016.
@@ -8,5 +8,8 @@ import com.tigerzone.fall2016.Animal;
 public class Crocodile extends Animal {
     public Crocodile(int playerId) {
         super(playerId);
+    }
+
+    public Crocodile() {
     }
 }
