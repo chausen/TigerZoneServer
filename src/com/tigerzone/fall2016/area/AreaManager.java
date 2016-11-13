@@ -10,10 +10,8 @@ import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by lenovo on 11/7/2016.
@@ -47,16 +45,19 @@ public class AreaManager {
     private void updateTrail(Point2D position, AreaTile areaTile, FreeSpace freeSpace){
         for(TrailArea trailArea: trailAreas){
             HashMap<Point2D, FreeSpace> taFreeSpaceMap = trailArea.getFreeSpaceMap();
+            FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, trailArea.getFreeSpaceMap());
             if(taFreeSpaceMap.get(position) != null){
                 trailArea.updateArea(areaTile);
+                freeSpaceBuilder.makeFreeSpace(position, true);
             }
-            FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, trailArea.getFreeSpaceMap());
-            freeSpaceBuilder.makeFreeSpace(position);
+            else {
+                freeSpaceBuilder.makeFreeSpace(position, false);
+            }
         }
 
         if(freeSpace.getNorthTerrain().isFree() && areaTile.getNorthEdge().getMiddleTerrain().accept(new TrailTerrain())){
             HashMap<Point2D, FreeSpace> newFSHashMap = new HashMap<>();
-            TrailArea trailArea = new TrailArea(areaTile,position,newFSHashMap);
+            TrailArea trailArea = new TrailArea(position,areaTile,newFSHashMap);
         }
         if(freeSpace.getEastTerrain().isFree() && areaTile.getEastEdge().getMiddleTerrain().accept(new TrailTerrain())){
 

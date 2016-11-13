@@ -72,7 +72,7 @@ public class FreeSpaceBoard {
     public void placeTile(Point2D position, AreaTile areaTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, areaTile, freeSpaceMap);
-        freeSpaceBuilder.makeFreeSpace(position);
+        freeSpaceBuilder.makeFreeSpace(position, true);
     }
 
     public FreeSpace getFreeSpace(Point2D position){
