@@ -15,7 +15,7 @@ public class NetworkPort implements PlayerOutAdapter {
 
     @Override
     public void notifyBeginGame(AreaTile areatile) {
-
+        System.out.println(areatile);
     }
 
     @Override
