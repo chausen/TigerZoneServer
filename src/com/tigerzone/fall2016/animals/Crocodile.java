@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.animals;
 
+import com.tigerzone.fall2016.area.Area;
+
 /**
  * Created by Aidan on 11/9/2016.
  */

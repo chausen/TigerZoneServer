@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-import com.tigerzone.fall2016.tileplacement.animal.*;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
 
 /**
