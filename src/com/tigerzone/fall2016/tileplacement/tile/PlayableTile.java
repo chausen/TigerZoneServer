@@ -83,7 +83,7 @@ public class PlayableTile {
     }
 
     private void generateSpecialFeature(String tileString) {
-        char specialFeatureChar = tileString.charAt(5);
+        char specialFeatureChar = tileString.charAt(4);
         switch (specialFeatureChar) {
             case 'X': setCenterTerrain(new DenTerrain());
                 break;
