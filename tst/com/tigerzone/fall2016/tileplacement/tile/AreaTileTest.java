@@ -17,7 +17,7 @@ public class AreaTileTest {
 
     @Test
     public void rotateCW() throws Exception {
-        AreaTile areaTile = new AreaTile(new Point2D(0.0, 0.0),
+        AreaTile areaTile = new AreaTile(
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new LakeTerrain(), new LakeTerrain(), new LakeTerrain()),
                 new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain()),
@@ -31,4 +31,8 @@ public class AreaTileTest {
 
     }
 
+    @Test
+    public void testGetOwnerID() throws Exception {
+
+    }
 }
