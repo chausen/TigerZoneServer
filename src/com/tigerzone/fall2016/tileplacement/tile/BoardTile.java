@@ -1,7 +1,9 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
+import com.sun.javafx.geom.Point2D;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,14 +11,28 @@ import java.util.List;
  */
 public class BoardTile {
 
-    Terrain[] zones = new Terrain[9];
+    private HashMap<Terrain, TileArea> tileArea = new HashMap<>(); //this is simple, but probably stupid.
+    private List<TileArea> tileAreas; //instead, can just loop through tileareas to see if contains
+
+    public TileArea getTileAreaFromTerrain(Terrain terrain) {
+        return tileArea.get(terrain);
+    }
+
+    private Terrain[] zones = new Terrain[9];
 
     public BoardTile(Terrain[] zones) {
         this.zones = zones;
     }
 
     public BoardTile(PlayableTile playableTile) {
-        populateZones(playableTile);
+//        populateFaceZones(playableTile);
+//        zonesSpecialCase(playableTile.getTileString());
+//        if (zonesSpecialCase(playableTile.getTileString())) {
+//            return;
+//        } else {
+//            //populateCornerZones(playableTile);
+//        }
+
     }
 
     public Terrain getZone(int zone) {
@@ -36,12 +52,14 @@ public class BoardTile {
         setZone(4, playableTile.getWestFace());
     }
 
+
     public Terrain getNorthFace(){
         return zones[1];
     }
 
     public Terrain getEastFace(){
         return zones[5];
+
     }
 
     public Terrain getSouthFace(){
