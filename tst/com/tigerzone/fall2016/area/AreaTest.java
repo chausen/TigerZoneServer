@@ -1,8 +1,6 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Tiger;
-import com.tigerzone.fall2016.area.Area;
-import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
@@ -12,7 +10,6 @@ import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

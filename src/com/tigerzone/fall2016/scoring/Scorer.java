@@ -1,7 +1,5 @@
 package com.tigerzone.fall2016.scoring;
 
-import com.tigerzone.fall2016.area.Area;
-
 import java.util.Map;
 
 public class Scorer {

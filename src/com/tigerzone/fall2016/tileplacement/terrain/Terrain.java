@@ -7,6 +7,9 @@ import com.tigerzone.fall2016.tileplacement.Direction;
  */
 public abstract class Terrain implements TerrainVisitor {
 
+    public Terrain() {
+    }
+
     public abstract boolean accept(TerrainVisitor terrainVisitor);
 
     public abstract void accept(SegmentVisitor segmentVisitor, Direction direction);
