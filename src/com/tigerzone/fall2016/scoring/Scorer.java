@@ -22,6 +22,14 @@ public class Scorer {
     private AreaManager am;
 
 
+    public Scorer(List<Integer> playerIDs, AreaManager am) {
+        this.playerScores = new HashMap<>();
+        for (Integer playerID: playerIDs) {
+            playerScores.put(playerID, 0);
+        }
+        this.am = am;
+    }
+
     public Scorer(Map<Integer, Integer> playerScores, AreaManager am) {
         this.playerScores = playerScores;
         this.am = am;
