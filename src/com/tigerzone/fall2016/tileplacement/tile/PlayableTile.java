@@ -370,14 +370,14 @@ public class PlayableTile {
                 setZone(1, new JungleTerrain());
                 TrailTerrain trailTerrain1 = new TrailTerrain();
                 setZone(2,trailTerrain1);
-                JungleTerrain jungleTerrain1 = new JungleTerrain();
-                setZone(3, jungleTerrain1);
+                JungleTerrain jTerrain1 = new JungleTerrain();
+                setZone(3, jTerrain1);
                 setZone(4, trailTerrain1);
                 setZone(5, trailTerrain1);
                 setZone(6, new LakeTerrain());
-                setZone(7, jungleTerrain1);
-                setZone(8, jungleTerrain1);
-                setZone(9, jungleTerrain1);
+                setZone(7, jTerrain1);
+                setZone(8, jTerrain1);
+                setZone(9, jTerrain1);
                 break;
             case "TLJTP":
                 setZone(1, new JungleTerrain());

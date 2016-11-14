@@ -42,7 +42,6 @@ public class FreeSpaceBoardTest {
     public void isPlaceable() throws Exception {
         BoardTile boardTile1 = new BoardTile(new PlayableTile("LLJJ-", 0));
         BoardTile boardTile2 = new BoardTile(new PlayableTile("TTTT-", 0));
-        assertTrue(new JungleTerrain().accept(boardTile1.getWestFace()));
         assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), boardTile1));
         assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), boardTile2));
     }
