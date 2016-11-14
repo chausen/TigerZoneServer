@@ -6,10 +6,6 @@ import com.tigerzone.fall2016.animals.Tiger;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by matthewdiaz on 11/11/16.
