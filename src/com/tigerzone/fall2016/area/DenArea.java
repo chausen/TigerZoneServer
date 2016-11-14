@@ -24,7 +24,6 @@ public class DenArea extends Area {
         return predator.placeableInDen();
     }
 
-
     @Override
     public boolean isComplete() {
         return false;

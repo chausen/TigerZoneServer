@@ -3,8 +3,16 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
+import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.Edge;
+import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +26,13 @@ public class DenAreaTest {
 
     @Before
     public void setUp() throws Exception {
-        denArea = new DenArea();
+        AreaTile areaTile1 = new AreaTile(
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
+                new TrailTerrain());
+        denArea = new DenArea(new Point2D(0,0), areaTile1, new HashMap<Point2D, FreeSpace>());
         crocodile = new Crocodile();
         tiger = new Tiger(0);
     }

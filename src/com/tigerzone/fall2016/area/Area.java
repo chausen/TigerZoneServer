@@ -5,6 +5,7 @@ import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.Tile;
+import javafx.geometry.Pos;
 
 import java.util.*;
 import java.util.List;
@@ -13,22 +14,23 @@ import java.util.List;
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area {
-    private Map<Point2D, FreeSpace> freeSpaceMap;
-    private Map<Point2D, Tile> areaTileMap;
+    private HashMap<Point2D, FreeSpace> freeSpaceMap;
+    private HashMap<Point2D, Tile> areaTileMap;
     private List<Tiger> tigerList;
 
     public Area(){
-        this.freeSpaceMap = new HashMap<>();
-        this.areaTileMap = new HashMap<>();
-        this.tigerList = new ArrayList<>();
+        freeSpaceMap = new HashMap<>();
+        areaTileMap = new HashMap<>();
+        tigerList = new ArrayList<>();
     }
 
-    public Area(Point2D position, AreaTile areaTile, Map<Point2D, FreeSpace> freeSpaceMap) {
+    public Area(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
         this.freeSpaceMap = freeSpaceMap;
         areaTileMap = new HashMap<>();
         areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
+
 
     public void addTile(Point2D position, Tile tile){
         areaTileMap.put(position, tile);
@@ -141,7 +143,7 @@ public abstract class Area {
         return this.areaTileMap.size();
     }
 
-    public Map<Point2D, FreeSpace> getFreeSpaceMap(){
+    public HashMap<Point2D, FreeSpace> getFreeSpaceMap(){
         return this.freeSpaceMap;
     }
 

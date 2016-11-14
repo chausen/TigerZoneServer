@@ -14,3 +14,4 @@ public class AreaTile extends Tile {
     }
 
 }
+
