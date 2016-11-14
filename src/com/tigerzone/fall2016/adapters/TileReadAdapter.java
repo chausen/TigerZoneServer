@@ -1,8 +1,9 @@
 package com.tigerzone.fall2016.adapters;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import java.util.Set;
+
+import java.util.LinkedList;
 
 public interface TileReadAdapter
 {
-    public Set<AreaTile> createTiles();
+    public LinkedList<AreaTile> createTiles();
 }

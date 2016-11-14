@@ -77,7 +77,7 @@ public abstract class Area {
 
     abstract boolean isPredatorPlacable(Predator predator);
 
-    abstract boolean isComplete();
+    public abstract boolean isComplete();
 
     public void placePredator(Predator predator){
         if (isPredatorPlacable(predator)) {
