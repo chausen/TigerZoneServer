@@ -9,7 +9,6 @@ import javafx.geometry.Point2D;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * Created by lenovo on 11/7/2016.
  */
@@ -40,6 +39,7 @@ public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
     @Override
     public void merge(Mergeable mergeable) {
     }
+
 
     public boolean containsBoar() {
         return false;
