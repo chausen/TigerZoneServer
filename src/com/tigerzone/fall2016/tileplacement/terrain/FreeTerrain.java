@@ -46,4 +46,19 @@ public class FreeTerrain extends Terrain {
     public boolean isFree() {
         return true;
     }
+
+    @Override
+    public Terrain checkAdjacent(LakeTerrain lakeTerrain) {
+        return null;
+    }
+
+    @Override
+    public Terrain checkAjacent(JungleTerrain jungleTerrain) {
+        return null;
+    }
+
+    @Override
+    public Terrain checkAdjacent(TrailTerrain trailTerrain) {
+        return null;
+    }
 }

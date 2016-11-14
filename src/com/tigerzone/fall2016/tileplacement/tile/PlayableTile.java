@@ -274,46 +274,195 @@ public class PlayableTile {
                 setAnimal(null);
                 break;
             case "TLJT-":
-
+                setZone(1, new JungleTerrain());
+                TrailTerrain trailTerrain1 = new TrailTerrain();
+                setZone(2,trailTerrain1);
+                JungleTerrain jTerrain1 = new JungleTerrain();
+                setZone(3, jTerrain1);
+                setZone(4, trailTerrain1);
+                setZone(5, trailTerrain1);
+                setZone(6, new LakeTerrain());
+                setZone(7, jTerrain1);
+                setZone(8, jTerrain1);
+                setZone(9, jTerrain1);
                 break;
             case "TLJTP":
-
+                setZone(1, new JungleTerrain());
+                TrailTerrain trailTerrain2 = new TrailTerrain();
+                setZone(2,trailTerrain2);
+                JungleTerrain jungleTerrain3 = new JungleTerrain();
+                setZone(3, jungleTerrain3);
+                setZone(4, trailTerrain2);
+                setZone(5, trailTerrain2);
+                setZone(6, new LakeTerrain());
+                setZone(7, jungleTerrain3);
+                setZone(8, jungleTerrain3);
+                setZone(9, jungleTerrain3);
+                setAnimal(new Boar());
                 break;
             case "JLTT-":
-
+                JungleTerrain j1 = new JungleTerrain();
+                setZone(1, j1);
+                setZone(2, j1);
+                setZone(3, j1);
+                TrailTerrain t1 = new TrailTerrain();
+                setZone(4, t1);
+                setZone(5, t1);
+                setZone(6, new LakeTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, t1);
+                setZone(9, j1);
                 break;
             case "JLTTB":
-
+                JungleTerrain j2 = new JungleTerrain();
+                setZone(1, j2);
+                setZone(2, j2);
+                setZone(3, j2);
+                TrailTerrain t2 = new TrailTerrain();
+                setZone(4, t2);
+                setZone(5, t2);
+                setZone(6, new LakeTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, t2);
+                setZone(9, j2);
+                setAnimal(new Buffalo());
                 break;
             case "TLTJ-":
-
+                JungleTerrain j3 = new JungleTerrain();
+                setZone(1, j3);
+                TrailTerrain t3 = new TrailTerrain();
+                setZone(2, t3);
+                JungleTerrain j4 = new JungleTerrain();
+                setZone(3, j4);
+                setZone(4, j3);
+                setZone(5, t3);
+                setZone(6, new LakeTerrain());
+                setZone(7, j3);
+                setZone(8, t3);
+                setZone(9, j4);
                 break;
             case "TLTJD":
-
+                JungleTerrain j5 = new JungleTerrain();
+                setZone(1, j5);
+                TrailTerrain t4 = new TrailTerrain();
+                setZone(2, t4);
+                JungleTerrain j6 = new JungleTerrain();
+                setZone(3, j6);
+                setZone(4, j5);
+                setZone(5, t4);
+                setZone(6, new LakeTerrain());
+                setZone(7, j5);
+                setZone(8, t4);
+                setZone(9, j6);
+                setAnimal(new Deer());
                 break;
             case "TLLL-":
-
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                setZone(3, new JungleTerrain());
+                LakeTerrain l1 = new LakeTerrain();
+                setZone(4, l1);
+                setZone(5, l1);
+                setZone(6, l1);
+                setZone(7, l1);
+                setZone(8, l1);
+                setZone(9, l1);
                 break;
             case "TLTT-":
-
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                JungleTerrain j7 = new JungleTerrain();
+                setZone(3, j7);
+                setZone(4, new TrailTerrain());
+                setZone(5, new TrailTerrain());
+                setZone(6, new LakeTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, new TrailTerrain());
+                setZone(9, j7);
                 break;
             case "TLTTP":
-
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                JungleTerrain j8 = new JungleTerrain();
+                setZone(3, j8);
+                setZone(4, new TrailTerrain());
+                setZone(5, new TrailTerrain());
+                setZone(6, new LakeTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, new TrailTerrain());
+                setZone(9, j8);
+                setAnimal(new Boar());
                 break;
             case "TLLT-":
-
+                setZone(1, new JungleTerrain());
+                TrailTerrain t5 = new TrailTerrain();
+                setZone(2, t5);
+                JungleTerrain j9 = new JungleTerrain();
+                setZone(3, j9);
+                setZone(4, t5);
+                setZone(5, t5);
+                LakeTerrain l2 = new LakeTerrain();
+                setZone(6, l2);
+                setZone(7, j9);
+                setZone(8, l2);
+                setZone(9, l2);
                 break;
             case "TLLTB":
-
+                setZone(1, new JungleTerrain());
+                TrailTerrain t6 = new TrailTerrain();
+                setZone(2, t6);
+                JungleTerrain j10 = new JungleTerrain();
+                setZone(3, j10);
+                setZone(4, t6);
+                setZone(5, t6);
+                LakeTerrain l3 = new LakeTerrain();
+                setZone(6, l3);
+                setZone(7, j10);
+                setZone(8, l3);
+                setZone(9, l3);
+                setAnimal(new Buffalo());
                 break;
             case "LJTJ-":
-
+                JungleTerrain j11 = new JungleTerrain();
+                setZone(1, j11);
+                setZone(2, new LakeTerrain());
+                JungleTerrain j12 = new JungleTerrain();
+                setZone(3, j12);
+                setZone(4, j11);
+                TrailTerrain t7 = new TrailTerrain();
+                setZone(5, t7);
+                setZone(6, j12);
+                setZone(7, j11);
+                setZone(8, t7);
+                setZone(9, j12);
                 break;
             case "LJTJD":
-
+                JungleTerrain j13 = new JungleTerrain();
+                setZone(1, j13);
+                setZone(2, new LakeTerrain());
+                JungleTerrain j14 = new JungleTerrain();
+                setZone(3, j14);
+                setZone(4, j13);
+                TrailTerrain t8 = new TrailTerrain();
+                setZone(5, t8);
+                setZone(6, j14);
+                setZone(7, j13);
+                setZone(8, t8);
+                setZone(9, j14);
+                setAnimal(new Deer());
                 break;
             case "TLLLC":
-
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                setZone(3, new JungleTerrain());
+                LakeTerrain l4 = new LakeTerrain();
+                setZone(4, l4);
+                setZone(5, l4);
+                setZone(6, l4);
+                setZone(7, l4);
+                setZone(8, l4);
+                setZone(9, l4);
+                setAnimal(new Crocodile());
                 break;
         }
     }

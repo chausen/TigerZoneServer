@@ -1,9 +1,7 @@
 package com.tigerzone.fall2016.tileplacement;
 
 import com.sun.javafx.geom.Point2D;
-import com.tigerzone.fall2016.tileplacement.animal.Boar;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
 
 import java.util.HashMap;
 

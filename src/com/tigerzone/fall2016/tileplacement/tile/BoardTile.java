@@ -32,7 +32,7 @@ public class BoardTile {
 //        } else {
 //            //populateCornerZones(playableTile);
 //        }
-
+        populateZones(playableTile);
     }
 
     public Terrain getZone(int zone) {
