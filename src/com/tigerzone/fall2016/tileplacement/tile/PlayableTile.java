@@ -14,6 +14,13 @@ public class PlayableTile {
     private Terrain westFace;
     private Animal animal;
     private Terrain centerTerrain;
+    private boolean specialCase = false;
+    private String tileString;
+    private int trailCount;
+    private int jungleCount;
+    private int lakeCount;
+
+    private Terrain[] zones = new Terrain[9];
 
     public Terrain getNorthFace() {
         return northFace;
@@ -51,11 +58,45 @@ public class PlayableTile {
     public void setCenterTerrain(Terrain centerTerrain) {
         this.centerTerrain = centerTerrain;
     }
+    public boolean isSpecialCase() {
+        return specialCase;
+    }
+    public void setSpecialCase(boolean specialCase) {
+        this.specialCase = specialCase;
+    }
+    public String getTileString() {
+        return tileString;
+    }
+    public int getTrailCount() {
+        return trailCount;
+    }
+    public int getJungleCount() {
+        return jungleCount;
+    }
+    public int getLakeCount() {
+        return lakeCount;
+    }
+
+    public PlayableTile(String tileString) {
+        this.tileString = tileString;
+
+    }
+
+    public Terrain getZone(int zone) {
+        int zoneTranslation = zone-1;
+        return zones[zone];
+    }
+
+    public void setZone(int zone, Terrain terrain) {
+        int zoneTranslation = zone-1;
+        zones[zoneTranslation] = terrain;
+    }
 
     public PlayableTile(String tileString, int rotation) {
         if (tileString.length()!=5) {
             System.out.println("Invalid tile specifications");
         } else {
+            this.tileString = tileString;
             generateTerrainsFromTileString(tileString);
             generateSpecialFeature(tileString);
             rotateCCW(rotation);
@@ -66,10 +107,13 @@ public class PlayableTile {
         Terrain terrain = new JungleTerrain();
         switch(terrainChar) {
             case 'T': terrain = new TrailTerrain();
+                trailCount++;
                 break;
             case 'J': terrain = new JungleTerrain();
+                jungleCount++;
                 break;
             case 'L': terrain = new LakeTerrain();
+                lakeCount++;
                 break;
         }
         return terrain;
@@ -100,6 +144,156 @@ public class PlayableTile {
             case 'P': setAnimal(new Boar());
                 break;
         }
+    }
+
+
+    private PlayableTile zonesSpecialCase(String specialCases) {
+        JungleTerrain jungleTerrain;
+        switch (tileString) {
+            case "JJJJ-":
+                jungleTerrain = new JungleTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, jungleTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain);
+                setZone(6, jungleTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, jungleTerrain);
+                setZone(9, jungleTerrain);
+                break;
+            case "JJJJX":
+                jungleTerrain = new JungleTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, jungleTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, new DenTerrain());
+                setZone(6, jungleTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, jungleTerrain);
+                setZone(9, jungleTerrain);
+                break;
+            case "JJTJX":
+                jungleTerrain = new JungleTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, jungleTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, new DenTerrain());
+                setZone(6, jungleTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, new TrailTerrain());
+                setZone(9, jungleTerrain);
+                break;
+            case "TTTT-":
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                setZone(3, new JungleTerrain());
+                setZone(4, new TrailTerrain());
+                setZone(5, new TrailTerrain()); //delete this? define center?
+                setZone(6, new TrailTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, new TrailTerrain());
+                setZone(9, new JungleTerrain());
+                break;
+            case "TJTJ-":
+                jungleTerrain = new JungleTerrain();
+                JungleTerrain jungleTerrain2 = new JungleTerrain();
+                TrailTerrain trailTerrain = new TrailTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, trailTerrain);
+                setZone(3, jungleTerrain2);
+                setZone(4, jungleTerrain);
+                setZone(5, trailTerrain); //delete this? define center?
+                setZone(6, jungleTerrain2);
+                setZone(7, jungleTerrain);
+                setZone(8, trailTerrain);
+                setZone(9, jungleTerrain2);
+                break;
+            case "TJJT-":
+                setZone(1, new TrailTerrain());
+                setZone(2, new TrailTerrain());
+                setZone(3, new JungleTerrain());
+                setZone(4, new TrailTerrain());
+                setZone(5, new TrailTerrain()); //delete this? define center?
+                setZone(6, new TrailTerrain());
+                setZone(7, new JungleTerrain());
+                setZone(8, new TrailTerrain());
+                setZone(9, new JungleTerrain());
+                break;
+            case "TJTT-":
+
+                break;
+            case "LLLL-":
+
+                break;
+            case "JLLL-":
+
+                break;
+            case "LLJJ-":
+
+                break;
+            case "JLJL-":
+
+                break;
+            case "LJLJ-":
+
+                break;
+            case "LJJJ-":
+
+                break;
+            case "JLLJ-":
+
+                break;
+            case "TLJT-":
+
+                break;
+            case "TLJTP":
+
+                break;
+            case "JLTT-":
+
+                break;
+            case "JLTTB":
+
+                break;
+            case "TLTJ-":
+
+                break;
+            case "TLTJD":
+
+                break;
+            case "TLLL-":
+
+                break;
+            case "TLTT-":
+
+                break;
+            case "TLTTP":
+
+                break;
+            case "TLLT-":
+
+                break;
+            case "TLLTB":
+
+                break;
+            case "LJTJ-":
+
+                break;
+            case "LJTJD":
+
+                break;
+            case "TLLLC":
+
+                break;
+        }
+    }
+
+    public void generateJungleCorners() {
+        JungleTerrain jungleTerrain = new JungleTerrain();
+        zones[1] = new JungleTerrain();
     }
 
     public void rotateCCW(int degrees){
