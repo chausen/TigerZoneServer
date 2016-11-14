@@ -88,7 +88,7 @@ public class ScorerTest {
     @org.junit.Test
     public void endGameScoring() throws Exception {
         // Create 2 dens, 2 lakes, 2 trails and 1 jungle
-        // For each Area in which 2 were created, 1 should be incomplete
+        // For each area in which 2 were created, 1 should be incomplete
         // The incomplete den should be of size 2 (including the den)
         // The incomplete lake should be of size 1
         // The incomplete trail should be of size 3
