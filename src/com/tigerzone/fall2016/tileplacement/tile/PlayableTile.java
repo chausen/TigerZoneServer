@@ -172,7 +172,7 @@ public class PlayableTile {
     }
 
 
-    private void zonesSpecialCase(String specialCases) {
+    private void createZones(String tileString) {
         JungleTerrain jungleTerrain;
         switch (tileString) {
             case "JJJJ-":
