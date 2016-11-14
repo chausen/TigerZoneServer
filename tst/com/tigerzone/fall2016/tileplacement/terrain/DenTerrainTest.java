@@ -20,7 +20,7 @@ public class DenTerrainTest {
         DenTerrain denTerrain = new DenTerrain();
         JungleTerrain jungleTerrain = new JungleTerrain();
         TrailTerrain trailTerrain = new TrailTerrain();
-        FreeTerain freeTerain = new FreeTerain();
+        FreeTerrain freeTerrain = new FreeTerrain();
         assertFalse(denTerrain.accept(lakeTerrain));
         assertTrue(denTerrain.accept(denTerrain));
         assertFalse(denTerrain.accept(jungleTerrain));

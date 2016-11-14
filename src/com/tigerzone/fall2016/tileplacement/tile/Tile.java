@@ -106,5 +106,4 @@ public abstract class Tile {
         return westEdge.getMiddleTerrain();
     }
 
-
 }

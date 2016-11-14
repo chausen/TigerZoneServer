@@ -1,10 +1,7 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-import com.tigerzone.fall2016.Area.Area;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
-import javafx.geometry.Point2D;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
