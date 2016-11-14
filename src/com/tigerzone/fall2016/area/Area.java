@@ -1,30 +1,36 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AnimalAreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.Tile;
 
-import java.awt.geom.Point2D;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public abstract class Area implements AnimalAreaVisitor{
+public abstract class Area {
     private Map<Point2D, FreeSpace> freeSpaceMap;
     private Map<Point2D, Tile> areaTileMap;
     private List<Tiger> tigerList;
 
-    public Area() {
-        freeSpaceMap = new HashMap<>();
+    public Area(){
+        this.freeSpaceMap = new HashMap<>();
+        this.areaTileMap = new HashMap<>();
+        this.tigerList = new ArrayList<>();
+    }
+
+    public Area(Point2D position, AreaTile areaTile, Map<Point2D, FreeSpace> freeSpaceMap) {
+        this.freeSpaceMap = freeSpaceMap;
         areaTileMap = new HashMap<>();
+        areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
 
-    private void addTile(Point2D position, Tile tile){
-        freeSpaceMap.remove(position);
+    public void addTile(Point2D position, Tile tile){
         areaTileMap.put(position, tile);
     }
 
@@ -123,12 +129,20 @@ public abstract class Area implements AnimalAreaVisitor{
         return areaOwners;
     }
 
+    public void updateArea(AreaTile areaTile) {
+
+    }
+
     /**
      * Returns the size of the area
      * @return
      */
     public int getSize(){
         return this.areaTileMap.size();
+    }
+
+    public Map<Point2D, FreeSpace> getFreeSpaceMap(){
+        return this.freeSpaceMap;
     }
 
 }
