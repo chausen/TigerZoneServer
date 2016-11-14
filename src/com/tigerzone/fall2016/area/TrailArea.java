@@ -12,7 +12,6 @@ import java.util.HashMap;
  * Created by lenovo on 11/7/2016.
  */
 public class TrailArea extends CrocodileFriendlyArea implements Mergeable {
-
     public TrailArea(){}
 
     public TrailArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
@@ -46,7 +45,4 @@ public class TrailArea extends CrocodileFriendlyArea implements Mergeable {
         return false;
     }
 
-    public int getCrocs() {
-        return 0;
-    }
 }

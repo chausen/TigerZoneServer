@@ -170,7 +170,7 @@ public class Scorer {
             uniquePreys += 1;
         if ( lake.containsBuffalo() )
             uniquePreys += 1;
-        uniquePreys -= lake.getCrocs();
+        uniquePreys -= lake.getNumOfCrocodiles();
         if (uniquePreys < 0) {
             uniquePreys = 0;
         }
@@ -187,7 +187,7 @@ public class Scorer {
             uniquePreys += 1;
         if ( trail.containsBuffalo() )
             uniquePreys += 1;
-        uniquePreys -= trail.getCrocs();
+        uniquePreys -= trail.getNumOfCrocodiles();
         if (uniquePreys < 0) {
             uniquePreys = 0;
         }

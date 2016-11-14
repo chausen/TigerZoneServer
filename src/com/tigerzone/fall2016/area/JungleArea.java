@@ -24,7 +24,6 @@ public class JungleArea extends Area implements Mergeable {
         return predator.placeableInJungle();
     }
 
-
     @Override
     public boolean isComplete() {
         return false;
