@@ -13,7 +13,7 @@ class TileStack
 
     public TileStack(long l, TileReadAdapter tra){
         seed = l;
-        ll = new LinkedList<AreaTile>(tra.createTiles());
+        ll = new LinkedList<>(tra.createTiles());
 }
     /**
      * Shuffle the TileStack providing we have a seed.
@@ -31,5 +31,9 @@ class TileStack
 
     public AreaTile pop() {
         return ll.removeFirst();
+    }
+
+    public LinkedList<AreaTile> getTileList(){
+        return ll;
     }
 }

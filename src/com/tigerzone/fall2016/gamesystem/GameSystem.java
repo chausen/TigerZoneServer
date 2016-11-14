@@ -2,22 +2,16 @@ package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
-import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
 
 import javafx.geometry.Point2D;
 
 import java.util.*;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameSystem implements PlayerInAdapter
 {
@@ -38,12 +32,12 @@ public class GameSystem implements PlayerInAdapter
     private boolean timeout;
     private int timeoutLength; // time in milliseconds until forfeit
 
-    public GameSystem(int seed) {
+    public GameSystem(int player1id, int player2id, long seed) {
         gameInProgress = true;
         waitingForInput = true;
         timeout = false;
         timeoutLength = 1000; // in milliseconds
-        initializeGame(seed);
+        initializeGame(player1id, player2id, seed);
     }
 
     /**
@@ -51,7 +45,7 @@ public class GameSystem implements PlayerInAdapter
      *
      * @param t  Turn object holding the player whose turn it is, their tile placement, and predator placement
      */
-    public void acceptTurn(Turn t)
+    public void receiveTurn(Turn t)
     {
         waitingForInput = false;
         this.currentTurn = t;
@@ -63,10 +57,10 @@ public class GameSystem implements PlayerInAdapter
      *
      * @param seed  used to generate a unique Tile order for a game
      */
-    public void initializeGame(int seed)
+    public void initializeGame(int player1id, int player2id, long seed)
     {
-        player1 = new Player(1);
-        player2 = new Player(2);
+        player1 = new Player(player1id);
+        player2 = new Player(player2id);
 
         fsb = new FreeSpaceBoard();
 
@@ -77,7 +71,7 @@ public class GameSystem implements PlayerInAdapter
         // pass the entire contents of the TileStack to the outAdapter
         // wait 15 seconds before soliciting the first move
         //TODO: Add getCompleteTileList() to TileStack
-        outAdapter.getTilesInOrder(new ArrayList<AreaTile>());
+       // outAdapter.sendTilesInOrder(ts.getTileList());
         new Timer().schedule(
                 new TimerTask() {
                     @Override
@@ -113,7 +107,7 @@ public class GameSystem implements PlayerInAdapter
             );
 
             while (waitingForInput) {
-                // do nothing
+                // do nothing (。-`ω-)
             }
 
             //TODO: Refactor...can't put break statement inside of the TimerTask
@@ -149,6 +143,10 @@ public class GameSystem implements PlayerInAdapter
         Set<Integer> winners = scorer.announceWinners();
         outAdapter.notifyEndGame(winners);
         gameInProgress = false;
+    }
+
+    public void setOutAdapter(PlayerOutAdapter outAdapter){
+        this.outAdapter = outAdapter;
     }
 
     //========== Helper Methods ===========//

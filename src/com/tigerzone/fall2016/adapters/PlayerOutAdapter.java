@@ -7,8 +7,9 @@ import java.util.Set;
 
 public interface PlayerOutAdapter
 {
-    public void passTurn(Turn lastturn, AreaTile areatile);
-    public void getTilesInOrder(List<AreaTile> allAreaTiles);
+    public void sendTurn(Turn lastturn, AreaTile areatile);
+    public void receiveTurn(String s);
+    public void sendTilesInOrder(List<AreaTile> allAreaTiles);
     public void notifyBeginGame(AreaTile areatile);
     public void notifyEndGame(Set<Integer> winners);
 }
