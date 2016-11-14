@@ -49,7 +49,7 @@ public class TextFilePort implements TileReadAdapter
             Terrain center = charToTerrain(terrainarray[4]);
             for(int x = 0; x < multiple; x++)//For each multiple
             {
-                set.add(new AreaTile(null, N, E, S, W, center));//Add a multiple Number of Tiles to the set.
+                set.add(new AreaTile(N, E, S, W, center));//Add a multiple Number of Tiles to the set.
             }
         }
         return set;
@@ -61,7 +61,7 @@ public class TextFilePort implements TileReadAdapter
      * @return
      */
     private Terrain charToTerrain(char c) {
-        Terrain t = new FreeTerain();
+        Terrain t = new FreeTerrain();
         switch(c)
         {
             case 'L':
