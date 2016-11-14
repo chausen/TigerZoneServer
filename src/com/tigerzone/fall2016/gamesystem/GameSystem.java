@@ -7,6 +7,8 @@ import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016.tileplacement.tile.Tile;
 
 import javafx.geometry.Point2D;
@@ -120,7 +122,7 @@ public class GameSystem implements PlayerInAdapter
             }
 
             // check if tile is unplayable
-            AreaTile currentTile = currentTurn.getTile();
+            PlayableTile currentTile = currentTurn.getTile();
             if ( fsb.needToRemove(currentTile) ) {
                 // prompt player to:
                 //   1. pass
@@ -129,8 +131,9 @@ public class GameSystem implements PlayerInAdapter
             }
 
             // place tile
+            BoardTile boardTile = new BoardTile(currentTile);
             Point2D position = currentTurn.getPosition();
-            fsb.placeTile(position, currentTile);
+            fsb.placeTile(position, boardTile);
             //TODO: Add forfeit check
 
             // update areas

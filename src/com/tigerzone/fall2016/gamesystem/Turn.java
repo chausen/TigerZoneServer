@@ -1,13 +1,13 @@
 package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.tileplacement.Direction;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 
 public class Turn
 {
     private final int playerID;
-    private AreaTile areaTile = null;
+    private PlayableTile playableTile = null;
     private Direction d = null;
     private int rotationdegree = 0;
     private Point2D p;
@@ -15,15 +15,15 @@ public class Turn
     /**
      * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
      * @param playerID Player's ID number, assigned elsewhere.
-     * @param areaTile Tile representing the Player's Turn.
+     * @param playableTile Tile representing the Player's Turn.
      * @param rotationdegree Degree of rotation Counterclockwise that the player wishes to enact on the Tile.
      * @param d Direction of Follower placement (if any at all)
      * @param p Point of grid that the player wishes to place the Tile.
      */
 
-    public Turn(int playerID, AreaTile areaTile, int rotationdegree, Direction d, Point2D p) {
+    public Turn(int playerID, PlayableTile playableTile, int rotationdegree, Direction d, Point2D p) {
         this.playerID = playerID;
-        this.areaTile = areaTile;
+        this.playableTile = playableTile;
         this.rotationdegree = rotationdegree;
         this.d = d;
         this.p = p;
@@ -39,10 +39,10 @@ public class Turn
 
     /**
      * Returns the Tile that is embedded in a Turn.
-     * @return AreaTile: Tile that is located in this Turn.
+     * @return PlayableTile: Tile that is located in this Turn.
      */
-    public AreaTile getTile() {
-        return areaTile;
+    public PlayableTile getTile() {
+        return playableTile;
     }
 
     /**
