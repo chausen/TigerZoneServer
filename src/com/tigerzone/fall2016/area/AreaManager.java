@@ -31,40 +31,10 @@ public class AreaManager {
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
         this.freeSpaceBoard = freeSpaceBoard;
-        //You know what these need to be built at the beginning of the game
-        this.areaTileHashMap = areaTileHashMap;
     }
 
     public void updateAreas(Point2D position, AreaTile areaTile){
 
-        if(freeSpaceBoard.isPlaceable(position, areaTile)){
-            SegmentVisitor segmentVisitor = new SegmentAdder();
-            FreeSpace freeSpace = freeSpaceBoard.getFreeSpace(position);
-            if(freeSpace.getNorthTerrain().isFree()){
-                Edge edge = areaTile.getNorthEdge();
-                edge.getLeftTerrain().accept(segmentVisitor, Direction.NORTH);
-                edge.getMiddleTerrain().accept(segmentVisitor);
-                edge.getRightTerrain().accept(segmentVisitor);
-            }
-            if(freeSpace.getEastTerrain().isFree()){
-                Edge edge = areaTile.getEastEdge();
-                edge.getLeftTerrain().accept(segmentVisitor);
-                edge.getMiddleTerrain().accept(segmentVisitor);
-                edge.getRightTerrain().accept(segmentVisitor);
-            }
-            if(freeSpace.getSouthTerrain().isFree()){
-                Edge edge = areaTile.getSouthEdge();
-                edge.getLeftTerrain().accept(segmentVisitor);
-                edge.getMiddleTerrain().accept(segmentVisitor);
-                edge.getRightTerrain().accept(segmentVisitor);
-            }
-            if(freeSpace.getWestTerrain().isFree()){
-                Edge edge = areaTile.getWestEdge();
-                edge.getLeftTerrain().accept(segmentVisitor);
-                edge.getMiddleTerrain().accept(segmentVisitor);
-                edge.getRightTerrain().accept(segmentVisitor);
-            }
-        }
     }
 
     private void merge(Mergeable m1, Mergeable m2) {

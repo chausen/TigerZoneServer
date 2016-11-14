@@ -30,13 +30,27 @@ public class BoardTile {
     }
 
     private void populateZones(PlayableTile playableTile) {
-        setZone(4, playableTile.getNorthFace());
+        setZone(2, playableTile.getNorthFace());
         setZone(6, playableTile.getEastFace());
         setZone(8, playableTile.getSouthFace());
-        setZone(2, playableTile.getWestFace());
+        setZone(4, playableTile.getWestFace());
     }
 
+    public Terrain getNorthFace(){
+        return zones[1];
+    }
 
+    public Terrain getEastFace(){
+        return zones[5];
+    }
+
+    public Terrain getSouthFace(){
+        return zones[7];
+    }
+
+    public Terrain getWestFace(){
+        return zones[3];
+    }
 
     //zones 2,6,4,8
 
