@@ -1,7 +1,8 @@
 package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.tileplacement.Direction;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import java.awt.Point;
+
+import javafx.geometry.Point2D;
 
 public class Turn
 {
@@ -9,7 +10,7 @@ public class Turn
     private AreaTile areaTile = null;
     private Direction d = null;
     private int rotations = 0;
-    private Point p;
+    private Point2D p;
 
     /**
      * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
@@ -19,7 +20,7 @@ public class Turn
      * @param d Direction of Follower placement (if any at all)
      * @param p Point of grid that the player wishes to place the Tile.
      */
-    public Turn(int playerID, AreaTile areaTile, int rotations, Direction d, Point p) {
+    public Turn(int playerID, AreaTile areaTile, int rotations, Direction d, Point2D p) {
         this.playerID = playerID;
         this.areaTile = areaTile;
         this.rotations = rotations;
@@ -59,7 +60,7 @@ public class Turn
         this.d = d;
     }
 
-    public Point getPosition(){
+    public Point2D getPosition(){
         return p;
     }
 
