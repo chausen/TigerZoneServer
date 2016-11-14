@@ -16,40 +16,30 @@ public class PlayableTile {
     private Terrain centerTerrain;
     private boolean specialCase = false;
     private String tileString;
-    private int trailCount;
-    private int jungleCount;
-    private int lakeCount;
 
     private Terrain[] zones = new Terrain[9];
 
     public Terrain getNorthFace() {
         return northFace;
     }
-
     public void setNorthFace(Terrain northFace) {
         this.northFace = northFace;
     }
-
     public Terrain getEastFace() {
         return eastFace;
     }
-
     public void setEastFace(Terrain eastFace) {
         this.eastFace = eastFace;
     }
-
     public Terrain getSouthFace() {
         return southFace;
     }
-
     public void setSouthFace(Terrain southFace) {
         this.southFace = southFace;
     }
-
     public Terrain getWestFace() {
         return westFace;
     }
-
     public void setWestFace(Terrain westFace) {
         this.westFace = westFace;
     }
@@ -62,42 +52,6 @@ public class PlayableTile {
         this.animal = animal;
     }
 
-    public Terrain getCenterTerrain() {
-        return centerTerrain;
-    }
-
-    public void setCenterTerrain(Terrain centerTerrain) {
-        this.centerTerrain = centerTerrain;
-    }
-
-    public boolean isSpecialCase() {
-        return specialCase;
-    }
-
-    public void setSpecialCase(boolean specialCase) {
-        this.specialCase = specialCase;
-    }
-
-    public String getTileString() {
-        return tileString;
-    }
-
-    public int getTrailCount() {
-        return trailCount;
-    }
-
-    public int getJungleCount() {
-        return jungleCount;
-    }
-
-    public int getLakeCount() {
-        return lakeCount;
-    }
-
-    public PlayableTile(String tileString) {
-        this.tileString = tileString;
-
-    }
 
     public Terrain getZone(int zone) {
         int zoneTranslation = zone - 1;
@@ -109,65 +63,18 @@ public class PlayableTile {
         zones[zoneTranslation] = terrain;
     }
 
+    public PlayableTile(String tileString) {
+        this.tileString = tileString;
+        createZones(tileString);
+    }
+
     public PlayableTile(String tileString, int rotation) {
         if (tileString.length() != 5) {
             System.out.println("Invalid tile specifications");
         } else {
             this.tileString = tileString;
-            generateTerrainsFromTileString(tileString);
-            generateSpecialFeature(tileString);
+            createZones(tileString);
             rotateCCW(rotation);
-        }
-    }
-
-    private Terrain translateCharToTerrain(char terrainChar) {
-        Terrain terrain = new JungleTerrain();
-        switch (terrainChar) {
-            case 'T':
-                terrain = new TrailTerrain();
-                trailCount++;
-                break;
-            case 'J':
-                terrain = new JungleTerrain();
-                jungleCount++;
-                break;
-            case 'L':
-                terrain = new LakeTerrain();
-                lakeCount++;
-                break;
-        }
-        return terrain;
-    }
-
-    private void generateTerrainsFromTileString(String tileString) {
-        setNorthFace(translateCharToTerrain(tileString.charAt(0)));
-        setEastFace(translateCharToTerrain(tileString.charAt(1)));
-        setSouthFace(translateCharToTerrain(tileString.charAt(2)));
-        setWestFace(translateCharToTerrain(tileString.charAt(3)));
-    }
-
-    private void generateSpecialFeature(String tileString) {
-        char specialFeatureChar = tileString.charAt(4);
-        switch (specialFeatureChar) {
-            case 'X':
-                setCenterTerrain(new DenTerrain());
-                break;
-            case '-':
-                setCenterTerrain(null);
-                setAnimal(null);
-                break;
-            case 'C':
-                setAnimal(new Crocodile());
-                break;
-            case 'D':
-                setAnimal(new Deer());
-                break;
-            case 'B':
-                setAnimal(new Buffalo());
-                break;
-            case 'P':
-                setAnimal(new Boar());
-                break;
         }
     }
 
@@ -416,7 +323,7 @@ public class PlayableTile {
         zones[1] = new JungleTerrain();
     }
 
-    public void rotateCCW(int degrees){
+    public void rotateCCW2(int degrees){
         int rotationCount = degrees/90;
         Terrain tempFace;
         for (int i=0; i<rotationCount; i++) {
@@ -425,6 +332,22 @@ public class PlayableTile {
             setEastFace(getSouthFace());
             setSouthFace(getWestFace());
             setWestFace(tempFace);
+        }
+    }
+
+    public void rotateCCW(int degrees){
+        int rotationCount = degrees/90;
+        for (int i = 0; i < rotationCount; i++) {
+            Terrain temp1 = getZone(1);
+            Terrain temp2 = getZone(2);
+            setZone(1, getZone(3));
+            setZone(2, getZone(6));
+            setZone(3, getZone(9));
+            setZone(6, getZone(8));
+            setZone(9, getZone(7));
+            setZone(8, getZone(4));
+            setZone(7, temp1);
+            setZone(4, temp2);
         }
     }
 
