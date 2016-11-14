@@ -1,14 +1,14 @@
 package com.tigerzone.fall2016.tileplacement;
 
-import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
-import javafx.geometry.Point2D;
+        import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
+        import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
+        import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
+        import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+        import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+        import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
+        import javafx.geometry.Point2D;
 
-import java.util.*;
+        import java.util.*;
 
 /**
  * Created by Aidan on 11/7/2016.

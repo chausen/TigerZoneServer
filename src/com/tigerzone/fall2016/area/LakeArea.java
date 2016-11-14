@@ -15,6 +15,8 @@ import java.util.List;
 public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
     private List<Prey> preyList;
 
+    public LakeArea(){}
+
     public LakeArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
         super(position, areaTile, freeSpaceMap);
     }

@@ -1,3 +1,4 @@
+
 package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
@@ -9,7 +10,8 @@ import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 public class AreaTile extends Tile {
 
     public AreaTile(Edge northEdge, Edge eastEdge, Edge southEdge, Edge westEdge, Terrain center) {
-       super(northEdge,eastEdge,southEdge,westEdge,center);
+        super(northEdge,eastEdge,southEdge,westEdge,center);
     }
 
 }
+

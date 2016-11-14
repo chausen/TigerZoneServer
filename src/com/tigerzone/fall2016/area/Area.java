@@ -1,14 +1,12 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AnimalAreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.Tile;
 import javafx.geometry.Pos;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -20,12 +18,19 @@ public abstract class Area {
     private HashMap<Point2D, Tile> areaTileMap;
     private List<Tiger> tigerList;
 
+    public Area(){
+        freeSpaceMap = new HashMap<>();
+        areaTileMap = new HashMap<>();
+        tigerList = new ArrayList<>();
+    }
+
     public Area(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
         this.freeSpaceMap = freeSpaceMap;
         areaTileMap = new HashMap<>();
         areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
+
 
     public void addTile(Point2D position, Tile tile){
         areaTileMap.put(position, tile);

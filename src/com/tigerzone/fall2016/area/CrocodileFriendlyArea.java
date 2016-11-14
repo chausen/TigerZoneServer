@@ -17,10 +17,15 @@ import java.util.List;
 public class CrocodileFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
 
-    public CrocodileFriendlyArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace > freeSpaceMap){
+    public CrocodileFriendlyArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace > freeSpaceMap) {
         super(position, areaTile, freeSpaceMap);
         crocodileList = new ArrayList<>();
     }
+
+    public CrocodileFriendlyArea(){
+        this.crocodileList = new ArrayList<>();
+    }
+
 
     @Override
     boolean isPredatorPlacable(Predator predator) {
