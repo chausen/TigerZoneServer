@@ -13,6 +13,10 @@ import javafx.geometry.Point2D;
 
 import java.util.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class GameSystem implements PlayerInAdapter
 {
     // Game State
@@ -33,11 +37,11 @@ public class GameSystem implements PlayerInAdapter
     private int timeoutLength; // time in milliseconds until forfeit
 
     public GameSystem(int seed) {
-        initializeGame(seed);
         gameInProgress = true;
         waitingForInput = true;
         timeout = false;
         timeoutLength = 1000; // in milliseconds
+        initializeGame(seed);
     }
 
     /**
@@ -160,5 +164,4 @@ public class GameSystem implements PlayerInAdapter
         // Change this to a separate method notifying forfeit?
         outAdapter.notifyEndGame(winners);
     }
-
 }

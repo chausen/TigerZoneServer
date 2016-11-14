@@ -9,21 +9,22 @@ public class Turn
     private final int playerID;
     private AreaTile areaTile = null;
     private Direction d = null;
-    private int rotations = 0;
+    private int rotationdegree = 0;
     private Point2D p;
 
     /**
      * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
      * @param playerID Player's ID number, assigned elsewhere.
      * @param areaTile Tile representing the Player's Turn.
-     * @param rotations Number of rotations that the player wishes to enact on the Tile.
+     * @param rotationdegree Degree of rotation Counterclockwise that the player wishes to enact on the Tile.
      * @param d Direction of Follower placement (if any at all)
      * @param p Point of grid that the player wishes to place the Tile.
      */
-    public Turn(int playerID, AreaTile areaTile, int rotations, Direction d, Point2D p) {
+
+    public Turn(int playerID, AreaTile areaTile, int rotationdegree, Direction d, Point2D p) {
         this.playerID = playerID;
         this.areaTile = areaTile;
-        this.rotations = rotations;
+        this.rotationdegree = rotationdegree;
         this.d = d;
         this.p = p;
     }
@@ -65,6 +66,6 @@ public class Turn
     }
 
     public int getOrientation(){
-        return rotations;
+        return rotationdegree;
     }
 }
