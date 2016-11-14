@@ -174,6 +174,8 @@ public class PlayableTile {
 
     private void createZones(String tileString) {
         JungleTerrain jungleTerrain;
+        TrailTerrain trailTerrain;
+        LakeTerrain lakeTerrain;
         switch (tileString) {
             case "JJJJ-":
                 jungleTerrain = new JungleTerrain();
@@ -186,6 +188,7 @@ public class PlayableTile {
                 setZone(7, jungleTerrain);
                 setZone(8, jungleTerrain);
                 setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "JJJJX":
                 jungleTerrain = new JungleTerrain();
@@ -198,6 +201,7 @@ public class PlayableTile {
                 setZone(7, jungleTerrain);
                 setZone(8, jungleTerrain);
                 setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "JJTJX":
                 jungleTerrain = new JungleTerrain();
@@ -210,6 +214,7 @@ public class PlayableTile {
                 setZone(7, jungleTerrain);
                 setZone(8, new TrailTerrain());
                 setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "TTTT-":
                 setZone(1, new JungleTerrain());
@@ -221,11 +226,12 @@ public class PlayableTile {
                 setZone(7, new JungleTerrain());
                 setZone(8, new TrailTerrain());
                 setZone(9, new JungleTerrain());
+                setAnimal(null);
                 break;
             case "TJTJ-":
                 jungleTerrain = new JungleTerrain();
                 JungleTerrain jungleTerrain2 = new JungleTerrain();
-                TrailTerrain trailTerrain = new TrailTerrain();
+                trailTerrain = new TrailTerrain();
                 setZone(1, jungleTerrain);
                 setZone(2, trailTerrain);
                 setZone(3, jungleTerrain2);
@@ -235,41 +241,130 @@ public class PlayableTile {
                 setZone(7, jungleTerrain);
                 setZone(8, trailTerrain);
                 setZone(9, jungleTerrain2);
+                setAnimal(null);
                 break;
             case "TJJT-":
-                setZone(1, new TrailTerrain());
-                setZone(2, new TrailTerrain());
-                setZone(3, new JungleTerrain());
-                setZone(4, new TrailTerrain());
-                setZone(5, new TrailTerrain()); //delete this? define center?
-                setZone(6, new TrailTerrain());
-                setZone(7, new JungleTerrain());
-                setZone(8, new TrailTerrain());
-                setZone(9, new JungleTerrain());
+                JungleTerrain jungleTerrain1 = new JungleTerrain();
+                trailTerrain = new TrailTerrain();
+                setZone(1, new JungleTerrain());
+                setZone(2, trailTerrain);
+                setZone(3, jungleTerrain1);
+                setZone(4, trailTerrain);
+                setZone(5, trailTerrain); //delete this? define center?
+                setZone(6, jungleTerrain1);
+                setZone(7, jungleTerrain1);
+                setZone(8, jungleTerrain1);
+                setZone(9, jungleTerrain1);
+                setAnimal(null);
                 break;
             case "TJTT-":
-
+                jungleTerrain = new JungleTerrain();
+                setZone(1, new JungleTerrain());
+                setZone(2, new TrailTerrain());
+                setZone(3, jungleTerrain);
+                setZone(4, new TrailTerrain());
+                setZone(5, new TrailTerrain()); //delete this? define center?
+                setZone(6, jungleTerrain);
+                setZone(7, new JungleTerrain());
+                setZone(8, new TrailTerrain());
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "LLLL-":
-
+                lakeTerrain = new LakeTerrain();
+                setZone(1, lakeTerrain);
+                setZone(2, lakeTerrain);
+                setZone(3, lakeTerrain);
+                setZone(4, lakeTerrain);
+                setZone(5, lakeTerrain); //delete this? define center?
+                setZone(6, lakeTerrain);
+                setZone(7, lakeTerrain);
+                setZone(8, lakeTerrain);
+                setZone(9, lakeTerrain);
+                setAnimal(null);
                 break;
             case "JLLL-":
-
+                jungleTerrain = new JungleTerrain();
+                lakeTerrain = new LakeTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, jungleTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, lakeTerrain);
+                setZone(5, lakeTerrain); //delete this? define center?
+                setZone(6, lakeTerrain);
+                setZone(7, lakeTerrain);
+                setZone(8, lakeTerrain);
+                setZone(9, lakeTerrain);
+                setAnimal(null);
                 break;
             case "LLJJ-":
-
+                jungleTerrain = new JungleTerrain();
+                lakeTerrain = new LakeTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, lakeTerrain);
+                setZone(3, lakeTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain); //delete this?
+                setZone(6, lakeTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, jungleTerrain);
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "JLJL-":
-
+                jungleTerrain = new JungleTerrain();
+                lakeTerrain = new LakeTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, lakeTerrain);
+                setZone(3, lakeTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain); //delete this?
+                setZone(6, lakeTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, jungleTerrain);
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "LJLJ-":
-
+                jungleTerrain = new JungleTerrain();
+                lakeTerrain = new LakeTerrain();
+                LakeTerrain lakeTerrain2 = new LakeTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, lakeTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain);
+                setZone(6, jungleTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, lakeTerrain2);
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "LJJJ-":
-
+                jungleTerrain = new JungleTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, new LakeTerrain());
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain);
+                setZone(6, jungleTerrain);
+                setZone(7, jungleTerrain);
+                setZone(8, jungleTerrain);
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "JLLJ-":
-
+                jungleTerrain = new JungleTerrain();
+                setZone(1, jungleTerrain);
+                setZone(2, jungleTerrain);
+                setZone(3, jungleTerrain);
+                setZone(4, jungleTerrain);
+                setZone(5, jungleTerrain);
+                setZone(6, new LakeTerrain());
+                setZone(7, jungleTerrain);
+                setZone(8, new LakeTerrain());
+                setZone(9, jungleTerrain);
+                setAnimal(null);
                 break;
             case "TLJT-":
                 setZone(1, new JungleTerrain());
