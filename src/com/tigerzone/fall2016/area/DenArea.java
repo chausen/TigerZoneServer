@@ -26,7 +26,7 @@ public class DenArea extends Area {
 
 
     @Override
-    boolean isComplete() {
+    public boolean isComplete() {
         return false;
     }
 }

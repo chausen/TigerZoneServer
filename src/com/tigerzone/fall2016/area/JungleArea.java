@@ -26,7 +26,7 @@ public class JungleArea extends Area implements Mergeable {
 
 
     @Override
-    boolean isComplete() {
+    public boolean isComplete() {
         return false;
     }
 

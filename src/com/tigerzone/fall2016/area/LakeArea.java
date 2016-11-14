@@ -33,11 +33,27 @@ public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
     }
 
     @Override
-    boolean isComplete() {
+    public boolean isComplete() {
         return false;
     }
 
     @Override
     public void merge(Mergeable mergeable) {
+    }
+
+    public boolean containsBoar() {
+        return false;
+    }
+
+    public boolean containsDeer() {
+        return false;
+    }
+
+    public boolean containsBuffalo() {
+        return false;
+    }
+
+    public int getCrocs() {
+        return 0;
     }
 }
