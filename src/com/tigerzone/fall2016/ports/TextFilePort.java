@@ -61,7 +61,7 @@ public class TextFilePort implements TileReadAdapter
      * @return
      */
     private Terrain charToTerrain(char c) {
-        Terrain t = new FreeTerain();
+        Terrain t = new FreeTerrain();
         switch(c)
         {
             case 'L':

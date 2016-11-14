@@ -1,5 +1,5 @@
 package com.tigerzone.fall2016.gamesystem;
-import com.tigerzone.fall2016.Player;
+
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
@@ -20,8 +20,8 @@ public class GameSystem implements PlayerInAdapter
     public void startGame(int player1id, int player2id)
     {
         //TODO: See how Player can be used with the rest of the program.
-        Player player1 = new Player();
-        Player player2 = new Player();
+        Player player1 = new Player(1);
+        Player player2 = new Player(2);
     }
 
     public void initializeGame()

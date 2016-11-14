@@ -89,31 +89,32 @@ public class Scorer {
      * 4) jungles
      */
     public void endGameScoring() {
-        List<DenArea> dens = am.getDenAreas();
-        endGameScoreDens(dens);
-
-        List<LakeArea> lakes = am.getLakeAreas();
-        endGameScoreLakes(lakes);
-
-        List<TrailArea> trails = am.getTrailAreas();
-        endGameScoreTrails(trails);
-
-        List<JungleArea> jungles = am.getDenAreas();
-        // Get list of complete lakes
-        List<LakeArea> completedLakes = new ArrayList<LakeArea>();
-        for (LakeArea lake: lakes) {
-            if (lake.isComplete()) {
-                completedLakes.add(lake);
-            }
-        }
-        // Get list of complete dens
-        List<DenArea> completedDens = new ArrayList<DenArea>();
-        for (DenArea den: dens) {
-            if (den.isComplete()) {
-                completedDens.add(den);
-            }
-        }
-        endGameScoreJungles(jungles, completedLakes, completedDens);
+        //TODO needs getSpecificArea() methods
+//        List<DenArea> dens = am.getDenAreas();
+//        endGameScoreDens(dens);
+//
+//        List<LakeArea> lakes = am.getLakeAreas();
+//        endGameScoreLakes(lakes);
+//
+//        List<TrailArea> trails = am.getTrailAreas();
+//        endGameScoreTrails(trails);
+//
+//        List<JungleArea> jungles = am.getDenAreas();
+//        // Get list of complete lakes
+//        List<LakeArea> completedLakes = new ArrayList<LakeArea>();
+//        for (LakeArea lake: lakes) {
+//            if (lake.isComplete()) {
+//                completedLakes.add(lake);
+//            }
+//        }
+//        // Get list of complete dens
+//        List<DenArea> completedDens = new ArrayList<DenArea>();
+//        for (DenArea den: dens) {
+//            if (den.isComplete()) {
+//                completedDens.add(den);
+//            }
+//        }
+//        endGameScoreJungles(jungles, completedLakes, completedDens);
     }
 
     //========== End Game Scoring Helper Methods ===========//
