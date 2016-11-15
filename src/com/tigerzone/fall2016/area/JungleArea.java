@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
 
+import java.util.List;
 
 
 /**
@@ -23,4 +24,8 @@ public class JungleArea extends Area {
     }
 
 
+    @Override
+    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+        jungleAreas.add(this);
+    }
 }

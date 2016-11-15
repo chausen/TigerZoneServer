@@ -1,23 +1,34 @@
-package com.tigerzone.fall2016.tileplacement.tile;
+package com.tigerzone.fall2016.area.terrainnode;
 
 import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.List;
 
 /**
  * Created by lenovo on 11/14/2016.
  */
-public class TerrainNode {
+public abstract class TerrainNode {
 
-    List<Terrain> terrains;
-
+    Area area;
     Terrain terrain;
     BoardTile boardTile;
     List<TerrainNode> terrainNodeList;
     Animal animal;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
+
+    public Area getArea(){
+        return this.area;
+    }
+
+    public void setArea(Area area){
+        this.area = area;
+    }
+
+    public abstract Area createArea();
 
     public List<TerrainNode> getTerrainNodeList() {
         return terrainNodeList;
@@ -37,15 +48,6 @@ public class TerrainNode {
             case 3: return 9;
         }
         return 0;
-    }
-
-    public List<Integer> northConnections(List<Integer> integers) {
-        List<Integer> connections = zones;
-        for (Integer integer: integers) {
-            switch (integer) {
-                case 1:
-            }
-        }
     }
 
 

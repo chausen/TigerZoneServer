@@ -74,4 +74,8 @@ public class TrailArea extends CrocodileFriendlyArea {
         return false;
     }
 
+    @Override
+    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+        trailAreas.add(this);
+    }
 }

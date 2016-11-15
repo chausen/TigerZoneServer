@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Aidan on 11/8/2016.
  */
-public class FreeSpaceBoardTest {
+public class FreeSpaceGameBoardTest {
 
     FreeSpaceBoard freeSpaceBoard;
 

@@ -3,8 +3,8 @@ package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
-import com.tigerzone.fall2016.tileplacement.Board;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
+import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
@@ -12,7 +12,7 @@ import javafx.geometry.Point2D;
 public class GameSystem implements PlayerInAdapter
 {
     private AreaManager areaManager;
-    private Board gameBoard;
+    private GameBoard gameBoard;
     private FreeSpaceBoard freeSpaceBoard;
 
     private TileStack ts;

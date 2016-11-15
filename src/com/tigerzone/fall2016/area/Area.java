@@ -1,8 +1,8 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-import com.tigerzone.fall2016.tileplacement.tile.TerrainNode;
 
 import java.util.*;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public abstract class Area {
+public abstract class Area implements ListAddable{
 
     private Set<BoardTile> boardTiles;
-    private List<TerrainNode> terrainNodes;
+    private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
     public Area(){
@@ -155,4 +155,29 @@ public abstract class Area {
     int numOfTigersInArea(){
         return this.tigerList.size();
     }
+
+    public void mergeArea(Area area){
+        for(TerrainNode terrainNode : area.getTerrainNodes()){
+            terrainNode.setArea(this);
+        }
+        addBoardTile(area.getBoardTiles());
+        addTerrainNode(area.getTerrainNodes());
+    }
+
+    public void addBoardTile(Set<BoardTile> boardTiles){
+        boardTiles.addAll(boardTiles);
+    }
+
+    public void addTerrainNode(Set<TerrainNode> terrainNodes){
+        terrainNodes.addAll(terrainNodes);
+    }
+
+    public Set<BoardTile> getBoardTiles(){
+        return boardTiles;
+    }
+
+    public Set<TerrainNode> getTerrainNodes(){
+        return this.terrainNodes;
+    }
+
 }

@@ -4,14 +4,16 @@ import com.tigerzone.fall2016.area.AreaManager;
 import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
+
 import java.util.HashMap;
 
 /**
  * Created by lenovo on 11/12/2016.
  */
-public class Board {
-    AreaManager areaManager;
 
+public class GameBoard {
+
+    AreaManager areaManager;
     private HashMap<Point2D, BoardTile> board = new HashMap<>();
 
     public void placeTile(Point2D position, BoardTile tile) {

@@ -5,6 +5,8 @@ import com.tigerzone.fall2016.animals.Buffalo;
 import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Predator;
 
+import java.util.List;
+
 
 /**
  * Created by lenovo on 11/7/2016.
@@ -93,5 +95,10 @@ public class LakeArea extends CrocodileFriendlyArea {
         }
 
         return count;
+    }
+
+    @Override
+    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+        lakeAreas.add(this);
     }
 }

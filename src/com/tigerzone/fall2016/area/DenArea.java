@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
 
+import java.util.List;
 
 
 /**
@@ -18,5 +19,10 @@ public class DenArea extends Area {
     @Override
     public boolean isComplete() {
         return false;
+    }
+
+    @Override
+    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+
     }
 }
