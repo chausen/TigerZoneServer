@@ -7,6 +7,7 @@ package com.tigerzone.fall2016.tileplacement.tile;
 public class BoardTile {
 
 
+
     private void createZones(String tileString) {
         switch (tileString) {
             case "JJJJ-":

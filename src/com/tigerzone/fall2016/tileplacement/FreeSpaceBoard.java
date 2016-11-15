@@ -3,7 +3,6 @@ package com.tigerzone.fall2016.tileplacement;
         import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
         import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
         import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-        import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
         import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
         import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
         import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
@@ -57,15 +56,15 @@ public class FreeSpaceBoard {
         return placeable;
     }
 
-    public boolean isPlaceable(Point2D position, BoardTile boardTile){
+    public boolean isPlaceable(Point2D position, PlayableTile playableTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
             return false;
         }
-        return (freeSpace.getNorthTerrain().accept(boardTile.getNorthFace())
-                && freeSpace.getEastTerrain().accept(boardTile.getEastFace())
-                && freeSpace.getSouthTerrain().accept(boardTile.getSouthFace())
-                && freeSpace.getWestTerrain().accept(boardTile.getWestFace()));
+        return (freeSpace.getNorthTerrain().accept(playableTile.getNorthFace())
+                && freeSpace.getEastTerrain().accept(playableTile.getEastFace())
+                && freeSpace.getSouthTerrain().accept(playableTile.getSouthFace())
+                && freeSpace.getWestTerrain().accept(playableTile.getWestFace()));
     }
 
     //when the player wants to add the tile, they need to specify the

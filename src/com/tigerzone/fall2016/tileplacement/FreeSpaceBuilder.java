@@ -25,7 +25,7 @@ public class FreeSpaceBuilder {
     }
 
     public void makeFreeSpace(Point2D position){
-        freeSpaceMap.remove(position);
+        freeSpaceMap.get(position);
         buildNorthTerrain(position);
         buildEastTerrain(position);
         buildSouthTerrain(position);
