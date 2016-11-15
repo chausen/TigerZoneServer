@@ -39,6 +39,17 @@ public class TerrainNode {
         return 0;
     }
 
+    public List<Integer> northConnections(List<Integer> integers) {
+        List<Integer> connections = zones;
+        for (Integer integer: integers) {
+            switch (integer) {
+                case 1:
+            }
+        }
+    }
+
+
+
     public void join(TerrainNode connectionNode){
         for (Integer canConnect: canConnectTo) {
             for (Integer connectionZone: connectionNode.getZones()) {

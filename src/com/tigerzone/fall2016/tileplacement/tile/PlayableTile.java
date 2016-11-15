@@ -1,4 +1,5 @@
 package com.tigerzone.fall2016.tileplacement.tile;
+import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
 
 /**
@@ -12,6 +13,7 @@ public class PlayableTile {
     private Terrain westFace;
     private String tileString;
 
+    private String playedBy;
 
     public Terrain getNorthFace() {
         return northFace;
@@ -43,6 +45,13 @@ public class PlayableTile {
     public void setTileString(String tileString) {
         this.tileString = tileString;
     }
+    public String getPlayedBy() {
+        return playedBy;
+    }
+    public void setPlayedBy(String playedBy) {
+        this.playedBy = playedBy;
+    }
+
 
     public PlayableTile(String tileString) {
         this.tileString = tileString;
@@ -53,6 +62,14 @@ public class PlayableTile {
         this.tileString = tileString;
         rotateCCW(rotations);
         setFaces(tileString);
+    }
+
+    public PlayableTile(Turn t) {
+        this.setTileString(t.getTileString());
+        this.setPlayedBy(t.getPlayerID());
+
+
+
     }
 
     private void setFaces(String tileString) {
