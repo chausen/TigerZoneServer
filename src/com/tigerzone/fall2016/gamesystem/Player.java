@@ -47,4 +47,22 @@ public class Player {
     public int getSupply() {
         return goodSupply;
     }
+
+    /**
+     * Determines whether this player is equal to another based on playerID
+     *
+     * @param  player The player you're comparing this one too
+     * @return  true if player has the same playerID as this
+     */
+    public boolean equals(Player player) {
+
+        int otherPlayerID = player.getPlayerId();
+
+        if (this.playerId == otherPlayerID) {
+            return true;
+        }
+
+        return false;
+
+    }
 }

@@ -20,6 +20,7 @@ public class GameSystem implements PlayerInAdapter
     private AreaTile origintile;
     private Player player1;
     private Player player2;
+    private Player currentPlayer;
     private FreeSpaceBoard fsb;
     private Scorer scorer;
     private Turn currentTurn;
@@ -61,6 +62,7 @@ public class GameSystem implements PlayerInAdapter
     {
         player1 = new Player(player1id);
         player2 = new Player(player2id);
+        currentPlayer = player1; // Player 1 is always the current player
 
         fsb = new FreeSpaceBoard();
 
@@ -139,6 +141,10 @@ public class GameSystem implements PlayerInAdapter
             if (nextTile == null) {
                 gameInProgress = false;
             }
+
+            // The other player becomes the current player
+            currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
+
         }
         Set<Integer> winners = scorer.announceWinners();
         outAdapter.notifyEndGame(winners);
