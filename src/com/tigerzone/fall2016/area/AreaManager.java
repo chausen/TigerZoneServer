@@ -24,6 +24,9 @@ public class AreaManager {
         gameGameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameGameBoard, boardTile);
         List<Area> newAreas = areaBuilder.build(position);
+        for(Area area: newAreas){
+            area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
+        }
     }
 
     private void areaMerge(Point2D position, BoardTile boardTile1) {

@@ -6,6 +6,7 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class AreaBuilder {
     private GameBoard gameBoard;
     private BoardTile boardTile;
     private Point2D position;
-    private Set<Integer> completeTerrainNodes;
+    private Set<Integer> completeTerrainNodes = new HashSet<>();
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
         this.gameBoard = gameGameBoard;
