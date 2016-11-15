@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class Area {
 
     private Set<BoardTile> boardTiles;
-    private List<TerrainNode> terrainNodes;
+    private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
     public Area(){
@@ -155,4 +155,29 @@ public abstract class Area {
     int numOfTigersInArea(){
         return this.tigerList.size();
     }
+
+    public void addBoardTile(BoardTile boardTile){
+        boardTiles.add(boardTile);
+    }
+
+    public void addBoardTile(Set<BoardTile> boardTiles){
+        boardTiles.addAll(boardTiles);
+    }
+
+    public void addTerrainNode(TerrainNode terrainNode){
+        terrainNodes.add(terrainNode);
+    }
+
+    public void addTerrainNode(Set<TerrainNode> terrainNodes){
+        terrainNodes.addAll(terrainNodes);
+    }
+
+    public Set<BoardTile> getBoardTiles(){
+        return boardTiles;
+    }
+
+    public Set<TerrainNode> getTerrainNodes(){
+        return this.terrainNodes;
+    }
+
 }

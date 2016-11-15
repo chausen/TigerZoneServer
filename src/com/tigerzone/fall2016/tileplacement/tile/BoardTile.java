@@ -1,8 +1,6 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 
-import com.tigerzone.fall2016.tileplacement.Board;
-
 import java.util.List;
 
 /**
@@ -109,4 +107,30 @@ public class BoardTile {
                 break;
         }
     }
+
+    public List<TerrainNode> getTerrainNodeList(){
+        return this.terrainNodes;
+    }
+
+    public TerrainNode getTerrainNode(int n){
+        for(TerrainNode terrainNode: terrainNodes){
+            if(terrainNode.getZones().contains(n)){
+                return terrainNode;
+            }
+        }
+        return null;
+    }
+
+    public void setTerrainNode(int n, TerrainNode terrainNode){
+        TerrainNode removeTerrainNode = new TerrainNode();
+        for(TerrainNode tn: terrainNodes){
+            if(tn.getZones().contains(n)){
+                removeTerrainNode = tn;
+                break;
+            }
+        }
+        terrainNodes.remove(removeTerrainNode);
+        terrainNodes.add(terrainNode);
+    }
+
 }

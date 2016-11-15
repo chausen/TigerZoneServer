@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 
 import java.util.List;
@@ -10,14 +11,21 @@ import java.util.List;
  */
 public class TerrainNode {
 
-    List<Terrain> terrains;
-
+    Area area;
     Terrain terrain;
     BoardTile boardTile;
     List<TerrainNode> terrainNodeList;
     Animal animal;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
+
+    public Area getArea(){
+        return this.area;
+    }
+
+    public void setArea(Area area){
+        this.area = area;
+    }
 
     public List<TerrainNode> getTerrainNodeList() {
         return terrainNodeList;
