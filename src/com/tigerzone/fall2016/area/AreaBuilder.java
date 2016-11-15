@@ -3,8 +3,8 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-import javafx.geometry.Point2D;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +17,7 @@ public class AreaBuilder {
 
     private GameBoard gameBoard;
     private BoardTile boardTile;
-    private Point2D position;
+    private Point position;
     private Set<Integer> completeTerrainNodes = new HashSet<>();
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
@@ -25,7 +25,7 @@ public class AreaBuilder {
         this.boardTile = boardTile;
     }
 
-    public List<Area> build(Point2D position){
+    public List<Area> build(Point position){
         this.position = position;
         buildNorthFace();
         buildEastFace();

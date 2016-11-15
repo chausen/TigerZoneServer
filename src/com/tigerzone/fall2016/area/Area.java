@@ -35,7 +35,21 @@ public abstract class Area implements ListAddable{
         //this.crocodileList.add(crocodile);
     }
 
-    
+    public void mergeArea(Area area){
+        for(TerrainNode terrainNode : area.getTerrainNodes()){
+            terrainNode.setArea(this);
+        }
+        addBoardTile(area.getBoardTiles());
+        addTerrainNode(area.getTerrainNodes());
+    }
+
+    public void addBoardTile(Set<BoardTile> boardTiles){
+        boardTiles.addAll(boardTiles);
+    }
+
+    public void addTerrainNode(Set<TerrainNode> terrainNodes){
+        terrainNodes.addAll(terrainNodes);
+    }
 
     /**
      * Returns true only if area was updated with input tile
@@ -154,22 +168,6 @@ public abstract class Area implements ListAddable{
 
     int numOfTigersInArea(){
         return this.tigerList.size();
-    }
-
-    public void mergeArea(Area area){
-        for(TerrainNode terrainNode : area.getTerrainNodes()){
-            terrainNode.setArea(this);
-        }
-        addBoardTile(area.getBoardTiles());
-        addTerrainNode(area.getTerrainNodes());
-    }
-
-    public void addBoardTile(Set<BoardTile> boardTiles){
-        boardTiles.addAll(boardTiles);
-    }
-
-    public void addTerrainNode(Set<TerrainNode> terrainNodes){
-        terrainNodes.addAll(terrainNodes);
     }
 
     public Set<BoardTile> getBoardTiles(){

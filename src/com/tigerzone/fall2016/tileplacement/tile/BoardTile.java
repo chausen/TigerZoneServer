@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,6 +12,59 @@ import java.util.List;
 public class BoardTile {
 
     List<TerrainNode> terrainNodes;
+
+    List<Integer> northConnections;
+    List<Integer> eastConnections;
+    List<Integer> southConnections;
+    List<Integer> westConnections;
+
+    List<TerrainNode> southZones;
+
+    HashMap<Integer, TerrainNode> zoneTerrainNodeMap;
+
+    TerrainNode[] zones = new TerrainNode[9];
+
+    public TerrainNode[] getZones() {
+        return zones;
+    }
+
+    public void rotateCCW(int rotationDegrees) {
+        int rotationCount = rotationDegrees/90;
+        for (int i=0; i<rotationCount; i++) {
+            TerrainNode temp = getZone(1);
+            TerrainNode temp2 = getZone(2);
+            setZone(1, getZone(3));
+            setZone(2, getZone(6));
+            setZone(3, getZone(9));
+            setZone(6, getZone(8));
+            setZone(9, getZone(7));
+            setZone(8, getZone(4));
+            setZone(7, temp);
+            setZone(4, temp2);
+        }
+
+    }
+
+    public TerrainNode getZone(int index) {
+        index--;
+        return zones[index];
+    }
+
+    public void setZone(int index, TerrainNode terrainNode) {
+        index--;
+        zones[index] = terrainNode;
+    }
+
+//
+//    public void checkNorthCompatible(BoardTile toCompare) {
+//        for (TerrainNode terrainNode: this.terrainNodes) {
+//            for (TerrainNode compareNodes: toCompare.getTerrainNodeList()) {
+//                if (terrainNode.northCompatible.contains(compareNodes.getZones())) {
+//
+//                }
+//            }
+//        }
+//    }
 
     public BoardTile(PlayableTile playableTile){
         createZones(playableTile.getTileString());

@@ -4,7 +4,9 @@ import com.tigerzone.fall2016.animals.Boar;
 import com.tigerzone.fall2016.animals.Buffalo;
 import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -15,6 +17,8 @@ public class LakeArea extends CrocodileFriendlyArea {
     private boolean hasBoar;
     private boolean hasBuffalo;
     private boolean hasDeer;
+
+    private List<LakeTerrainNode> lakeTerrainNodes;
 
     public LakeArea(){
         this.hasBoar = false;

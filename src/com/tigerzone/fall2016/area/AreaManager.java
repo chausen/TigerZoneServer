@@ -1,11 +1,11 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
-import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class AreaManager {
 
-    private GameBoard gameGameBoard;
+    private GameBoard gameBoard;
 
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
         BoardTile boardTile = new BoardTile(playableTile);
@@ -21,22 +21,38 @@ public class AreaManager {
 
     }
 
-    public void placeTile(Point2D position, PlayableTile playableTile) {
+    public void placeTile(Point position, PlayableTile playableTile) {
         BoardTile boardTile = convertToBoardTile(playableTile);
-        gameGameBoard.placeTile(position, boardTile);
-        AreaBuilder areaBuilder = new AreaBuilder(gameGameBoard, boardTile);
+        gameBoard.placeTile(position, boardTile);
+        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
         List<Area> newAreas = areaBuilder.build(position);
         for(Area area: newAreas){
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
         }
     }
 
-    public void updateAreas() {
+    public void updateAreas(Point position) {
+        gameBoard.getTile(position);
+        gameBoard.getAboveAdjacentTile(position);
+        gameBoard.getRightAdjacentTile(position);
+        gameBoard.getAboveAdjacentTile(position);
+        gameBoard.getBelowAdjacentTile(position);
+
+        updateNorth(gameBoard.getTile(position), gameBoard.getAboveAdjacentTile(position));
+
 
     }
 
-    private void areaMerge(Point2D position, BoardTile boardTile1) {
-        gameGameBoard.getTile(position); //edit
+    public void updateNorth(BoardTile placedTile, BoardTile northTile) {
+        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
+            for (TerrainNode northtileNode: northTile.getTerrainNodeList()) {
+                placedtileNode.northMerge(northtileNode);
+            }
+        }
+    }
+
+    private void areaMerge(Point position, BoardTile boardTile1) {
+        gameBoard.getTile(position); //edit
     }
 
     private List<DenArea> denAreas;
@@ -49,7 +65,7 @@ public class AreaManager {
         this.jungleAreas = jungleAreas;
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
-        gameGameBoard = new GameBoard();
+        gameBoard = new GameBoard();
     }
 
 

@@ -1,14 +1,16 @@
 package com.tigerzone.fall2016.gamesystem;
-import javafx.geometry.Point2D;
+
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+
+import java.awt.*;
 
 public class Turn {
 
     private PlayableTile playableTile;
     private String playerID;
     private int rotationDegrees = 0;
-    private Point2D position;
+    private Point position;
     private Predator predator;
     private int predatorPlacementZone;
 
@@ -21,7 +23,7 @@ public class Turn {
     public String getPlayerID(){
         return playerID;
     }
-    public Point2D getPosition() {
+    public Point getPosition() {
         return position;
     }
     public int getPredatorPlacementZone() {
@@ -36,7 +38,7 @@ public class Turn {
     }
 
     // TODO: 11/15/2016 the input adapter coverts the tileString to a playableTile, creates predator, creates Point2D, etc. and makes this turn
-    public Turn(String playerID, PlayableTile playableTile, Point2D tilePlacement, int rotationDegrees, Predator predator, int zone) {
+    public Turn(String playerID, PlayableTile playableTile, Point tilePlacement, int rotationDegrees, Predator predator, int zone) {
         this.playerID = playerID;
         this.playableTile = playableTile;
         this.rotationDegrees = rotationDegrees;
