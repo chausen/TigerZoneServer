@@ -7,6 +7,7 @@ import com.tigerzone.fall2016.tileplacement.Direction;
  */
 public class JungleTerrain extends Terrain {
 
+
     @Override
     public boolean accept(TerrainVisitor terrainVisitor) {
         return terrainVisitor.visit(this);

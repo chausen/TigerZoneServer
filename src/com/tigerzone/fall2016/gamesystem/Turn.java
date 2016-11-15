@@ -7,7 +7,7 @@ import java.awt.Point;
 public class Turn
 {
     private final int playerID;
-    private PlayableTile playableTile;
+    private PlayableTile playableTile = null;
     private Direction d = null;
     private int rotations = 0;
     private Point p;

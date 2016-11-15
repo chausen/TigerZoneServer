@@ -1,7 +1,5 @@
 package com.tigerzone.fall2016.tileplacement;
 
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
@@ -15,17 +13,17 @@ import java.util.HashMap;
 public class FreeSpaceBuilder {
 
     private FreeSpace freeSpace;
-    private BoardTile boardTile;
+    private PlayableTile playableTile;
     private HashMap<Point2D, FreeSpace> freeSpaceMap;
 
-    public FreeSpaceBuilder(FreeSpace freeSpace, BoardTile boardTile, HashMap<Point2D, FreeSpace> freeSpaceMap){
+    public FreeSpaceBuilder(FreeSpace freeSpace, PlayableTile playableTile, HashMap<Point2D, FreeSpace> freeSpaceMap){
         this.freeSpace = freeSpace;
-        this.boardTile = boardTile;
+        this.playableTile = playableTile;
         this.freeSpaceMap = freeSpaceMap;
     }
 
     public void makeFreeSpace(Point2D position){
-        freeSpaceMap.get(position);
+        freeSpaceMap.remove(position);
         buildNorthTerrain(position);
         buildEastTerrain(position);
         buildSouthTerrain(position);
@@ -38,11 +36,11 @@ public class FreeSpaceBuilder {
         }
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(0.0, 1.0));
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setSouthTerrain(boardTile.getNorthFace());
+            needUpdateFreeSpace.setSouthTerrain(playableTile.getNorthFace());
         }
         else {
             FreeSpace freeSpaceNorth = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
-                    boardTile.getNorthFace(), new FreeTerrain());
+                    playableTile.getNorthFace(), new FreeTerrain());
             freeSpaceMap.put(position.add(0.0, 1.0), freeSpaceNorth);
         }
     }
@@ -53,11 +51,11 @@ public class FreeSpaceBuilder {
         }
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(1.0, 0.0));
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setWestTerrain(boardTile.getEastFace());
+            needUpdateFreeSpace.setWestTerrain(playableTile.getEastFace());
         }
         else {
             FreeSpace freeSpaceEast = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
-                    new FreeTerrain(), boardTile.getEastFace());
+                    new FreeTerrain(), playableTile.getEastFace());
             freeSpaceMap.put(position.add(1.0, 0.0), freeSpaceEast);
         }
     }
@@ -68,10 +66,10 @@ public class FreeSpaceBuilder {
         }
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(0.0, -1.0));
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setNorthTerrain(boardTile.getSouthFace());
+            needUpdateFreeSpace.setNorthTerrain(playableTile.getSouthFace());
         }
         else {
-            FreeSpace freeSpaceSouth = new FreeSpace(boardTile.getSouthFace(), new FreeTerrain(),
+            FreeSpace freeSpaceSouth = new FreeSpace(playableTile.getSouthFace(), new FreeTerrain(),
                     new FreeTerrain(), new FreeTerrain());
             freeSpaceMap.put(position.add(0.0, -1.0), freeSpaceSouth);
         }
@@ -83,10 +81,10 @@ public class FreeSpaceBuilder {
         }
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(-1.0, 0.0));
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setEastTerrain(boardTile.getWestFace());
+            needUpdateFreeSpace.setEastTerrain(playableTile.getWestFace());
         }
         else {
-            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), boardTile.getEastFace(),
+            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), playableTile.getEastFace(),
                     new FreeTerrain(), new FreeTerrain());
             freeSpaceMap.put(position.add(-1.0, 0.0), freeSpaceWest);
         }

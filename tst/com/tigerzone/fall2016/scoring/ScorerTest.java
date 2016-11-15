@@ -3,10 +3,6 @@ package com.tigerzone.fall2016.scoring;
 import com.tigerzone.fall2016.area.*;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
-import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.Edge;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
 import org.junit.Test;
 
 import javafx.geometry.Point2D;
@@ -46,7 +42,7 @@ public class ScorerTest {
         lakeAreas = new ArrayList();
         trailAreas = new ArrayList();
         freeSpaceBoard = new FreeSpaceBoard();
-        areaManager = new AreaManager(denAreas, jungleAreas, lakeAreas, trailAreas, freeSpaceBoard);
+        areaManager = new AreaManager(denAreas, jungleAreas, lakeAreas, trailAreas);
 
         // Create scorer
         scorer = new Scorer(playerScores, areaManager);

@@ -1,4 +1,3 @@
-
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
@@ -10,7 +9,6 @@ import com.tigerzone.fall2016.animals.Predator;
  */
 public class DenArea extends Area {
     public  DenArea(){}
-
 
     @Override
     boolean isPredatorPlacable(Predator predator) {

@@ -1,6 +1,8 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+
 import java.util.*;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
  */
 public abstract class Area {
 
+    private Set<BoardTile> boardTiles;
     private List<Tiger> tigerList;
 
     public Area(){
@@ -142,7 +145,10 @@ public abstract class Area {
         }
         return areaOwners;
     }
-    
+
+    public int getSize(){
+        return boardTiles.size();
+    }
 
     int numOfTigersInArea(){
         return this.tigerList.size();

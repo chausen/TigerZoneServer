@@ -49,6 +49,12 @@ public class PlayableTile {
         setFaces(tileString);
     }
 
+    public PlayableTile(String tileString, int rotations) {
+        this.tileString = tileString;
+        rotateCCW(rotations);
+        setFaces(tileString);
+    }
+
     private void setFaces(String tileString) {
         setNorthFace(generateFace(tileString.charAt(0)));
         setEastFace(generateFace(tileString.charAt(1)));

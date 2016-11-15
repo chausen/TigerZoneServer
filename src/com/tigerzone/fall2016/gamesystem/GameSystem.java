@@ -2,12 +2,12 @@ package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.ports.TextFilePort;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 public class GameSystem implements PlayerInAdapter
 {
     private TileStack ts;
-    private AreaTile origintile;
+    private PlayableTile playableTile;
     public GameSystem()
     {
         initializeGame();
@@ -28,7 +28,7 @@ public class GameSystem implements PlayerInAdapter
     {
         //TODO: Change the hardcoded seed below
         ts = new TileStack(1234567890, new TextFilePort());//1234567890 = set seed. Will need to change in future iterations
-        origintile = ts.pop();
+        playableTile = ts.pop();
         ts.shuffle();//Shuffle
     }
 }
