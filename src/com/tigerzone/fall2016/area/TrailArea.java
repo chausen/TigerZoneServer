@@ -1,28 +1,23 @@
 package com.tigerzone.fall2016.area;
-import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
+import com.tigerzone.fall2016.animals.Predator;
 
+import com.tigerzone.fall2016.animals.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class TrailArea extends CrocodileFriendlyArea implements Mergeable {
+public class TrailArea extends CrocodileFriendlyArea {
+
     private List<Prey> preyList;
+
 
     public TrailArea(){
         this.preyList = new ArrayList<>();
     }
 
-    public TrailArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        super(position, areaTile, freeSpaceMap);
-        this.preyList = new ArrayList<>();
-    }
 
     /**
      * this method should be called when a Boar is added from an AreaTile
@@ -79,8 +74,4 @@ public class TrailArea extends CrocodileFriendlyArea implements Mergeable {
         return false;
     }
 
-    @Override
-    public void merge(Mergeable mergeable) {
-
-    }
 }

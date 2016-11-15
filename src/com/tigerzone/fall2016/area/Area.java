@@ -1,12 +1,6 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AnimalAreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
-
 import java.util.*;
 import java.util.List;
 
@@ -14,55 +8,29 @@ import java.util.List;
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area {
-    private Map<Point2D, FreeSpace> freeSpaceMap;
-    private Map<Point2D, Tile> areaTileMap;
+
     private List<Tiger> tigerList;
 
     public Area(){
-        this.freeSpaceMap = new HashMap<>();
-        this.areaTileMap = new HashMap<>();
-        this.tigerList = new ArrayList<>();
-    }
 
-    public Area(Point2D position, AreaTile areaTile, Map<Point2D, FreeSpace> freeSpaceMap) {
-        this.freeSpaceMap = freeSpaceMap;
-        areaTileMap = new HashMap<>();
-        areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
 
-    /**
-     * Adds the parameter tile to areaTile Map
-     * @param position
-     * @param tile
-     */
-    private void addTile(Point2D position, Tile tile){
-        areaTileMap.put(position, tile);
+    // TODO: 11/14/2016 commented out for push 
+//    public void visit(Crocodile crocodile){
+//        crocodile.accept(this);
+//    }
+//    public void visit(Tiger tiger){
+//        tiger.accept(this);
+//    }
+
+    void addAnimalFromAnimalAreaTile(Prey prey){}
+
+    void addAnimalFromAnimalAreaTile(Predator crocodile){
+        //this.crocodileList.add(crocodile);
     }
 
-    /**
-     * Update Area given an areaTile
-     * @param position
-     * @param areaTile
-     */
-    public void updateArea(Point2D position, AreaTile areaTile){
-        if(freeSpaceMap.containsKey(position)){
-            addTile(position, areaTile);
-        }
-    }
-
-    /**
-     * Update Area given an AnimalAreaTile
-     * @param position
-     * @param animalAreaTile
-     */
-    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
-        if(freeSpaceMap.containsKey(position)){
-            addTile(position, animalAreaTile);
-        }
-        Animal animalOnTile = animalAreaTile.getAnimal();
-        addAnimalFromAreaTile(animalOnTile);
-    }
+    
 
     /**
      * Returns true only if area was updated with input tile
@@ -174,22 +142,7 @@ public abstract class Area {
         }
         return areaOwners;
     }
-
-    /**
-     * Returns the size of the area
-     * @return
-     */
-    public int getSize(){
-        return this.areaTileMap.size();
-    }
-
-    /**
-     * Returns the freeSpaceMap of this Area
-     * @return
-     */
-    public Map<Point2D, FreeSpace> getFreeSpaceMap(){
-        return this.freeSpaceMap;
-    }
+    
 
     int numOfTigersInArea(){
         return this.tigerList.size();

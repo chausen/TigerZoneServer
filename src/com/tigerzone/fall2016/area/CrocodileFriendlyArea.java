@@ -1,12 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,11 +12,6 @@ public abstract class CrocodileFriendlyArea extends Area {
 
 
     public CrocodileFriendlyArea(){
-        this.crocodileList = new ArrayList<>();
-    }
-
-    public CrocodileFriendlyArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        super(position, areaTile, freeSpaceMap);
         this.crocodileList = new ArrayList<>();
     }
 

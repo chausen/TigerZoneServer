@@ -4,21 +4,15 @@ import com.tigerzone.fall2016.animals.Boar;
 import com.tigerzone.fall2016.animals.Buffalo;
 import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
-
-import java.util.HashMap;
 
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
+public class LakeArea extends CrocodileFriendlyArea {
     private boolean hasBoar;
     private boolean hasBuffalo;
     private boolean hasDeer;
-
 
     public LakeArea(){
         this.hasBoar = false;
@@ -26,12 +20,6 @@ public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
         this.hasDeer = false;
     }
 
-    public LakeArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        super(position, areaTile, freeSpaceMap);
-        this.hasBoar = false;
-        this.hasBuffalo = false;
-        this.hasDeer = false;
-    }
 
     @Override
     boolean isPredatorPlacable(Predator predator) {
@@ -43,14 +31,16 @@ public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
         return false;
     }
 
-    @Override
-    public void merge(Mergeable mergeable) {
-    }
 
-    /**
-     * this method should be called when a Boar is added from an AreaTile
-     * @param boar
-     */
+    public boolean containsBoar() {
+        return false;
+
+
+        /**
+         * this method should be called when a Boar is added from an AreaTile
+         * @param boar
+         */
+    }
     @Override
     public void addAnimalFromAreaTile(Boar boar){
         this.hasBoar = true;
