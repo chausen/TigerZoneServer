@@ -64,13 +64,6 @@ public class PlayableTile {
         setFaces(tileString);
     }
 
-    public PlayableTile(Turn t) {
-        this.setTileString(t.getTileString());
-        this.setPlayedBy(t.getPlayerID());
-
-
-
-    }
 
     private void setFaces(String tileString) {
         setNorthFace(generateFace(tileString.charAt(0)));

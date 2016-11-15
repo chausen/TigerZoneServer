@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.area;
 
-import com.sun.javafx.geom.Point2D;
+import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.Board;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
@@ -17,6 +17,7 @@ public class AreaManager {
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
         BoardTile boardTile = new BoardTile(playableTile);
         return boardTile;
+
     }
 
     public void placeTile(Point2D position, PlayableTile playableTile) {
@@ -25,6 +26,10 @@ public class AreaManager {
         BoardTile westTile = gameBoard.getAboveAdjacentTile(position);
         BoardTile southTile = gameBoard.getAboveAdjacentTile(position);
         BoardTile eastTile = gameBoard.getAboveAdjacentTile(position);
+
+    }
+
+    public void updateAreas() {
 
     }
 

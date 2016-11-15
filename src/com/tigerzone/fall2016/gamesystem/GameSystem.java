@@ -5,7 +5,9 @@ import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.Board;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import javafx.geometry.Point2D;
 
 public class GameSystem implements PlayerInAdapter
 {
@@ -20,18 +22,27 @@ public class GameSystem implements PlayerInAdapter
         initializeGame();
     }
     public void acceptTurn(Turn t) {
-        PlayableTile tile = new PlayableTile(t.getTileString());
-        freeSpaceBoard.isPlaceable(t.getPosition(), tile);
-
-
+        PlayableTile tile = t.getPlayableTile();
+        Point2D tilePlacement = t.getPosition();
+        int rotationDegrees = t.getRotationDegrees();
+        if (!freeSpaceBoard.isPlaceable(tilePlacement,tile, rotationDegrees)) {
+            forfeit(t);
+        } else if (freeSpaceBoard.needToRemove(tile)){
+            checkForPlayerRequest();
+        } else {
+            BoardTile boardtile = new BoardTile(tile, rotationDegrees);
+            gameBoard.placeTile(tilePlacement, boardtile);
+        }
 
     }
 
-    public PlayableTile creatTile(Turn t) {
-        PlayableTile playableTile  = new PlayableTile(t.getTileString());
-        return
+    public void forfeit(Turn turn) {
+        System.out.println("Player " + turn.getPlayerID() + "forfeits");
     }
 
+    public void checkForPlayerRequest() {
+        System.out.println("Need to get input from player");
+    }
 
     public void startGame(int player1id, int player2id)
     {
@@ -40,18 +51,12 @@ public class GameSystem implements PlayerInAdapter
         Player player2 = new Player(2);
     }
 
-
-
     public void initializeGame()
     {
         //TODO: Change the hardcoded seed below
         ts = new TileStack(1234567890, new TextFilePort());//1234567890 = set seed. Will need to change in future iterations
         playableTile = ts.pop();
         ts.shuffle();//Shuffle
-    }
-
-    public void playTile(Turn turn) {
-        PlayableTile playTile = new PlayableTile(turn);
     }
 
 

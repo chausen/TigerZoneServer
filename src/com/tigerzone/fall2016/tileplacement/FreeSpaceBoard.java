@@ -67,6 +67,18 @@ public class FreeSpaceBoard {
                 && freeSpace.getWestTerrain().accept(playableTile.getWestFace()));
     }
 
+    public boolean isPlaceable(Point2D position, PlayableTile playableTile, int rotationDegrees){
+        FreeSpace freeSpace = freeSpaceMap.get(position);
+        if(freeSpace == null){
+            return false;
+        }
+        playableTile.rotateCCW(rotationDegrees);
+        return (freeSpace.getNorthTerrain().accept(playableTile.getNorthFace())
+                && freeSpace.getEastTerrain().accept(playableTile.getEastFace())
+                && freeSpace.getSouthTerrain().accept(playableTile.getSouthFace())
+                && freeSpace.getWestTerrain().accept(playableTile.getWestFace()));
+    }
+
     //when the player wants to add the tile, they need to specify the
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go

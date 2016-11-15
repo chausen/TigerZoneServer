@@ -1,20 +1,17 @@
 package com.tigerzone.fall2016.gamesystem;
-import com.sun.javafx.geom.Point2D;
+import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 public class Turn {
 
-
+    private PlayableTile playableTile;
     private String playerID;
-    private String tileString;
     private int rotationDegrees = 0;
     private Point2D position;
     private Predator predator;
     private int predatorPlacementZone;
 
-    public String getTileString() {
-        return tileString;
-    }
     public int getRotationDegrees() {
         return rotationDegrees;
     }
@@ -30,17 +27,20 @@ public class Turn {
     public int getPredatorPlacementZone() {
         return predatorPlacementZone;
     }
+    public PlayableTile getPlayableTile() {
+        return playableTile;
+    }
 
-    public boolean hasFollower(){
+    public boolean placingPredator(){
         return (predator == null) ? false : true;//If we have a Direction, there was a Follower placed.
     }
 
-
-    public Turn(String playerID, String tileString, Point2D position, int rotationDegrees, Predator predator, int zone) {
+    // TODO: 11/15/2016 the input adapter coverts the tileString to a playableTile, creates predator, creates Point2D, etc. and makes this turn
+    public Turn(String playerID, PlayableTile playableTile, Point2D tilePlacement, int rotationDegrees, Predator predator, int zone) {
         this.playerID = playerID;
-        this.tileString = tileString;
+        this.playableTile = playableTile;
         this.rotationDegrees = rotationDegrees;
-        this.position = position;
+        this.position = tilePlacement;
         this.predator=predator;
         this.predatorPlacementZone = zone;
     }
