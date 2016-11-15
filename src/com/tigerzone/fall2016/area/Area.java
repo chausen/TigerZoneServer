@@ -1,11 +1,11 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.tileplacement.tile.AnimalAreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.tile.Tile;
-import javafx.geometry.Pos;
 
 import java.util.*;
 import java.util.List;
@@ -14,77 +14,121 @@ import java.util.List;
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area {
-    private HashMap<Point2D, FreeSpace> freeSpaceMap;
-    private HashMap<Point2D, Tile> areaTileMap;
+    private Map<Point2D, FreeSpace> freeSpaceMap;
+    private Map<Point2D, Tile> areaTileMap;
     private List<Tiger> tigerList;
 
     public Area(){
-        freeSpaceMap = new HashMap<>();
-        areaTileMap = new HashMap<>();
-        tigerList = new ArrayList<>();
+        this.freeSpaceMap = new HashMap<>();
+        this.areaTileMap = new HashMap<>();
+        this.tigerList = new ArrayList<>();
     }
 
-    public Area(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
+    public Area(Point2D position, AreaTile areaTile, Map<Point2D, FreeSpace> freeSpaceMap) {
         this.freeSpaceMap = freeSpaceMap;
         areaTileMap = new HashMap<>();
         areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
 
-
-    public void addTile(Point2D position, Tile tile){
+    /**
+     * Adds the parameter tile to areaTile Map
+     * @param position
+     * @param tile
+     */
+    private void addTile(Point2D position, Tile tile){
         areaTileMap.put(position, tile);
     }
 
-    public void visit(Crocodile crocodile){
-        crocodile.accept(this);
-    }
-    public void visit(Tiger tiger){
-        tiger.accept(this);
-    }
-
-    void addAnimalFromAnimalAreaTile(Prey prey){}
-
-    void addAnimalFromAnimalAreaTile(Predator crocodile){
-        //this.crocodileList.add(crocodile);
-    }
-
+    /**
+     * Update Area given an areaTile
+     * @param position
+     * @param areaTile
+     */
     public void updateArea(Point2D position, AreaTile areaTile){
         if(freeSpaceMap.containsKey(position)){
             addTile(position, areaTile);
         }
     }
 
-//    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
-//        if(freeSpaceMap.containsKey(position)){
-//            addTile(position, animalAreaTile);
-//        }
-//        Animal animalOnTile = animalAreaTile.getAnimal();
-//        //if(isAnimalPlacable(animalOnTile)){
-//            addAnimalFromAnimalAreaTile(animalOnTile);
-//        //}
-//    }
+    /**
+     * Update Area given an AnimalAreaTile
+     * @param position
+     * @param animalAreaTile
+     */
+    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
+        if(freeSpaceMap.containsKey(position)){
+            addTile(position, animalAreaTile);
+        }
+        Animal animalOnTile = animalAreaTile.getAnimal();
+        addAnimalFromAreaTile(animalOnTile);
+    }
 
+    /**
+     * Returns true only if area was updated with input tile
+     * @return
+     */
     public boolean hasAreaUpdated(){
         return true;
     }
 
-    public void placePredator(Tiger tiger){
-        this.tigerList.add(tiger);
+    /**
+     * Adds an animal from a Tile to an Area
+     * @param animal
+     */
+    public void addAnimalFromAreaTile(Animal animal){
+        animal.addToArea(this);
     }
 
-    public void placePredator(Crocodile crocodile){}
+    public void addAnimalFromAreaTile(Crocodile crocodile){}
 
-    abstract boolean isPredatorPlacable(Predator predator);
+    public void addAnimalFromAreaTile(Buffalo buffalo){}
 
-    public abstract boolean isComplete();
+    public void addAnimalFromAreaTile(Deer deer){}
 
+    public void addAnimalFromAreaTile(Boar boar){}
+
+    /**
+     * This method is used when a player tries to place a predator to this Area
+     * @param predator
+     */
     public void placePredator(Predator predator){
         if (isPredatorPlacable(predator)) {
-            predator.accept(this);
+            predator.placeInArea(this);
         }
     }
 
+    /**
+     * This method is used when a player tries to place a tiger to this Area
+     * @param tiger
+     */
+    public void placePredator(Tiger tiger){
+        if(this.tigerList.isEmpty()){
+            this.tigerList.add(tiger);
+        }else{
+            int playerID = tiger.getPlayerId();
+            //player should forfeit
+        }
+    }
+
+    /**
+     * This method is used when a player tries to place a crocodile to this Area
+     * @param crocodile
+     */
+    public void placePredator(Crocodile crocodile){}
+
+    /**
+     * Returns true if the predator is placable in the specific Area Type
+     * @param predator
+     * @return
+     */
+    abstract boolean isPredatorPlacable(Predator predator);
+
+    /**
+     * Returns true if the Area is complete
+     * @return
+     */
+    public abstract boolean isComplete();
 
     /**
      * Returns a list of playerID's that have equal max tiger counts for an area.
@@ -131,10 +175,6 @@ public abstract class Area {
         return areaOwners;
     }
 
-    public void updateArea(AreaTile areaTile) {
-
-    }
-
     /**
      * Returns the size of the area
      * @return
@@ -143,8 +183,15 @@ public abstract class Area {
         return this.areaTileMap.size();
     }
 
-    public HashMap<Point2D, FreeSpace> getFreeSpaceMap(){
+    /**
+     * Returns the freeSpaceMap of this Area
+     * @return
+     */
+    public Map<Point2D, FreeSpace> getFreeSpaceMap(){
         return this.freeSpaceMap;
     }
 
+    int numOfTigersInArea(){
+        return this.tigerList.size();
+    }
 }

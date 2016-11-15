@@ -51,7 +51,7 @@ public class Scorer {
      */
     public void score(LakeArea lake) {
         // points = 2 * (# of tiles) * (1 + # of unique animals)
-        Integer points = 2 * lake.getSize() * (1 + uniquePreyCount(lake));
+        Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
 
         List<Integer> ownerIDs = lake.getOwnerID();
 
@@ -68,7 +68,7 @@ public class Scorer {
      */
     public void score(TrailArea trail) {
         // points = (# of tiles) + (# of unique animals)
-        Integer points = trail.getSize() + uniquePreyCount(trail);
+        Integer points = trail.getSize() + trail.getNumOfPreyAfterCrocodileEffect();
 
         List<Integer> ownerIDs = trail.getOwnerID();
 
@@ -132,7 +132,7 @@ public class Scorer {
         for (LakeArea lake: lakes) {
             if ( !lake.isComplete() ) {
                 // points = (# of tiles) * (# of unique animals)
-                Integer points = lake.getSize() * uniquePreyCount(lake);
+                Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
 
                 List<Integer> ownerIDs = lake.getOwnerID();
 
@@ -157,44 +157,6 @@ public class Scorer {
     private void endGameScoreJungles(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
         //TODO add logic
     }
-
-
-    //========== Helper Methods ===========//
-    // Determines the number of unique animals in an lake area
-    // Range: [0, 3]
-    private int uniquePreyCount(LakeArea lake) {
-        int uniquePreys = 0;
-        if ( lake.containsBoar() )
-            uniquePreys += 1;
-        if ( lake.containsDeer() )
-            uniquePreys += 1;
-        if ( lake.containsBuffalo() )
-            uniquePreys += 1;
-        uniquePreys -= lake.getCrocs();
-        if (uniquePreys < 0) {
-            uniquePreys = 0;
-        }
-        return uniquePreys;
-    }
-
-    // Determines the number of unique animals in an trail area
-    // Range: [0, 3]
-    private int uniquePreyCount(TrailArea trail) {
-        int uniquePreys = 0;
-        if ( trail.containsBoar() )
-            uniquePreys += 1;
-        if ( trail.containsDeer() )
-            uniquePreys += 1;
-        if ( trail.containsBuffalo() )
-            uniquePreys += 1;
-        uniquePreys -= trail.getCrocs();
-        if (uniquePreys < 0) {
-            uniquePreys = 0;
-        }
-        return uniquePreys;
-    }
-
-
 
     /**
      * Returns a set of playerIDs for the Players with the highest score.
