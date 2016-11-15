@@ -1,11 +1,13 @@
 package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
+import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 public class GameSystem implements PlayerInAdapter
 {
+    private AreaManager areaManager;
     private TileStack ts;
     private PlayableTile playableTile;
     public GameSystem()
@@ -23,6 +25,8 @@ public class GameSystem implements PlayerInAdapter
         Player player1 = new Player(1);
         Player player2 = new Player(2);
     }
+
+
 
     public void initializeGame()
     {

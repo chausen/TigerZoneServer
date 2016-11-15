@@ -11,7 +11,6 @@ import java.util.HashMap;
  * Created by lenovo on 11/12/2016.
  */
 public class Board {
-    private AreaManager areaManager;
 
     private HashMap<Point2D, BoardTile> board = new HashMap<>();
 

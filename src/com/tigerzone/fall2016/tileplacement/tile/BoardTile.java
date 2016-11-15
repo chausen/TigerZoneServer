@@ -1,12 +1,24 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 
+import com.tigerzone.fall2016.tileplacement.Board;
+
+import java.util.List;
+
 /**
  * Created by lenovo on 11/13/2016.
  */
 public class BoardTile {
 
+    List<TerrainNode> terrainNodes;
 
+    public BoardTile(PlayableTile playableTile){
+        createZones(playableTile.getTileString());
+    }
+
+    public BoardTile(PlayableTile playableTile, int rotationDegrees) {
+
+    }
 
     private void createZones(String tileString) {
         switch (tileString) {

@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+import com.tigerzone.fall2016.tileplacement.tile.TerrainNode;
 
 import java.util.*;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public abstract class Area {
 
     private Set<BoardTile> boardTiles;
+    private List<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
     public Area(){

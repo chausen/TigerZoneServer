@@ -30,6 +30,14 @@ public class TerrainNode {
     }
 
 
+    public int northConnection(int zone) {
+        switch (zone) {
+            case 1: return 7;
+            case 2: return 8;
+            case 3: return 9;
+        }
+        return 0;
+    }
 
     public void join(TerrainNode connectionNode){
         for (Integer canConnect: canConnectTo) {

@@ -1,14 +1,36 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
+import com.sun.javafx.geom.Point2D;
+import com.tigerzone.fall2016.tileplacement.Board;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
+
 import java.util.List;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
 public class AreaManager {
+
+    private Board gameBoard;
+
+    private BoardTile convertToBoardTile(PlayableTile playableTile) {
+        BoardTile boardTile = new BoardTile(playableTile);
+        return boardTile;
+    }
+
+    public void placeTile(Point2D position, PlayableTile playableTile) {
+        gameBoard.placeTile(position, convertToBoardTile(playableTile));
+        BoardTile northTile = gameBoard.getAboveAdjacentTile(position);
+        BoardTile westTile = gameBoard.getAboveAdjacentTile(position);
+        BoardTile southTile = gameBoard.getAboveAdjacentTile(position);
+        BoardTile eastTile = gameBoard.getAboveAdjacentTile(position);
+
+    }
+
+    private void areaMerge(Point2D position, BoardTile boardTile1) {
+        gameBoard.getTile(position); //edit
+    }
 
     private List<DenArea> denAreas;
     private List<JungleArea> jungleAreas;
