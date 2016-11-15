@@ -2,8 +2,9 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -27,7 +28,7 @@ public class CMDPromptPort extends IOPort {
     }
 
     @Override
-    public void sendTilesInOrder(List<AreaTile> allAreaTiles) {
+    public void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles) {
 
     }
 

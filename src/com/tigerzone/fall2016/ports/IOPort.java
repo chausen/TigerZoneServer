@@ -34,17 +34,6 @@ public abstract class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.loginName2 = loginName2;
         this.seed = seed;
-
-        // Remove?
-//        int playerID1 = 1;
-//        int playerID2 = 2;
-//        players = new HashMap<>();
-//        players.put(playerID1, loginName1);
-//        players.put(playerID2, loginName2);
-
-        // Remove?
-//        this.inAdapter = new GameSystem(playerID1, playerID2, seed);
-//        inAdapter.setOutAdapter(this);
     }
 
     public void initialize() {
@@ -72,7 +61,6 @@ public abstract class IOPort implements PlayerOutAdapter {
     @Override
     public abstract void sendTurn(Turn lastturn, AreaTile areatile);
 
-    //TODO: Put validation of message integrity in here (Ex: They actually said "PLACE ...")
     @Override
     public void receiveTurn(String s) {
             StringBuilder testSb = new StringBuilder();
@@ -115,7 +103,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public abstract void sendTilesInOrder(List<AreaTile> allAreaTiles);
+    public abstract void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
 
     @Override
     public abstract void notifyBeginGame(AreaTile areatile);

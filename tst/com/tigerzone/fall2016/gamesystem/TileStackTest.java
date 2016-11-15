@@ -1,6 +1,10 @@
 package com.tigerzone.fall2016.gamesystem;
 
+import com.tigerzone.fall2016.ports.TextFilePort;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Array;
 
 import static org.junit.Assert.*;
 
@@ -11,10 +15,19 @@ public class TileStackTest {
 
     @Test
     public void testShuffle() throws Exception {
+        TileStack ts1 = new TileStack(1234567890, new TextFilePort());
+        ts1.shuffle();
+        Assert.assertFalse(ts1.equals(new TileStack(1234567890, new TextFilePort())));
 
+        TileStack ts2 = new TileStack(1234567890, new TextFilePort());
+        ts2.shuffle();
+        Assert.assertTrue(ts1.equals(ts2));
+
+        ts2 = new TileStack(123123123, new TextFilePort());
+        ts2.shuffle();
+        Assert.assertFalse(ts1.equals(ts2));
     }
 
-    @Test
     public void testPop() throws Exception {
 
     }

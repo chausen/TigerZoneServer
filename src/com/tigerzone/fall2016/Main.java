@@ -9,5 +9,6 @@ public class Main {
     public static void main(String args[]){
         System.out.println("Deleted your japanese text because I thought we were going to put stuff in here.");
         System.out.println("Sorry Jeff!");
+        System.out.println("It's ok... (´･ω･｀)");
     }
 }

@@ -5,7 +5,6 @@ import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -17,7 +16,7 @@ public class GameSystem implements PlayerInAdapter
 {
     // Game State
     private TileStack ts;
-    private AreaTile origintile;
+    private PlayableTile origintile;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -72,8 +71,7 @@ public class GameSystem implements PlayerInAdapter
 
         // pass the entire contents of the TileStack to the outAdapter
         // wait 15 seconds before soliciting the first move
-        //TODO: Add getCompleteTileList() to TileStack
-       // outAdapter.sendTilesInOrder(ts.getTileList());
+        outAdapter.sendTilesInOrder(ts.getTileList());
         new Timer().schedule(
                 new TimerTask() {
                     @Override
@@ -136,7 +134,7 @@ public class GameSystem implements PlayerInAdapter
 
             // notify outAdapter with results
 
-            AreaTile nextTile = ts.pop();
+            PlayableTile nextTile = ts.pop();
             // If there are no tiles remaining, end the game
             if (nextTile == null) {
                 gameInProgress = false;
