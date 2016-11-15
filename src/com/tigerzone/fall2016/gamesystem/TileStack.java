@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.adapters.TileReadAdapter;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -8,12 +8,12 @@ import java.util.Random;
 
 class TileStack
 {
-    private LinkedList<AreaTile> ll;
+    private LinkedList<PlayableTile> ll;
     long seed;
 
     public TileStack(long l, TileReadAdapter tra){
         seed = l;
-        ll = new LinkedList<AreaTile>(tra.createTiles());
+        ll = new LinkedList<PlayableTile>(tra.createTiles());
 }
     /**
      * Shuffle the TileStack providing we have a seed.
@@ -29,7 +29,7 @@ class TileStack
 
     }*/
 
-    public AreaTile pop() {
+    public PlayableTile pop() {
         return ll.removeFirst();
     }
 }

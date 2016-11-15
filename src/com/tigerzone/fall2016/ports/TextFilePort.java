@@ -1,8 +1,8 @@
 package com.tigerzone.fall2016.ports;
 import com.tigerzone.fall2016.adapters.TileReadAdapter;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,8 +25,8 @@ public class TextFilePort implements TileReadAdapter
     }
 
     @Override
-    public LinkedList<AreaTile> createTiles() {
-        LinkedList<AreaTile> set = new LinkedList<>();
+    public LinkedList<PlayableTile> createTiles() {
+        LinkedList<PlayableTile> set = new LinkedList<>();
         while(sc.hasNextLine()) {
             int multiple = sc.nextInt();//Number of this Tile to add.
            sc.nextLine();//Move marker to next line.
@@ -49,7 +49,8 @@ public class TextFilePort implements TileReadAdapter
             Terrain center = charToTerrain(terrainarray[4]);
             for(int x = 0; x < multiple; x++)//For each multiple
             {
-                set.add(new AreaTile(N, E, S, W, center));//Add a multiple Number of Tiles to the set.
+                //TODO: We no longer have AreaTile we need to talk about this!!!
+                //set.add(new AreaTile(N, E, S, W, center));//Add a multiple Number of Tiles to the set.
             }
         }
         return set;

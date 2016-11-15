@@ -29,10 +29,9 @@ public class FreeSpaceBoardTest {
     @Test
     public void needToRemove() throws Exception {
         PlayableTile playableTile1 = new PlayableTile("LJJJ-", 180);
-        BoardTile boardTile1 = new BoardTile(playableTile1);
         PlayableTile playableTile2 = new PlayableTile("LLLL-", 0);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), boardTile1));
-        freeSpaceBoard.placeTile(new Point2D(1.0, 0.0), boardTile1);
+        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), playableTile1));
+        freeSpaceBoard.placeTile(new Point2D(1.0, 0.0), playableTile1);
         assertTrue(freeSpaceBoard.needToRemove(playableTile2));
     }
 
@@ -40,33 +39,33 @@ public class FreeSpaceBoardTest {
     //I shouldnt be able to place a tile at the origin but can place a tile above it
     @Test
     public void isPlaceable() throws Exception {
-        BoardTile boardTile1 = new BoardTile(new PlayableTile("LLJJ-", 0));
-        BoardTile boardTile2 = new BoardTile(new PlayableTile("TTTT-", 0));
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), boardTile1));
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), boardTile2));
+        PlayableTile playableTile1 = new PlayableTile("LLJJ-", 0);
+        PlayableTile playableTil2 = new PlayableTile("TTTT-", 0);
+        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), playableTile1));
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), playableTil2));
     }
 
     //This is the most complicated test case that is going over a random game progression.
     @Test
     public void placeTile() throws Exception {
-        BoardTile boardTile1 = new BoardTile(new PlayableTile("TJTJ-", 0));
-        BoardTile boardTile2 = new BoardTile(new PlayableTile("TJTT-", 0));
-        BoardTile boardTile3 = new BoardTile(new PlayableTile("TLLL-", 0));
-        BoardTile boardTile4 = new BoardTile(new PlayableTile("LLLL-", 0));
-        BoardTile boardTile5 = new BoardTile(new PlayableTile("LLLL-", 0));
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), boardTile1));
-        freeSpaceBoard.placeTile(new Point2D(0.0, 1.0), boardTile1);
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, 0.0), boardTile2));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, 0.0), boardTile2);
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -1.0), boardTile3));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, -1.0), boardTile3);
+        PlayableTile playableTile1 = new PlayableTile("TJTJ-", 0);
+        PlayableTile playableTile2 = new PlayableTile("TJTT-", 0);
+        PlayableTile playableTile3 = new PlayableTile("TLLL-", 0);
+        PlayableTile playableTile4 = new PlayableTile("LLLL-", 0);
+        PlayableTile playableTile5 = new PlayableTile("LLLL-", 0);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), playableTile1));
+        freeSpaceBoard.placeTile(new Point2D(0.0, 1.0), playableTile1);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, 0.0), playableTile2));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, 0.0), playableTile2);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -1.0), playableTile3));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, -1.0), playableTile3);
         FreeSpace freeSpace = freeSpaceBoard.freeSpaceMap.get(new Point2D(0.0, -1.0));
         assertTrue(freeSpace.getNorthTerrain().visit(new TrailTerrain()));
         assertTrue(freeSpace.getEastTerrain().visit(new LakeTerrain()));
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -2.0),boardTile4));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, -2.0),boardTile4);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -2.0),playableTile4));
+        freeSpaceBoard.placeTile(new Point2D(-1.0, -2.0),playableTile4);
         assertEquals(freeSpaceBoard.freeSpaceMap.size(), 10);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(0.0, -1.0), boardTile5));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(0.0, -1.0), playableTile5));
     }
 
 }

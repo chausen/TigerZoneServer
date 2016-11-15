@@ -1,16 +1,15 @@
 package com.tigerzone.fall2016.tileplacement;
 
-        import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-        import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
-        import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-        import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-        import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-        import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-        import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
-        import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-        import javafx.geometry.Point2D;
+import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import javafx.geometry.Point2D;
 
-        import java.util.*;
+import java.util.*;
 
 /**
  * Created by Aidan on 11/7/2016.
@@ -41,7 +40,7 @@ public class FreeSpaceBoard {
         Iterator<Point2D> iterator = keySet.iterator();
         while (iterator.hasNext()) {
             Point2D point2D = iterator.next();
-            for(int i = 0; i < 3 || placeable; i++) {
+            for(int i = 0; i < 3; i++) {
                 if (freeSpaceMap.get(point2D).getNorthTerrain().accept(tempTile.getNorthFace())
                         && freeSpaceMap.get(point2D).getEastTerrain().accept(tempTile.getEastFace())
                         && freeSpaceMap.get(point2D).getSouthTerrain().accept(tempTile.getSouthFace())
@@ -52,29 +51,28 @@ public class FreeSpaceBoard {
                 }
                 tempTile.rotateCCW(90);
             }
-            tempTile.rotateCCW(90);
         }
         return placeable;
     }
 
-    public boolean isPlaceable(Point2D position, BoardTile boardTile){
+    public boolean isPlaceable(Point2D position, PlayableTile playableTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
             return false;
         }
-        return (freeSpace.getNorthTerrain().accept(boardTile.getNorthFace())
-                && freeSpace.getEastTerrain().accept(boardTile.getEastFace())
-                && freeSpace.getSouthTerrain().accept(boardTile.getSouthFace())
-                && freeSpace.getWestTerrain().accept(boardTile.getWestFace()));
+        return (freeSpace.getNorthTerrain().accept(playableTile.getNorthFace())
+                && freeSpace.getEastTerrain().accept(playableTile.getEastFace())
+                && freeSpace.getSouthTerrain().accept(playableTile.getSouthFace())
+                && freeSpace.getWestTerrain().accept(playableTile.getWestFace()));
     }
 
     //when the player wants to add the tile, they need to specify the
     //location. To find the corresponding FreeSpace you would need to loop
     //through the whole freeSpaceList. If used a hashmap instead it would go
     //from O(n) to O(1). Need to ask team what they think -Aidan
-    public void placeTile(Point2D position, BoardTile boardTile){
+    public void placeTile(Point2D position, PlayableTile playableTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
-        FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, boardTile, freeSpaceMap);
+        FreeSpaceBuilder freeSpaceBuilder = new FreeSpaceBuilder(freeSpace, playableTile, freeSpaceMap);
         freeSpaceBuilder.makeFreeSpace(position);
     }
 
