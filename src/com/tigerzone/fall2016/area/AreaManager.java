@@ -43,6 +43,7 @@ public class AreaManager {
         this.jungleAreas = jungleAreas;
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
+        gameGameBoard = new GameBoard();
     }
 
 
