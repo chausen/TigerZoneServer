@@ -1,7 +1,6 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Prey;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
@@ -15,17 +14,15 @@ import java.util.List;
  */
 public abstract class CrocodileFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
-    private List<Prey> preyList;
+
 
     public CrocodileFriendlyArea(){
         this.crocodileList = new ArrayList<>();
-        this.preyList = new ArrayList<>();
     }
 
     public CrocodileFriendlyArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
         super(position, areaTile, freeSpaceMap);
         this.crocodileList = new ArrayList<>();
-        this.preyList = new ArrayList<>();
     }
 
     /**
@@ -59,27 +56,10 @@ public abstract class CrocodileFriendlyArea extends Area {
     }
 
     /**
-     * this method should be called when a Prey is  added from an AreaTile
-     * @param prey
-     */
-    @Override
-    public void addAnimalFromAreaTile(Prey prey){
-        this.preyList.add(prey);
-    }
-
-    /**
      * Returns the number of Crocodiles in this area
      * @return
      */
     public int getNumOfCrocodiles() {
         return this.crocodileList.size();
-    }
-
-    /**
-     * Returns the number of prey in this area
-     * @return
-     */
-    public int getNumOfPrey(){
-        return this.preyList.size();
     }
 }

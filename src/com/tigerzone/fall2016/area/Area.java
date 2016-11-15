@@ -82,7 +82,11 @@ public abstract class Area {
 
     public void addAnimalFromAreaTile(Crocodile crocodile){}
 
-    public void addAnimalFromAreaTile(Prey prey){}
+    public void addAnimalFromAreaTile(Buffalo buffalo){}
+
+    public void addAnimalFromAreaTile(Deer deer){}
+
+    public void addAnimalFromAreaTile(Boar boar){}
 
     /**
      * This method is used when a player tries to place a predator to this Area

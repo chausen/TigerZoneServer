@@ -10,16 +10,22 @@ import static org.junit.Assert.*;
  * Created by matthewdiaz on 11/13/16.
  */
 public class LakeAreaTest {
-    private CrocodileFriendlyArea lakeArea;
+    private LakeArea lakeArea;
     private Predator crocodile;
     private Predator tiger;
-    private Prey deer;
+    private Animal boar;
+    private Animal buffalo;
+    private Animal deer;
 
     @Before
     public void setUp() throws Exception {
         lakeArea = new LakeArea();
+
         crocodile = new Crocodile();
         tiger = new Tiger(0);
+
+        boar = new Boar();
+        buffalo = new Buffalo();
         deer = new Deer();
     }
 
@@ -59,12 +65,30 @@ public class LakeAreaTest {
     }
 
     @Test
-    public void testAddPreyFromAreaTile() throws Exception {
-        int expectedPreyCount = 1;
+    public void testAddBoarFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
+
+        lakeArea.addAnimalFromAreaTile(boar);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
+    }
+
+    @Test
+    public void testAddBuffaloFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
+
+        lakeArea.addAnimalFromAreaTile(buffalo);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
+    }
+
+    @Test
+    public void testAddDeerFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
 
         lakeArea.addAnimalFromAreaTile(deer);
-        int actualPreyCount = lakeArea.getNumOfPrey();
-        assertEquals(expectedPreyCount, actualPreyCount);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
     }
 
     @Test
