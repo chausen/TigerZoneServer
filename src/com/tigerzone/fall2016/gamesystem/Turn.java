@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.tileplacement.Direction;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import java.awt.Point;
 
 public class Turn

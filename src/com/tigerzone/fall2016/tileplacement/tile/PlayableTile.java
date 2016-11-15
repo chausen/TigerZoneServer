@@ -1,12 +1,5 @@
 package com.tigerzone.fall2016.tileplacement.tile;
-
-import com.sun.corba.se.impl.orbutil.graph.Graph;
-import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by lenovo on 11/13/2016.
