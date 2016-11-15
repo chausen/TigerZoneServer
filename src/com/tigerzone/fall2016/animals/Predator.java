@@ -10,5 +10,5 @@ public abstract class Predator extends Animal{
     public abstract boolean placeableInJungle();
     public abstract boolean placeableInTrail();
     public abstract boolean placeableInLake();
-    public abstract void accept(Area area);
+    public abstract void placeInArea(Area area);
 }

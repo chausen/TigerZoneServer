@@ -1,19 +1,8 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
-import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.animals.Tiger;
-import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.Edge;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
+import com.tigerzone.fall2016.animals.*;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -21,21 +10,23 @@ import static org.junit.Assert.*;
  * Created by matthewdiaz on 11/13/16.
  */
 public class LakeAreaTest {
-    private Area lakeArea;
+    private LakeArea lakeArea;
     private Predator crocodile;
     private Predator tiger;
+    private Animal boar;
+    private Animal buffalo;
+    private Animal deer;
 
     @Before
     public void setUp() throws Exception {
-        AreaTile areaTile1 = new AreaTile(
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new TrailTerrain());
-        lakeArea = new LakeArea(new Point2D(0,0), areaTile1, new HashMap<Point2D, FreeSpace>());
+        lakeArea = new LakeArea();
+
         crocodile = new Crocodile();
         tiger = new Tiger(0);
+
+        boar = new Boar();
+        buffalo = new Buffalo();
+        deer = new Deer();
     }
 
     @Test
@@ -57,17 +48,52 @@ public class LakeAreaTest {
 
     @Test
     public void testPlacePredatorTiger() throws Exception{
+        int expectedTigerListSize = 1;
+
         lakeArea.placePredator(tiger);
+        int actualTigerListSize = lakeArea.numOfTigersInArea();
+        assertEquals(expectedTigerListSize, actualTigerListSize);
     }
 
     @Test
     public void testPlacePredatorCrocodile() throws Exception{
+        int expectedCrocodileListSize = 1;
+
         lakeArea.placePredator(crocodile);
+        int actualCrocodileListSize = lakeArea.getNumOfCrocodiles();
+        assertEquals(expectedCrocodileListSize, actualCrocodileListSize);
     }
 
     @Test
-    public void testAddAnimalFromAnimalAreaTile() throws Exception {
+    public void testAddBoarFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
 
+        lakeArea.addAnimalFromAreaTile(boar);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
+    }
+
+    @Test
+    public void testAddBuffaloFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
+
+        lakeArea.addAnimalFromAreaTile(buffalo);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
+    }
+
+    @Test
+    public void testAddDeerFromAreaTile() throws Exception {
+        int expectedUniquePreyCount = 1;
+
+        lakeArea.addAnimalFromAreaTile(deer);
+        int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+        assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
+    }
+
+    @Test
+    public void testAddCrocodileFromAreaTile() throws Exception {
+        lakeArea.addAnimalFromAreaTile(crocodile);
     }
 
     @Test

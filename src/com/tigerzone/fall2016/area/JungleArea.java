@@ -17,7 +17,6 @@ public class JungleArea extends Area {
         return predator.placeableInJungle();
     }
 
-
     @Override
     public boolean isComplete() {
         return false;

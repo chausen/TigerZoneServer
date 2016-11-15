@@ -37,7 +37,7 @@ public class Tiger extends Predator {
     }
 
     @Override
-    public void accept(Area area) {
+    public void placeInArea(Area area) {
         area.placePredator(this);
     }
 }
