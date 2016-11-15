@@ -1,10 +1,8 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import javafx.geometry.Point2D;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
 import javafx.geometry.Pos;
 
 import java.util.*;
@@ -14,27 +12,15 @@ import java.util.List;
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area {
-    private HashMap<Point2D, FreeSpace> freeSpaceMap;
-    private HashMap<Point2D, Tile> areaTileMap;
+
     private List<Tiger> tigerList;
 
     public Area(){
-        freeSpaceMap = new HashMap<>();
-        areaTileMap = new HashMap<>();
-        tigerList = new ArrayList<>();
-    }
 
-    public Area(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        this.freeSpaceMap = freeSpaceMap;
-        areaTileMap = new HashMap<>();
-        areaTileMap.put(position, areaTile);
         tigerList = new ArrayList<>();
     }
 
 
-    public void addTile(Point2D position, Tile tile){
-        areaTileMap.put(position, tile);
-    }
 
     public void visit(Crocodile crocodile){
         crocodile.accept(this);
@@ -49,11 +35,7 @@ public abstract class Area {
         //this.crocodileList.add(crocodile);
     }
 
-    public void updateArea(Point2D position, AreaTile areaTile){
-        if(freeSpaceMap.containsKey(position)){
-            addTile(position, areaTile);
-        }
-    }
+
 
 //    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
 //        if(freeSpaceMap.containsKey(position)){
@@ -131,20 +113,7 @@ public abstract class Area {
         return areaOwners;
     }
 
-    public void updateArea(AreaTile areaTile) {
 
-    }
 
-    /**
-     * Returns the size of the area
-     * @return
-     */
-    public int getSize(){
-        return this.areaTileMap.size();
-    }
-
-    public HashMap<Point2D, FreeSpace> getFreeSpaceMap(){
-        return this.freeSpaceMap;
-    }
 
 }

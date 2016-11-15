@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
+public class LakeArea extends CrocodileFriendlyArea {
     private List<Prey> preyList;
 
     public LakeArea(){}
@@ -34,10 +34,6 @@ public class LakeArea extends CrocodileFriendlyArea implements Mergeable {
     @Override
     public boolean isComplete() {
         return false;
-    }
-
-    @Override
-    public void merge(Mergeable mergeable) {
     }
 
 

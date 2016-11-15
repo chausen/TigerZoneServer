@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.tileplacement.Board;
 import com.tigerzone.fall2016.tileplacement.Direction;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.terrain.SegmentAdder;
@@ -7,6 +8,7 @@ import com.tigerzone.fall2016.tileplacement.terrain.SegmentVisitor;
 import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 
 import java.util.HashMap;
@@ -33,12 +35,22 @@ public class AreaManager {
         this.freeSpaceBoard = freeSpaceBoard;
     }
 
-    public void updateAreas(Point2D position, AreaTile areaTile){
+
+
+    public void updateAreas(Point2D position, PlayableTile playableTile){
 
     }
 
     private void merge(Mergeable m1, Mergeable m2) {
 
+    }
+
+    public void compareEastFace(PlayableTile playableTile, PlayableTile compareTo) {
+        if (playableTile.getEastFace().accept(compareTo.getWestFace())) {
+            playableTile.getTileAreaFromTerrain(playableTile.getEastFace())
+
+
+        }
     }
 
 

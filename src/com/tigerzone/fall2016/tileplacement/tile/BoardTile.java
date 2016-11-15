@@ -1,75 +1,98 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-import com.sun.javafx.geom.Point2D;
-import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by lenovo on 11/13/2016.
  */
 public class BoardTile {
 
-    private HashMap<Terrain, TileArea> tileArea = new HashMap<>(); //this is simple, but probably stupid.
-    private List<TileArea> tileAreas; //instead, can just loop through tileareas to see if contains
 
-    public TileArea getTileAreaFromTerrain(Terrain terrain) {
-        return tileArea.get(terrain);
+    private void createZones(String tileString) {
+        switch (tileString) {
+            case "JJJJ-":
+
+                break;
+            case "JJJJX":
+
+                break;
+            case "JJTJX":
+
+                break;
+            case "TTTT-":
+
+                break;
+            case "TJTJ-":
+
+                break;
+            case "TJJT-":
+
+                break;
+            case "TJTT-":
+
+                break;
+            case "LLLL-":
+
+                break;
+            case "JLLL-":
+
+                break;
+            case "LLJJ-":
+
+                break;
+            case "JLJL-":
+
+                break;
+            case "LJLJ-":
+
+                break;
+            case "LJJJ-":
+
+                break;
+            case "JLLJ-":
+
+                break;
+            case "TLJT-": //checked
+
+                break;
+            case "TLJTP": //checked
+
+                break;
+            case "JLTT-": //checked
+
+                break;
+            case "JLTTB": //checked
+
+                break;
+            case "TLTJ-": //checked
+
+                break;
+            case "TLTJD": //checked
+
+                break;
+            case "TLLL-": //checked
+
+                break;
+            case "TLTT-": //checked
+
+                break;
+            case "TLTTP": //checked
+
+                break;
+            case "TLLT-": //checked
+
+                break;
+            case "TLLTB": //checked
+
+                break;
+            case "LJTJ-": //checked
+
+                break;
+            case "LJTJD": //checked
+
+                break;
+            case "TLLLC": //checked
+
+                break;
+        }
     }
-
-    private Terrain[] zones = new Terrain[9];
-
-    public BoardTile(Terrain[] zones) {
-        this.zones = zones;
-    }
-
-    public BoardTile(PlayableTile playableTile) {
-//        populateFaceZones(playableTile);
-//        zonesSpecialCase(playableTile.getTileString());
-//        if (zonesSpecialCase(playableTile.getTileString())) {
-//            return;
-//        } else {
-//            //populateCornerZones(playableTile);
-//        }
-        populateZones(playableTile);
-    }
-
-    public Terrain getZone(int zone) {
-        int zoneTranslation = zone-1;
-        return zones[zone];
-    }
-
-    public void setZone(int zone, Terrain terrain) {
-        int zoneTranslation = zone-1;
-        zones[zoneTranslation] = terrain;
-    }
-
-    private void populateZones(PlayableTile playableTile) {
-        setZone(2, playableTile.getNorthFace());
-        setZone(6, playableTile.getEastFace());
-        setZone(8, playableTile.getSouthFace());
-        setZone(4, playableTile.getWestFace());
-    }
-
-
-    public Terrain getNorthFace(){
-        return zones[1];
-    }
-
-    public Terrain getEastFace(){
-        return zones[5];
-
-    }
-
-    public Terrain getSouthFace(){
-        return zones[7];
-    }
-
-    public Terrain getWestFace(){
-        return zones[3];
-    }
-
-    //zones 2,6,4,8
-
 }
