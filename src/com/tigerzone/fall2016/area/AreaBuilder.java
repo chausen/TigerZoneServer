@@ -1,11 +1,13 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-import com.tigerzone.fall2016.tileplacement.tile.TerrainNode;
 import javafx.geometry.Point2D;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Aidan on 11/15/2016.
@@ -15,19 +17,32 @@ public class AreaBuilder {
     private GameBoard gameBoard;
     private BoardTile boardTile;
     private Point2D position;
-    private HashMap<Integer, Boolean> completeTerrains;
+    private Set<Integer> completeTerrainNodes;
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
         this.gameBoard = gameGameBoard;
         this.boardTile = boardTile;
     }
 
-    public void build(Point2D position){
+    public List<Area> build(Point2D position){
         this.position = position;
         buildNorthFace();
         buildEastFace();
         buildSouthFace();
         buildWestFace();
+        return builNewAreas();
+    }
+
+    private List<Area> builNewAreas() {
+        List<Area> areaList = new ArrayList<Area>();
+        for(int i = 0; i < 10; i++){
+            if(!completeTerrainNodes.contains(i)){
+                TerrainNode terrainNode = boardTile.getTerrainNode(i);
+                Area area = terrainNode.createArea();
+                areaList.add(area);
+            }
+        }
+        return areaList;
     }
 
     private void buildWestFace() {
@@ -130,16 +145,9 @@ public class AreaBuilder {
             terrainNodeCompared = gameBoard.getBelowAdjacentTile(position).getTerrainNode(y);
         }
         terrainNodeCompared.getCanConnectTo().remove(x);
-        if(terrainNodeCompared.getArea() == null){
-            Area updatedArea = terrainNode.getArea();
-            updatedArea.addTerrainNode(terrainNode);
-            updatedArea.addBoardTile(boardTile);
-        }
-        else{
-            Area updatedArea = terrainNodeCompared.getArea();
-            updatedArea.addTerrainNode(terrainNode.getArea().getTerrainNodes());
-            updatedArea.addBoardTile(terrainNode.getArea().getBoardTiles());
-        }
+        Area updatedArea = terrainNode.getArea();
+        updatedArea.mergeArea(terrainNodeCompared.getArea());
+        completeTerrainNodes.add(x);
     }
 
 }

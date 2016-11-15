@@ -23,7 +23,7 @@ public class AreaManager {
         BoardTile boardTile = convertToBoardTile(playableTile);
         gameGameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameGameBoard, boardTile);
-        areaBuilder.build(position);
+        List<Area> newAreas = areaBuilder.build(position);
     }
 
     private void areaMerge(Point2D position, BoardTile boardTile1) {

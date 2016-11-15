@@ -1,6 +1,8 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+
 import java.util.List;
 
 /**
@@ -122,7 +124,7 @@ public class BoardTile {
     }
 
     public void setTerrainNode(int n, TerrainNode terrainNode){
-        TerrainNode removeTerrainNode = new TerrainNode();
+        TerrainNode removeTerrainNode = null;
         for(TerrainNode tn: terrainNodes){
             if(tn.getZones().contains(n)){
                 removeTerrainNode = tn;

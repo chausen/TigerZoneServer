@@ -1,15 +1,16 @@
-package com.tigerzone.fall2016.tileplacement.tile;
+package com.tigerzone.fall2016.area.terrainnode;
 
 import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.List;
 
 /**
  * Created by lenovo on 11/14/2016.
  */
-public class TerrainNode {
+public abstract class TerrainNode {
 
     Area area;
     Terrain terrain;
@@ -26,6 +27,8 @@ public class TerrainNode {
     public void setArea(Area area){
         this.area = area;
     }
+
+    public abstract Area createArea();
 
     public List<TerrainNode> getTerrainNodeList() {
         return terrainNodeList;
