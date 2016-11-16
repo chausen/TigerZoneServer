@@ -117,6 +117,15 @@ public class BoardTile {
 
                 break;
             case "TLJT-": //checked
+                List<Integer> jungleAZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleBZoneList = new ArrayList<>(Arrays.asList(3,7,8,9));
+                List<Integer> trailAZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeAZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleACanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungleBCanConnect = new ArrayList<>(Arrays.asList(9,9,1,2,3));
+                List<Integer> trailACanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeACanConnect = new ArrayList<>(Arrays.asList(4));
 
                 break;
             case "TLJTP": //checked
