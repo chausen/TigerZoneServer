@@ -80,14 +80,7 @@ public class GameSystem implements PlayerInAdapter
 
         // pass the entire contents of the TileStack to the outAdapter
         outAdapter.sendTilesInOrder(ts.getTileList());
-        new Timer().schedule(
-                new TimerTask() {
-                    @Override
-                    public void run() {
-                        startGame();
-                    }
-                }, 15000
-        );
+        startGame();
     }
 
     //TODO: Refactor functionality into private methods
@@ -101,26 +94,8 @@ public class GameSystem implements PlayerInAdapter
         // Game Loop
         while (gameInProgress) {
             // get turn
-            new Timer().schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            if (waitingForInput) {
-                                //forfeit();
-                                waitingForInput = false;
-                                timeout = true;
-                            }
-                        }
-                    }, timeoutLength
-            );
-
             while (waitingForInput) {
                 // do nothing (。-`ω-)
-            }
-
-            //TODO: Refactor...can't put break statement inside of the TimerTask
-            if (timeout) {
-                break;
             }
 
             // check if tile is unplayable
