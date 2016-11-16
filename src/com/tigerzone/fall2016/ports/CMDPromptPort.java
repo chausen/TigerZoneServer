@@ -47,8 +47,8 @@ public class CMDPromptPort extends IOPort {
         System.out.println(stringBuilder.toString());
         System.out.println("MATCH BEGINS IN 15 SECONDS");
         System.out.println("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
-        activeMove = sc.nextLine();
-        receiveTurn(activeMove);
+        /*activeMove = sc.nextLine();
+        receiveTurn(activeMove);*/
     }
 
     @Override
