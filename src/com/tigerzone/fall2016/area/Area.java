@@ -16,25 +16,13 @@ public abstract class Area implements ListAddable{
     private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
+    /**
+     * This constructor is for testing purposes for now
+     */
     public Area(){
         tigerList = new ArrayList<>();
     }
 
-    public int getSize(){
-        return boardTiles.size();
-    }
-
-    int numOfTigersInArea(){
-        return this.tigerList.size();
-    }
-
-    public Set<BoardTile> getBoardTiles(){
-        return boardTiles;
-    }
-
-    public Set<TerrainNode> getTerrainNodes(){
-        return this.terrainNodes;
-    }
 
     public void mergeArea(Area area){
         for(TerrainNode terrainNode : area.getTerrainNodes()){
@@ -44,12 +32,16 @@ public abstract class Area implements ListAddable{
         addTerrainNode(area.getTerrainNodes());
     }
 
+    public void addBoardTile(BoardTile boardTile){
+        boardTiles.add(boardTile);
+    }
+
     public void addBoardTile(Set<BoardTile> boardTiles){
-        boardTiles.addAll(boardTiles);
+        this.boardTiles.addAll(boardTiles);
     }
 
     public void addTerrainNode(Set<TerrainNode> terrainNodes){
-        terrainNodes.addAll(terrainNodes);
+        this.terrainNodes.addAll(terrainNodes);
     }
 
     /**
@@ -163,5 +155,21 @@ public abstract class Area implements ListAddable{
         return areaOwners;
     }
 
+    public int getSize(){
+        return this.boardTiles.size();
+    }
+
+    int numOfTigersInArea(){
+        return this.tigerList.size();
+    }
+
+
+    public Set<BoardTile> getBoardTiles(){
+        return this.boardTiles;
+    }
+
+    public Set<TerrainNode> getTerrainNodes(){
+        return this.terrainNodes;
+    }
 
 }

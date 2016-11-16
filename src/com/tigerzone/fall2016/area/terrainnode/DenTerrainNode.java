@@ -15,7 +15,7 @@ public class DenTerrainNode extends TerrainNode {
 
     @Override
     public Area createArea() {
-        return new DenArea();
+        return null;
     }
 
     public DenArea getArea() {

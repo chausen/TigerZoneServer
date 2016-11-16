@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,11 @@ public class DenArea extends Area {
     Set<JungleTerrainNode> jungleTerrainNodes;
 
     public  DenArea(){}
+    private Point center;
+
+    public  DenArea(Point center){
+
+    }
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {
@@ -23,11 +29,15 @@ public class DenArea extends Area {
 
     @Override
     public boolean isComplete() {
-        return false;
+        return this.getBoardTiles().size() == 8;
     }
 
     @Override
     public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
 
+    }
+
+    public Point getCenter() {
+        return center;
     }
 }
