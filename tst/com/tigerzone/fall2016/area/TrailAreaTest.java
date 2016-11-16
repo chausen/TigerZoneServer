@@ -26,14 +26,14 @@ public class TrailAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = trailArea.isPredatorPlacable(tiger);
+        boolean actualResult = trailArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = trailArea.isPredatorPlacable(crocodile);
+        boolean actualResult = trailArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -41,7 +41,7 @@ public class TrailAreaTest {
     public void testAddPreyFromAreaTile() throws Exception {
         int expectedPreyCount = 1;
 
-        trailArea.addAnimalFromAreaTile(deer);
+        trailArea.addAnimal(deer);
         int actualNumberOfPrey = trailArea.getNumOfPreyAfterCrocodileEffect();
         assertEquals(expectedPreyCount, actualNumberOfPrey);
     }

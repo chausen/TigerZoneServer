@@ -31,14 +31,14 @@ public class JungleAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = jungleArea.isPredatorPlacable(tiger);
+        boolean actualResult = jungleArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = jungleArea.isPredatorPlacable(crocodile);
+        boolean actualResult = jungleArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 

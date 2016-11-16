@@ -7,5 +7,5 @@ import com.tigerzone.fall2016.area.Area;
  */
 public class Buffalo extends Prey {
     @Override
-    public void addToArea(Area area){ area.addAnimalFromAreaTile(this);}
+    public void addToArea(Area area){ area.addAnimal(this);}
 }

@@ -32,5 +32,5 @@ public class Crocodile extends Predator {
     }
 
     @Override
-    public void addToArea(Area area){ area.addAnimalFromAreaTile(this);}
+    public void addToArea(Area area){ area.addAnimal(this);}
 }

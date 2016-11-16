@@ -17,13 +17,6 @@ public class GameBoard { //make GameBoard a singleton?
     public void placeTile(Point position, BoardTile tile) {
         if (board.get(position) == null) {
             board.put(position, tile);
-
-            areaManager.updateAreas(position);
-            getleftAdjacentTile(position);
-            getRightAdjacentTile(position);
-            getAboveAdjacentTile(position);
-            getBelowAdjacentTile(position);
-
         } else {
             System.out.println("there is already a tile there"); // TODO: 11/12/2016 alert GM that an illegal move has been made?
         }

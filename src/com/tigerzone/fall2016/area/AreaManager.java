@@ -18,6 +18,19 @@ public class AreaManager {
 
     private GameBoard gameBoard;
 
+    private List<DenArea> denAreas;
+    private List<JungleArea> jungleAreas;
+    private List<LakeArea> lakeAreas;
+    private List<TrailArea> trailAreas;
+
+    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
+        this.denAreas = denAreas;
+        this.jungleAreas = jungleAreas;
+        this.lakeAreas = lakeAreas;
+        this.trailAreas = trailAreas;
+        gameBoard = new GameBoard();
+    }
+
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
         BoardTile boardTile = new BoardTile(playableTile);
         return boardTile;
@@ -42,22 +55,4 @@ public class AreaManager {
             predatorPlacementNode.getArea().placePredator(predator);
         }
     }
-
-
-
-    private List<DenArea> denAreas;
-    private List<JungleArea> jungleAreas;
-    private List<LakeArea> lakeAreas;
-    private List<TrailArea> trailAreas;
-
-    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
-        this.denAreas = denAreas;
-        this.jungleAreas = jungleAreas;
-        this.lakeAreas = lakeAreas;
-        this.trailAreas = trailAreas;
-        gameBoard = new GameBoard();
-    }
-
-
-
 }

@@ -31,7 +31,7 @@ public class JungleTerrainNode extends TerrainNode {
         this.terrain = new JungleTerrain();
     }
 
-    public JungleTerrainNode(List<Integer> canConnectTo, List<Integer> zones, Set<LakeTerrainNode> lakeTerrainNodes, Set<DenTerrainNode> denTerrainNodes, Animal animal) {
+    public JungleTerrainNode(List<Integer> canConnectTo, List<Integer> zones, Set<LakeTerrainNode> lakeTerrainNodes, Set<DenTerrainNode> denTerrainNodes) {
         setCanConnectTo(canConnectTo);
         setZones(zones);
         this.adjacentLakes = lakeTerrainNodes;
