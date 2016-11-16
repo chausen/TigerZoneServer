@@ -15,10 +15,6 @@ public class LakeTerrainNode extends TerrainNode {
         super(canConnectTo, zones);
     }
 
-    public LakeTerrainNode(){
-        this.terrain = new LakeTerrain();
-    }
-
     @Override
     public Area createArea() {
         return new JungleArea();

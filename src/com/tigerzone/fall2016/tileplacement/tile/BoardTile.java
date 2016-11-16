@@ -3,7 +3,9 @@ package com.tigerzone.fall2016.tileplacement.tile;
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.*;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.tileplacement.terrain.DenTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
+import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -109,7 +111,7 @@ public class BoardTile {
                 TerrainNode T2terrainNode3 = new TrailTerrainNode(Arrays.asList(4), Arrays.asList(6));
                 TerrainNode T3terrainNode3 = new TrailTerrainNode(Arrays.asList(2), Arrays.asList(8));
                 TerrainNode T4terrainNode3 = new TrailTerrainNode(Arrays.asList(6), Arrays.asList(4));
-                TerrainNode C1terrainNode3 = new CrossRoads();
+                TerrainNode C1terrainNode3 = new CrossRoads(Arrays.asList(5));
                 this.terrainNodes = Arrays.asList(C1terrainNode3, J1terrainNode3, J2terrainNode3, J3terrainNode3, J4terrainNode3, T1terrainNode3, T2terrainNode3, T3terrainNode3, T4terrainNode3);
                 break;
             case "TJTJ-":
@@ -131,27 +133,45 @@ public class BoardTile {
                 TerrainNode T1terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(8)),new ArrayList<Integer>(Arrays.asList(2)));
                 TerrainNode T2terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(6)),new ArrayList<Integer>(Arrays.asList(4)));
                 TerrainNode T3terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(2)),new ArrayList<Integer>(Arrays.asList(8)));
+                TerrainNode C1terrainNode6 = new CrossRoads(new ArrayList<Integer>(Arrays.asList(5)));
+                this.terrainNodes = Arrays.asList(J1terrainNode6, J2terrainNode6, J3terrainNode6, T1terrainNode6, T2terrainNode6, T3terrainNode6, C1terrainNode6);
                 break;
             case "LLLL-":
-
+                TerrainNode L1terrainNode7 = new LakeTerrainNode(new ArrayList<Integer>(Arrays.asList(7,8,9,1,4,7,1,2,3,3,6,9)), new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9)));
+                this.terrainNodes = Arrays.asList(L1terrainNode7);
                 break;
             case "JLLL-":
-
+                LakeTerrainNode L1terrainNode8 = new LakeTerrainNode(Arrays.asList(3,6,9,1,2,3,1,4,7),Arrays.asList(4,5,6,7,8,9));
+                TerrainNode J1terrainNode8 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(7,8,9)),new ArrayList<Integer>(Arrays.asList(1,2,3)), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode8)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode8, J1terrainNode8);
                 break;
             case "LLJJ-":
-
+                LakeTerrainNode L1terrainNode9 = new LakeTerrainNode(Arrays.asList(7,8,9,1,4,7), Arrays.asList(1,2,3,6,9));
+                TerrainNode J1terrainNode9 = new JungleTerrainNode(Arrays.asList(3,6,9,1,2,3), Arrays.asList(4,5,7,8,9), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode9)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode9, J1terrainNode9);
                 break;
             case "JLJL-":
-
+                LakeTerrainNode L1terrainNode10 = new LakeTerrainNode(Arrays.asList(3,6,9,1,4,7), Arrays.asList(4,5,6));
+                TerrainNode J1terrainNode10 = new JungleTerrainNode(Arrays.asList(7,8,9), Arrays.asList(1,2,3), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode10)), new HashSet<DenTerrainNode>());
+                TerrainNode J2terrainNode10 = new JungleTerrainNode(Arrays.asList(1,2,3), Arrays.asList(7,8,9), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode10)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode10, J1terrainNode10, J2terrainNode10);
                 break;
             case "LJLJ-":
-
+                LakeTerrainNode L1terrainNode11 = new LakeTerrainNode(Arrays.asList(7,8,9), Arrays.asList(2));
+                LakeTerrainNode L2terrainNode11 = new LakeTerrainNode(Arrays.asList(1,2,3), Arrays.asList(8));
+                TerrainNode J1terrainNode11 = new JungleTerrainNode(Arrays.asList(1,4,7,3,6,9), Arrays.asList(1,3,4,5,6,7,9), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode11, L2terrainNode11)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode11, L2terrainNode11, J1terrainNode11);
                 break;
             case "LJJJ-":
-
+                LakeTerrainNode L1terrainNode12 = new LakeTerrainNode(Arrays.asList(7,8,9), Arrays.asList(2));
+                TerrainNode J1terrainNode12 = new JungleTerrainNode(Arrays.asList(1,4,7,3,6,9,1,2,3), Arrays.asList(1,3,4,5,6,7,9,8), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode12)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode12, J1terrainNode12);
                 break;
             case "JLLJ-":
-
+                LakeTerrainNode L1terrainNode13 = new LakeTerrainNode(Arrays.asList(1,4,7), Arrays.asList(6));
+                LakeTerrainNode L2terrainNode13 = new LakeTerrainNode(Arrays.asList(1,2,3), Arrays.asList(8));
+                TerrainNode J1terrainNode13 = new JungleTerrainNode(Arrays.asList(3,6,9,7,8,9), Arrays.asList(1,2,3,4,5,7,9), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode13, L2terrainNode13)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(L1terrainNode13, L2terrainNode13, J1terrainNode13);
                 break;
             case "TLJT-": //checked
 
