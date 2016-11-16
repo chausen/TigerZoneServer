@@ -18,7 +18,7 @@ public class AreaTest {
     @Before
     public void setUp() throws Exception {
         area = new JungleArea();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
         crocodile = new Crocodile();
     }
 

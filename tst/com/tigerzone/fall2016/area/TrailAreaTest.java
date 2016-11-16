@@ -19,7 +19,7 @@ public class TrailAreaTest {
     public void setUp() throws Exception {
         trailArea = new TrailArea();
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
         deer = new Deer();
     }
 

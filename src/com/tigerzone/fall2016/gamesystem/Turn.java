@@ -5,8 +5,17 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
 
-public class Turn {
 
+public class Turn
+{
+    /**
+     * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
+     * @param playableTile Tile representing the Player's Turn.
+     * @param playerID Player's ID number, assigned elsewhere.
+     * @param rotationdegree Degree of rotation Counterclockwise that the player wishes to enact on the Tile.
+     * @param predator Either a tiger or a crocodile that the player wishes to place on the tile
+     * @param predatorPlacementZone A value 1-9 that determines where the predator should be placed
+     */
     private PlayableTile playableTile;
     private String playerID;
     private int rotationDegrees = 0;
@@ -23,9 +32,16 @@ public class Turn {
     public String getPlayerID(){
         return playerID;
     }
+
     public Point getPosition() {
         return position;
     }
+
+    /**
+     * Returns the Tile that is embedded in a Turn.
+     * @return PlayableTile: Tile that is located in this Turn.
+     */
+
     public int getPredatorPlacementZone() {
         return predatorPlacementZone;
     }
@@ -46,5 +62,6 @@ public class Turn {
         this.predator=predator;
         this.predatorPlacementZone = zone;
     }
+
 
 }
