@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
@@ -14,61 +13,13 @@ import java.util.List;
 /**
  * Created by lenovo on 11/13/2016.
  */
+
 public class BoardTile {
 
     private List<TerrainNode> terrainNodes;
 
-
-    HashMap<Integer, TerrainNode> zoneTerrainNodeMap;
-
-    TerrainNode[] zones = new TerrainNode[9];
-
-    public TerrainNode[] getZones() {
-        return zones;
-    }
-
     public BoardTile(List<TerrainNode> terrainNodes) {
         setTerrainNodes(terrainNodes);
-        }
-
-
-    public void setTerrainNodes(List<TerrainNode> terrainNodes) {
-        this.terrainNodes = terrainNodes;
-        for (TerrainNode terrainNode: this.terrainNodes) {
-            terrainNode.setBoardTile(this);
-        }
-    }
-
-    public void rotateCCW(int rotationDegrees) {
-        int rotationCount = rotationDegrees/90;
-        for (int i=0; i<rotationCount; i++) {
-            TerrainNode temp = getTerrainNodeFromZoneIndex(1);
-            TerrainNode temp2 = getTerrainNodeFromZoneIndex(2);
-            setZone(1, getTerrainNodeFromZoneIndex(3));
-            setZone(2, getTerrainNodeFromZoneIndex(6));
-            setZone(3, getTerrainNodeFromZoneIndex(9));
-            setZone(6, getTerrainNodeFromZoneIndex(8));
-            setZone(9, getTerrainNodeFromZoneIndex(7));
-            setZone(8, getTerrainNodeFromZoneIndex(4));
-            setZone(7, temp);
-            setZone(4, temp2);
-        }
-    }
-
-    public void rotateTerrainNodes(int rotationDegrees) {
-        for (TerrainNode terrainNode: this.terrainNodes) {
-            terrainNode.rotateTerrainNode(rotationDegrees);
-        }
-    }
-
-    public TerrainNode getTerrainNodeFromZoneIndex(int index) {
-        index--;
-        return zones[index];
-    }
-
-    public void setZone(int index, TerrainNode terrainNode) {
-        index--;
-        zones[index] = terrainNode;
     }
 
     public BoardTile(PlayableTile playableTile){
@@ -77,15 +28,47 @@ public class BoardTile {
 
     public BoardTile(PlayableTile playableTile, int rotationDegrees) {
         createTerrainNodes(playableTile.getTileString());
-        rotateTerrainNodes(rotationDegrees);
+        rotateCCW(rotationDegrees);
     }
 
-
-    public void generateZones(TerrainNode terrainNode) {
-        for (Integer integer: terrainNode.getZones()) {
-            setZone(integer,terrainNode);
+    public void setTerrainNodes(List<TerrainNode> terrainNodes) {
+        this.terrainNodes = terrainNodes;
+        for (TerrainNode terrainNode: this.terrainNodes) {
+            terrainNode.setBoardTile(this);
         }
     }
+
+    public List<TerrainNode> getTerrainNodeList(){
+        return this.terrainNodes;
+    }
+
+    public void rotateCCW(int rotationDegrees) {
+        for (TerrainNode terrainNode: this.terrainNodes) {
+            terrainNode.rotateTerrainNode(rotationDegrees);
+        }
+    }
+
+    public TerrainNode getTerrainNode(int n){
+        for(TerrainNode terrainNode: terrainNodes){
+            if(terrainNode.getZones().contains(n)){
+                return terrainNode;
+            }
+        }
+        return null;
+    }
+
+    public void setTerrainNode(int n, TerrainNode terrainNode){
+        TerrainNode removeTerrainNode = null;
+        for(TerrainNode tn: terrainNodes){
+            if(tn.getZones().contains(n)){
+                removeTerrainNode = tn;
+                break;
+            }
+        }
+        terrainNodes.remove(removeTerrainNode);
+        terrainNodes.add(terrainNode);
+    }
+
 
     private void createTerrainNodes(String tileString) {
         switch (tileString) {
@@ -189,29 +172,5 @@ public class BoardTile {
         }
     }
 
-    public List<TerrainNode> getTerrainNodeList(){
-        return this.terrainNodes;
-    }
-
-    public TerrainNode getTerrainNode(int n){
-        for(TerrainNode terrainNode: terrainNodes){
-            if(terrainNode.getZones().contains(n)){
-                return terrainNode;
-            }
-        }
-        return null;
-    }
-
-    public void setTerrainNode(int n, TerrainNode terrainNode){
-        TerrainNode removeTerrainNode = null;
-        for(TerrainNode tn: terrainNodes){
-            if(tn.getZones().contains(n)){
-                removeTerrainNode = tn;
-                break;
-            }
-        }
-        terrainNodes.remove(removeTerrainNode);
-        terrainNodes.add(terrainNode);
-    }
 
 }

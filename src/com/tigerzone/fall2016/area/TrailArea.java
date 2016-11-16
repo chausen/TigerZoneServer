@@ -12,8 +12,6 @@ import java.util.List;
 public class TrailArea extends CrocodileFriendlyArea {
 
     private List<Prey> preyList;
-
-
     public TrailArea(){
         this.preyList = new ArrayList<>();
     }
@@ -24,7 +22,7 @@ public class TrailArea extends CrocodileFriendlyArea {
      * @param boar
      */
     @Override
-    public void addAnimalFromAreaTile(Boar boar){
+    public void addAnimal(Boar boar){
         this.preyList.add(boar);
     }
 
@@ -33,7 +31,7 @@ public class TrailArea extends CrocodileFriendlyArea {
      * @param buffalo
      */
     @Override
-    public void addAnimalFromAreaTile(Buffalo buffalo){
+    public void addAnimal(Buffalo buffalo){
         this.preyList.add(buffalo);
     }
 
@@ -42,7 +40,7 @@ public class TrailArea extends CrocodileFriendlyArea {
      * @param deer
      */
     @Override
-    public void addAnimalFromAreaTile(Deer deer){
+    public void addAnimal(Deer deer){
         this.preyList.add(deer);
     }
 
@@ -65,7 +63,7 @@ public class TrailArea extends CrocodileFriendlyArea {
     }
 
     @Override
-    boolean isPredatorPlacable(Predator predator) {
+    boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInTrail();
     }
 

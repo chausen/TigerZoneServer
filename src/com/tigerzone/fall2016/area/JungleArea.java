@@ -48,7 +48,7 @@ public class JungleArea extends Area {
 
 
     @Override
-    boolean isPredatorPlacable(Predator predator) {
+    boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInJungle();
     }
 

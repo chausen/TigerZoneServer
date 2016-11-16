@@ -28,7 +28,7 @@ public class LakeArea extends CrocodileFriendlyArea {
 
 
     @Override
-    boolean isPredatorPlacable(Predator predator) {
+    boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInLake();
     }
 
@@ -48,7 +48,7 @@ public class LakeArea extends CrocodileFriendlyArea {
          */
     }
     @Override
-    public void addAnimalFromAreaTile(Boar boar){
+    public void addAnimal(Boar boar){
         this.hasBoar = true;
     }
 
@@ -57,7 +57,7 @@ public class LakeArea extends CrocodileFriendlyArea {
      * @param buffalo
      */
     @Override
-    public void addAnimalFromAreaTile(Buffalo buffalo){
+    public void addAnimal(Buffalo buffalo){
         this.hasBuffalo = true;
     }
 
@@ -66,7 +66,7 @@ public class LakeArea extends CrocodileFriendlyArea {
      * @param deer
      */
     @Override
-    public void addAnimalFromAreaTile(Deer deer){
+    public void addAnimal(Deer deer){
         this.hasDeer = true;
     }
 
