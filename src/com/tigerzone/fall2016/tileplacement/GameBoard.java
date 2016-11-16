@@ -2,22 +2,23 @@ package com.tigerzone.fall2016.tileplacement;
 
 import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
-import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
-
+import java.awt.*;
 import java.util.HashMap;
 
 /**
  * Created by lenovo on 11/12/2016.
  */
-public class GameBoard {
 
-    private HashMap<Point2D, BoardTile> board = new HashMap<>();
+public class GameBoard { //make GameBoard a singleton?
 
-    public void placeTile(Point2D position, BoardTile tile) {
+    private AreaManager areaManager;
+    private HashMap<Point, BoardTile> board = new HashMap<>();
+
+    public void placeTile(Point position, BoardTile tile) {
         if (board.get(position) == null) {
             board.put(position, tile);
 
+            areaManager.updateAreas(position);
             getleftAdjacentTile(position);
             getRightAdjacentTile(position);
             getAboveAdjacentTile(position);
@@ -30,36 +31,32 @@ public class GameBoard {
 
     //at some point perhaps we just go through each tile and check adjacent
 
-    public BoardTile getTile(Point2D boardPosition) {
+    public BoardTile getTile(Point boardPosition) {
         return board.get(boardPosition);
     }
 
-    // TODO: 11/12/2016 move these methods to another class? See if matt can help generate tests here
-
-    public BoardTile getRightAdjacentTile(Point2D boardPosition) {
-        Point2D adjacentTilePosition = new Point2D(boardPosition.getX() + (float)1.0, boardPosition.getY());
-        //return board.get(adjacentTilePosition); // TODO: 11/12/2016 what if no tile at this position?
+    public BoardTile getRightAdjacentTile(Point boardPosition) {
+        Point adjacentTilePosition = boardPosition;
+        adjacentTilePosition.translate(1,0);
         return getTile(adjacentTilePosition);
     }
 
-    public BoardTile getleftAdjacentTile(Point2D boardPosition) {
-        Point2D adjacentTilePosition = new Point2D(boardPosition.getX() - (float)1.0, boardPosition.getY());
-        //return board.get(adjacentTilePosition);
+    public BoardTile getleftAdjacentTile(Point boardPosition) {
+        Point adjacentTilePosition = boardPosition;
+        adjacentTilePosition.translate(-1,0);
         return getTile(adjacentTilePosition);
     }
 
-    public BoardTile getAboveAdjacentTile(Point2D boardPosition) {
-        Point2D adjacentTilePosition = new Point2D(boardPosition.getX(), boardPosition.getY() + (float)1.0);
-        //return board.get(adjacentTilePosition);
+    public BoardTile getAboveAdjacentTile(Point boardPosition) {
+        Point adjacentTilePosition = boardPosition;
+        adjacentTilePosition.translate(0,1);
         return getTile(adjacentTilePosition);
     }
 
-    public BoardTile getBelowAdjacentTile(Point2D boardPosition) {
-        Point2D adjacentTilePosition = new Point2D(boardPosition.getX(), boardPosition.getY() - (float)1.0);
-        //return board.get(adjacentTilePosition);
+    public BoardTile getBelowAdjacentTile(Point boardPosition) {
+        Point adjacentTilePosition = boardPosition;
+        adjacentTilePosition.translate(0,-1);
         return getTile(adjacentTilePosition);
-
     }
-
 
 }
