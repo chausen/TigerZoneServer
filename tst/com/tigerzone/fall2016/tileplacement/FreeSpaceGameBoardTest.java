@@ -30,9 +30,9 @@ public class FreeSpaceGameBoardTest {
     //all lake tile.
     @Test
     public void needToRemove() throws Exception {
-        PlayableTile playableTile1 = new PlayableTile("LJJJ-", 180);
+        PlayableTile playableTile1 = new PlayableTile("LJJJ-", 90);
         PlayableTile playableTile2 = new PlayableTile("LLLL-", 0);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
         freeSpaceBoard.placeTile(new Point(1, 0), playableTile1);
         assertTrue(freeSpaceBoard.needToRemove(playableTile2));
     }

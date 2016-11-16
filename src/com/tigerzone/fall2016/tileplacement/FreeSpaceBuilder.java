@@ -34,8 +34,7 @@ public class FreeSpaceBuilder {
         if(!freeSpace.getNorthTerrain().isFree()){
             return;
         }
-        Point northPoint = position;
-        northPoint.translate(0,1);
+        Point northPoint = new Point((int)position.getX(), (int)position.getY()+1);
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(northPoint);
         if(needUpdateFreeSpace != null){
             needUpdateFreeSpace.setSouthTerrain(playableTile.getNorthFace());
@@ -52,8 +51,7 @@ public class FreeSpaceBuilder {
         if(!freeSpace.getEastTerrain().isFree()){
             return;
         }
-        Point eastPoint = position;
-        eastPoint.translate(1,0);
+        Point eastPoint = new Point((int)position.getX() + 1, (int)position.getY());
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(eastPoint);
         if(needUpdateFreeSpace != null){
             needUpdateFreeSpace.setWestTerrain(playableTile.getEastFace());
@@ -70,8 +68,7 @@ public class FreeSpaceBuilder {
         if(!freeSpace.getSouthTerrain().isFree()){
             return;
         }
-        Point southPoint = position;
-        southPoint.translate(0,-1);
+        Point southPoint = new Point((int)position.getX(), (int)position.getY() - 1);
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(southPoint);
         if(needUpdateFreeSpace != null){
             needUpdateFreeSpace.setNorthTerrain(playableTile.getSouthFace());
@@ -87,8 +84,7 @@ public class FreeSpaceBuilder {
         if(!freeSpace.getWestTerrain().isFree()){
             return;
         }
-        Point westPoint = position;
-        westPoint.translate(-1,0);
+        Point westPoint = new Point((int)position.getX() - 1, (int)position.getY());
         FreeSpace needUpdateFreeSpace = freeSpaceMap.get(westPoint);
         if(needUpdateFreeSpace != null){
             needUpdateFreeSpace.setEastTerrain(playableTile.getWestFace());
