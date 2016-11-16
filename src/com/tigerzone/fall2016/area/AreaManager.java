@@ -35,10 +35,11 @@ public class AreaManager {
         gameBoard.getTile(position);
         gameBoard.getAboveAdjacentTile(position);
         gameBoard.getRightAdjacentTile(position);
-        gameBoard.getAboveAdjacentTile(position);
+        gameBoard.getAboveAdjacentTile(position;
         gameBoard.getBelowAdjacentTile(position);
 
         updateNorth(gameBoard.getTile(position), gameBoard.getAboveAdjacentTile(position));
+        updateEast);
 
 
     }
@@ -47,6 +48,27 @@ public class AreaManager {
         for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
             for (TerrainNode northtileNode: northTile.getTerrainNodeList()) {
                 placedtileNode.northMerge(northtileNode);
+            }
+        }
+    }
+    public void updateEast(BoardTile placedTile, BoardTile eastTile) {
+        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
+            for (TerrainNode easttileNode: eastTile.getTerrainNodeList()) {
+                placedtileNode.eastMerge(easttileNode);
+            }
+        }
+    }
+    public void updateSouth(BoardTile placedTile, BoardTile southTile) {
+        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
+            for (TerrainNode southtileNode: southTile.getTerrainNodeList()) {
+                placedtileNode.southMerge(southtileNode);
+            }
+        }
+    }
+    public void updateWest(BoardTile placedTile, BoardTile westTile) {
+        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
+            for (TerrainNode westtileNode: westTile.getTerrainNodeList()) {
+                placedtileNode.westMerge(westtileNode);
             }
         }
     }

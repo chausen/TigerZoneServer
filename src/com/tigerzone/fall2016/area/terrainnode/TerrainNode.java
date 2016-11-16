@@ -167,8 +167,6 @@ public abstract class TerrainNode {
     }
 
 
-
-
     public Area getArea(){
         return this.area;
     }

@@ -2,6 +2,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 
@@ -28,7 +29,19 @@ public class JungleArea extends Area {
         }
         return completedLakeCount;
     }
-    
+
+
+    public int countCompletedDens() {
+        int completedDenCount = 0;
+        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) { //what if have multiple jungleTerrainNodes with same Lake?
+            for (DenTerrainNode dens: jungleTerrainNode.getAdjacentDens()) {
+                if (dens.getArea().isComplete()) { // TODO: 11/15/2016 how to avoid double counting???
+                    completedDenCount++;
+                }
+            }
+        }
+        return completedDenCount;
+    }
     
     
     public JungleArea(){}
