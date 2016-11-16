@@ -2,14 +2,11 @@ package com.tigerzone.fall2016.tileplacement.tile;
 
 
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
-import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.area.terrainnode.*;
 import com.tigerzone.fall2016.gamesystem.Turn;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/13/2016.
@@ -91,14 +88,25 @@ public class BoardTile {
         switch (tileString) {
             case "JJJJ-":
                 List<Integer> zoneList = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
-                List<Integer> cc2List = new ArrayList<>(Arrays.asList(1,2,3,4,6,7,8,9));
-                TerrainNode terrainNode = new JungleTerrainNode();
+                List<Integer> cc2List = new ArrayList<>(Arrays.asList(7,8,9,1,4,7,1,2,3,3,6,9));
+                TerrainNode terrainNode = new JungleTerrainNode(cc2List, zoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                List<TerrainNode> terrainNodes1 = new ArrayList<>(Arrays.asList(terrainNode));
+                this.terrainNodes = terrainNodes1;
                 break;
             case "JJJJX":
-
+                List<Integer> zoneList1 = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+                List<Integer> cc2List1 = new ArrayList<>(Arrays.asList(7,8,9,1,4,7,1,2,3,3,6,9));
+                DenTerrainNode terrainNode1 = new DenTerrainNode();
+                TerrainNode terrainNode2 = new JungleTerrainNode(cc2List1, zoneList1, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>(Arrays.asList(terrainNode1)));
+                this.terrainNodes = new ArrayList<>(Arrays.asList(terrainNode1, terrainNode2));
                 break;
             case "JJTJX":
-
+                List<Integer> zoneList2 = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+                List<Integer> cc2List2 = new ArrayList<>(Arrays.asList(7,9,1,4,7,1,2,3,3,6,9));
+                DenTerrainNode terrainNode3 = new DenTerrainNode();
+                TerrainNode terrainNode4 = new JungleTerrainNode(cc2List2, zoneList2, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>(Arrays.asList(terrainNode3)));
+                TerrainNode terrainNode5 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(2)), new ArrayList<Integer>(Arrays.asList(8)));
+                this.terrainNodes = new ArrayList<>(Arrays.asList(terrainNode3, terrainNode4));
                 break;
             case "TTTT-":
 

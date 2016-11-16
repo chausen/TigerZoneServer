@@ -15,8 +15,6 @@ public abstract class TerrainNode {
     Area area;
     Terrain terrain;
     private BoardTile boardTile;
-    List<TerrainNode> terrainNodeList;
-    private Animal animal;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
 
@@ -33,9 +31,6 @@ public abstract class TerrainNode {
     public void setBoardTile(BoardTile boardTile) {
         this.boardTile = boardTile;
     }
-    public List<TerrainNode> getTerrainNodeList() {
-        return terrainNodeList;
-    }
     public List<Integer> getCanConnectTo() {
         return canConnectTo;
     }
@@ -44,11 +39,9 @@ public abstract class TerrainNode {
     }
 
 
-    public TerrainNode(List<Integer> canConnectTo, List<Integer> zones, List<TerrainNode> terrainNodeList, Animal animal) {
+    public TerrainNode(List<Integer> canConnectTo, List<Integer> zones) {
         this.canConnectTo = canConnectTo;
         this.zones = zones;
-        this.terrainNodeList = terrainNodeList;
-        this.animal=animal;
     }
 
     public TerrainNode() {
@@ -75,17 +68,6 @@ public abstract class TerrainNode {
     }
 
     public abstract Area createArea();
-
-
-    public void addTerrainNode(TerrainNode terrainNode) {
-        terrainNodeList.add(terrainNode);
-    }
-
-    private void mergeTerrainNodeLists(TerrainNode terrainNode) {
-        for (TerrainNode node: terrainNode.getTerrainNodeList()) {
-            terrainNodeList.add(node);
-        }
-    }
 
     public void rotateTerrainNode(int rotationDegrees) {
         rotateCanConnectTo(rotationDegrees);
