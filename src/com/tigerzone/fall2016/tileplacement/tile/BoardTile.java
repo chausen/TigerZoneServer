@@ -303,8 +303,7 @@ public class BoardTile {
                 JungleTerrainNode jungleO = new JungleTerrainNode(jungleOCanConnect, jungleOZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 JungleTerrainNode jungleP = new JungleTerrainNode(junglePCanConnect, junglePZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 JungleTerrainNode jungleQ = new JungleTerrainNode(jungleQCanConnect, jungleQZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeI)), new HashSet<DenTerrainNode>());
-
-
+                
 
                 break;
             case "TLTTP": //checked
