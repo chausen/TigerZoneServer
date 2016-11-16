@@ -8,6 +8,7 @@ import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -18,7 +19,7 @@ public class LakeArea extends CrocodileFriendlyArea {
     private boolean hasBuffalo;
     private boolean hasDeer;
 
-    private List<LakeTerrainNode> lakeTerrainNodes;
+    private Set<LakeTerrainNode> lakeTerrainNodes;
 
     public LakeArea(){
         this.hasBoar = false;
@@ -33,8 +34,14 @@ public class LakeArea extends CrocodileFriendlyArea {
     }
 
     @Override
-    public boolean isComplete() {
-        return false;
+    public boolean isComplete() { //complete when canConnectTo() list is empty
+        boolean isComplete = false;
+        for (LakeTerrainNode lakeTerrainNode : lakeTerrainNodes) {
+            if (lakeTerrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = true;
+            }
+        }
+        return isComplete;
     }
 
 

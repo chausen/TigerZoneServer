@@ -1,14 +1,19 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
  * Created by lenovo on 11/7/2016.
  */
 public class DenArea extends Area {
+
+    Set<JungleTerrainNode> jungleTerrainNodes;
+
     public  DenArea(){}
 
     @Override

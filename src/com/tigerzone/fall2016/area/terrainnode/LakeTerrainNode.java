@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area.terrainnode;
 
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.area.JungleArea;
+import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
 
 import java.util.List;
@@ -13,10 +14,15 @@ public class LakeTerrainNode extends TerrainNode {
 
     public LakeTerrainNode(List<Integer> canConnectTo, List<Integer> zones) {
         super(canConnectTo, zones);
+        setArea(createArea());
     }
+
+    public LakeArea getArea() {
+        return this.getArea();
+    } // TODO: 11/16/2016 is this ok?
 
     @Override
     public Area createArea() {
-        return new JungleArea();
+        return new LakeArea();
     }
 }

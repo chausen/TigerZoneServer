@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.area.terrainnode;
 import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.area.JungleArea;
+import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
 
@@ -19,7 +20,6 @@ public class JungleTerrainNode extends TerrainNode {
     Set<LakeTerrainNode> adjacentLakes;
     Set<DenTerrainNode> adjacentDens;
 
-
     public Set<LakeTerrainNode> getAdjacentLakes() {
         return adjacentLakes;
     }
@@ -27,24 +27,23 @@ public class JungleTerrainNode extends TerrainNode {
         return adjacentDens;
     }
 
-    public JungleTerrainNode(){
-        this.terrain = new JungleTerrain();
-    }
-
     public JungleTerrainNode(List<Integer> canConnectTo, List<Integer> zones, Set<LakeTerrainNode> lakeTerrainNodes, Set<DenTerrainNode> denTerrainNodes) {
         setCanConnectTo(canConnectTo);
         setZones(zones);
         this.adjacentLakes = lakeTerrainNodes;
         this.adjacentDens = denTerrainNodes;
-
+        setArea(createArea());
 
     }
 
-        @Override
+    public JungleArea getArea() {
+        return this.getArea();
+    }
+
+    @Override
     public Area createArea() {
         return new JungleArea();
     }
-
 
     public void mergeNodes(JungleTerrainNode otherNode) {
         adjacentLakes.addAll(otherNode.getAdjacentLakes());

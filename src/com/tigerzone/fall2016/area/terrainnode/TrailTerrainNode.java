@@ -13,6 +13,11 @@ public class TrailTerrainNode extends TerrainNode {
 
     public TrailTerrainNode(List<Integer> canConnectTo, List<Integer> zones) {
         super(canConnectTo, zones);
+        setArea(createArea());
+    }
+
+    public TrailArea getArea() {
+        return this.getArea();
     }
 
     @Override

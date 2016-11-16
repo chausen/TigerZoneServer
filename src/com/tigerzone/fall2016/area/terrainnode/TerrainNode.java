@@ -1,23 +1,24 @@
 package com.tigerzone.fall2016.area.terrainnode;
 
 import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by lenovo on 11/14/2016.
  */
 public abstract class TerrainNode {
 
-    Area area;
-    Terrain terrain;
+    private Area area;
     private BoardTile boardTile;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
-
+    private Stack<Tiger> tigers;
 
     public void setCanConnectTo(List<Integer> canConnectTo) {
         this.canConnectTo = canConnectTo;
@@ -46,6 +47,41 @@ public abstract class TerrainNode {
 
     public TerrainNode() {
 
+    }
+
+    public boolean placeTiger(Tiger tiger) {
+        boolean placed = false;
+        if (this.hasTiger()) {
+            if (tiger.getPlayerId().equalsIgnoreCase(tigers.peek().getPlayerId())) {
+                tigers.push(tiger);
+                placed = true;
+            } else {
+                placed = false;
+            }
+        }
+        return placed;
+    }
+
+    public boolean removeTiger(String playerID) {
+        Tiger tiger = tigers.peek();
+        boolean removed = false;
+        if (this.hasTiger()) {
+            if (playerID.equalsIgnoreCase(tiger.getPlayerId())) {
+                tigers.remove(tiger);
+                removed = true;
+            }
+        }
+        return removed;
+    }
+
+    public boolean hasTiger() {
+        boolean hasTiger = false;
+        if (tigers.size()>0) {
+            hasTiger = true;
+        } else {
+            hasTiger=false;
+        }
+        return hasTiger;
     }
 
     public Integer getMinimumZoneValue() {

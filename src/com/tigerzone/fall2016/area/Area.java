@@ -20,10 +20,20 @@ public abstract class Area implements ListAddable{
         tigerList = new ArrayList<>();
     }
 
-    void addAnimalFromAnimalAreaTile(Prey prey){}
+    public int getSize(){
+        return boardTiles.size();
+    }
 
-    void addAnimalFromAnimalAreaTile(Predator crocodile){
-        //this.crocodileList.add(crocodile);
+    int numOfTigersInArea(){
+        return this.tigerList.size();
+    }
+
+    public Set<BoardTile> getBoardTiles(){
+        return boardTiles;
+    }
+
+    public Set<TerrainNode> getTerrainNodes(){
+        return this.terrainNodes;
     }
 
     public void mergeArea(Area area){
@@ -153,21 +163,5 @@ public abstract class Area implements ListAddable{
         return areaOwners;
     }
 
-    public int getSize(){
-        return boardTiles.size();
-    }
-
-    int numOfTigersInArea(){
-        return this.tigerList.size();
-    }
-
-
-    public Set<BoardTile> getBoardTiles(){
-        return boardTiles;
-    }
-
-    public Set<TerrainNode> getTerrainNodes(){
-        return this.terrainNodes;
-    }
 
 }

@@ -6,6 +6,7 @@ import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,19 +18,30 @@ public class JungleArea extends Area {
     
     //List<JungleTerrainNode> jungleTerrainNodes;
     Set<JungleTerrainNode> jungleTerrainNodes;
-    
+
+    private Set<LakeArea> lakeAreas;
+    private Set<DenArea> denAreas;
+
     public int countCompletedLakes() {
-        int completedLakeCount = 0;
-        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) { //what if have multiple jungleTerrainNodes with same Lake?
-            for (LakeTerrainNode lakes: jungleTerrainNode.getAdjacentLakes()) {
-                if (lakes.getArea().isComplete()) { // TODO: 11/15/2016 how to avoid double counting??? 
-                    completedLakeCount++;
-                }
+        findLakeAreas();
+        int completedLakeCount=0;
+        for (LakeArea lakeArea: lakeAreas) {
+            if(lakeArea.isComplete()) {
+                completedLakeCount++;
+                this.lakeAreas.remove(lakeArea); //don't want to double score lakeAreas
             }
         }
         return completedLakeCount;
     }
 
+    public void findLakeAreas() {
+        this.lakeAreas = new HashSet<>();
+        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
+            for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
+                lakeAreas.add(lakeTerrainNode.getArea());
+            }
+        }
+    }
 
     public int countCompletedDens() {
         int completedDenCount = 0;
@@ -42,10 +54,11 @@ public class JungleArea extends Area {
         }
         return completedDenCount;
     }
-    
-    
-    public JungleArea(){}
 
+
+    public JungleArea getArea() {
+        return this.getArea();
+    }
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {
