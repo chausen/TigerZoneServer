@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
+
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
@@ -9,6 +9,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,6 +23,7 @@ public class AreaManager {
     private List<JungleArea> jungleAreas;
     private List<LakeArea> lakeAreas;
     private List<TrailArea> trailAreas;
+    private Map<Point, DenArea> denAreaMap;
 
     public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
         this.denAreas = denAreas;
@@ -45,7 +47,13 @@ public class AreaManager {
         for(Area area: newAreas){
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
         }
-
+        if(playableTile.getTileString().contains("X")){
+            TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
+            Area denArea = new DenArea(position);
+            denTerrainNode.setArea(denArea);
+            denAreas.add((DenArea)denArea);
+        }
+        placeDenArea(position, boardTile);
         TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
         if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
             System.out.println("Player forfeits");
@@ -53,6 +61,22 @@ public class AreaManager {
             System.out.println("Player forfeits");
         } else {
             predatorPlacementNode.getArea().placePredator(predator);
+        }
+    }
+
+    private void placeDenArea(Point position, BoardTile boardTile){
+        for(DenArea denArea: denAreas){
+            Point denAreaCenter = denArea.getCenter();
+            if(denAreaCenter.getX() == position.getX() && denAreaCenter.getY() + 1 == position.getY()
+                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() + 1 == position.getY()
+                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() == position.getY()
+                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() - 1 == position.getY()
+                    || denAreaCenter.getX() == position.getX() && denAreaCenter.getY() - 1 == position.getY()
+                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() - 1 == position.getY()
+                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() == position.getY()
+                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() + 1 == position.getY()){
+                denArea.addBoardTile(boardTile);
+            }
         }
     }
 
@@ -87,5 +111,4 @@ public class AreaManager {
     public List<TrailArea> getTrailAreas() {
         return this.trailAreas;
     }
-
 }

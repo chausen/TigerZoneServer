@@ -33,6 +33,10 @@ public abstract class Area implements ListAddable{
         addTerrainNode(area.getTerrainNodes());
     }
 
+    public void addBoardTile(BoardTile boardTile){
+        boardTiles.add(boardTile);
+    }
+
     public void addBoardTile(Set<BoardTile> boardTiles){
         this.boardTiles.addAll(boardTiles);
     }
