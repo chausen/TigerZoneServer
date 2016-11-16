@@ -39,7 +39,6 @@ public class AreaManager {
         gameBoard.getBelowAdjacentTile(position);
 
         updateNorth(gameBoard.getTile(position), gameBoard.getAboveAdjacentTile(position));
-        updateEast);
 
 
     }
