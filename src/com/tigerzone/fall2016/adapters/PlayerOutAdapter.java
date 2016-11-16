@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface PlayerOutAdapter
 {
-    public void sendTurn();
+    public void sendTurnInitial(String currentPlayer, PlayableTile currentTile);
     public void receiveTurn(String s);
     public void notifyBeginGame(List<PlayableTile> allTiles);
     public void notifyEndGame(Set<String> winnerIDs);

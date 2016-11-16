@@ -215,5 +215,7 @@ public class Scorer {
             return 0;
         }
     }
-
+    public Map<String, Integer> getPlayerScores(){
+        return playerScores;
+    }
 }

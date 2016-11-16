@@ -80,11 +80,15 @@ public class GameSystem implements PlayerInAdapter {
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }
-
     }
 
     public boolean isTilePlaceable(PlayableTile pt){
         return fsb.needToRemove(pt);
+    }
+
+    @Override
+    public void triggerSendTurn() {
+        outAdapter.sendTurnInitial(currentPlayer.getPlayerId(), currentTile);
     }
 
     /**

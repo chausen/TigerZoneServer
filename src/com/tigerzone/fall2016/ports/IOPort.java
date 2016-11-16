@@ -5,6 +5,8 @@ import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import jdk.internal.org.objectweb.asm.commons.InstructionAdapter;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.awt.*;
 import java.util.*;
@@ -30,6 +32,7 @@ public abstract class IOPort implements PlayerOutAdapter {
      */
     public IOPort(String loginName1, String loginName2, long seed) {
         this.loginName1 = loginName1;
+        this.activeplayer = loginName1;
         this.loginName2 = loginName2;
         this.seed = seed;
     }
@@ -45,13 +48,13 @@ public abstract class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
+    @Override
     public void sendTurnInitial(String playerid, PlayableTile activeTile){
         this.activeTile = activeTile;
         activeplayer = playerid;
         sendTurn();
     }
 
-    @Override
     public abstract void sendTurn();
 
     @Override
@@ -131,11 +134,15 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     //========== Accessors ==========//
 
-    public PlayableTile getActiveTile(){
+    protected PlayableTile getActiveTile(){
         return activeTile;
     }
 
-    public String getActivePlayer(){
+    protected String getActivePlayer(){
         return activeplayer;
+    }
+
+    protected PlayerInAdapter getinAdapter(){
+        return inAdapter;
     }
 }

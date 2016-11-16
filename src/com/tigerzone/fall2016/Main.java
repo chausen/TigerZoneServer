@@ -1,9 +1,6 @@
 package com.tigerzone.fall2016;
 
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
-import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.ports.CMDPromptPort;
-import com.tigerzone.fall2016.ports.IOPort;
 
 import java.util.Scanner;
 
@@ -22,7 +19,10 @@ public class Main {
 
         long seed = 123456789;
 
-        IOPort cmdPort = new CMDPromptPort(loginName1, loginName2, seed);
+        CMDPromptPort cmdPort = new CMDPromptPort(loginName1, loginName2, seed);
         cmdPort.initialize();
+        while(!cmdPort.isGameOver()){
+        cmdPort.receiveTurn(in.nextLine());
+        }
     }
 }

@@ -37,35 +37,4 @@ public class TextFilePort implements TileReadAdapter
         }
         return set;
     }
-
-    /**
-     * Method which gives a Terrain corresponding to whatever Character we give it.
-     * @param c Char which represents which 'Terrain' we have.
-     * @return
-     */
-    private Terrain charToTerrain(char c) {
-        Terrain t = new FreeTerrain();
-        switch(c)
-        {
-            case 'L':
-                t = new LakeTerrain();
-                break;
-
-            case 'J':
-                t = new JungleTerrain();
-                break;
-
-            case 'D':
-                t = new DenTerrain();
-                break;
-
-            case 'T':
-                t = new TrailTerrain();
-                break;
-
-            default:
-                break;
-        }
-        return t;
-    }
 }

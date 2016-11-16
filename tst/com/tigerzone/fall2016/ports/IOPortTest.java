@@ -41,6 +41,11 @@ public class IOPortTest {
                 return false;
             }
 
+            @Override
+            public void triggerSendTurn() {
+
+            }
+
             public String getTurnString() { return turn; }
         };
 

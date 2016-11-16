@@ -9,4 +9,5 @@ public interface PlayerInAdapter
     public void initializeGame(String player1id, String player2id, long seed);
     public void setOutAdapter(PlayerOutAdapter outAdapter);
     public boolean isTilePlaceable(PlayableTile playableTile);
+    public void triggerSendTurn();
 }
