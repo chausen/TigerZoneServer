@@ -29,26 +29,22 @@ public class GameBoard { //make GameBoard a singleton?
     }
 
     public BoardTile getRightAdjacentTile(Point boardPosition) {
-        Point adjacentTilePosition = boardPosition;
-        adjacentTilePosition.translate(1,0);
+        Point adjacentTilePosition = new Point((int)boardPosition.getX() + 1, (int)boardPosition.getY());
         return getTile(adjacentTilePosition);
     }
 
-    public BoardTile getleftAdjacentTile(Point boardPosition) {
-        Point adjacentTilePosition = boardPosition;
-        adjacentTilePosition.translate(-1,0);
+    public BoardTile getLeftAdjacentTile(Point boardPosition) {
+        Point adjacentTilePosition = new Point((int)boardPosition.getX() - 1, (int)boardPosition.getY());
         return getTile(adjacentTilePosition);
     }
 
     public BoardTile getAboveAdjacentTile(Point boardPosition) {
-        Point adjacentTilePosition = boardPosition;
-        adjacentTilePosition.translate(0,1);
+        Point adjacentTilePosition = new Point((int)boardPosition.getX(), (int)boardPosition.getY() + 1);
         return getTile(adjacentTilePosition);
     }
 
     public BoardTile getBelowAdjacentTile(Point boardPosition) {
-        Point adjacentTilePosition = boardPosition;
-        adjacentTilePosition.translate(0,-1);
+        Point adjacentTilePosition = new Point((int)boardPosition.getX(), (int)boardPosition.getY() - 1);
         return getTile(adjacentTilePosition);
     }
 
