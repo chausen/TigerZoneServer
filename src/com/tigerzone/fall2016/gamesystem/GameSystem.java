@@ -2,7 +2,6 @@ package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
-import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
@@ -33,6 +32,7 @@ public class GameSystem implements PlayerInAdapter {
 
     // Communication
     private PlayerOutAdapter outAdapter;
+    private boolean isUnplaceable = false;//First tile always placeable based on Origin Tile.
 
     public GameSystem() {}
 
@@ -47,11 +47,16 @@ public class GameSystem implements PlayerInAdapter {
      *
      * @param t  Turn object holding the player whose turn it is, their tile placement, and predator placement
      */
+
+
+    //Only for "PLACE"
     public void receiveTurn(Turn t)
     {
         this.currentTurn = t;
-
-        // place tile
+        //They called the wrong thing if this goes through.
+        if(isUnplaceable)
+            outAdapter.forfeitIllegalTile(getForfeitWinner());
+        // place tile, if Tile isn't the same one we gave, boot them.
         PlayableTile currentTile = currentTurn.getPlayableTile();
         if (!currentTile.equals(currentTile)) {
             outAdapter.forfeitIllegalTile(getForfeitWinner());
@@ -67,6 +72,39 @@ public class GameSystem implements PlayerInAdapter {
 
         // notify outAdapter with results
 
+        prepareNextTurn();
+    }
+
+    @Override
+    public void receivePass(){
+        unplaceableCheck();
+        //TODO: Ask Dave if we need to broadcast a person's Unplaceable Turn.
+        //Add logic for dealing with unplaceable Tile PASS turns.
+        prepareNextTurn();
+    }
+
+    public void tigerRetrieve(int x, int y){
+        unplaceableCheck();
+
+        //Add logic for dealing with retrieving Tigers from a location with one placed.
+
+        prepareNextTurn();
+    }
+
+    public void tigerPlace(int x, int y){
+        unplaceableCheck();
+
+        //Add logic for dealing with placing an additional Tiger.
+
+        prepareNextTurn();
+    }
+
+    private void unplaceableCheck(){
+        if(!isUnplaceable)
+            outAdapter.forfeitIllegalTile(getForfeitWinner());
+    }
+
+    private void prepareNextTurn() {
         this.currentTile = ts.pop();
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
@@ -74,9 +112,9 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(winners);
         } else {
             // Check if the next tile is playable
-            if ( fsb.needToRemove(currentTile) ) {
-                outAdapter.unplaceableTile();
-            }
+            if (fsb.needToRemove(currentTile)) {
+                isUnplaceable = true;
+            } else isUnplaceable = false;
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }
@@ -133,12 +171,6 @@ public class GameSystem implements PlayerInAdapter {
         String winningPlayerID = (currentPlayerID == player1ID) ? player2ID : player1ID;
         return winningPlayerID;
     }
-
-    public PlayableTile getActiveTile()
-    {
-        return ts.pop();
-    }
-
 
     //========== Erik's Methods ===========//
     public void acceptTurn(Turn t) {

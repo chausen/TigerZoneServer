@@ -10,4 +10,5 @@ public interface PlayerInAdapter
     public void setOutAdapter(PlayerOutAdapter outAdapter);
     public boolean isTilePlaceable(PlayableTile playableTile);
     public void triggerSendTurn();
+    public void receivePass();
 }

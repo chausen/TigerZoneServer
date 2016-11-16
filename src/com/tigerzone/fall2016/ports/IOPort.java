@@ -22,7 +22,6 @@ public abstract class IOPort implements PlayerOutAdapter {
     protected String loginName2;
     protected PlayableTile activeTile;
     protected String activeplayer;
-    private boolean unplaceableTile;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -99,13 +98,12 @@ public abstract class IOPort implements PlayerOutAdapter {
         PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
         //TODO: Give an actual Direction (or figure out those problems :( )
         Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, null, 0);
-        System.out.println("We are now at PLACE : "+s);
+       // System.out.println("We are now at PLACE : "+s);
         inAdapter.receiveTurn(t);
     }
 
     private void receiveTurnTile(String s){
-        System.out.println("We are now at Tile : "+s);
-        unplaceableTile = false;
+       // System.out.println("We are now at Tile : "+s);
     }
 
     private void receiveTurnQuit(){
@@ -129,9 +127,6 @@ public abstract class IOPort implements PlayerOutAdapter {
     @Override
     public abstract void forfeitIllegalTile(String winner);
 
-    @Override
-    public void unplaceableTile() { unplaceableTile = true; }
-
     //========== Accessors ==========//
 
     protected PlayableTile getActiveTile(){
@@ -140,9 +135,5 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     protected String getActivePlayer(){
         return activeplayer;
-    }
-
-    protected PlayerInAdapter getinAdapter(){
-        return inAdapter;
     }
 }

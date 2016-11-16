@@ -15,5 +15,4 @@ public interface PlayerOutAdapter
     public void forfeitInvalidMeeple(String winnerID);
     public void forfeitIllegalMeeple(String winnerID);
     public void forfeitIllegalTile(String winnerID);
-    public void unplaceableTile();
 }

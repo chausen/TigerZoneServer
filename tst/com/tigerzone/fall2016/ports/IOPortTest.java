@@ -46,6 +46,11 @@ public class IOPortTest {
 
             }
 
+            @Override
+            public void receivePass() {
+
+            }
+
             public String getTurnString() { return turn; }
         };
 
