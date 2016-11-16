@@ -1,11 +1,8 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
-import javafx.geometry.Pos;
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.*;
 import java.util.List;
@@ -13,34 +10,14 @@ import java.util.List;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public abstract class Area {
-    private HashMap<Point2D, FreeSpace> freeSpaceMap;
-    private HashMap<Point2D, Tile> areaTileMap;
+public abstract class Area implements ListAddable{
+
+    private Set<BoardTile> boardTiles;
+    private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
     public Area(){
-        freeSpaceMap = new HashMap<>();
-        areaTileMap = new HashMap<>();
         tigerList = new ArrayList<>();
-    }
-
-    public Area(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        this.freeSpaceMap = freeSpaceMap;
-        areaTileMap = new HashMap<>();
-        areaTileMap.put(position, areaTile);
-        tigerList = new ArrayList<>();
-    }
-
-
-    public void addTile(Point2D position, Tile tile){
-        areaTileMap.put(position, tile);
-    }
-
-    public void visit(Crocodile crocodile){
-        crocodile.accept(this);
-    }
-    public void visit(Tiger tiger){
-        tiger.accept(this);
     }
 
     void addAnimalFromAnimalAreaTile(Prey prey){}
@@ -49,57 +26,102 @@ public abstract class Area {
         //this.crocodileList.add(crocodile);
     }
 
-    public void updateArea(Point2D position, AreaTile areaTile){
-        if(freeSpaceMap.containsKey(position)){
-            addTile(position, areaTile);
+    public void mergeArea(Area area){
+        for(TerrainNode terrainNode : area.getTerrainNodes()){
+            terrainNode.setArea(this);
         }
+        addBoardTile(area.getBoardTiles());
+        addTerrainNode(area.getTerrainNodes());
     }
 
-//    public void updateArea(Point2D position, AnimalAreaTile animalAreaTile){
-//        if(freeSpaceMap.containsKey(position)){
-//            addTile(position, animalAreaTile);
-//        }
-//        Animal animalOnTile = animalAreaTile.getAnimal();
-//        //if(isAnimalPlacable(animalOnTile)){
-//            addAnimalFromAnimalAreaTile(animalOnTile);
-//        //}
-//    }
+    public void addBoardTile(Set<BoardTile> boardTiles){
+        boardTiles.addAll(boardTiles);
+    }
 
+    public void addTerrainNode(Set<TerrainNode> terrainNodes){
+        terrainNodes.addAll(terrainNodes);
+    }
+
+    /**
+     * Returns true only if area was updated with input tile
+     * @return
+     */
     public boolean hasAreaUpdated(){
         return true;
     }
 
-    public void placePredator(Tiger tiger){
-        this.tigerList.add(tiger);
+    /**
+     * Adds an animal from a Tile to an Area
+     * @param animal
+     */
+    public void addAnimal(Animal animal){
+        animal.addToArea(this);
     }
 
-    public void placePredator(Crocodile crocodile){}
+    public void addAnimal(Crocodile crocodile){}
 
-    abstract boolean isPredatorPlacable(Predator predator);
+    public void addAnimal(Buffalo buffalo){}
 
-    public abstract boolean isComplete();
+    public void addAnimal(Deer deer){}
 
+    public void addAnimal(Boar boar){}
+
+    /**
+     * This method is used when a player tries to place a predator to this Area
+     * @param predator
+     */
     public void placePredator(Predator predator){
-        if (isPredatorPlacable(predator)) {
-            predator.accept(this);
+        if (isPredatorPlaceable(predator)) {
+            predator.placeInArea(this);
         }
     }
 
+    /**
+     * This method is used when a player tries to place a tiger to this Area
+     * @param tiger
+     */
+    public void placePredator(Tiger tiger){
+        if(this.tigerList.isEmpty()){
+            this.tigerList.add(tiger);
+        }else{
+            String playerID = tiger.getPlayerId();
+            //player should forfeit
+        }
+    }
+
+    /**
+     * This method is used when a player tries to place a crocodile to this Area
+     * @param crocodile
+     */
+    public void placePredator(Crocodile crocodile){}
+
+    /**
+     * Returns true if the predator is placable in the specific Area Type
+     * @param predator
+     * @return
+     */
+    abstract boolean isPredatorPlaceable(Predator predator);
+
+    /**
+     * Returns true if the Area is complete
+     * @return
+     */
+    public abstract boolean isComplete();
 
     /**
      * Returns a list of playerID's that have equal max tiger counts for an area.
      * @return
      */
-    public List<Integer> getOwnerID() {
-        List<Integer> areaOwners = new ArrayList<>();
+    public List<String> getOwnerID() {
+        List<String> areaOwners = new ArrayList<>();
         if(tigerList.size() == 0){
             return areaOwners;
         }
 
         //key: player | value: count
-        Map<Integer, Integer> playerTigerCountMap = new HashMap<>();
+        Map<String, Integer> playerTigerCountMap = new HashMap<>();
         for(Tiger tiger : tigerList){
-            int tigerOwner = tiger.getPlayerId();
+            String tigerOwner = tiger.getPlayerId();
             if(playerTigerCountMap.containsKey(tigerOwner)){
                 int newCount = playerTigerCountMap.get(tigerOwner) + 1;
                 playerTigerCountMap.replace(tigerOwner, newCount);
@@ -107,7 +129,7 @@ public abstract class Area {
                 playerTigerCountMap.put(tigerOwner, 1);
             }
         }
-        Iterator<Map.Entry<Integer, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
+        Iterator<Map.Entry<String, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
         int maxCount = iterator.next().getValue();
 
         //find max number count
@@ -121,9 +143,9 @@ public abstract class Area {
         //add all owners in the area that have equal number of tigers to areaOwners list
         iterator = playerTigerCountMap.entrySet().iterator();
         while(iterator.hasNext()){
-            Map.Entry<Integer, Integer> player = iterator.next();
+            Map.Entry<String, Integer> player = iterator.next();
             int playerCount = player.getValue();
-            int playerID = player.getKey();
+            String playerID = player.getKey();
             if(playerCount == maxCount){
                 areaOwners.add(playerID);
             }
@@ -131,20 +153,21 @@ public abstract class Area {
         return areaOwners;
     }
 
-    public void updateArea(AreaTile areaTile) {
-
-    }
-
-    /**
-     * Returns the size of the area
-     * @return
-     */
     public int getSize(){
-        return this.areaTileMap.size();
+        return boardTiles.size();
     }
 
-    public HashMap<Point2D, FreeSpace> getFreeSpaceMap(){
-        return this.freeSpaceMap;
+    int numOfTigersInArea(){
+        return this.tigerList.size();
+    }
+
+
+    public Set<BoardTile> getBoardTiles(){
+        return boardTiles;
+    }
+
+    public Set<TerrainNode> getTerrainNodes(){
+        return this.terrainNodes;
     }
 
 }

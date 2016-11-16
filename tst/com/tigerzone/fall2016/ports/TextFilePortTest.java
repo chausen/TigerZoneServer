@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016.ports;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import jdk.nashorn.internal.objects.annotations.Function;
 import org.junit.Assert;

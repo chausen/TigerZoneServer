@@ -1,12 +1,10 @@
 package com.tigerzone.fall2016.tileplacement;
 
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
 import com.tigerzone.fall2016.tileplacement.terrain.FreeTerrain;
 
+import java.awt.*;
 import java.util.HashMap;
 
 /**
@@ -15,16 +13,16 @@ import java.util.HashMap;
 public class FreeSpaceBuilder {
 
     private FreeSpace freeSpace;
-    private BoardTile boardTile;
-    private HashMap<Point2D, FreeSpace> freeSpaceMap;
+    private PlayableTile playableTile;
+    private HashMap<Point, FreeSpace> freeSpaceMap;
 
-    public FreeSpaceBuilder(FreeSpace freeSpace, BoardTile boardTile, HashMap<Point2D, FreeSpace> freeSpaceMap){
+    public FreeSpaceBuilder(FreeSpace freeSpace, PlayableTile playableTile, HashMap<Point, FreeSpace> freeSpaceMap){
         this.freeSpace = freeSpace;
-        this.boardTile = boardTile;
+        this.playableTile = playableTile;
         this.freeSpaceMap = freeSpaceMap;
     }
 
-    public void makeFreeSpace(Point2D position){
+    public void makeFreeSpace(Point position){
         freeSpaceMap.remove(position);
         buildNorthTerrain(position);
         buildEastTerrain(position);
@@ -32,63 +30,69 @@ public class FreeSpaceBuilder {
         buildWestTerrain(position);
     }
 
-    private void buildNorthTerrain(Point2D position){
+    private void buildNorthTerrain(Point position){
         if(!freeSpace.getNorthTerrain().isFree()){
             return;
         }
-        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(0.0, 1.0));
+        Point northPoint = new Point((int)position.getX(), (int)position.getY()+1);
+        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(northPoint);
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setSouthTerrain(boardTile.getNorthFace());
+            needUpdateFreeSpace.setSouthTerrain(playableTile.getNorthFace());
         }
         else {
             FreeSpace freeSpaceNorth = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
-                    boardTile.getNorthFace(), new FreeTerrain());
-            freeSpaceMap.put(position.add(0.0, 1.0), freeSpaceNorth);
+                    playableTile.getNorthFace(), new FreeTerrain());
+            //freeSpaceMap.put(position.add(0.0, 1.0), freeSpaceNorth);
+            freeSpaceMap.put(northPoint, freeSpaceNorth);
         }
     }
 
-    private void buildEastTerrain(Point2D position){
+    private void buildEastTerrain(Point position){
         if(!freeSpace.getEastTerrain().isFree()){
             return;
         }
-        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(1.0, 0.0));
+        Point eastPoint = new Point((int)position.getX() + 1, (int)position.getY());
+        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(eastPoint);
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setWestTerrain(boardTile.getEastFace());
+            needUpdateFreeSpace.setWestTerrain(playableTile.getEastFace());
         }
         else {
             FreeSpace freeSpaceEast = new FreeSpace(new FreeTerrain(), new FreeTerrain(),
-                    new FreeTerrain(), boardTile.getEastFace());
-            freeSpaceMap.put(position.add(1.0, 0.0), freeSpaceEast);
+                    new FreeTerrain(), playableTile.getEastFace());
+            //freeSpaceMap.put(position.add(1.0, 0.0), freeSpaceEast);
+            freeSpaceMap.put(eastPoint, freeSpaceEast);
         }
     }
 
-    private void buildSouthTerrain(Point2D position){
+    private void buildSouthTerrain(Point position){
         if(!freeSpace.getSouthTerrain().isFree()){
             return;
         }
-        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(0.0, -1.0));
+        Point southPoint = new Point((int)position.getX(), (int)position.getY() - 1);
+        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(southPoint);
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setNorthTerrain(boardTile.getSouthFace());
+            needUpdateFreeSpace.setNorthTerrain(playableTile.getSouthFace());
         }
         else {
-            FreeSpace freeSpaceSouth = new FreeSpace(boardTile.getSouthFace(), new FreeTerrain(),
+            FreeSpace freeSpaceSouth = new FreeSpace(playableTile.getSouthFace(), new FreeTerrain(),
                     new FreeTerrain(), new FreeTerrain());
-            freeSpaceMap.put(position.add(0.0, -1.0), freeSpaceSouth);
+            freeSpaceMap.put(southPoint, freeSpaceSouth);
         }
     }
 
-    private void buildWestTerrain(Point2D position){
+    private void buildWestTerrain(Point position){
         if(!freeSpace.getWestTerrain().isFree()){
             return;
         }
-        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(position.add(-1.0, 0.0));
+        Point westPoint = new Point((int)position.getX() - 1, (int)position.getY());
+        FreeSpace needUpdateFreeSpace = freeSpaceMap.get(westPoint);
         if(needUpdateFreeSpace != null){
-            needUpdateFreeSpace.setEastTerrain(boardTile.getWestFace());
+            needUpdateFreeSpace.setEastTerrain(playableTile.getWestFace());
         }
         else {
-            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), boardTile.getEastFace(),
+            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), playableTile.getEastFace(),
                     new FreeTerrain(), new FreeTerrain());
-            freeSpaceMap.put(position.add(-1.0, 0.0), freeSpaceWest);
+            freeSpaceMap.put(westPoint, freeSpaceWest);
         }
     }
 

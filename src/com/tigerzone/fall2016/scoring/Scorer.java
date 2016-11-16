@@ -16,21 +16,21 @@ import java.util.*;
 public class Scorer {
 
     // key = playerID, value = score
-    private Map<Integer, Integer> playerScores;
+    private Map<String, Integer> playerScores;
 
     // Collaborators
     private AreaManager am;
 
 
-    public Scorer(List<Integer> playerIDs, AreaManager am) {
+    public Scorer(List<String> playerIDs, AreaManager am) {
         this.playerScores = new HashMap<>();
-        for (Integer playerID: playerIDs) {
+        for (String playerID: playerIDs) {
             playerScores.put(playerID, 0);
         }
         this.am = am;
     }
 
-    public Scorer(Map<Integer, Integer> playerScores, AreaManager am) {
+    public Scorer(Map<String, Integer> playerScores, AreaManager am) {
         this.playerScores = playerScores;
         this.am = am;
     }
@@ -45,9 +45,9 @@ public class Scorer {
         // The point value equals the number of tiles in the area
         Integer points = den.getSize();
 
-        List<Integer> ownerIDs = den.getOwnerID();
+        List<String> ownerIDs = den.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -59,11 +59,11 @@ public class Scorer {
      */
     public void score(LakeArea lake) {
         // points = 2 * (# of tiles) * (1 + # of unique animals)
-        Integer points = 2 * lake.getSize() * (1 + uniquePreyCount(lake));
+        Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
 
-        List<Integer> ownerIDs = lake.getOwnerID();
+        List<String> ownerIDs = lake.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -76,11 +76,11 @@ public class Scorer {
      */
     public void score(TrailArea trail) {
         // points = (# of tiles) + (# of unique animals)
-        Integer points = trail.getSize() + uniquePreyCount(trail);
+        Integer points = trail.getSize() + trail.getNumOfPreyAfterCrocodileEffect();
 
-        List<Integer> ownerIDs = trail.getOwnerID();
+        List<String> ownerIDs = trail.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -140,11 +140,11 @@ public class Scorer {
         for (LakeArea lake: lakes) {
             if ( !lake.isComplete() ) {
                 // points = (# of tiles) * (# of unique animals)
-                Integer points = lake.getSize() * uniquePreyCount(lake);
+                Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
 
-                List<Integer> ownerIDs = lake.getOwnerID();
+                List<String> ownerIDs = lake.getOwnerID();
 
-                for (int id : ownerIDs) {
+                for (String id : ownerIDs) {
                     Integer currentScore = playerScores.get(id);
                     playerScores.put(id, currentScore + points);
                 }
@@ -166,61 +166,23 @@ public class Scorer {
         //TODO add logic
     }
 
-
-    //========== Helper Methods ===========//
-    // Determines the number of unique animals in an lake area
-    // Range: [0, 3]
-    private int uniquePreyCount(LakeArea lake) {
-        int uniquePreys = 0;
-        if ( lake.containsBoar() )
-            uniquePreys += 1;
-        if ( lake.containsDeer() )
-            uniquePreys += 1;
-        if ( lake.containsBuffalo() )
-            uniquePreys += 1;
-        uniquePreys -= lake.getCrocs();
-        if (uniquePreys < 0) {
-            uniquePreys = 0;
-        }
-        return uniquePreys;
-    }
-
-    // Determines the number of unique animals in an trail area
-    // Range: [0, 3]
-    private int uniquePreyCount(TrailArea trail) {
-        int uniquePreys = 0;
-        if ( trail.containsBoar() )
-            uniquePreys += 1;
-        if ( trail.containsDeer() )
-            uniquePreys += 1;
-        if ( trail.containsBuffalo() )
-            uniquePreys += 1;
-        uniquePreys -= trail.getCrocs();
-        if (uniquePreys < 0) {
-            uniquePreys = 0;
-        }
-        return uniquePreys;
-    }
-
-
-
     /**
      * Returns a set of playerIDs for the Players with the highest score.
      *
      * @return  Set  a set of playerIDs.
      */
-    public Set<Integer> announceWinners() {
+    public Set<String> announceWinners() {
 
-        Set<Integer> winners = new HashSet<Integer>();
+        Set<String> winners = new HashSet<>();
 
-        Set<Integer> playerIDs = playerScores.keySet();
+        Set<String> playerIDs = playerScores.keySet();
 
         // Find the highest score
         Integer highestScore = 0;
 
-        Iterator<Integer> iterator = playerIDs.iterator();
+        Iterator<String> iterator = playerIDs.iterator();
         while(iterator.hasNext()) {
-            Integer currentplayerID = iterator.next();
+            String currentplayerID = iterator.next();
             Integer currentScore = playerScores.get(currentplayerID);
             if (currentScore > highestScore) {
                 highestScore = currentScore;
@@ -230,7 +192,7 @@ public class Scorer {
         // Add each player with a score equal to the highest one found to the set of winners
         iterator = playerIDs.iterator(); // reset iterator
         while(iterator.hasNext()) {
-            Integer currentplayerID = iterator.next();
+            String currentplayerID = iterator.next();
             Integer currentScore = playerScores.get(currentplayerID);
             if (currentScore == highestScore) {
                 winners.add(currentplayerID);
@@ -246,7 +208,7 @@ public class Scorer {
      * @param playerID
      * @return  int  playerID's score. 0 if playerID does not exist
      */
-    public int getScore(int playerID) {
+    public int getScore(String playerID) {
         if (playerScores.containsKey(playerID)) {
             return playerScores.get(playerID);    
         } else {

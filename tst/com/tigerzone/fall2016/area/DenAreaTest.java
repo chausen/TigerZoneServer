@@ -5,9 +5,9 @@ import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
 import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,28 +26,23 @@ public class DenAreaTest {
 
     @Before
     public void setUp() throws Exception {
-        AreaTile areaTile1 = new AreaTile(
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new TrailTerrain());
-        denArea = new DenArea(new Point2D(0,0), areaTile1, new HashMap<Point2D, FreeSpace>());
+        PlayableTile areaTile1 = new PlayableTile("TTTT-");
+        denArea = new DenArea();
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
     }
 
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = denArea.isPredatorPlacable(tiger);
+        boolean actualResult = denArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = denArea.isPredatorPlacable(crocodile);
+        boolean actualResult = denArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 

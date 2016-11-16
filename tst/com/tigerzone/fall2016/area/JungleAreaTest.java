@@ -3,11 +3,7 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
-import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.Edge;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,28 +22,23 @@ public class JungleAreaTest {
 
     @Before
     public void setUp() throws Exception {
-        AreaTile areaTile1 = new AreaTile(
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new Edge(new JungleTerrain(), new TrailTerrain(), new JungleTerrain()),
-                new TrailTerrain());
-        jungleArea = new JungleArea(new Point2D(0,0), areaTile1, new HashMap<Point2D, FreeSpace>());
+        PlayableTile areaTile1 = new PlayableTile("TTTT-");
+        jungleArea = new JungleArea();
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
     }
 
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = jungleArea.isPredatorPlacable(tiger);
+        boolean actualResult = jungleArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = jungleArea.isPredatorPlacable(crocodile);
+        boolean actualResult = jungleArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 

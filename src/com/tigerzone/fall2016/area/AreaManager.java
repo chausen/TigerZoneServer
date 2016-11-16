@@ -1,45 +1,58 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.tileplacement.Direction;
-import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
-import com.tigerzone.fall2016.tileplacement.terrain.SegmentAdder;
-import com.tigerzone.fall2016.tileplacement.terrain.SegmentVisitor;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.Edge;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
+import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.tileplacement.GameBoard;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.util.HashMap;
+import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lenovo on 11/7/2016.
  */
 public class AreaManager {
 
+    private GameBoard gameBoard;
+
     private List<DenArea> denAreas;
     private List<JungleArea> jungleAreas;
     private List<LakeArea> lakeAreas;
     private List<TrailArea> trailAreas;
-    private HashMap<Point2D, AreaTile> areaTileHashMap;
-    private FreeSpaceBoard freeSpaceBoard;
 
-    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas,
-    FreeSpaceBoard freeSpaceBoard) {
+    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
         this.denAreas = denAreas;
         this.jungleAreas = jungleAreas;
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
-        this.freeSpaceBoard = freeSpaceBoard;
+        gameBoard = new GameBoard();
     }
 
-    public void updateAreas(Point2D position, AreaTile areaTile){
+    private BoardTile convertToBoardTile(PlayableTile playableTile) {
+        BoardTile boardTile = new BoardTile(playableTile);
+        return boardTile;
 
     }
 
-    private void merge(Mergeable m1, Mergeable m2) {
+    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone) {
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        gameBoard.placeTile(position, boardTile);
+        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
+        Set<Area> newAreas = areaBuilder.build(position);
+        for(Area area: newAreas){
+            area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
+        }
 
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
+        if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
+            System.out.println("Player forfeits");
+        } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
+            System.out.println("Player forfeits");
+        } else {
+            predatorPlacementNode.getArea().placePredator(predator);
+        }
     }
-
-
 }

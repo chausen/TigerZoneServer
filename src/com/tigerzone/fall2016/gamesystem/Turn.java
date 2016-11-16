@@ -1,71 +1,67 @@
 package com.tigerzone.fall2016.gamesystem;
-import com.tigerzone.fall2016.tileplacement.Direction;
 
+import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
+
+import java.awt.*;
+
 
 public class Turn
 {
-    private final int playerID;
-    private PlayableTile playableTile = null;
-    private Direction d = null;
-    private int rotationdegree = 0;
-    private Point2D p;
-
     /**
      * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
-     * @param playerID Player's ID number, assigned elsewhere.
      * @param playableTile Tile representing the Player's Turn.
+     * @param playerID Player's ID number, assigned elsewhere.
      * @param rotationdegree Degree of rotation Counterclockwise that the player wishes to enact on the Tile.
-     * @param d Direction of Follower placement (if any at all)
-     * @param p Point of grid that the player wishes to place the Tile.
+     * @param predator Either a tiger or a crocodile that the player wishes to place on the tile
+     * @param predatorPlacementZone A value 1-9 that determines where the predator should be placed
      */
+    private PlayableTile playableTile;
+    private String playerID;
+    private int rotationDegrees = 0;
+    private Point position;
+    private Predator predator;
+    private int predatorPlacementZone;
 
-    public Turn(int playerID, PlayableTile playableTile, int rotationdegree, Direction d, Point2D p) {
-        this.playerID = playerID;
-        this.playableTile = playableTile;
-        this.rotationdegree = rotationdegree;
-        this.d = d;
-        this.p = p;
+    public int getRotationDegrees() {
+        return rotationDegrees;
+    }
+    public Predator getPredator() {
+        return predator;
+    }
+    public String getPlayerID(){
+        return playerID;
     }
 
-    /**
-     * Gets the Player ID of the player who "owns" this Turn.
-     * @return int: Player's ID.
-     */
-    public int getPlayerID(){
-        return playerID;
+    public Point getPosition() {
+        return position;
     }
 
     /**
      * Returns the Tile that is embedded in a Turn.
      * @return PlayableTile: Tile that is located in this Turn.
      */
-    public PlayableTile getTile() {
+
+    public int getPredatorPlacementZone() {
+        return predatorPlacementZone;
+    }
+    public PlayableTile getPlayableTile() {
         return playableTile;
     }
 
-    /**
-     * Returns whether or not this Turn has had a Follower placed on the corresponding AreaTile.
-     * @return boolean: If a follower exists in a Turn.
-     */
-    public boolean hasFollower(){
-        return (d == null) ? false : true;//If we have a Direction, there was a Follower placed.
+    public boolean placingPredator(){
+        return (predator == null) ? false : true;//If we have a Direction, there was a Follower placed.
     }
 
-    public Direction getFollowerDirection(){
-        return d;
+    // TODO: 11/15/2016 the input adapter coverts the tileString to a playableTile, creates predator, creates Point2D, etc. and makes this turn
+    public Turn(String playerID, PlayableTile playableTile, Point tilePlacement, int rotationDegrees, Predator predator, int zone) {
+        this.playerID = playerID;
+        this.playableTile = playableTile;
+        this.rotationDegrees = rotationDegrees;
+        this.position = tilePlacement;
+        this.predator=predator;
+        this.predatorPlacementZone = zone;
     }
 
-    public void placeFollower(Direction d){
-        this.d = d;
-    }
 
-    public Point2D getPosition(){
-        return p;
-    }
-
-    public int getOrientation(){
-        return rotationdegree;
-    }
 }

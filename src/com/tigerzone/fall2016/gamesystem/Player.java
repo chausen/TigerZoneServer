@@ -6,11 +6,11 @@ import java.util.List;
  * Created by clayhausen on 11/7/16.
  */
 public class Player {
-    private int playerId;
+    private String playerId;
     private int goodSupply; // Tigers
     private int badSupply;  // Crocodiles
 
-    public Player(int playerId) {
+    public Player(String playerId) {
         this.playerId = playerId;
         this.goodSupply = 7;
         this.badSupply = 2;
@@ -34,9 +34,9 @@ public class Player {
 
     /**
      * Accessor for playerId (unique identifier for player)
-     * @return int
+     * @return String
      */
-    public int getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
@@ -56,9 +56,9 @@ public class Player {
      */
     public boolean equals(Player player) {
 
-        int otherPlayerID = player.getPlayerId();
+        String otherPlayerID = player.getPlayerId();
 
-        if (this.playerId == otherPlayerID) {
+        if (this.playerId.equals(otherPlayerID)) {
             return true;
         }
 

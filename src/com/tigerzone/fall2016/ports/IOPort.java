@@ -4,24 +4,23 @@ import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.awt.*;
 import java.util.*;
-
-import javafx.geometry.Point2D;
+import java.util.List;
 
 /**
  * Created by Jeff on 2016/11/13.
  */
 public abstract class IOPort implements PlayerOutAdapter {
-    private PlayerInAdapter inAdapter;
-    private long seed; // seed corresponding to the tile order
-    private Map<Integer, String> players; // key: playerID, value: loginName
-    private String loginName1;
-    private String loginName2;
-    private PlayableTile activeTile;
-    private String activeplayer;
+    protected PlayerInAdapter inAdapter;
+    protected long seed; // seed corresponding to the tile order
+    protected String loginName1;
+    protected String loginName2;
+    protected PlayableTile activeTile;
+    protected String activeplayer;
+    private boolean unplaceableTile;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -36,30 +35,19 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     public void initialize() {
-        int playerID1 = 1;
-        int playerID2 = 2;
-        players = new HashMap<>();
-        players.put(playerID1, loginName1);
-        players.put(playerID2, loginName2);
-
-        this.inAdapter = new GameSystem(playerID1, playerID2, seed);
+        this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
+        inAdapter.initializeGame(loginName1, loginName2, seed);
     }
 
     public void initialize(PlayerInAdapter inAdapter) {
-        int playerID1 = 1;
-        int playerID2 = 2;
-        players = new HashMap<>();
-        players.put(playerID1, loginName1);
-        players.put(playerID2, loginName2);
-
         this.inAdapter = inAdapter;
         inAdapter.setOutAdapter(this);
     }
 
-    public void sendTurnInitial(int playerid, PlayableTile activeTile){
+    public void sendTurnInitial(String playerid, PlayableTile activeTile){
         this.activeTile = activeTile;
-        activeplayer = players.get(playerid);
+        activeplayer = playerid;
         sendTurn();
     }
 
@@ -107,13 +95,14 @@ public abstract class IOPort implements PlayerOutAdapter {
 
         PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
         //TODO: Give an actual Direction (or figure out those problems :( )
-        Turn t = new Turn(0, playableTile, orientation, null, new Point2D(x,y));
+        Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, null, 0);
         System.out.println("We are now at PLACE : "+s);
         inAdapter.receiveTurn(t);
     }
 
     private void receiveTurnTile(String s){
         System.out.println("We are now at Tile : "+s);
+        unplaceableTile = false;
     }
 
     private void receiveTurnQuit(){
@@ -123,23 +112,22 @@ public abstract class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
 
     @Override
-    public abstract void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
-
-    @Override
-    public abstract void notifyBeginGame(AreaTile areatile);
+    public abstract void notifyBeginGame(List<PlayableTile> allAreaTiles);
 
     @Override
     public abstract void notifyEndGame(Set<String> winners);
 
     @Override
-    public abstract void forfeitIllegalMeeple(int winner);
+    public abstract void forfeitIllegalMeeple(String winner);
 
     @Override
-    public abstract void forfeitInvalidMeeple(int winner);
+    public abstract void forfeitInvalidMeeple(String winner);
 
     @Override
-    public abstract void forfeitIllegalTile(int winner);
+    public abstract void forfeitIllegalTile(String winner);
 
+    @Override
+    public void unplaceableTile() { unplaceableTile = true; }
 
     //========== Accessors ==========//
 

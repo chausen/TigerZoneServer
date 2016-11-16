@@ -3,10 +3,6 @@ package com.tigerzone.fall2016.scoring;
 import com.tigerzone.fall2016.area.*;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
-import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.Edge;
-import com.tigerzone.fall2016.tileplacement.tile.Tile;
 import org.junit.Test;
 
 import javafx.geometry.Point2D;
@@ -21,7 +17,7 @@ public class ScorerTest {
 
     private Player player1;
     private Player player2;
-    private HashMap<Integer,Integer> playerScores;
+    private HashMap<String,Integer> playerScores;
     private Scorer scorer;
 
     private List<DenArea> denAreas;        // }
@@ -34,8 +30,8 @@ public class ScorerTest {
     @org.junit.Before
     public void setUp() throws Exception {
         // Populate player scores, with player1 having the higher score
-        player1 = new Player(1);
-        player2 = new Player(2);
+        player1 = new Player("1");
+        player2 = new Player("2");
         playerScores = new HashMap();
         playerScores.put(player1.getPlayerId(), 0);
         playerScores.put(player2.getPlayerId(), 0);
@@ -46,7 +42,7 @@ public class ScorerTest {
         lakeAreas = new ArrayList();
         trailAreas = new ArrayList();
         freeSpaceBoard = new FreeSpaceBoard();
-        areaManager = new AreaManager(denAreas, jungleAreas, lakeAreas, trailAreas, freeSpaceBoard);
+        areaManager = new AreaManager(denAreas, jungleAreas, lakeAreas, trailAreas);
 
         // Create scorer
         scorer = new Scorer(playerScores, areaManager);
@@ -109,12 +105,12 @@ public class ScorerTest {
         playerScores.put(player1.getPlayerId(), 32);
         playerScores.put(player2.getPlayerId(), 15);
         // player1 should be in the winners set, but player2 should not
-        Set<Integer> winners = scorer.announceWinners();
+        Set<String> winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()));
         assertFalse(winners.contains(player2.getPlayerId()));
 
         // Add a third player with the same score as player1
-        Player player3 = new Player(3);
+        Player player3 = new Player("3");
         playerScores.put(player3.getPlayerId(), 32);
         scorer = new Scorer(playerScores, areaManager);
         // Now the set of winners should contain player1 and player3

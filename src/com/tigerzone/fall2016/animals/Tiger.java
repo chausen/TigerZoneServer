@@ -6,13 +6,13 @@ import com.tigerzone.fall2016.area.Area;
  * Created by Aidan on 11/9/2016.
  */
 public class Tiger extends Predator {
-    private int playerId;
+    private String playerId;
 
-    public Tiger(int playerId){
+    public Tiger(String playerId){
         this.playerId = playerId;
     }
 
-    public int getPlayerId(){
+    public String getPlayerId(){
         return this.playerId;
     }
 
@@ -37,7 +37,7 @@ public class Tiger extends Predator {
     }
 
     @Override
-    public void accept(Area area) {
+    public void placeInArea(Area area) {
         area.placePredator(this);
     }
 }

@@ -13,7 +13,7 @@ class TileStack
 
     public TileStack(long l, TileReadAdapter tra){
         seed = l;
-        ll = new LinkedList<>(tra.createTiles());
+        ll = new LinkedList<PlayableTile>(tra.createTiles());
 }
     /**
      * Shuffle the TileStack providing we have a seed.

@@ -23,7 +23,7 @@ public class IOPortTest {
             public void receiveTurn(Turn t) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("PLACE ");
-                sb.append(t.getTile().getTileString());
+                sb.append(t.getPlayableTile().getTileString());
                 sb.append(" AT ");
                 sb.append(t.getPosition().getX());
                 sb.append(" ");
@@ -33,7 +33,7 @@ public class IOPortTest {
                 turn = sb.toString();
             }
             public void startGame() {}
-            public void initializeGame(int player1id, int player2id, long seed) {}
+            public void initializeGame(String player1id, String player2id, long seed) {}
             public void setOutAdapter(PlayerOutAdapter outAdapter) {}
 
             @Override

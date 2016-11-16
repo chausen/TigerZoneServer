@@ -1,12 +1,8 @@
-
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
 
-import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -15,17 +11,18 @@ import java.util.HashMap;
 public class DenArea extends Area {
     public  DenArea(){}
 
-    public DenArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace> freeSpaceMap) {
-        super(position, areaTile, freeSpaceMap);
-    }
-
     @Override
-    boolean isPredatorPlacable(Predator predator) {
+    boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInDen();
     }
 
     @Override
     public boolean isComplete() {
         return false;
+    }
+
+    @Override
+    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+
     }
 }

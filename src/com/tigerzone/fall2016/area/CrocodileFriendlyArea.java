@@ -1,48 +1,26 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.tileplacement.tile.AreaTile;
-import com.tigerzone.fall2016.tileplacement.tile.FreeSpace;
-import javafx.geometry.Point2D;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by matthewdiaz on 11/13/16.
  */
-public class CrocodileFriendlyArea extends Area {
+public abstract class CrocodileFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
 
-    public CrocodileFriendlyArea(Point2D position, AreaTile areaTile, HashMap<Point2D, FreeSpace > freeSpaceMap) {
-        super(position, areaTile, freeSpaceMap);
-        crocodileList = new ArrayList<>();
-    }
 
     public CrocodileFriendlyArea(){
         this.crocodileList = new ArrayList<>();
     }
 
-
-    @Override
-    boolean isPredatorPlacable(Predator predator) {
-        return false;
-    }
-
-
-    public boolean hasCrocodileInArea(){
-        return (this.crocodileList.size() > 0);
-    }
-
     /**
-     * this method should be called when the Crocodile is from an AnimalAreaTile
-     * @param crocodile
+     * Returns true if list is not empty
+     * @return
      */
-    public void addCrocodileToArea(Crocodile crocodile){
-        this.crocodileList.add(crocodile);
+    private boolean hasCrocodileInArea(){
+        return this.crocodileList.isEmpty();
     }
 
     /**
@@ -51,13 +29,27 @@ public class CrocodileFriendlyArea extends Area {
      */
     @Override
     public void placePredator(Crocodile crocodile){
-        if(!hasCrocodileInArea()){
-            this.crocodileList.add(crocodile);
+        if(hasCrocodileInArea()){
+            this.addAnimal(crocodile);
+        }else{
+            //throw forfeit!!
         }
     }
 
+    /**
+     * this method should be called when a Crocodile is added from an AreaTile
+     * @param crocodile
+     */
     @Override
-    public boolean isComplete() {
-        return false;
+    public void addAnimal(Crocodile crocodile){
+        this.crocodileList.add(crocodile);
+    }
+
+    /**
+     * Returns the number of Crocodiles in this area
+     * @return
+     */
+    public int getNumOfCrocodiles() {
+        return this.crocodileList.size();
     }
 }
