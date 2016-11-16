@@ -8,6 +8,7 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +24,6 @@ public class AreaManager {
     private List<JungleArea> jungleAreas;
     private List<LakeArea> lakeAreas;
     private List<TrailArea> trailAreas;
-    private Map<Point, DenArea> denAreaMap;
 
     public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
         this.denAreas = denAreas;
@@ -33,13 +33,22 @@ public class AreaManager {
         gameBoard = new GameBoard();
     }
 
+    public AreaManager() {
+        this.denAreas = new ArrayList<DenArea>();
+        this.jungleAreas = new ArrayList<JungleArea>();
+        this.lakeAreas = new ArrayList<LakeArea>();
+        this.trailAreas = new ArrayList<TrailArea>();
+        this.gameBoard = new GameBoard();
+        addTile(new Point(0,0), new PlayableTile("TLTJ-"));
+    }
+
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
         BoardTile boardTile = new BoardTile(playableTile);
         return boardTile;
 
     }
 
-    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone) {
+    public void addTile(Point position, PlayableTile playableTile){
         BoardTile boardTile = convertToBoardTile(playableTile);
         gameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
@@ -50,10 +59,16 @@ public class AreaManager {
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
             Area denArea = new DenArea(position);
+            denArea.addBoardTile(boardTile);
             denTerrainNode.setArea(denArea);
             denAreas.add((DenArea)denArea);
         }
         placeDenArea(position, boardTile);
+    }
+
+    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone) {
+        addTile(position, playableTile);
+        BoardTile boardTile = gameBoard.getTile(position);
         TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
         if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
             System.out.println("Player forfeits");
