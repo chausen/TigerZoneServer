@@ -55,4 +55,37 @@ public class AreaManager {
             predatorPlacementNode.getArea().placePredator(predator);
         }
     }
+
+    /**
+     * Returns the list of Den Areas
+     * @return
+     */
+    public List<DenArea> getDenAreas() {
+        return this.denAreas;
+    }
+
+    /**
+     * Returns the list of Jungle Areas
+     * @return
+     */
+    public List<JungleArea> getJungleAreas() {
+        return this.jungleAreas;
+    }
+
+    /**
+     * Returns the list of Lake Areas
+     * @return
+     */
+    public List<LakeArea> getLakeAreas() {
+        return this.lakeAreas;
+    }
+
+    /**
+     * Returns the list of Trail Areas
+     * @return
+     */
+    public List<TrailArea> getTrailAreas() {
+        return this.trailAreas;
+    }
+
 }
