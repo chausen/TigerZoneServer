@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.ports;
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,12 @@ public class IOPortTest {
             public void startGame() {}
             public void initializeGame(int player1id, int player2id, long seed) {}
             public void setOutAdapter(PlayerOutAdapter outAdapter) {}
+
+            @Override
+            public boolean isTilePlaceable(PlayableTile playableTile) {
+                return false;
+            }
+
             public String getTurnString() { return turn; }
         };
 
