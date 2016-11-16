@@ -93,7 +93,7 @@ public abstract class Area implements ListAddable{
         if(this.tigerList.isEmpty()){
             this.tigerList.add(tiger);
         }else{
-            int playerID = tiger.getPlayerId();
+            String playerID = tiger.getPlayerId();
             //player should forfeit
         }
     }
@@ -121,16 +121,16 @@ public abstract class Area implements ListAddable{
      * Returns a list of playerID's that have equal max tiger counts for an area.
      * @return
      */
-    public List<Integer> getOwnerID() {
-        List<Integer> areaOwners = new ArrayList<>();
+    public List<String> getOwnerID() {
+        List<String> areaOwners = new ArrayList<>();
         if(tigerList.size() == 0){
             return areaOwners;
         }
 
         //key: player | value: count
-        Map<Integer, Integer> playerTigerCountMap = new HashMap<>();
+        Map<String, Integer> playerTigerCountMap = new HashMap<>();
         for(Tiger tiger : tigerList){
-            int tigerOwner = tiger.getPlayerId();
+            String tigerOwner = tiger.getPlayerId();
             if(playerTigerCountMap.containsKey(tigerOwner)){
                 int newCount = playerTigerCountMap.get(tigerOwner) + 1;
                 playerTigerCountMap.replace(tigerOwner, newCount);
@@ -138,7 +138,7 @@ public abstract class Area implements ListAddable{
                 playerTigerCountMap.put(tigerOwner, 1);
             }
         }
-        Iterator<Map.Entry<Integer, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
+        Iterator<Map.Entry<String, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
         int maxCount = iterator.next().getValue();
 
         //find max number count
@@ -152,9 +152,9 @@ public abstract class Area implements ListAddable{
         //add all owners in the area that have equal number of tigers to areaOwners list
         iterator = playerTigerCountMap.entrySet().iterator();
         while(iterator.hasNext()){
-            Map.Entry<Integer, Integer> player = iterator.next();
+            Map.Entry<String, Integer> player = iterator.next();
             int playerCount = player.getValue();
-            int playerID = player.getKey();
+            String playerID = player.getKey();
             if(playerCount == maxCount){
                 areaOwners.add(playerID);
             }

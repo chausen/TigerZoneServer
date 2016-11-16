@@ -25,7 +25,7 @@ public class JungleAreaTest {
         PlayableTile areaTile1 = new PlayableTile("TTTT-");
         jungleArea = new JungleArea();
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
     }
 
     @Test

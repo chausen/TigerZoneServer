@@ -22,7 +22,7 @@ public class LakeAreaTest {
         lakeArea = new LakeArea();
 
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
 
         boar = new Boar();
         buffalo = new Buffalo();

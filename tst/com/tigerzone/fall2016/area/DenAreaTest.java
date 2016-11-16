@@ -29,7 +29,7 @@ public class DenAreaTest {
         PlayableTile areaTile1 = new PlayableTile("TTTT-");
         denArea = new DenArea();
         crocodile = new Crocodile();
-        tiger = new Tiger(0);
+        tiger = new Tiger("0");
     }
 
     @Test
