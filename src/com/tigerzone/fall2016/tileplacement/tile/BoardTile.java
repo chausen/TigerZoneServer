@@ -472,7 +472,7 @@ public class BoardTile {
                 Crocodile crocodile = new Crocodile();
                 lakeO.getArea().placePredator(crocodile);
                 trailS.getArea().placePredator(crocodile);
-                
+
                 break;
         }
     }
