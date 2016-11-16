@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
-import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.*;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.terrain.DenTerrain;
@@ -175,56 +175,324 @@ public class BoardTile {
                 break;
             case "TLJT-": //checked
 
+                List<Integer> jungleAZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleBZoneList = new ArrayList<>(Arrays.asList(3,7,8,9));
+                List<Integer> trailAZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeAZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleACanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungleBCanConnect = new ArrayList<>(Arrays.asList(9,9,1,2,3));
+                List<Integer> trailACanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeACanConnect = new ArrayList<>(Arrays.asList(4));
+
+                LakeTerrainNode lakeA = new LakeTerrainNode(lakeACanConnect, lakeAZoneList);
+                TrailTerrainNode trailA = new TrailTerrainNode(trailACanConnect, trailAZoneList);
+                JungleTerrainNode jungleA = new JungleTerrainNode(jungleACanConnect, jungleAZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleB = new JungleTerrainNode(jungleBCanConnect, jungleBZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeA)), new HashSet<DenTerrainNode>());
+                List<TerrainNode> terrainNodesA = new ArrayList<>(Arrays.asList(jungleA, jungleB, trailA, lakeA));
+                this.terrainNodes = terrainNodesA;
+
                 break;
             case "TLJTP": //checked
-                List<Integer> jungle1ZoneList = new ArrayList<>(Arrays.asList(1));
-                List<Integer> jungle2ZoneList = new ArrayList<>(Arrays.asList(3,7,8,9));
-                List<Integer> trailZoneList = new ArrayList<>(Arrays.asList(2,4,5));
-                List<Integer> lakeZoneList = new ArrayList<>(Arrays.asList(6));
+                List<Integer> jungleCZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleDZoneList = new ArrayList<>(Arrays.asList(3,7,8,9));
+                List<Integer> trailCZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeCZoneList = new ArrayList<>(Arrays.asList(6));
 
-                List<Integer> jungle1CanConnect = new ArrayList<>(Arrays.asList(7,3));
-                List<Integer> jungle2CanConnect = new ArrayList<>(Arrays.asList(9,9,1,2,3));
-                List<Integer> trailCanConnect = new ArrayList<>(Arrays.asList(6,8));
-                List<Integer> lakeCanConnect = new ArrayList<>(Arrays.asList(4));
+                List<Integer> jungleCCanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungleDCanConnect = new ArrayList<>(Arrays.asList(9,9,1,2,3));
+                List<Integer> trailCCanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeCCanConnect = new ArrayList<>(Arrays.asList(4));
 
+                LakeTerrainNode lakeC = new LakeTerrainNode(lakeCCanConnect, lakeCZoneList);
+                TrailTerrainNode trailC = new TrailTerrainNode(trailCCanConnect, trailCZoneList);
+                JungleTerrainNode jungleC = new JungleTerrainNode(jungleCCanConnect, jungleCZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleD = new JungleTerrainNode(jungleDCanConnect, jungleDZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeC)), new HashSet<DenTerrainNode>());
+
+                Boar boar = new Boar();
+                lakeC.getArea().addAnimal(boar);
+                trailC.getArea().addAnimal(boar);
+
+                this.terrainNodes = Arrays.asList(jungleC, jungleD, trailC, lakeC);
 
                 break;
             case "JLTT-": //checked
+                List<Integer> jungleEZoneList = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungleFZoneList = new ArrayList<>(Arrays.asList(1,2,3,9));
+                List<Integer> trailDZoneList = new ArrayList<>(Arrays.asList(4,5,8));
+                List<Integer> lakeDZoneList = new ArrayList<>(Arrays.asList(6));
 
+                List<Integer> jungleECanConnect = new ArrayList<>(Arrays.asList(9,1));
+                List<Integer> jungleFCanConnect = new ArrayList<>(Arrays.asList(3,7,8,9,3)); //checked
+                List<Integer> trailDCanConnect = new ArrayList<>(Arrays.asList(6,2));
+                List<Integer> lakeDCanConnect = new ArrayList<>(Arrays.asList(4));
+
+                LakeTerrainNode lakeD = new LakeTerrainNode(lakeDCanConnect, lakeDZoneList);
+                TrailTerrainNode trailD = new TrailTerrainNode(trailDCanConnect, trailDZoneList);
+                JungleTerrainNode jungleE = new JungleTerrainNode(jungleECanConnect, jungleEZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleF = new JungleTerrainNode(jungleFCanConnect, jungleFZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeD)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungleE, jungleF, trailD, lakeD);
 
                 break;
             case "JLTTB": //checked
 
+                List<Integer> jungleGZoneList = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungleHZoneList = new ArrayList<>(Arrays.asList(1,2,3,9));
+                List<Integer> trailEZoneList = new ArrayList<>(Arrays.asList(4,5,8));
+                List<Integer> lakeEZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleGCanConnect = new ArrayList<>(Arrays.asList(9,1));
+                List<Integer> jungleHCanConnect = new ArrayList<>(Arrays.asList(3,7,8,9,3)); //checked
+                List<Integer> trailECanConnect = new ArrayList<>(Arrays.asList(6,2));
+                List<Integer> lakeECanConnect = new ArrayList<>(Arrays.asList(4));
+
+                LakeTerrainNode lakeE = new LakeTerrainNode(lakeECanConnect, lakeEZoneList);
+                TrailTerrainNode trailE = new TrailTerrainNode(trailECanConnect, trailEZoneList);
+                JungleTerrainNode jungleG = new JungleTerrainNode(jungleGCanConnect, jungleGZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleH = new JungleTerrainNode(jungleHCanConnect, jungleHZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeE)), new HashSet<DenTerrainNode>());
+
+                Buffalo buffalo = new Buffalo();
+                lakeE.getArea().addAnimal(buffalo);
+                trailE.getArea().addAnimal(buffalo);
+
+                this.terrainNodes = Arrays.asList(jungleG, jungleH, trailE, lakeE);
+
                 break;
             case "TLTJ-": //checked
+
+                List<Integer> jungleIZoneList = new ArrayList<>(Arrays.asList(1,4,7));
+                List<Integer> jungleJZoneList = new ArrayList<>(Arrays.asList(3,9));
+                List<Integer> trailFZoneList = new ArrayList<>(Arrays.asList(2,5,8));
+                List<Integer> lakeFZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleICanConnect = new ArrayList<>(Arrays.asList(7,3,6,9,1));
+                List<Integer> jungleJCanConnect = new ArrayList<>(Arrays.asList(9,3)); //checked
+                List<Integer> trailFCanConnect = new ArrayList<>(Arrays.asList(8,2));
+                List<Integer> lakeFCanConnect = new ArrayList<>(Arrays.asList(4));
+
+                LakeTerrainNode lakeF = new LakeTerrainNode(lakeFCanConnect, lakeFZoneList);
+                TrailTerrainNode trailF = new TrailTerrainNode(trailFCanConnect, trailFZoneList);
+                JungleTerrainNode jungleI = new JungleTerrainNode(jungleICanConnect, jungleIZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleJ = new JungleTerrainNode(jungleJCanConnect, jungleJZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeF)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungleI, jungleJ, trailF, lakeF);
 
                 break;
             case "TLTJD": //checked
 
+                List<Integer> jungleKZoneList = new ArrayList<>(Arrays.asList(1,4,7));
+                List<Integer> jungleLZoneList = new ArrayList<>(Arrays.asList(3,9));
+                List<Integer> trailGZoneList = new ArrayList<>(Arrays.asList(2,5,8));
+                List<Integer> lakeGZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleKCanConnect = new ArrayList<>(Arrays.asList(7,3,6,9,1));
+                List<Integer> jungleLCanConnect = new ArrayList<>(Arrays.asList(9,3)); //checked
+                List<Integer> trailGCanConnect = new ArrayList<>(Arrays.asList(8,2));
+                List<Integer> lakeGCanConnect = new ArrayList<>(Arrays.asList(4));
+
+                LakeTerrainNode lakeG = new LakeTerrainNode(lakeGCanConnect, lakeGZoneList);
+                TrailTerrainNode trailG = new TrailTerrainNode(trailGCanConnect, trailGZoneList);
+                JungleTerrainNode jungleK = new JungleTerrainNode(jungleKCanConnect, jungleKZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleL = new JungleTerrainNode(jungleLCanConnect, jungleLZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeG)), new HashSet<DenTerrainNode>());
+
+
+                Deer deer = new Deer();
+                lakeG.getArea().addAnimal(deer);
+                trailG.getArea().addAnimal(deer);
+
+                this.terrainNodes = Arrays.asList(jungleK, jungleL, trailG, lakeG);
+
                 break;
             case "TLLL-": //checked
 
-                break;
-            case "TLTT-": //checked
+                List<Integer> jungleMZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleNZoneList = new ArrayList<>(Arrays.asList(3));
+                List<Integer> trailHZoneList = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeHZoneList = new ArrayList<>(Arrays.asList(4,5,6,7,8,9));
+
+                List<Integer> jungleMCanConnect = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungleNCanConnect = new ArrayList<>(Arrays.asList(9)); //checked
+                List<Integer> trailHCanConnect = new ArrayList<>(Arrays.asList(8));
+                List<Integer> lakeHCanConnect = new ArrayList<>(Arrays.asList(4,7,3,2,1,9,6));
+
+                LakeTerrainNode lakeH = new LakeTerrainNode(lakeHCanConnect, lakeHZoneList);
+                TrailTerrainNode trailH = new TrailTerrainNode(trailHCanConnect, trailHZoneList);
+                JungleTerrainNode jungleM = new JungleTerrainNode(jungleMCanConnect, jungleMZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeH)), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleN = new JungleTerrainNode(jungleNCanConnect, jungleNZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeH)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungleM, jungleN, trailH, lakeH);
 
                 break;
+            case "TLTT-": //checked
+                List<Integer> jungleOZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> junglePZoneList = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungleQZoneList = new ArrayList<>(Arrays.asList(3,9));
+                List<Integer> trailIZoneList = new ArrayList<>(Arrays.asList(2));
+                List<Integer> trailJZoneList = new ArrayList<>(Arrays.asList(4));
+                List<Integer> trailKZoneList = new ArrayList<>(Arrays.asList(8));
+                List<Integer> crossRoadAZoneList = new ArrayList<>(Arrays.asList(5));
+                List<Integer> lakeIZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleOCanConnect = new ArrayList<>(Arrays.asList(3,7));
+                List<Integer> junglePCanConnect = new ArrayList<>(Arrays.asList(9,1)); //checked
+                List<Integer> jungleQCanConnect = new ArrayList<>(Arrays.asList(9,3)); //checked
+                List<Integer> trailICanConnect = new ArrayList<>(Arrays.asList(8));
+                List<Integer> trailJCanConnect = new ArrayList<>(Arrays.asList(6));
+                List<Integer> trailKCanConnect = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeICanConnect = new ArrayList<>(Arrays.asList(4));
+
+                TrailTerrainNode trailI = new TrailTerrainNode(trailICanConnect, trailIZoneList);
+                TrailTerrainNode trailJ = new TrailTerrainNode(trailJCanConnect, trailJZoneList);
+                TrailTerrainNode trailK = new TrailTerrainNode(trailKCanConnect, trailKZoneList);
+                CrossRoads crossRoadsA = new CrossRoads(crossRoadAZoneList);
+                LakeTerrainNode lakeI = new LakeTerrainNode(lakeICanConnect, lakeIZoneList);
+                JungleTerrainNode jungleO = new JungleTerrainNode(jungleOCanConnect, jungleOZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleP = new JungleTerrainNode(junglePCanConnect, junglePZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleQ = new JungleTerrainNode(jungleQCanConnect, jungleQZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeI)), new HashSet<DenTerrainNode>());
+                
+                this.terrainNodes = Arrays.asList(jungleO, jungleP, jungleQ, trailI, trailJ, trailK, crossRoadsA, lakeI);
+                break;
             case "TLTTP": //checked
+                List<Integer> jungleRZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleSZoneList = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungleTZoneList = new ArrayList<>(Arrays.asList(3,9));
+                List<Integer> trailLZoneList = new ArrayList<>(Arrays.asList(2));
+                List<Integer> trailMZoneList = new ArrayList<>(Arrays.asList(4));
+                List<Integer> trailNZoneList = new ArrayList<>(Arrays.asList(8));
+                List<Integer> crossRoadBZoneList = new ArrayList<>(Arrays.asList(5));
+                List<Integer> lakeJZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungleRCanConnect = new ArrayList<>(Arrays.asList(3,7));
+                List<Integer> jungleSCanConnect = new ArrayList<>(Arrays.asList(9,1)); //checked
+                List<Integer> jungleTCanConnect = new ArrayList<>(Arrays.asList(9,3)); //checked
+                List<Integer> trailLCanConnect = new ArrayList<>(Arrays.asList(8));
+                List<Integer> trailMCanConnect = new ArrayList<>(Arrays.asList(6));
+                List<Integer> trailNCanConnect = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeJCanConnect = new ArrayList<>(Arrays.asList(4));
+
+                TrailTerrainNode trailL = new TrailTerrainNode(trailLCanConnect, trailLZoneList);
+                TrailTerrainNode trailM = new TrailTerrainNode(trailMCanConnect, trailMZoneList);
+                TrailTerrainNode trailN = new TrailTerrainNode(trailNCanConnect, trailNZoneList);
+                CrossRoads crossRoadsB = new CrossRoads(crossRoadBZoneList);
+                LakeTerrainNode lakeJ = new LakeTerrainNode(lakeJCanConnect, lakeJZoneList);
+                JungleTerrainNode jungleR = new JungleTerrainNode(jungleRCanConnect, jungleRZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleS = new JungleTerrainNode(jungleSCanConnect, jungleSZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleT = new JungleTerrainNode(jungleTCanConnect, jungleTZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeJ)), new HashSet<DenTerrainNode>());
+
+                Boar boar2 = new Boar();
+                lakeJ.getArea().addAnimal(boar2);
+                trailL.getArea().addAnimal(boar2);
+                trailM.getArea().addAnimal(boar2);
+                trailN.getArea().addAnimal(boar2);
+
+                this.terrainNodes = Arrays.asList(jungleR, jungleS, jungleT, trailL, trailM, trailN, crossRoadsB, lakeJ);
 
                 break;
             case "TLLT-": //checked
+                List<Integer> jungleUZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleVZoneList = new ArrayList<>(Arrays.asList(3,7));
+                List<Integer> trailOZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeKZoneList = new ArrayList<>(Arrays.asList(6,8,9));
+
+                List<Integer> jungleUCanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungleVCanConnect = new ArrayList<>(Arrays.asList(9,9));
+                List<Integer> trailOCanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeKCanConnect = new ArrayList<>(Arrays.asList(2,3,4,7));
+
+                LakeTerrainNode lakeK = new LakeTerrainNode(lakeKCanConnect, lakeKZoneList);
+                TrailTerrainNode trailO = new TrailTerrainNode(trailOCanConnect, trailOZoneList);
+                JungleTerrainNode jungleU = new JungleTerrainNode(jungleUCanConnect, jungleUZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleV = new JungleTerrainNode(jungleVCanConnect, jungleVZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeK)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungleU, jungleV, trailO, lakeK);
 
                 break;
             case "TLLTB": //checked
 
+                List<Integer> jungleWZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungleXZoneList = new ArrayList<>(Arrays.asList(3,7));
+                List<Integer> trailPZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeLZoneList = new ArrayList<>(Arrays.asList(6,8,9));
+
+                List<Integer> jungleWCanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungleXCanConnect = new ArrayList<>(Arrays.asList(9,9));
+                List<Integer> trailPCanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeLCanConnect = new ArrayList<>(Arrays.asList(2,3,4,7));
+
+                LakeTerrainNode lakeL = new LakeTerrainNode(lakeLCanConnect, lakeLZoneList);
+                TrailTerrainNode trailP = new TrailTerrainNode(trailPCanConnect, trailPZoneList);
+                JungleTerrainNode jungleW = new JungleTerrainNode(jungleWCanConnect, jungleWZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleX = new JungleTerrainNode(jungleXCanConnect, jungleXZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeL)), new HashSet<DenTerrainNode>());
+
+                Buffalo buffalo1 = new Buffalo();
+                lakeL.getArea().addAnimal(buffalo1);
+                trailP.getArea().addAnimal(buffalo1);
+
+                this.terrainNodes = Arrays.asList(jungleW, jungleX, trailP, lakeL);
                 break;
             case "LJTJ-": //checked
+                List<Integer> jungleYZoneList = new ArrayList<>(Arrays.asList(1,4,7));
+                List<Integer> jungleZZoneList = new ArrayList<>(Arrays.asList(3,6,9));
+                List<Integer> trailQZoneList = new ArrayList<>(Arrays.asList(5,8)); //double check
+                List<Integer> lakeMZoneList = new ArrayList<>(Arrays.asList(2));
 
+                List<Integer> jungleYCanConnect = new ArrayList<>(Arrays.asList(3,6,9,1));
+                List<Integer> jungleZCanConnect = new ArrayList<>(Arrays.asList(1,4,7,3));
+                List<Integer> trailQCanConnect = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeMCanConnect = new ArrayList<>(Arrays.asList(8));
+
+                LakeTerrainNode lakeM = new LakeTerrainNode(lakeMCanConnect, lakeMZoneList);
+                TrailTerrainNode trailQ = new TrailTerrainNode(trailQCanConnect, trailQZoneList);
+                JungleTerrainNode jungleY = new JungleTerrainNode(jungleYCanConnect, jungleYZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeM)), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungleZ = new JungleTerrainNode(jungleZCanConnect, jungleZZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeM)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungleY, jungleZ, trailQ, lakeM);
                 break;
             case "LJTJD": //checked
 
+                List<Integer> jungle1AZoneList = new ArrayList<>(Arrays.asList(1,4,7));
+                List<Integer> jungle1BZoneList = new ArrayList<>(Arrays.asList(3,6,9));
+                List<Integer> trailRZoneList = new ArrayList<>(Arrays.asList(5,8)); //double check
+                List<Integer> lakeNZoneList = new ArrayList<>(Arrays.asList(2));
+
+                List<Integer> jungle1ACanConnect = new ArrayList<>(Arrays.asList(3,6,9,1));
+                List<Integer> jungle1BCanConnect = new ArrayList<>(Arrays.asList(1,4,7,3));
+                List<Integer> trailRCanConnect = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeNCanConnect = new ArrayList<>(Arrays.asList(8));
+
+                LakeTerrainNode lakeN = new LakeTerrainNode(lakeNCanConnect, lakeNZoneList);
+                TrailTerrainNode trailR = new TrailTerrainNode(trailRCanConnect, trailRZoneList);
+                JungleTerrainNode jungle1A = new JungleTerrainNode(jungle1ACanConnect, jungle1AZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeN)), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungle1B = new JungleTerrainNode(jungle1BCanConnect, jungle1BZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeN)), new HashSet<DenTerrainNode>());
+
+                Deer deer1 = new Deer();
+                lakeN.getArea().addAnimal(deer1);
+                trailR.getArea().addAnimal(deer1);
+
+                this.terrainNodes = Arrays.asList(jungle1A, jungle1B, trailR, lakeN);
                 break;
             case "TLLLC": //checked
+                List<Integer> jungle1CZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungle1DZoneList = new ArrayList<>(Arrays.asList(3));
+                List<Integer> trailSZoneList = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeOZoneList = new ArrayList<>(Arrays.asList(4,5,6,7,8,9));
 
+                List<Integer> jungle1CCanConnect = new ArrayList<>(Arrays.asList(7));
+                List<Integer> jungle1DCanConnect = new ArrayList<>(Arrays.asList(9)); //checked
+                List<Integer> trailSCanConnect = new ArrayList<>(Arrays.asList(8));
+                List<Integer> lakeOCanConnect = new ArrayList<>(Arrays.asList(4,7,3,2,1,9,6));
+
+                LakeTerrainNode lakeO = new LakeTerrainNode(lakeOCanConnect, lakeOZoneList);
+                TrailTerrainNode trailS = new TrailTerrainNode(trailSCanConnect, trailSZoneList);
+                JungleTerrainNode jungle1C = new JungleTerrainNode(jungle1CCanConnect, jungle1CZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeO)), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungle1D = new JungleTerrainNode(jungle1DCanConnect, jungle1DZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeO)), new HashSet<DenTerrainNode>());
+
+                this.terrainNodes = Arrays.asList(jungle1C, jungle1D, trailS, lakeO);
+                Crocodile crocodile = new Crocodile();
+                lakeO.getArea().placePredator(crocodile);
+                trailS.getArea().placePredator(crocodile);
+                
                 break;
         }
     }
