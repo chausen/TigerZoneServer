@@ -11,7 +11,6 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
-import javafx.geometry.Point2D;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -57,16 +56,11 @@ public class ScorerTest {
     @org.junit.Test
     public void scoreDen() throws Exception {
         // Create a DenArea of size 9 whose owner is player1
-//        DenArea den = new DenArea();
-//        Edge edge = new Edge(new JungleTerrain(), new JungleTerrain(), new JungleTerrain());
-//        for (int i = 0; i < 9; ++i) {
-//            den.addTile(new Point2D(0,i), new AreaTile(edge, edge, edge, edge, new JungleTerrain()));
-//        }
-//        scorer.score(den);
+        //DenArea den = new DenArea();
+        //scorer.score(den);
 
         // player1 should have 9 points and player2 should have 0 points
-//        assertTrue(scorer.getScore(1) == 9);
-//        assertTrue(scorer.getScore(2) == 0);
+        //assertTrue(scorer.getScore("Clay") == 9);
     }
 
     @org.junit.Test
@@ -96,11 +90,30 @@ public class ScorerTest {
 
     @org.junit.Test
     public void scoreTrail() throws Exception {
-        // Create a TrailArea of size 5 with 1 unique animal, whose owner is player 1
+        // Create a TrailArea of size 5 with 1 unique animal, whose owner is player Clay
+        TrailArea trailArea = new TrailArea();
+        Set<BoardTile> boardTiles = new HashSet<>();
+        BoardTile boardTile = new BoardTile(new PlayableTile("JJJJ-"));
+        BoardTile boardTile2 = new BoardTile(new PlayableTile("JJTJX"));
+        BoardTile boardTile3 = new BoardTile(new PlayableTile("TLTT-"));
+        BoardTile boardTile4 = new BoardTile(new PlayableTile("JLLJX"));
+        BoardTile boardTile5 = new BoardTile(new PlayableTile("TXLTT-"));
+        boardTiles.add(boardTile);
+        boardTiles.add(boardTile2);
+        boardTiles.add(boardTile3);
+        boardTiles.add(boardTile4);
+        boardTiles.add(boardTile5);
+
+        trailArea.addBoardTile(boardTiles);
+        Animal boar = new Boar();
+        trailArea.addAnimal(boar);
+        Tiger tiger = new Tiger("Clay");
+        trailArea.placePredator(tiger);
+        scorer.score(trailArea);
 
         // player1 should have 5+1 = 6 points and player2 should have 0 points
-//        assertTrue(scorer.getScore(1) == 6);
-//        assertTrue(scorer.getScore(2) == 0);
+        System.out.print(scorer.getScore("Clay"));
+        assertTrue(scorer.getScore("Clay") == 6);
     }
 
     @org.junit.Test
@@ -138,21 +151,6 @@ public class ScorerTest {
         // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));
-    }
-
-    @Test
-    public void testScore() throws Exception {
-
-    }
-
-    @Test
-    public void testScore1() throws Exception {
-
-    }
-
-    @Test
-    public void testScore2() throws Exception {
-
     }
 
     @Test

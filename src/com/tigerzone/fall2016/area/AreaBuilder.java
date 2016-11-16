@@ -42,6 +42,7 @@ public class AreaBuilder {
         for(TerrainNode terrainNode: boardTile.getTerrainNodeList()){
             if(!completeTerrainNodes.contains(terrainNode)){
                 Area area = terrainNode.createArea();
+                terrainNode.createArea();
                 areaSet.add(area);
             }
         }

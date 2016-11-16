@@ -13,6 +13,10 @@ public class CrossRoads extends TerrainNode {
         setZones(zoneList);
     }
 
+    public Area getArea() {
+        return null;
+    }
+
     @Override
     public Area createArea() {
         return null;

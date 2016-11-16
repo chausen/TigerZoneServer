@@ -1,9 +1,7 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Animal;
-import com.tigerzone.fall2016.animals.Boar;
+
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
@@ -96,23 +94,35 @@ public class AreaManager {
         }
     }
 
-    private void setUp(){
-
-    }
-
+    /**
+     * Returns the list of Den Areas
+     * @return
+     */
     public List<DenArea> getDenAreas() {
-        return denAreas;
+        return this.denAreas;
     }
 
+    /**
+     * Returns the list of Jungle Areas
+     * @return
+     */
     public List<JungleArea> getJungleAreas() {
-        return jungleAreas;
+        return this.jungleAreas;
     }
 
+    /**
+     * Returns the list of Lake Areas
+     * @return
+     */
     public List<LakeArea> getLakeAreas() {
-        return lakeAreas;
+        return this.lakeAreas;
     }
 
+    /**
+     * Returns the list of Trail Areas
+     * @return
+     */
     public List<TrailArea> getTrailAreas() {
-        return trailAreas;
+        return this.trailAreas;
     }
 }

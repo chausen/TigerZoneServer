@@ -21,9 +21,8 @@ public abstract class Area implements ListAddable{
      */
     public Area(){
         tigerList = new ArrayList<>();
-        boardTiles = new HashSet<>();
-        terrainNodes = new HashSet<>();
     }
+
 
     public void mergeArea(Area area){
         for(TerrainNode terrainNode : area.getTerrainNodes()){

@@ -1,10 +1,11 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -12,6 +13,9 @@ import java.util.List;
  */
 public class DenArea extends Area {
 
+    Set<JungleTerrainNode> jungleTerrainNodes;
+
+    public  DenArea(){}
     private Point center;
 
     public  DenArea(Point center){
