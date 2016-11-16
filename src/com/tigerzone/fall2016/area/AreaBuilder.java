@@ -25,7 +25,7 @@ public class AreaBuilder {
         this.boardTile = boardTile;
     }
 
-    public List<Area> build(Point2D position){
+    public Set<Area> build(Point2D position){
         this.position = position;
         buildNorthFace();
         buildEastFace();
@@ -34,9 +34,9 @@ public class AreaBuilder {
         return builNewAreas();
     }
 
-    private List<Area> builNewAreas() {
-        List<Area> areaList = new ArrayList<Area>();
-        for(int i = 0; i < 10; i++){
+    private Set<Area> builNewAreas() {
+        Set<Area> areaList = new HashSet<>();
+        for(int i = 0; i < 9; i++){
             if(!completeTerrainNodes.contains(i)){
                 TerrainNode terrainNode = boardTile.getTerrainNode(i);
                 Area area = terrainNode.createArea();
@@ -143,7 +143,7 @@ public class AreaBuilder {
             terrainNodeCompared = gameBoard.getBelowAdjacentTile(position).getTerrainNode(y);
         }
         else{
-            terrainNodeCompared = gameBoard.getBelowAdjacentTile(position).getTerrainNode(y);
+            terrainNodeCompared = gameBoard.getleftAdjacentTile(position).getTerrainNode(y);
         }
         terrainNodeCompared.getCanConnectTo().remove(x);
         Area updatedArea = terrainNode.getArea();

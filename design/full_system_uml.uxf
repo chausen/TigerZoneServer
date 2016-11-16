@@ -1319,17 +1319,6 @@ void addToAppropriateList(List&lt;TrailArea&gt; trailAreas, List&lt;JungleArea&g
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>528</x>
-      <y>517</y>
-      <w>66</w>
-      <h>66</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>40.0;10.0;40.0;30.0;10.0;30.0;10.0;40.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>1441</x>
       <y>1089</y>
       <w>462</w>
@@ -1446,7 +1435,7 @@ void addToAppropriateList(List&lt;TrailArea&gt; trailAreas, List&lt;JungleArea&g
       <w>143</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>AreaManager
+    <panel_attributes>AreaBuilder
 --
 board:GameBoard
 bt:BoardTile

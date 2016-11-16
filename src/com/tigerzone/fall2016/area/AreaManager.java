@@ -6,6 +6,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lenovo on 11/7/2016.
@@ -23,7 +24,7 @@ public class AreaManager {
         BoardTile boardTile = convertToBoardTile(playableTile);
         gameGameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameGameBoard, boardTile);
-        List<Area> newAreas = areaBuilder.build(position);
+        Set<Area> newAreas = areaBuilder.build(position);
         for(Area area: newAreas){
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
         }
