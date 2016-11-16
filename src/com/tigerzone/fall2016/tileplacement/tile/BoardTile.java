@@ -1,8 +1,12 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,8 +81,9 @@ public class BoardTile {
     private void createZones(String tileString) {
         switch (tileString) {
             case "JJJJ-":
-
-
+                List<Integer> zoneList = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+                List<Integer> cc2List = new ArrayList<>(Arrays.asList(1,2,3,4,6,7,8,9));
+                TerrainNode terrainNode = new JungleTerrainNode();
                 break;
             case "JJJJX":
 
