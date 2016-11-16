@@ -1,8 +1,13 @@
 package com.tigerzone.fall2016.tileplacement.tile;
 
 
+import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.gamesystem.Turn;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,14 +16,8 @@ import java.util.List;
  */
 public class BoardTile {
 
-    List<TerrainNode> terrainNodes;
+    private List<TerrainNode> terrainNodes;
 
-    List<Integer> northConnections;
-    List<Integer> eastConnections;
-    List<Integer> southConnections;
-    List<Integer> westConnections;
-
-    List<TerrainNode> southZones;
 
     HashMap<Integer, TerrainNode> zoneTerrainNodeMap;
 
@@ -28,24 +27,41 @@ public class BoardTile {
         return zones;
     }
 
+    public BoardTile(List<TerrainNode> terrainNodes) {
+        setTerrainNodes(terrainNodes);
+        }
+
+
+    public void setTerrainNodes(List<TerrainNode> terrainNodes) {
+        this.terrainNodes = terrainNodes;
+        for (TerrainNode terrainNode: this.terrainNodes) {
+            terrainNode.setBoardTile(this);
+        }
+    }
+
     public void rotateCCW(int rotationDegrees) {
         int rotationCount = rotationDegrees/90;
         for (int i=0; i<rotationCount; i++) {
-            TerrainNode temp = getZone(1);
-            TerrainNode temp2 = getZone(2);
-            setZone(1, getZone(3));
-            setZone(2, getZone(6));
-            setZone(3, getZone(9));
-            setZone(6, getZone(8));
-            setZone(9, getZone(7));
-            setZone(8, getZone(4));
+            TerrainNode temp = getTerrainNodeFromZoneIndex(1);
+            TerrainNode temp2 = getTerrainNodeFromZoneIndex(2);
+            setZone(1, getTerrainNodeFromZoneIndex(3));
+            setZone(2, getTerrainNodeFromZoneIndex(6));
+            setZone(3, getTerrainNodeFromZoneIndex(9));
+            setZone(6, getTerrainNodeFromZoneIndex(8));
+            setZone(9, getTerrainNodeFromZoneIndex(7));
+            setZone(8, getTerrainNodeFromZoneIndex(4));
             setZone(7, temp);
             setZone(4, temp2);
         }
-
     }
 
-    public TerrainNode getZone(int index) {
+    public void rotateTerrainNodes(int rotationDegrees) {
+        for (TerrainNode terrainNode: this.terrainNodes) {
+            terrainNode.rotateTerrainNode(rotationDegrees);
+        }
+    }
+
+    public TerrainNode getTerrainNodeFromZoneIndex(int index) {
         index--;
         return zones[index];
     }
@@ -55,28 +71,26 @@ public class BoardTile {
         zones[index] = terrainNode;
     }
 
-//
-//    public void checkNorthCompatible(BoardTile toCompare) {
-//        for (TerrainNode terrainNode: this.terrainNodes) {
-//            for (TerrainNode compareNodes: toCompare.getTerrainNodeList()) {
-//                if (terrainNode.northCompatible.contains(compareNodes.getZones())) {
-//
-//                }
-//            }
-//        }
-//    }
-
     public BoardTile(PlayableTile playableTile){
-        createZones(playableTile.getTileString());
+        createTerrainNodes(playableTile.getTileString());
     }
 
     public BoardTile(PlayableTile playableTile, int rotationDegrees) {
-
+        createTerrainNodes(playableTile.getTileString());
+        rotateTerrainNodes(rotationDegrees);
     }
 
-    private void createZones(String tileString) {
+
+    public void generateZones(TerrainNode terrainNode) {
+        for (Integer integer: terrainNode.getZones()) {
+            setZone(integer,terrainNode);
+        }
+    }
+
+    private void createTerrainNodes(String tileString) {
         switch (tileString) {
             case "JJJJ-":
+
 
 
                 break;
@@ -123,9 +137,20 @@ public class BoardTile {
 
                 break;
             case "TLJTP": //checked
+                List<Integer> jungle1ZoneList = new ArrayList<>(Arrays.asList(1));
+                List<Integer> jungle2ZoneList = new ArrayList<>(Arrays.asList(3,7,8,9));
+                List<Integer> trailZoneList = new ArrayList<>(Arrays.asList(2,4,5));
+                List<Integer> lakeZoneList = new ArrayList<>(Arrays.asList(6));
+
+                List<Integer> jungle1CanConnect = new ArrayList<>(Arrays.asList(7,3));
+                List<Integer> jungle2CanConnect = new ArrayList<>(Arrays.asList(9,9,1,2,3));
+                List<Integer> trailCanConnect = new ArrayList<>(Arrays.asList(6,8));
+                List<Integer> lakeCanConnect = new ArrayList<>(Arrays.asList(4));
+
 
                 break;
             case "JLTT-": //checked
+
 
                 break;
             case "JLTTB": //checked

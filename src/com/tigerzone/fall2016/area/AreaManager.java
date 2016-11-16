@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.animals.Animal;
+import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
@@ -22,7 +24,7 @@ public class AreaManager {
 
     }
 
-    public void addTile(Point position, PlayableTile playableTile) {
+    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone) {
         BoardTile boardTile = convertToBoardTile(playableTile);
         gameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
@@ -30,47 +32,14 @@ public class AreaManager {
         for(Area area: newAreas){
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
         }
-    }
 
-
-    public void updateAreas(Point position) {
-        gameBoard.getTile(position);
-        gameBoard.getAboveAdjacentTile(position);
-        gameBoard.getRightAdjacentTile(position);
-        gameBoard.getAboveAdjacentTile(position);
-        gameBoard.getBelowAdjacentTile(position);
-
-        updateNorth(gameBoard.getTile(position), gameBoard.getAboveAdjacentTile(position));
-
-
-    }
-
-    public void updateNorth(BoardTile placedTile, BoardTile northTile) {
-        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
-            for (TerrainNode northtileNode: northTile.getTerrainNodeList()) {
-                placedtileNode.northMerge(northtileNode);
-            }
-        }
-    }
-    public void updateEast(BoardTile placedTile, BoardTile eastTile) {
-        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
-            for (TerrainNode easttileNode: eastTile.getTerrainNodeList()) {
-                placedtileNode.eastMerge(easttileNode);
-            }
-        }
-    }
-    public void updateSouth(BoardTile placedTile, BoardTile southTile) {
-        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
-            for (TerrainNode southtileNode: southTile.getTerrainNodeList()) {
-                placedtileNode.southMerge(southtileNode);
-            }
-        }
-    }
-    public void updateWest(BoardTile placedTile, BoardTile westTile) {
-        for (TerrainNode placedtileNode: placedTile.getTerrainNodeList()) {
-            for (TerrainNode westtileNode: westTile.getTerrainNodeList()) {
-                placedtileNode.westMerge(westtileNode);
-            }
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNodeFromZoneIndex(predatorPlacementZone);
+        if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
+            System.out.println("Player forfeits");
+        } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
+            System.out.println("Player forfeits");
+        } else {
+            predatorPlacementNode.getArea().placePredator(predator);
         }
     }
 
