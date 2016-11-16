@@ -161,9 +161,25 @@ public class Scorer {
         }
     }
 
-    // Score jungles
-    private void endGameScoreJungles(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
-        //TODO add logic
+    /**
+     * Scores all jungle areas of the game and adds those points to owners to those players
+     * @param jungles
+     */
+    private void endGameScoreJungles(List<JungleArea> jungles) {
+        int completedLakeValue = 3;
+        int completedDenValue = 5;
+        for(JungleArea jungle : jungles){
+            List<String> ownerIDS = jungle.getOwnerID();
+
+            //pointers = (completedLakeValue * num of completed lakes) + (completedDenValue * num of completed dens)
+            Integer points = (completedLakeValue * jungle.countCompletedLakes())
+                              + (completedDenValue * jungle.countCompletedDens());
+
+            for(String id: ownerIDS){
+                Integer currentScore = playerScores.get(id);
+                playerScores.put(id, currentScore + points);
+            }
+        }
     }
 
     /**
