@@ -87,6 +87,8 @@ public abstract class IOPort implements PlayerOutAdapter {
         }
     }
 
+    //========== Helper Methods for Receive Turn ==========//
+
     private void receiveTurnPlace(String s){
         Scanner sc = new Scanner(s);
         String tiletextrep = sc.next();//This gives us the Text representation of the PlayableTile.
@@ -118,6 +120,7 @@ public abstract class IOPort implements PlayerOutAdapter {
         System.out.println("We are now at Quit");
     }
 
+    //========== End of Helper Methods for Receive Turn ==========//
 
     @Override
     public abstract void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
@@ -126,15 +129,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     public abstract void notifyBeginGame(AreaTile areatile);
 
     @Override
-    public abstract void notifyEndGame(Set<Integer> winners);
-
-    public PlayableTile getActiveTile(){
-        return activeTile;
-    }
-
-    public String getActivePlayer(){
-        return activeplayer;
-    }
+    public abstract void notifyEndGame(Set<String> winners);
 
     @Override
     public abstract void forfeitIllegalMeeple(int winner);
@@ -144,4 +139,15 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     @Override
     public abstract void forfeitIllegalTile(int winner);
+
+
+    //========== Accessors ==========//
+
+    public PlayableTile getActiveTile(){
+        return activeTile;
+    }
+
+    public String getActivePlayer(){
+        return activeplayer;
+    }
 }

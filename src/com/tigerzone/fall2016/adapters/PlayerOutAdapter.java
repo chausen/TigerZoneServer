@@ -12,7 +12,7 @@ public interface PlayerOutAdapter
     public void receiveTurn(String s);
     public void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
     public void notifyBeginGame(AreaTile areatile);
-    public void notifyEndGame(Set<Integer> winnerIDs);
+    public void notifyEndGame(Set<String> winnerIDs);
     public void forfeitInvalidMeeple(int winnerID);
     public void forfeitIllegalMeeple(int winnerID);
     public void forfeitIllegalTile(int winnerID);

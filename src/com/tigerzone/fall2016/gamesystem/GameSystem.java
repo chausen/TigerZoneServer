@@ -27,28 +27,54 @@ public class GameSystem implements PlayerInAdapter
 
     // Communication
     private PlayerOutAdapter outAdapter;
-    boolean gameInProgress;
-    boolean waitingForInput;
-    private boolean timeout;
-    private int timeoutLength; // time in milliseconds until forfeit
 
     public GameSystem(int player1id, int player2id, long seed) {
-        gameInProgress = true;
-        waitingForInput = true;
-        timeout = false;
-        timeoutLength = 1000; // in milliseconds
         initializeGame(player1id, player2id, seed);
     }
 
     /**
-     * Called by an adapter at the system's boundary to provide the current player's turn
+     * Receives a turn from a PlayerOutAdapter and carries out the turn:
+     * 1) Checks if the tile is placeable
+     * 2) Updates tile areas (which may trigger scoring)
+     * 3) Sends the next tile to the PlayerOutAdapter
+     *
+     * If there are no tiles remaining, the player with the higher score
      *
      * @param t  Turn object holding the player whose turn it is, their tile placement, and predator placement
      */
     public void receiveTurn(Turn t)
     {
-        waitingForInput = false;
         this.currentTurn = t;
+
+        // check if tile is unplayable
+        PlayableTile currentTile = currentTurn.getTile();
+        if ( fsb.needToRemove(currentTile) ) {
+            // prompt player to:
+            //   1. pass
+            //   2. pick up one of their previously placed Tigers and return it to the supply
+            //   3. put another tiger from their supply on top of a tiger they previously placed
+        }
+
+        // place tile
+        BoardTile boardTile = new BoardTile(currentTile);
+        Point2D position = currentTurn.getPosition();
+        fsb.placeTile(position, boardTile);
+        //TODO: Add forfeit check
+
+        // update areas
+
+        // notify outAdapter with results
+
+        PlayableTile nextTile = ts.pop();
+        // If there are no tiles remaining, end the game
+        if (nextTile == null) {
+            Set<String> winners = scorer.announceWinners();
+            outAdapter.notifyEndGame(winners);
+        } else {
+            // The other player becomes the current player
+            currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
+        }
+
     }
 
     public PlayableTile getActiveTile()
@@ -83,54 +109,7 @@ public class GameSystem implements PlayerInAdapter
         startGame();
     }
 
-    //TODO: Refactor functionality into private methods
-
-    /**
-     * The main game loop. One iteration of the game loop encapsulates one turn.
-     *
-     */
-    public void startGame()
-    {
-        // Game Loop
-        while (gameInProgress) {
-            // get turn
-            while (waitingForInput) {
-                // do nothing (。-`ω-)
-            }
-
-            // check if tile is unplayable
-            PlayableTile currentTile = currentTurn.getTile();
-            if ( fsb.needToRemove(currentTile) ) {
-                // prompt player to:
-                //   1. pass
-                //   2. pick up one of their previously placed Tigers and return it to the supply
-                //   3. put another tiger from their supply on top of a tiger they previously placed
-            }
-
-            // place tile
-            BoardTile boardTile = new BoardTile(currentTile);
-            Point2D position = currentTurn.getPosition();
-            fsb.placeTile(position, boardTile);
-            //TODO: Add forfeit check
-
-            // update areas
-
-            // notify outAdapter with results
-
-            PlayableTile nextTile = ts.pop();
-            // If there are no tiles remaining, end the game
-            if (nextTile == null) {
-                gameInProgress = false;
-            }
-
-            // The other player becomes the current player
-            currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
-
-        }
-        Set<Integer> winners = scorer.announceWinners();
-        outAdapter.notifyEndGame(winners);
-        gameInProgress = false;
-    }
+    public void startGame() {}
 
     public void setOutAdapter(PlayerOutAdapter outAdapter){
         this.outAdapter = outAdapter;
