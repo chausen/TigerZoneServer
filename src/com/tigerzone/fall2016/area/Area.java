@@ -17,17 +17,8 @@ public abstract class Area implements ListAddable{
     private List<Tiger> tigerList;
 
     public Area(){
-
         tigerList = new ArrayList<>();
     }
-
-    // TODO: 11/14/2016 commented out for push 
-//    public void visit(Crocodile crocodile){
-//        crocodile.accept(this);
-//    }
-//    public void visit(Tiger tiger){
-//        tiger.accept(this);
-//    }
 
     void addAnimalFromAnimalAreaTile(Prey prey){}
 
