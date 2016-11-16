@@ -12,6 +12,7 @@ import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -27,7 +28,7 @@ public class DenAreaTest {
     @Before
     public void setUp() throws Exception {
         PlayableTile areaTile1 = new PlayableTile("TTTT-");
-        denArea = new DenArea();
+        denArea = new DenArea(new Point(0,0));
         crocodile = new Crocodile();
         tiger = new Tiger("0");
     }
