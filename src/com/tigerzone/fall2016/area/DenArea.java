@@ -12,7 +12,7 @@ public class DenArea extends Area {
     public  DenArea(){}
 
     @Override
-    boolean isPredatorPlacable(Predator predator) {
+    boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInDen();
     }
 

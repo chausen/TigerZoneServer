@@ -54,24 +54,24 @@ public abstract class Area implements ListAddable{
      * Adds an animal from a Tile to an Area
      * @param animal
      */
-    public void addAnimalFromAreaTile(Animal animal){
+    public void addAnimal(Animal animal){
         animal.addToArea(this);
     }
 
-    public void addAnimalFromAreaTile(Crocodile crocodile){}
+    public void addAnimal(Crocodile crocodile){}
 
-    public void addAnimalFromAreaTile(Buffalo buffalo){}
+    public void addAnimal(Buffalo buffalo){}
 
-    public void addAnimalFromAreaTile(Deer deer){}
+    public void addAnimal(Deer deer){}
 
-    public void addAnimalFromAreaTile(Boar boar){}
+    public void addAnimal(Boar boar){}
 
     /**
      * This method is used when a player tries to place a predator to this Area
      * @param predator
      */
     public void placePredator(Predator predator){
-        if (isPredatorPlacable(predator)) {
+        if (isPredatorPlaceable(predator)) {
             predator.placeInArea(this);
         }
     }
@@ -100,7 +100,7 @@ public abstract class Area implements ListAddable{
      * @param predator
      * @return
      */
-    abstract boolean isPredatorPlacable(Predator predator);
+    abstract boolean isPredatorPlaceable(Predator predator);
 
     /**
      * Returns true if the Area is complete

@@ -33,7 +33,7 @@ public class LakeAreaTest {
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = true;
 
-        boolean actualResult = lakeArea.isPredatorPlacable(crocodile);
+        boolean actualResult = lakeArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -42,7 +42,7 @@ public class LakeAreaTest {
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
 
-        boolean actualResult = lakeArea.isPredatorPlacable(tiger);
+        boolean actualResult = lakeArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -68,7 +68,7 @@ public class LakeAreaTest {
     public void testAddBoarFromAreaTile() throws Exception {
         int expectedUniquePreyCount = 1;
 
-        lakeArea.addAnimalFromAreaTile(boar);
+        lakeArea.addAnimal(boar);
         int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
         assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
     }
@@ -77,7 +77,7 @@ public class LakeAreaTest {
     public void testAddBuffaloFromAreaTile() throws Exception {
         int expectedUniquePreyCount = 1;
 
-        lakeArea.addAnimalFromAreaTile(buffalo);
+        lakeArea.addAnimal(buffalo);
         int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
         assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
     }
@@ -86,14 +86,14 @@ public class LakeAreaTest {
     public void testAddDeerFromAreaTile() throws Exception {
         int expectedUniquePreyCount = 1;
 
-        lakeArea.addAnimalFromAreaTile(deer);
+        lakeArea.addAnimal(deer);
         int actualNumberOfUniquePrey = lakeArea.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
         assertEquals(expectedUniquePreyCount, actualNumberOfUniquePrey);
     }
 
     @Test
     public void testAddCrocodileFromAreaTile() throws Exception {
-        lakeArea.addAnimalFromAreaTile(crocodile);
+        lakeArea.addAnimal(crocodile);
     }
 
     @Test

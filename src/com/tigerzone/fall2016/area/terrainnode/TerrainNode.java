@@ -14,156 +14,55 @@ public abstract class TerrainNode {
 
     Area area;
     Terrain terrain;
-    BoardTile boardTile;
+    private BoardTile boardTile;
     List<TerrainNode> terrainNodeList;
-    Animal animal;
+    private Animal animal;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
 
-    public List<Integer> northCompatible;
-    public List<Integer> eastCompatible;
-    public List<Integer> southCompatible;
-    public List<Integer> westCompatible;
 
-    public List<Integer> getNorthCompatible() {
-        return northCompatible;
+    public void setCanConnectTo(List<Integer> canConnectTo) {
+        this.canConnectTo = canConnectTo;
     }
-    public List<Integer> getEastCompatible() {
-        return eastCompatible;
+    public void setZones(List<Integer> zones) {
+        this.zones = zones;
     }
-    public List<Integer> getSouthCompatible() {
-        return southCompatible;
+    public BoardTile getBoardTile() {
+        return boardTile;
     }
-    public List<Integer> getWestCompatible() {
-        return westCompatible;
+    public void setBoardTile(BoardTile boardTile) {
+        this.boardTile = boardTile;
     }
-
-    //if your southConnections == my northConnections
-
-
-    public void mergeTerrainNodes(TerrainNode terrainNode) {
-
+    public List<TerrainNode> getTerrainNodeList() {
+        return terrainNodeList;
+    }
+    public List<Integer> getCanConnectTo() {
+        return canConnectTo;
+    }
+    public List<Integer> getZones() {
+        return zones;
     }
 
-    public void join(TerrainNode connectionNode){
-        for (Integer canConnect: canConnectTo) {
-            for (Integer connectionZone: connectionNode.getZones()) {
-                if (canConnect==connectionZone) {
-                    terrainNodeList.add(connectionNode);
-                    connectionNode.addTerrainNode(this);
-                    canConnectTo.remove(canConnect);
-                    connectionNode.getCanConnectTo().remove(connectionZone);
-                }
+
+    public TerrainNode(List<Integer> canConnectTo, List<Integer> zones, List<TerrainNode> terrainNodeList, Animal animal) {
+        this.canConnectTo = canConnectTo;
+        this.zones = zones;
+        this.terrainNodeList = terrainNodeList;
+        this.animal=animal;
+    }
+
+    public TerrainNode() {
+
+    }
+
+    public Integer getMinimumZoneValue() {
+        Integer minimum = zones.get(0);
+        for (Integer integer: zones) {
+            if(integer<minimum) {
+                minimum = integer;
             }
         }
-    }
-
-    public void northMerge(TerrainNode terrainNode) {
-        if (!terrainNode.southCompatible.isEmpty()) { //if the northerntiles southCompatible list is not empty
-            for (Integer integer: northCompatible) {
-                if (terrainNode.southCompatible.contains(aboveTileCompatibleZones(integer))) {
-                    northCompatible.clear();
-                    terrainNode.southCompatible.clear();
-                    this.mergeTerrainNodes(terrainNode);
-                    //or
-                    this.area.mergeArea(terrainNode.getArea());
-                }
-            }
-        }
-    }
-
-    public void eastMerge(TerrainNode terrainNode) {
-        if (!terrainNode.westCompatible.isEmpty()) { //if the northerntiles southCompatible list is not empty
-            for (Integer integer: eastCompatible) {
-                if (terrainNode.westCompatible.contains(rightTileCompatibleZones(integer))) {
-                    eastCompatible.clear();
-                    terrainNode.westCompatible.clear();
-                    this.mergeTerrainNodes(terrainNode);
-                    //or
-                    this.area.mergeArea(terrainNode.getArea());
-                }
-            }
-        }
-    }
-
-    public void westMerge(TerrainNode terrainNode) {
-        if (!terrainNode.eastCompatible.isEmpty()) { //if the northerntiles southCompatible list is not empty
-            for (Integer integer: westCompatible) {
-                if (terrainNode.eastCompatible.contains(leftTileCompatibleZones(integer))) {
-                    eastCompatible.clear();
-                    terrainNode.westCompatible.clear();
-                    this.mergeTerrainNodes(terrainNode);
-                    //or
-                    this.area.mergeArea(terrainNode.getArea());
-                }
-            }
-        }
-    }
-
-    public void southMerge(TerrainNode terrainNode) {
-        if (!terrainNode.northCompatible.isEmpty()) { //if the northerntiles southCompatible list is not empty
-            for (Integer integer: southCompatible) {
-                if (terrainNode.northCompatible.contains(belowTileCompatibleZones(integer))) {
-                    southCompatible.clear();
-                    terrainNode.northCompatible.clear();
-                    this.mergeTerrainNodes(terrainNode);
-                    //or
-                    this.area.mergeArea(terrainNode.getArea());
-                }
-            }
-        }
-    }
-
-    private Integer aboveTileCompatibleZones(Integer zone) {
-        Integer compatible = 0;
-        switch (zone) {
-            case 1: compatible = 7;
-                break;
-            case 2: compatible = 8;
-                break;
-            case 3: compatible = 9;
-                break;
-        }
-        return compatible;
-    }
-
-    private Integer rightTileCompatibleZones(Integer zone) {
-        Integer compatible = 0;
-        switch (zone) {
-            case 3: compatible = 1;
-                break;
-            case 6: compatible = 4;
-                break;
-            case 9: compatible = 7;
-                break;
-        }
-        return compatible;
-    }
-
-    private Integer leftTileCompatibleZones(Integer zone) {
-        Integer compatible = 0;
-        switch (zone) {
-            case 1: compatible = 3;
-                break;
-            case 4: compatible = 6;
-                break;
-            case 7: compatible = 9;
-                break;
-        }
-        return compatible;
-    }
-
-    private Integer belowTileCompatibleZones(Integer zone) {
-        Integer compatible = 0;
-        switch (zone) {
-            case 7: compatible = 1;
-                break;
-            case 8: compatible = 2;
-                break;
-            case 9: compatible = 3;
-                break;
-        }
-        return compatible;
+        return minimum;
     }
 
 
@@ -177,16 +76,6 @@ public abstract class TerrainNode {
 
     public abstract Area createArea();
 
-    public List<TerrainNode> getTerrainNodeList() {
-        return terrainNodeList;
-    }
-    public List<Integer> getCanConnectTo() {
-        return canConnectTo;
-    }
-    public List<Integer> getZones() {
-        return zones;
-    }
-
 
     public void addTerrainNode(TerrainNode terrainNode) {
         terrainNodeList.add(terrainNode);
@@ -198,14 +87,18 @@ public abstract class TerrainNode {
         }
     }
 
+    public void rotateTerrainNode(int rotationDegrees) {
+        rotateCanConnectTo(rotationDegrees);
+        rotateZones(rotationDegrees);
+    }
+
     private void rotateCanConnectTo(int degrees) {
         rotateCCW(degrees, getCanConnectTo());
     }
     private void rotateZones(int degrees) {
         rotateCCW(degrees, getZones());
     }
-
-    public void rotateCCW(int degrees, List<Integer> integerList) {
+    private void rotateCCW(int degrees, List<Integer> integerList) {
         int rotations = degrees/90;
         for (int i=0; i<rotations; i++) {
             for (Integer integer: integerList) {

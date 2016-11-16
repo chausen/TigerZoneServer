@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.area.terrainnode;
 
+import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
@@ -30,7 +31,16 @@ public class JungleTerrainNode extends TerrainNode {
         this.terrain = new JungleTerrain();
     }
 
-    @Override
+    public JungleTerrainNode(List<Integer> canConnectTo, List<Integer> zones, Set<LakeTerrainNode> lakeTerrainNodes, Set<DenTerrainNode> denTerrainNodes, Animal animal) {
+        setCanConnectTo(canConnectTo);
+        setZones(zones);
+        this.adjacentLakes = lakeTerrainNodes;
+        this.adjacentDens = denTerrainNodes;
+
+
+    }
+
+        @Override
     public Area createArea() {
         return new JungleArea();
     }

@@ -30,7 +30,7 @@ public abstract class CrocodileFriendlyArea extends Area {
     @Override
     public void placePredator(Crocodile crocodile){
         if(hasCrocodileInArea()){
-            this.addAnimalFromAreaTile(crocodile);
+            this.addAnimal(crocodile);
         }else{
             //throw forfeit!!
         }
@@ -41,7 +41,7 @@ public abstract class CrocodileFriendlyArea extends Area {
      * @param crocodile
      */
     @Override
-    public void addAnimalFromAreaTile(Crocodile crocodile){
+    public void addAnimal(Crocodile crocodile){
         this.crocodileList.add(crocodile);
     }
 

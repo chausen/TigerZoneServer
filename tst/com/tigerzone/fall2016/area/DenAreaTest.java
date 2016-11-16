@@ -35,14 +35,14 @@ public class DenAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = denArea.isPredatorPlacable(tiger);
+        boolean actualResult = denArea.isPredatorPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = denArea.isPredatorPlacable(crocodile);
+        boolean actualResult = denArea.isPredatorPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 
