@@ -59,6 +59,7 @@ public class AreaManager {
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
             Area denArea = new DenArea(position);
+            denArea.addBoardTile(boardTile);
             denTerrainNode.setArea(denArea);
             denAreas.add((DenArea)denArea);
         }
