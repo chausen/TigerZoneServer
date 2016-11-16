@@ -16,13 +16,12 @@ import javafx.geometry.Point2D;
  */
 public abstract class IOPort implements PlayerOutAdapter {
     private PlayerInAdapter inAdapter;
-    private Scanner scanner;
     private long seed; // seed corresponding to the tile order
     private Map<Integer, String> players; // key: playerID, value: loginName
     private String loginName1;
     private String loginName2;
-
-    //TODO: Have the Network who creates this IOPort say who the first player is.
+    private PlayableTile activeTile;
+    private String activeplayer;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -58,49 +57,67 @@ public abstract class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
+    public void sendTurnInitial(int playerid, PlayableTile activeTile){
+        this.activeTile = activeTile;
+        activeplayer = players.get(playerid);
+        sendTurn();
+    }
+
     @Override
-    public abstract void sendTurn(Turn lastturn, AreaTile areatile);
+    public abstract void sendTurn();
 
     @Override
     public void receiveTurn(String s) {
-            StringBuilder testSb = new StringBuilder();
-            Scanner sc = new Scanner(s);
+        Scanner sc = new Scanner(s);
 
-            String place = sc.next();//This gives us PLACE
-            testSb.append(place);
+        String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
+        switch(determiner)
+        {
+            case "PLACE":
+                receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                break;
 
-            String tiletextrep = sc.next();//This gives us the Text representation of the PlayableTile.
-            testSb.append(tiletextrep);
+            case "TILE":
+                receiveTurnTile(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                break;
 
-            String at = sc.next();//This gives us AT
-            testSb.append(at);
-
-            int x = sc.nextInt();//This gives us the x coord
-            int y = sc.nextInt();//This gives us the y coord
-            int orientation = sc.nextInt();//This gives us the orientation (rotation degree)
-            testSb.append(Integer.toString(x));
-            testSb.append(Integer.toString(y));
-            testSb.append(Integer.toString(orientation));
-
-            String animal = sc.next();
-            testSb.append(animal);
-
-            if (animal.equals("TIGER")) {
-                if (sc.hasNext()) {
-                    int zone = sc.nextInt();//This gives us zone
-                    testSb.append(zone);
-                } else {
-                    // invalid move
-                }
-            }
-
-            PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
-            //TODO: Give an actual Direction (or figure out those problems :( )
-            Turn t = new Turn(0, playableTile, orientation, null, new Point2D(x,y));
-
-            inAdapter.receiveTurn(t);
-            System.out.println(testSb.toString());
+            case "QUIT":
+                receiveTurnQuit();
+                break;
+        }
     }
+
+    private void receiveTurnPlace(String s){
+        Scanner sc = new Scanner(s);
+        String tiletextrep = sc.next();//This gives us the Text representation of the PlayableTile.
+        sc.next();//Gives us AT
+        int x = sc.nextInt();//This gives us the x coord
+        int y = sc.nextInt();//This gives us the y coord
+        int orientation = sc.nextInt();//This gives us the orientation (rotation degree)
+        String animal = sc.next();
+        if (animal.equals("TIGER")) {
+            if (sc.hasNext()) {
+                int zone = sc.nextInt();//This gives us zone
+            } else {
+                // invalid move
+            }
+        }
+
+        PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
+        //TODO: Give an actual Direction (or figure out those problems :( )
+        Turn t = new Turn(0, playableTile, orientation, null, new Point2D(x,y));
+        System.out.println("We are now at PLACE : "+s);
+        inAdapter.receiveTurn(t);
+    }
+
+    private void receiveTurnTile(String s){
+        System.out.println("We are now at Tile : "+s);
+    }
+
+    private void receiveTurnQuit(){
+        System.out.println("We are now at Quit");
+    }
+
 
     @Override
     public abstract void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
@@ -110,4 +127,21 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     @Override
     public abstract void notifyEndGame(Set<Integer> winners);
+
+    public PlayableTile getActiveTile(){
+        return activeTile;
+    }
+
+    public String getActivePlayer(){
+        return activeplayer;
+    }
+
+    @Override
+    public abstract void forfeitIllegalMeeple(int winner);
+
+    @Override
+    public abstract void forfeitInvalidMeeple(int winner);
+
+    @Override
+    public abstract void forfeitIllegalTile(int winner);
 }

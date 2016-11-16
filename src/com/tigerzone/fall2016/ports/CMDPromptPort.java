@@ -23,7 +23,7 @@ public class CMDPromptPort extends IOPort {
     }
 
     @Override
-    public void sendTurn(Turn lastturn, AreaTile areatile) {
+    public void sendTurn() {
 
     }
 
@@ -39,6 +39,21 @@ public class CMDPromptPort extends IOPort {
 
     @Override
     public void notifyEndGame(Set<Integer> winners) {
+
+    }
+
+    @Override
+    public void forfeitIllegalMeeple(int winner) {
+
+    }
+
+    @Override
+    public void forfeitInvalidMeeple(int winner) {
+
+    }
+
+    @Override
+    public void forfeitIllegalTile(int winner) {
 
     }
 }

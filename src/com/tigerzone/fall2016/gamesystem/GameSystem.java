@@ -51,6 +51,15 @@ public class GameSystem implements PlayerInAdapter
         this.currentTurn = t;
     }
 
+    public PlayableTile getActiveTile()
+    {
+        return ts.pop();
+    }
+
+    public boolean isTilePlaceable(PlayableTile pt){
+        return fsb.needToRemove(pt);
+    }
+
     /**
      * Creates the objects necessary to play a game, shuffles the tile stack,
      * and waits 15 seconds before starting the game
@@ -70,7 +79,6 @@ public class GameSystem implements PlayerInAdapter
         ts.shuffle(); //Shuffle
 
         // pass the entire contents of the TileStack to the outAdapter
-        // wait 15 seconds before soliciting the first move
         outAdapter.sendTilesInOrder(ts.getTileList());
         new Timer().schedule(
                 new TimerTask() {
@@ -98,7 +106,7 @@ public class GameSystem implements PlayerInAdapter
                         @Override
                         public void run() {
                             if (waitingForInput) {
-                                forfeit();
+                                //forfeit();
                                 waitingForInput = false;
                                 timeout = true;
                             }
@@ -157,16 +165,13 @@ public class GameSystem implements PlayerInAdapter
 
     // Notifies the outAdapter that the player whose not currently taking their turn is the winner
     // (The player whose turn it currently is forfeits)
-    private void forfeit() {
+
+    private int getForfeitWinner() {
         int currentPlayerID = currentTurn.getPlayerID();
         int player1ID = player1.getPlayerId();
         int player2ID = player2.getPlayerId();
 
         int winningPlayerID = (currentPlayerID == player1ID) ? player2ID : player1ID;
-        Set<Integer> winners = new HashSet<>();
-        winners.add(winningPlayerID);
-
-        // Change this to a separate method notifying forfeit?
-        outAdapter.notifyEndGame(winners);
+        return winningPlayerID;
     }
 }

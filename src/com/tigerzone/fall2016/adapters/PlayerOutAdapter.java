@@ -8,9 +8,13 @@ import java.util.Set;
 
 public interface PlayerOutAdapter
 {
-    public void sendTurn(Turn lastturn, AreaTile areatile);
+    public void sendTurn();
     public void receiveTurn(String s);
     public void sendTilesInOrder(LinkedList<PlayableTile> allAreaTiles);
     public void notifyBeginGame(AreaTile areatile);
-    public void notifyEndGame(Set<Integer> winners);
+    public void notifyEndGame(Set<Integer> winnerIDs);
+    public void forfeitInvalidMeeple(int winnerID);
+    public void forfeitIllegalMeeple(int winnerID);
+    public void forfeitIllegalTile(int winnerID);
+
 }

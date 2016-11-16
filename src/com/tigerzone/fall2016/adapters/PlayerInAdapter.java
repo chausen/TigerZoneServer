@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.adapters;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 public interface PlayerInAdapter
 {
@@ -7,4 +8,5 @@ public interface PlayerInAdapter
     public void startGame();
     public void initializeGame(int player1id, int player2id, long seed);
     public void setOutAdapter(PlayerOutAdapter outAdapter);
+    public boolean isTilePlaceable(PlayableTile playableTile);
 }
