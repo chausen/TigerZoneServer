@@ -46,7 +46,7 @@ public class AreaManager {
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
         }
 
-        TerrainNode predatorPlacementNode = boardTile.getTerrainNodeFromZoneIndex(predatorPlacementZone);
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
         if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
             System.out.println("Player forfeits");
         } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
