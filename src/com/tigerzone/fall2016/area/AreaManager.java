@@ -13,17 +13,17 @@ import java.util.Set;
  */
 public class AreaManager {
 
-    private GameBoard gameGameBoard;
+    private GameBoard gameBoard;
 
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
         BoardTile boardTile = new BoardTile(playableTile);
         return boardTile;
     }
 
-    public void placeTile(Point2D position, PlayableTile playableTile) {
+    public void addTile(Point2D position, PlayableTile playableTile) {
         BoardTile boardTile = convertToBoardTile(playableTile);
-        gameGameBoard.placeTile(position, boardTile);
-        AreaBuilder areaBuilder = new AreaBuilder(gameGameBoard, boardTile);
+        gameBoard.placeTile(position, boardTile);
+        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
         Set<Area> newAreas = areaBuilder.build(position);
         for(Area area: newAreas){
             area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
@@ -31,7 +31,7 @@ public class AreaManager {
     }
 
     private void areaMerge(Point2D position, BoardTile boardTile1) {
-        gameGameBoard.getTile(position); //edit
+        gameBoard.getTile(position); //edit
     }
 
     private List<DenArea> denAreas;
@@ -44,7 +44,7 @@ public class AreaManager {
         this.jungleAreas = jungleAreas;
         this.lakeAreas = lakeAreas;
         this.trailAreas = trailAreas;
-        gameGameBoard = new GameBoard();
+        gameBoard = new GameBoard();
     }
 
 

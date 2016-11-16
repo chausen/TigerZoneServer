@@ -18,7 +18,7 @@ public class AreaBuilder {
     private GameBoard gameBoard;
     private BoardTile boardTile;
     private Point2D position;
-    private Set<Integer> completeTerrainNodes = new HashSet<>();
+    private Set<TerrainNode> completeTerrainNodes = new HashSet<>();
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
         this.gameBoard = gameGameBoard;
@@ -31,24 +31,23 @@ public class AreaBuilder {
         buildEastFace();
         buildSouthFace();
         buildWestFace();
-        return builNewAreas();
+        return buildNewAreas();
     }
 
-    private Set<Area> builNewAreas() {
-        Set<Area> areaList = new HashSet<>();
-        for(int i = 0; i < 9; i++){
-            if(!completeTerrainNodes.contains(i)){
-                TerrainNode terrainNode = boardTile.getTerrainNode(i);
+    private Set<Area> buildNewAreas() {
+        Set<Area> areaSet = new HashSet<>();
+        for(TerrainNode terrainNode: boardTile.getTerrainNodeList()){
+            if(!completeTerrainNodes.contains(terrainNode)){
                 Area area = terrainNode.createArea();
-                areaList.add(area);
+                areaSet.add(area);
             }
         }
-        return areaList;
+        return areaSet;
     }
 
     private void buildWestFace() {
         if(gameBoard.getleftAdjacentTile(position) != null) {
-            updateTerrainNodes(1, 3);
+            updateTerrainNodes(1, 3); //3 = west
             updateTerrainNodes(4, 3);
             updateTerrainNodes(7, 3);
         }
@@ -146,9 +145,10 @@ public class AreaBuilder {
             terrainNodeCompared = gameBoard.getleftAdjacentTile(position).getTerrainNode(y);
         }
         terrainNodeCompared.getCanConnectTo().remove(x);
-        Area updatedArea = terrainNode.getArea();
-        updatedArea.mergeArea(terrainNodeCompared.getArea());
-        completeTerrainNodes.add(x);
+        //Area updatedArea = terrainNode.getArea();
+        //make sure later that the area was actually updated
+        terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
+        completeTerrainNodes.add(terrainNode);
     }
 
 }
