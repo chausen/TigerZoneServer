@@ -12,8 +12,6 @@ import java.util.List;
 public class TrailArea extends CrocodileFriendlyArea {
 
     private List<Prey> preyList;
-
-
     public TrailArea(){
         this.preyList = new ArrayList<>();
     }
