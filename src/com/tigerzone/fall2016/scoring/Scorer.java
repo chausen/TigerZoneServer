@@ -16,13 +16,21 @@ import java.util.*;
 public class Scorer {
 
     // key = playerID, value = score
-    private Map<Integer, Integer> playerScores;
+    private Map<String, Integer> playerScores;
 
     // Collaborators
     private AreaManager am;
 
 
-    public Scorer(Map<Integer, Integer> playerScores, AreaManager am) {
+    public Scorer(List<String> playerIDs, AreaManager am) {
+        this.playerScores = new HashMap<>();
+        for (String playerID: playerIDs) {
+            playerScores.put(playerID, 0);
+        }
+        this.am = am;
+    }
+
+    public Scorer(Map<String, Integer> playerScores, AreaManager am) {
         this.playerScores = playerScores;
         this.am = am;
     }
@@ -37,9 +45,9 @@ public class Scorer {
         // The point value equals the number of tiles in the area
         Integer points = den.getSize();
 
-        List<Integer> ownerIDs = den.getOwnerID();
+        List<String> ownerIDs = den.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -53,9 +61,9 @@ public class Scorer {
         // points = 2 * (# of tiles) * (1 + # of unique animals)
         Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
 
-        List<Integer> ownerIDs = lake.getOwnerID();
+        List<String> ownerIDs = lake.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -70,9 +78,9 @@ public class Scorer {
         // points = (# of tiles) + (# of unique animals)
         Integer points = trail.getSize() + trail.getNumOfPreyAfterCrocodileEffect();
 
-        List<Integer> ownerIDs = trail.getOwnerID();
+        List<String> ownerIDs = trail.getOwnerID();
 
-        for(int id: ownerIDs) {
+        for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
         }
@@ -134,9 +142,9 @@ public class Scorer {
                 // points = (# of tiles) * (# of unique animals)
                 Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
 
-                List<Integer> ownerIDs = lake.getOwnerID();
+                List<String> ownerIDs = lake.getOwnerID();
 
-                for (int id : ownerIDs) {
+                for (String id : ownerIDs) {
                     Integer currentScore = playerScores.get(id);
                     playerScores.put(id, currentScore + points);
                 }
@@ -163,18 +171,18 @@ public class Scorer {
      *
      * @return  Set  a set of playerIDs.
      */
-    public Set<Integer> announceWinners() {
+    public Set<String> announceWinners() {
 
-        Set<Integer> winners = new HashSet<Integer>();
+        Set<String> winners = new HashSet<>();
 
-        Set<Integer> playerIDs = playerScores.keySet();
+        Set<String> playerIDs = playerScores.keySet();
 
         // Find the highest score
         Integer highestScore = 0;
 
-        Iterator<Integer> iterator = playerIDs.iterator();
+        Iterator<String> iterator = playerIDs.iterator();
         while(iterator.hasNext()) {
-            Integer currentplayerID = iterator.next();
+            String currentplayerID = iterator.next();
             Integer currentScore = playerScores.get(currentplayerID);
             if (currentScore > highestScore) {
                 highestScore = currentScore;
@@ -184,7 +192,7 @@ public class Scorer {
         // Add each player with a score equal to the highest one found to the set of winners
         iterator = playerIDs.iterator(); // reset iterator
         while(iterator.hasNext()) {
-            Integer currentplayerID = iterator.next();
+            String currentplayerID = iterator.next();
             Integer currentScore = playerScores.get(currentplayerID);
             if (currentScore == highestScore) {
                 winners.add(currentplayerID);
@@ -200,7 +208,7 @@ public class Scorer {
      * @param playerID
      * @return  int  playerID's score. 0 if playerID does not exist
      */
-    public int getScore(int playerID) {
+    public int getScore(String playerID) {
         if (playerScores.containsKey(playerID)) {
             return playerScores.get(playerID);    
         } else {

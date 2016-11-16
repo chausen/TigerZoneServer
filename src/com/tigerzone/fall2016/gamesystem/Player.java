@@ -6,11 +6,11 @@ import java.util.List;
  * Created by clayhausen on 11/7/16.
  */
 public class Player {
-    private int playerId;
+    private String playerId;
     private int goodSupply; // Tigers
     private int badSupply;  // Crocodiles
 
-    public Player(int playerId) {
+    public Player(String playerId) {
         this.playerId = playerId;
         this.goodSupply = 7;
         this.badSupply = 2;
@@ -34,9 +34,9 @@ public class Player {
 
     /**
      * Accessor for playerId (unique identifier for player)
-     * @return int
+     * @return String
      */
-    public int getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
@@ -46,5 +46,23 @@ public class Player {
      */
     public int getSupply() {
         return goodSupply;
+    }
+
+    /**
+     * Determines whether this player is equal to another based on playerID
+     *
+     * @param  player The player you're comparing this one too
+     * @return  true if player has the same playerID as this
+     */
+    public boolean equals(Player player) {
+
+        String otherPlayerID = player.getPlayerId();
+
+        if (this.playerId.equals(otherPlayerID)) {
+            return true;
+        }
+
+        return false;
+
     }
 }

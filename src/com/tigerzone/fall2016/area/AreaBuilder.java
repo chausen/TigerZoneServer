@@ -133,7 +133,6 @@ public class AreaBuilder {
                 break;
         }
         TerrainNode terrainNode = boardTile.getTerrainNode(x);
-        terrainNode.getCanConnectTo().remove(y);
         TerrainNode terrainNodeCompared;
         if(dir == 0){
             terrainNodeCompared = gameBoard.getAboveAdjacentTile(position).getTerrainNode(y);
@@ -147,11 +146,14 @@ public class AreaBuilder {
         else{
             terrainNodeCompared = gameBoard.getleftAdjacentTile(position).getTerrainNode(y);
         }
-        terrainNodeCompared.getCanConnectTo().remove(x);
-        //Area updatedArea = terrainNode.getArea();
-        //make sure later that the area was actually updated
-        terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
-        completeTerrainNodes.add(terrainNode);
+        if(terrainNode.getCanConnectTo().contains(y) && terrainNodeCompared.getCanConnectTo().contains(x)) {
+            terrainNode.getCanConnectTo().remove(y);
+            terrainNodeCompared.getCanConnectTo().remove(x);
+            //Area updatedArea = terrainNode.getArea();
+            //make sure later that the area was actually updated
+            terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
+            completeTerrainNodes.add(terrainNode);
+        }
     }
 
 }

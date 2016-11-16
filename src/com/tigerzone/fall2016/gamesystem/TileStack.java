@@ -32,4 +32,20 @@ class TileStack
     public PlayableTile pop() {
         return ll.removeFirst();
     }
+
+    public LinkedList<PlayableTile> getTileList(){
+        return ll;
+    }
+
+    public boolean equals(TileStack ts)
+    {
+        LinkedList<PlayableTile> ll = ts.getTileList();
+        for(int x = 0; x < ll.size(); x++)
+        {
+            if(!this.ll.get(x).getTileString().equals(ll.get(x).getTileString())){
+                return false;
+            }
+        }
+        return true;//They matched the entire way, so we're good.
+    }
 }

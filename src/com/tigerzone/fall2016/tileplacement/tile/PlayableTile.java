@@ -60,8 +60,8 @@ public class PlayableTile {
 
     public PlayableTile(String tileString, int rotations) {
         this.tileString = tileString;
-        rotateCCW(rotations);
         setFaces(tileString);
+        rotateCCW(rotations);
     }
 
 

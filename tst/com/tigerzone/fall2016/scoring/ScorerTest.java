@@ -17,7 +17,7 @@ public class ScorerTest {
 
     private Player player1;
     private Player player2;
-    private HashMap<Integer,Integer> playerScores;
+    private HashMap<String,Integer> playerScores;
     private Scorer scorer;
 
     private List<DenArea> denAreas;        // }
@@ -30,8 +30,8 @@ public class ScorerTest {
     @org.junit.Before
     public void setUp() throws Exception {
         // Populate player scores, with player1 having the higher score
-        player1 = new Player(1);
-        player2 = new Player(2);
+        player1 = new Player("1");
+        player2 = new Player("2");
         playerScores = new HashMap();
         playerScores.put(player1.getPlayerId(), 0);
         playerScores.put(player2.getPlayerId(), 0);
@@ -105,12 +105,12 @@ public class ScorerTest {
         playerScores.put(player1.getPlayerId(), 32);
         playerScores.put(player2.getPlayerId(), 15);
         // player1 should be in the winners set, but player2 should not
-        Set<Integer> winners = scorer.announceWinners();
+        Set<String> winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()));
         assertFalse(winners.contains(player2.getPlayerId()));
 
         // Add a third player with the same score as player1
-        Player player3 = new Player(3);
+        Player player3 = new Player("3");
         playerScores.put(player3.getPlayerId(), 32);
         scorer = new Scorer(playerScores, areaManager);
         // Now the set of winners should contain player1 and player3

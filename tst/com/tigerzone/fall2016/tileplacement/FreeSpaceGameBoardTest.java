@@ -2,9 +2,11 @@ package com.tigerzone.fall2016.tileplacement;
 
 import com.tigerzone.fall2016.tileplacement.tile.*;
 import com.tigerzone.fall2016.tileplacement.terrain.*;
-import javafx.geometry.Point2D;
+import java.awt.Point;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.awt.*;
 
 import static org.junit.Assert.*;
 
@@ -28,10 +30,10 @@ public class FreeSpaceGameBoardTest {
     //all lake tile.
     @Test
     public void needToRemove() throws Exception {
-        PlayableTile playableTile1 = new PlayableTile("LJJJ-", 180);
+        PlayableTile playableTile1 = new PlayableTile("LJJJ-", 90);
         PlayableTile playableTile2 = new PlayableTile("LLLL-", 0);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), playableTile1));
-        freeSpaceBoard.placeTile(new Point2D(1.0, 0.0), playableTile1);
+        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
+        freeSpaceBoard.placeTile(new Point(1, 0), playableTile1);
         assertTrue(freeSpaceBoard.needToRemove(playableTile2));
     }
 
@@ -41,8 +43,8 @@ public class FreeSpaceGameBoardTest {
     public void isPlaceable() throws Exception {
         PlayableTile playableTile1 = new PlayableTile("LLJJ-", 0);
         PlayableTile playableTil2 = new PlayableTile("TTTT-", 0);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(1.0, 0.0), playableTile1));
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), playableTil2));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1));
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(0, 1), playableTil2));
     }
 
     //This is the most complicated test case that is going over a random game progression.
@@ -53,19 +55,19 @@ public class FreeSpaceGameBoardTest {
         PlayableTile playableTile3 = new PlayableTile("TLLL-", 0);
         PlayableTile playableTile4 = new PlayableTile("LLLL-", 0);
         PlayableTile playableTile5 = new PlayableTile("LLLL-", 0);
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(0.0, 1.0), playableTile1));
-        freeSpaceBoard.placeTile(new Point2D(0.0, 1.0), playableTile1);
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, 0.0), playableTile2));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, 0.0), playableTile2);
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -1.0), playableTile3));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, -1.0), playableTile3);
-        FreeSpace freeSpace = freeSpaceBoard.freeSpaceMap.get(new Point2D(0.0, -1.0));
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(0, 1), playableTile1));
+        freeSpaceBoard.placeTile(new Point(0, 1), playableTile1);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(-1, 0), playableTile2));
+        freeSpaceBoard.placeTile(new Point(-1, 0), playableTile2);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(-1, -1), playableTile3));
+        freeSpaceBoard.placeTile(new Point(-1, -1), playableTile3);
+        FreeSpace freeSpace = freeSpaceBoard.freeSpaceMap.get(new Point(0, -1));
         assertTrue(freeSpace.getNorthTerrain().visit(new TrailTerrain()));
         assertTrue(freeSpace.getEastTerrain().visit(new LakeTerrain()));
-        assertTrue(freeSpaceBoard.isPlaceable(new Point2D(-1.0, -2.0),playableTile4));
-        freeSpaceBoard.placeTile(new Point2D(-1.0, -2.0),playableTile4);
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(-1, -2),playableTile4));
+        freeSpaceBoard.placeTile(new Point(-1, -2),playableTile4);
         assertEquals(freeSpaceBoard.freeSpaceMap.size(), 10);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point2D(0.0, -1.0), playableTile5));
+        assertFalse(freeSpaceBoard.isPlaceable(new Point(0, -1), playableTile5));
     }
 
 }
