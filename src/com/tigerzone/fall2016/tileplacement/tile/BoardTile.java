@@ -2,12 +2,7 @@ package com.tigerzone.fall2016.tileplacement.tile;
 
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.*;
-import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.tileplacement.terrain.DenTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.LakeTerrain;
-import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -134,7 +129,7 @@ public class BoardTile {
                 TerrainNode T2terrainNode3 = new TrailTerrainNode(Arrays.asList(4), Arrays.asList(6));
                 TerrainNode T3terrainNode3 = new TrailTerrainNode(Arrays.asList(2), Arrays.asList(8));
                 TerrainNode T4terrainNode3 = new TrailTerrainNode(Arrays.asList(6), Arrays.asList(4));
-                TerrainNode C1terrainNode3 = new CrossRoads(Arrays.asList(5));
+                TerrainNode C1terrainNode3 = new CrossRoadsNode(Arrays.asList(5));
                 this.terrainNodes = Arrays.asList(C1terrainNode3, J1terrainNode3, J2terrainNode3, J3terrainNode3, J4terrainNode3, T1terrainNode3, T2terrainNode3, T3terrainNode3, T4terrainNode3);
                 break;
             case "TJTJ-":
@@ -156,7 +151,7 @@ public class BoardTile {
                 TerrainNode T1terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(8)),new ArrayList<Integer>(Arrays.asList(2)));
                 TerrainNode T2terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(6)),new ArrayList<Integer>(Arrays.asList(4)));
                 TerrainNode T3terrainNode6 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(2)),new ArrayList<Integer>(Arrays.asList(8)));
-                TerrainNode C1terrainNode6 = new CrossRoads(new ArrayList<Integer>(Arrays.asList(5)));
+                TerrainNode C1terrainNode6 = new CrossRoadsNode(new ArrayList<Integer>(Arrays.asList(5)));
                 this.terrainNodes = Arrays.asList(J1terrainNode6, J2terrainNode6, J3terrainNode6, T1terrainNode6, T2terrainNode6, T3terrainNode6, C1terrainNode6);
                 break;
             case "LLLL-":
@@ -368,13 +363,13 @@ public class BoardTile {
                 TrailTerrainNode trailI = new TrailTerrainNode(trailICanConnect, trailIZoneList);
                 TrailTerrainNode trailJ = new TrailTerrainNode(trailJCanConnect, trailJZoneList);
                 TrailTerrainNode trailK = new TrailTerrainNode(trailKCanConnect, trailKZoneList);
-                CrossRoads crossRoadsA = new CrossRoads(crossRoadAZoneList);
+                CrossRoadsNode crossRoadsNodeA = new CrossRoadsNode(crossRoadAZoneList);
                 LakeTerrainNode lakeI = new LakeTerrainNode(lakeICanConnect, lakeIZoneList);
                 JungleTerrainNode jungleO = new JungleTerrainNode(jungleOCanConnect, jungleOZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 JungleTerrainNode jungleP = new JungleTerrainNode(junglePCanConnect, junglePZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 JungleTerrainNode jungleQ = new JungleTerrainNode(jungleQCanConnect, jungleQZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeI)), new HashSet<DenTerrainNode>());
                 
-                this.terrainNodes = Arrays.asList(jungleO, jungleP, jungleQ, trailI, trailJ, trailK, crossRoadsA, lakeI);
+                this.terrainNodes = Arrays.asList(jungleO, jungleP, jungleQ, trailI, trailJ, trailK, crossRoadsNodeA, lakeI);
                 break;
             case "TLTTP": //checked
                 List<Integer> jungleRZoneList = new ArrayList<>(Arrays.asList(1));
@@ -397,7 +392,7 @@ public class BoardTile {
                 TrailTerrainNode trailL = new TrailTerrainNode(trailLCanConnect, trailLZoneList);
                 TrailTerrainNode trailM = new TrailTerrainNode(trailMCanConnect, trailMZoneList);
                 TrailTerrainNode trailN = new TrailTerrainNode(trailNCanConnect, trailNZoneList);
-                CrossRoads crossRoadsB = new CrossRoads(crossRoadBZoneList);
+                CrossRoadsNode crossRoadsNodeB = new CrossRoadsNode(crossRoadBZoneList);
                 LakeTerrainNode lakeJ = new LakeTerrainNode(lakeJCanConnect, lakeJZoneList);
                 JungleTerrainNode jungleR = new JungleTerrainNode(jungleRCanConnect, jungleRZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 JungleTerrainNode jungleS = new JungleTerrainNode(jungleSCanConnect, jungleSZoneList, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
@@ -409,7 +404,7 @@ public class BoardTile {
                 trailM.getArea().addAnimal(boar2);
                 trailN.getArea().addAnimal(boar2);
 
-                this.terrainNodes = Arrays.asList(jungleR, jungleS, jungleT, trailL, trailM, trailN, crossRoadsB, lakeJ);
+                this.terrainNodes = Arrays.asList(jungleR, jungleS, jungleT, trailL, trailM, trailN, crossRoadsNodeB, lakeJ);
 
                 break;
             case "TLLT-": //checked

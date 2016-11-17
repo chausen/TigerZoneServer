@@ -116,7 +116,11 @@ public abstract class TerrainNode {
     private void rotateZones(int degrees) {
         rotateCCW(degrees, getZones());
     }
+
     private void rotateCCW(int degrees, List<Integer> integerList) {
+        if(integerList == null){
+            return;
+        }
         int rotations = degrees/90;
         for (int i=0; i<rotations; i++) {
             for (Integer integer: integerList) {

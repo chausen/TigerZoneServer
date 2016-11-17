@@ -22,8 +22,11 @@ public class AreaManagerTest {
 
     @Test
     public void addTile() throws Exception {
-        areaManager.addTile(new Point(-1,0), new PlayableTile("TJTJ-"));
+        areaManager.addTile(new Point(-1,0), new PlayableTile("TJTJ-"), 0);
         assertTrue(areaManager.getTrailAreas().size() ==  2);
+        assertTrue(areaManager.getJungleAreas().size() == 3);
+        areaManager.addTile(new Point(0,1), new PlayableTile("TJTT-"), 90);
+        assertTrue(areaManager.getJungleAreas().size() == 4);
     }
 
 }

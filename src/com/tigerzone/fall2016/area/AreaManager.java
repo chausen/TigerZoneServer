@@ -39,7 +39,7 @@ public class AreaManager {
         this.lakeAreas = new ArrayList<LakeArea>();
         this.trailAreas = new ArrayList<TrailArea>();
         this.gameBoard = new GameBoard();
-        addTile(new Point(0,0), new PlayableTile("TLTJ-"));
+        addTile(new Point(0,0), new PlayableTile("TLTJ-"), 0);
     }
 
     private BoardTile convertToBoardTile(PlayableTile playableTile) {
@@ -48,8 +48,9 @@ public class AreaManager {
 
     }
 
-    public void addTile(Point position, PlayableTile playableTile){
+    public void addTile(Point position, PlayableTile playableTile, int degrees){
         BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
         gameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
         Set<Area> newAreas = areaBuilder.build(position);
@@ -66,8 +67,8 @@ public class AreaManager {
         placeDenArea(position, boardTile);
     }
 
-    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone) {
-        addTile(position, playableTile);
+    public void addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
+        addTile(position, playableTile, degrees);
         BoardTile boardTile = gameBoard.getTile(position);
         TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
         if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
