@@ -21,6 +21,8 @@ public abstract class Area implements ListAddable{
      */
     public Area(){
         tigerList = new ArrayList<>();
+        terrainNodes = new HashSet<>();
+        boardTiles = new HashSet<>();
     }
 
 
@@ -38,6 +40,10 @@ public abstract class Area implements ListAddable{
 
     public void addBoardTile(Set<BoardTile> boardTiles){
         this.boardTiles.addAll(boardTiles);
+    }
+
+    public void addTerrainNode(TerrainNode terrainNode){
+        this.terrainNodes.add(terrainNode);
     }
 
     public void addTerrainNode(Set<TerrainNode> terrainNodes){
