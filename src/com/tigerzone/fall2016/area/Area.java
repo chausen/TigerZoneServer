@@ -40,8 +40,15 @@ public abstract class Area implements ListAddable{
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
         this.tigerList.addAll(area.getTigerList());
+        mergeAnimals(area);
     }
 
+    public abstract void mergeAnimals(Area area);
+
+    public abstract void acceptAnimals(LakeArea area);
+    public abstract void acceptAnimals(TrailArea area);
+    public abstract void acceptAnimals(DenArea area);
+    public abstract void acceptAnimals(JungleArea area);
 
 
     public void addBoardTile(BoardTile boardTile){
