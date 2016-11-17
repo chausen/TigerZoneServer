@@ -15,6 +15,14 @@ public abstract class CrocodileFriendlyArea extends Area {
         this.crocodileList = new ArrayList<>();
     }
 
+
+    public void mergeArea(CrocodileFriendlyArea area) {
+        super.mergeArea(area);
+        this.crocodileList.addAll(getCrocodileList());
+    }
+
+
+
     /**
      * Returns true if list is not empty
      * @return
@@ -51,5 +59,9 @@ public abstract class CrocodileFriendlyArea extends Area {
      */
     public int getNumOfCrocodiles() {
         return this.crocodileList.size();
+    }
+
+    public List<Crocodile> getCrocodileList() {
+        return crocodileList;
     }
 }

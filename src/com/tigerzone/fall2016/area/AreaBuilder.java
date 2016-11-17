@@ -42,6 +42,7 @@ public class AreaBuilder {
         for(TerrainNode terrainNode: boardTile.getTerrainNodeList()){
             if(!completeTerrainNodes.contains(terrainNode)){
                 Area area = terrainNode.createArea();
+                terrainNode.createArea();
                 areaSet.add(area);
             }
         }
@@ -49,7 +50,7 @@ public class AreaBuilder {
     }
 
     private void buildWestFace() {
-        if(gameBoard.getleftAdjacentTile(position) != null) {
+        if(gameBoard.getLeftAdjacentTile(position) != null) {
             updateTerrainNodes(1, 3); //3 = west
             updateTerrainNodes(4, 3);
             updateTerrainNodes(7, 3);
@@ -144,11 +145,11 @@ public class AreaBuilder {
             terrainNodeCompared = gameBoard.getBelowAdjacentTile(position).getTerrainNode(y);
         }
         else{
-            terrainNodeCompared = gameBoard.getleftAdjacentTile(position).getTerrainNode(y);
+            terrainNodeCompared = gameBoard.getLeftAdjacentTile(position).getTerrainNode(y);
         }
         if(terrainNode.getCanConnectTo().contains(y) && terrainNodeCompared.getCanConnectTo().contains(x)) {
-            terrainNode.getCanConnectTo().remove(y);
-            terrainNodeCompared.getCanConnectTo().remove(x);
+            terrainNode.getCanConnectTo().remove(new Integer(y));
+            terrainNodeCompared.getCanConnectTo().remove(new Integer(x));
             //Area updatedArea = terrainNode.getArea();
             //make sure later that the area was actually updated
             terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());

@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
@@ -16,14 +17,21 @@ public abstract class Area implements ListAddable{
     private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
+    /**
+     * This constructor is for testing purposes for now
+     */
     public Area(){
-        tigerList = new ArrayList<>();
+        this.tigerList = new ArrayList<>();
+        this.boardTiles = new HashSet<>();
+        this.terrainNodes = new HashSet<>();
     }
 
-    void addAnimalFromAnimalAreaTile(Prey prey){}
+    public List<Tiger> getTigerList() {
+        return tigerList;
+    }
 
-    void addAnimalFromAnimalAreaTile(Predator crocodile){
-        //this.crocodileList.add(crocodile);
+    public void removeTiger(Tiger tiger) {
+        tigerList.remove(tiger);
     }
 
     public void mergeArea(Area area){
@@ -32,22 +40,31 @@ public abstract class Area implements ListAddable{
         }
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
+        this.tigerList.addAll(area.getTigerList());
+        mergeAnimals(area);
+    }
+
+    public abstract void mergeAnimals(Area area);
+
+    public abstract void acceptAnimals(LakeArea area);
+    public abstract void acceptAnimals(TrailArea area);
+    public abstract void acceptAnimals(DenArea area);
+    public abstract void acceptAnimals(JungleArea area);
+
+    public void addBoardTile(BoardTile boardTile){
+        boardTiles.add(boardTile);
     }
 
     public void addBoardTile(Set<BoardTile> boardTiles){
-        boardTiles.addAll(boardTiles);
+        this.boardTiles.addAll(boardTiles);
+    }
+
+    public void addTerrainNode(TerrainNode terrainNode){
+        this.terrainNodes.add(terrainNode);
     }
 
     public void addTerrainNode(Set<TerrainNode> terrainNodes){
-        terrainNodes.addAll(terrainNodes);
-    }
-
-    /**
-     * Returns true only if area was updated with input tile
-     * @return
-     */
-    public boolean hasAreaUpdated(){
-        return true;
+        this.terrainNodes.addAll(terrainNodes);
     }
 
     /**
@@ -81,12 +98,24 @@ public abstract class Area implements ListAddable{
      * @param tiger
      */
     public void placePredator(Tiger tiger){
-        if(this.tigerList.isEmpty()){
+        if(canPlaceTiger()){
             this.tigerList.add(tiger);
         }else{
             String playerID = tiger.getPlayerId();
             //player should forfeit
         }
+    }
+
+    public boolean canPlaceTiger() {
+        boolean placeable = false;
+        if(this.tigerList.isEmpty()) {
+            placeable = true;
+        }
+        return placeable;
+    }
+
+    public void placeTigerSpecialCase(Tiger tiger) { //must have already passed all checks in TerrainNode placeTiger
+        this.tigerList.add(tiger);
     }
 
     /**
@@ -106,7 +135,15 @@ public abstract class Area implements ListAddable{
      * Returns true if the Area is complete
      * @return
      */
-    public abstract boolean isComplete();
+    public boolean isComplete() { //complete when canConnectTo() list is empty
+        boolean isComplete = false;
+        for (TerrainNode terrainNode : terrainNodes) {
+            if (terrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = true;
+            }
+        }
+        return isComplete;
+    }
 
     /**
      * Returns a list of playerID's that have equal max tiger counts for an area.
@@ -154,16 +191,16 @@ public abstract class Area implements ListAddable{
     }
 
     public int getSize(){
-        return boardTiles.size();
+        return this.boardTiles.size();
     }
 
-    int numOfTigersInArea(){
+    int getTigerCountInArea(){
         return this.tigerList.size();
     }
 
 
     public Set<BoardTile> getBoardTiles(){
-        return boardTiles;
+        return this.boardTiles;
     }
 
     public Set<TerrainNode> getTerrainNodes(){

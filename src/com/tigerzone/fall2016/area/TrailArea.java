@@ -2,8 +2,12 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Predator;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
+import com.tigerzone.fall2016.area.terrainnode.TrailTerrainNode;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -11,11 +15,21 @@ import java.util.List;
  */
 public class TrailArea extends CrocodileFriendlyArea {
 
+    Set<TrailTerrainNode> trailTerrainNodes;
+
     private List<Prey> preyList;
     public TrailArea(){
         this.preyList = new ArrayList<>();
     }
 
+    public List<Prey> getPreyList() {
+        return preyList;
+    }
+
+    @Override
+    public void mergeAnimals(Area area) { //area is what I am merging with
+        area.acceptAnimals(this);
+    }
 
     /**
      * this method should be called when a Boar is added from an AreaTile
@@ -62,18 +76,36 @@ public class TrailArea extends CrocodileFriendlyArea {
         return this.preyList.size();
     }
 
+
     @Override
     boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInTrail();
     }
 
-    @Override
-    public boolean isComplete() {
-        return false;
-    }
 
     @Override
     public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
         trailAreas.add(this);
     }
+
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+    @Override
+    public void acceptAnimals(TrailArea area) {
+        area.getPreyList().addAll(this.getPreyList());
+        area.getTigerList().addAll(this.getTigerList());
+    }
+    @Override
+    public void acceptAnimals(DenArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+    @Override
+    public void acceptAnimals(JungleArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+
+
 }

@@ -96,32 +96,17 @@ public class Scorer {
      * 4) jungles
      */
     public void endGameScoring() {
-        //TODO needs getSpecificArea() methods
-//        List<DenArea> dens = am.getDenAreas();
-//        endGameScoreDens(dens);
-//
-//        List<LakeArea> lakes = am.getLakeAreas();
-//        endGameScoreLakes(lakes);
-//
-//        List<TrailArea> trails = am.getTrailAreas();
-//        endGameScoreTrails(trails);
-//
-//        List<JungleArea> jungles = am.getDenAreas();
-//        // Get list of complete lakes
-//        List<LakeArea> completedLakes = new ArrayList<LakeArea>();
-//        for (LakeArea lake: lakes) {
-//            if (lake.isComplete()) {
-//                completedLakes.add(lake);
-//            }
-//        }
-//        // Get list of complete dens
-//        List<DenArea> completedDens = new ArrayList<DenArea>();
-//        for (DenArea den: dens) {
-//            if (den.isComplete()) {
-//                completedDens.add(den);
-//            }
-//        }
-//        endGameScoreJungles(jungles, completedLakes, completedDens);
+        List<DenArea> dens = am.getDenAreas();
+        endGameScoreDens(dens);
+
+        List<LakeArea> lakes = am.getLakeAreas();
+        endGameScoreLakes(lakes);
+
+        List<TrailArea> trails = am.getTrailAreas();
+        endGameScoreTrails(trails);
+
+        List<JungleArea> jungles = am.getJungleAreas();
+        endGameScoreJungles(jungles);
     }
 
     //========== End Game Scoring Helper Methods ===========//
@@ -160,9 +145,25 @@ public class Scorer {
         }
     }
 
-    // Score jungles
-    private void endGameScoreJungles(List<JungleArea> jungles, List<LakeArea> lakes, List<DenArea> dens) {
-        //TODO add logic
+    /**
+     * Scores all jungle areas of the game and adds those points to owners to those players
+     * @param jungles
+     */
+    private void endGameScoreJungles(List<JungleArea> jungles) {
+        int completedLakeValue = 3;
+        int completedDenValue = 5;
+        for(JungleArea jungle : jungles){
+            List<String> ownerIDS = jungle.getOwnerID();
+
+            //pointers = (completedLakeValue * num of completed lakes) + (completedDenValue * num of completed dens)
+            Integer points = (completedLakeValue * jungle.countCompletedLakes())
+                              + (completedDenValue * jungle.countCompletedDens());
+
+            for(String id: ownerIDS){
+                Integer currentScore = playerScores.get(id);
+                playerScores.put(id, currentScore + points);
+            }
+        }
     }
 
     /**
