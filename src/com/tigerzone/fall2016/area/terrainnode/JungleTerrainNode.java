@@ -36,9 +36,6 @@ public class JungleTerrainNode extends TerrainNode {
 
     }
 
-    public JungleArea getArea() {
-        return this.getArea();
-    }
 
     @Override
     public Area createArea() {

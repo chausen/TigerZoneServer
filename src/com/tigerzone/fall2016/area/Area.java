@@ -23,6 +23,13 @@ public abstract class Area implements ListAddable{
         tigerList = new ArrayList<>();
     }
 
+    public List<Tiger> getTigerList() {
+        return tigerList;
+    }
+
+    public void removeTiger(Tiger tiger) {
+        tigerList.remove(tiger);
+    }
 
     public void mergeArea(Area area){
         for(TerrainNode terrainNode : area.getTerrainNodes()){
@@ -30,7 +37,10 @@ public abstract class Area implements ListAddable{
         }
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
+        this.tigerList.addAll(area.getTigerList());
     }
+
+
 
     public void addBoardTile(BoardTile boardTile){
         boardTiles.add(boardTile);
@@ -42,14 +52,6 @@ public abstract class Area implements ListAddable{
 
     public void addTerrainNode(Set<TerrainNode> terrainNodes){
         this.terrainNodes.addAll(terrainNodes);
-    }
-
-    /**
-     * Returns true only if area was updated with input tile
-     * @return
-     */
-    public boolean hasAreaUpdated(){
-        return true;
     }
 
     /**
@@ -83,12 +85,24 @@ public abstract class Area implements ListAddable{
      * @param tiger
      */
     public void placePredator(Tiger tiger){
-        if(this.tigerList.isEmpty()){
+        if(canPlaceTiger()){
             this.tigerList.add(tiger);
         }else{
             String playerID = tiger.getPlayerId();
             //player should forfeit
         }
+    }
+
+    public boolean canPlaceTiger() {
+        boolean placeable = false;
+        if(this.tigerList.isEmpty()) {
+            placeable = true;
+        }
+        return placeable;
+    }
+
+    public void placeTigerSpecialCase(Tiger tiger) { //must have already passed all checks in TerrainNode placeTiger
+        this.tigerList.add(tiger);
     }
 
     /**

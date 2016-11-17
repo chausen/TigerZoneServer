@@ -17,10 +17,6 @@ public class LakeTerrainNode extends TerrainNode {
         setArea(createArea());
     }
 
-    public LakeArea getArea() {
-        return this.getArea();
-    } // TODO: 11/16/2016 is this ok?
-
     @Override
     public Area createArea() {
         return new LakeArea();

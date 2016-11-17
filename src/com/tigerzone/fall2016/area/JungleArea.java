@@ -19,23 +19,25 @@ public class JungleArea extends Area {
     //List<JungleTerrainNode> jungleTerrainNodes;
     Set<JungleTerrainNode> jungleTerrainNodes;
 
-    private Set<LakeArea> lakeAreas;
-    private Set<DenArea> denAreas;
+    private Set<Area> lakeAreas = new HashSet<>();
+    private Set<Area> scoredAreas = new HashSet<>();
+    private Set<Area> denAreas;
 
     public int countCompletedLakes() {
         findLakeAreas();
         int completedLakeCount=0;
-        for (LakeArea lakeArea: lakeAreas) {
+        for (Area lakeArea: lakeAreas) {
             if(lakeArea.isComplete()) {
-                completedLakeCount++;
-                this.lakeAreas.remove(lakeArea); //don't want to double score lakeAreas
+                if (!scoredAreas.contains(lakeArea)) {
+                    completedLakeCount++;
+                    scoredAreas.add(lakeArea);
+                }
             }
         }
         return completedLakeCount;
     }
 
     public void findLakeAreas() {
-        this.lakeAreas = new HashSet<>();
         for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
             for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
                 lakeAreas.add(lakeTerrainNode.getArea());
@@ -55,10 +57,6 @@ public class JungleArea extends Area {
         return completedDenCount;
     }
 
-
-    public JungleArea getArea() {
-        return this.getArea();
-    }
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {

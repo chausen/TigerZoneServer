@@ -75,7 +75,7 @@ public class AreaManager {
         } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
             System.out.println("Player forfeits");
         } else {
-            predatorPlacementNode.getArea().placePredator(predator);
+            predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
         }
     }
 
