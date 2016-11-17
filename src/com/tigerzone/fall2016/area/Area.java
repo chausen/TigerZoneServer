@@ -50,7 +50,6 @@ public abstract class Area implements ListAddable{
     public abstract void acceptAnimals(DenArea area);
     public abstract void acceptAnimals(JungleArea area);
 
-
     public void addBoardTile(BoardTile boardTile){
         boardTiles.add(boardTile);
     }
