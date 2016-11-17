@@ -21,7 +21,7 @@ import java.util.Set;
 
     private Set<Area> lakeAreas = new HashSet<>();
     private Set<Area> scoredAreas = new HashSet<>();
-    private Set<Area> denAreas;
+    private Set<Area> denAreas = new HashSet<>();
 
     public int countCompletedLakes() {
         findLakeAreas();

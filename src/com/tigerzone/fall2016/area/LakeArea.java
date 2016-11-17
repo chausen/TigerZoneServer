@@ -6,7 +6,6 @@ import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -15,16 +14,16 @@ import java.util.Set;
  * Created by lenovo on 11/7/2016.
  */
 public class LakeArea extends CrocodileFriendlyArea {
-    private boolean hasBoar;
-    private boolean hasBuffalo;
-    private boolean hasDeer;
+    private boolean containsBoar;
+    private boolean containsBuffalo;
+    private boolean containsDeer;
 
     private Set<LakeTerrainNode> lakeTerrainNodes;
 
     public LakeArea(){
-        this.hasBoar = false;
-        this.hasBuffalo = false;
-        this.hasDeer = false;
+        this.containsBoar = false;
+        this.containsBuffalo = false;
+        this.containsDeer = false;
     }
 
     @Override
@@ -35,6 +34,15 @@ public class LakeArea extends CrocodileFriendlyArea {
     @Override
     public void acceptAnimals(LakeArea area) {
         area.getCrocodileList().addAll(this.getCrocodileList());
+        if(area.containsBoar() || this.containsBoar()){
+            area.setContainsBoarToTrue();
+        }
+        if(area.containsBuffalo() || this.containsBuffalo()){
+            area.setContainsBuffaloToTrue();
+        }
+        if(area.containsDeer() || this.containsDeer()){
+            area.setContainsDeerToTrue();
+        }
     }
 
     @Override
@@ -70,18 +78,13 @@ public class LakeArea extends CrocodileFriendlyArea {
     }
 
 
-    public boolean containsBoar() {
-        return false;
-
-
-        /**
-         * this method should be called when a Boar is added from an AreaTile
-         * @param boar
-         */
-    }
+    /**
+     * this method should be called when a Boar is added from an AreaTile
+     * @param boar
+     */
     @Override
     public void addAnimal(Boar boar){
-        this.hasBoar = true;
+        this.containsBoar = true;
     }
 
     /**
@@ -90,7 +93,7 @@ public class LakeArea extends CrocodileFriendlyArea {
      */
     @Override
     public void addAnimal(Buffalo buffalo){
-        this.hasBuffalo = true;
+        this.containsBuffalo = true;
     }
 
     /**
@@ -99,7 +102,7 @@ public class LakeArea extends CrocodileFriendlyArea {
      */
     @Override
     public void addAnimal(Deer deer){
-        this.hasDeer = true;
+        this.containsDeer = true;
     }
 
 
@@ -112,15 +115,15 @@ public class LakeArea extends CrocodileFriendlyArea {
      */
     public int getNumOfUniquePreyAnimalsAfterCrocodileEffect(){
         int count = 0;
-        if(this.hasBoar){
+        if(this.containsBoar){
             count++;
         }
 
-        if(this.hasBuffalo){
+        if(this.containsBuffalo){
             count++;
         }
 
-        if(this.hasDeer){
+        if(this.containsDeer){
             count++;
         }
 
@@ -131,6 +134,30 @@ public class LakeArea extends CrocodileFriendlyArea {
         }
 
         return count;
+    }
+
+    public boolean containsBoar(){
+        return this.containsBoar;
+    }
+
+    public boolean containsBuffalo(){
+        return this.containsBuffalo;
+    }
+
+    public boolean containsDeer(){
+        return this.containsDeer;
+    }
+
+    void setContainsBoarToTrue(){
+        this.containsBoar = true;
+    }
+
+    void setContainsBuffaloToTrue(){
+        this.containsBuffalo = true;
+    }
+
+    void setContainsDeerToTrue(){
+        this.containsDeer = true;
     }
 
     @Override
