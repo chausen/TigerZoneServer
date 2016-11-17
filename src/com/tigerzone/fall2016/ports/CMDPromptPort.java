@@ -10,9 +10,8 @@ import java.util.*;
  */
 public class CMDPromptPort extends IOPort {
 
-    Scanner sc = new Scanner(System.in);
+    Scanner sc;
     String activeMove;
-    private boolean isGameOver = false;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -23,6 +22,20 @@ public class CMDPromptPort extends IOPort {
      */
     public CMDPromptPort(String loginName1, String loginName2, long seed) {
         super(loginName1, loginName2, seed);
+        sc = new Scanner(System.in);
+    }
+
+    /**
+     * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
+     *
+     * @param loginName1 First player in our match. Note that this player will always be the first to go.
+     * @param loginName2 Second player in our match. This player will always be second to go.
+     * @param seed       Seed value for randomization of TileStack inside GameSystem.
+     * @param scanner    Scanner reading the input required to play the game
+     */
+    public CMDPromptPort(String loginName1, String loginName2, long seed, Scanner scanner) {
+        super(loginName1, loginName2, seed);
+        this.sc = scanner;
     }
 
     @Override
@@ -52,39 +65,36 @@ public class CMDPromptPort extends IOPort {
     }
 
     @Override
-    public void notifyEndGame(Set<String> winners) {
+    public void notifyEndGame(Map<String, Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
-        /*stringBuilder.append("GAME 1 OUTCOME PLAYER ");
-        stringBuilder.append(winners.)
-        System.out.println(" <pid> <score> PLAYER <pid> <score>");
-        */
-        System.out.println("SOMEONE WON");
-        setGameOverTrue();
-    }
-
-    private void setGameOverTrue() {
-        isGameOver = true;
-    }
-
-    public boolean isGameOver() {
-        return isGameOver;
+        stringBuilder.append("GAME 1 OUTCOME ");
+        Set<String> players = playerScores.keySet();
+        Iterator<String> iterator = players.iterator();
+        String loginName1 = iterator.next();
+        String loginName2 = iterator.next();
+        stringBuilder.append("PLAYER " + loginName1 + " " + playerScores.get(loginName1) + " ");
+        stringBuilder.append("PLAYER " + loginName2 + " " + playerScores.get(loginName2));
+        System.out.println(stringBuilder.toString());
+        System.exit(0);
     }
 
     @Override
-    public void forfeitIllegalMeeple(String winner) {
-        System.out.println("GAME 1 PLAYER "+getActivePlayer()+" FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
-        setGameOverTrue();
+    public void forfeitIllegalMeeple(String currentPlayerID) {
+        System.out.println("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
     }
 
     @Override
-    public void forfeitInvalidMeeple(String winner) {
-        System.out.println("GAME 1 PLAYER "+getActivePlayer()+" FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
-        setGameOverTrue();
+    public void forfeitInvalidMeeple(String currentPlayerID) {
+        System.out.println("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
     }
 
     @Override
-    public void forfeitIllegalTile(String winner) {
-        System.out.println("GAME 1 PLAYER "+getActivePlayer()+" FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
-        setGameOverTrue();
+    public void forfeitIllegalTile(String currentPlayerID) {
+        System.out.println("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+    }
+
+    @Override
+    protected void forfeitQuit(String currentPlayerID) {
+        System.out.println("GAME 1 PLAYER " + currentPlayerID + " FORFEITED QUIT");
     }
 }

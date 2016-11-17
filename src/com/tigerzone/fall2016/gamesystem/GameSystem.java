@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
@@ -10,7 +11,8 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.List;
 
 public class GameSystem implements PlayerInAdapter {
@@ -20,7 +22,7 @@ public class GameSystem implements PlayerInAdapter {
     private FreeSpaceBoard fsb;
     private TileStack ts;
     private Scorer scorer;
-    // private AreaManager am;
+    private AreaManager am;
 
     // Game State
     private PlayableTile origintile;
@@ -32,7 +34,9 @@ public class GameSystem implements PlayerInAdapter {
 
     // Communication
     private PlayerOutAdapter outAdapter;
-    private boolean isUnplaceable = false;//First tile always placeable based on Origin Tile.
+    // Set in prepareNextTurn()
+    // NOTE: First tile always placeable based on Origin Tile.
+    private boolean currentTileCannotBePlaced = false;
 
     public GameSystem() {}
 
@@ -47,23 +51,28 @@ public class GameSystem implements PlayerInAdapter {
      *
      * @param t  Turn object holding the player whose turn it is, their tile placement, and predator placement
      */
-
-
     //Only for "PLACE"
     public void receiveTurn(Turn t)
     {
         this.currentTurn = t;
+
         //They called the wrong thing if this goes through.
-        if(isUnplaceable)
-            outAdapter.forfeitIllegalTile(getForfeitWinner());
+        if(currentTileCannotBePlaced) {
+            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
+        }
+
         // place tile, if Tile isn't the same one we gave, boot them.
         PlayableTile currentTile = currentTurn.getPlayableTile();
         if (!currentTile.equals(currentTile)) {
-            outAdapter.forfeitIllegalTile(getForfeitWinner());
+            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
         }
 
+        // Check if they tried to place the tile in an invalid position
         if (!fsb.isPlaceable(t.getPosition(), t.getPlayableTile(), t.getRotationDegrees())) {
-            outAdapter.forfeitIllegalTile(getForfeitWinner());
+            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
         } else {
             fsb.placeTile(t.getPosition(), t.getPlayableTile());
         }
@@ -77,14 +86,14 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public void receivePass(){
-        unplaceableCheck();
+        tileUnplaceableCheck();
         //TODO: Ask Dave if we need to broadcast a person's Unplaceable Turn.
         //Add logic for dealing with unplaceable Tile PASS turns.
         prepareNextTurn();
     }
 
     public void tigerRetrieve(int x, int y){
-        unplaceableCheck();
+        tileUnplaceableCheck();
 
         //Add logic for dealing with retrieving Tigers from a location with one placed.
 
@@ -92,29 +101,34 @@ public class GameSystem implements PlayerInAdapter {
     }
 
     public void tigerPlace(int x, int y){
-        unplaceableCheck();
+        tileUnplaceableCheck();
 
         //Add logic for dealing with placing an additional Tiger.
 
         prepareNextTurn();
     }
 
-    private void unplaceableCheck(){
-        if(!isUnplaceable)
-            outAdapter.forfeitIllegalTile(getForfeitWinner());
+    // If the current tile can be placed but they are taking one of the actions
+    // for when the tile is unplaceable: invalid move; forfeit
+    private void tileUnplaceableCheck(){
+        if(!currentTileCannotBePlaced)
+            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
     }
 
+    // Gets the next tile and checks if any remain / if the tile can be placed
+    // This method sets the currentTileCannotBePlaced attribute used in other methods
     private void prepareNextTurn() {
         this.currentTile = ts.pop();
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
-            Set<String> winners = scorer.announceWinners();
-            outAdapter.notifyEndGame(winners);
+            Map<String, Integer> playerScores = scorer.getPlayerScores();
+            outAdapter.notifyEndGame(playerScores);
         } else {
             // Check if the next tile is playable
             if (fsb.needToRemove(currentTile)) {
-                isUnplaceable = true;
-            } else isUnplaceable = false;
+                currentTileCannotBePlaced = true;
+            } else currentTileCannotBePlaced = false;
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }
@@ -144,7 +158,11 @@ public class GameSystem implements PlayerInAdapter {
         currentPlayer = player1; // Player 1 is always the current player
 
         fsb = new FreeSpaceBoard();
-        // am = new AreaManager();
+        am = new AreaManager(null, null, null, null);
+        List<String> players = new ArrayList<>();
+        players.add(player1id);
+        players.add(player2id);
+        scorer = new Scorer(players, am);
 
         ts = new TileStack(seed, new TextFilePort());
         origintile = ts.pop();
@@ -159,10 +177,13 @@ public class GameSystem implements PlayerInAdapter {
     }
 
     //========== Helper Methods ===========//
+    private String getCurrentPlayerID() {
+        return currentPlayer.getPlayerId();
+    }
+
 
     // Notifies the outAdapter that the player whose not currently taking their turn is the winner
     // (The player whose turn it currently is forfeits)
-
     private String getForfeitWinner() {
         String currentPlayerID = currentTurn.getPlayerID();
         String player1ID = player1.getPlayerId();

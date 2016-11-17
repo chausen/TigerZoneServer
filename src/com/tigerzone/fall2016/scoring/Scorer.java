@@ -21,7 +21,6 @@ public class Scorer {
     // Collaborators
     private AreaManager am;
 
-
     public Scorer(List<String> playerIDs, AreaManager am) {
         this.playerScores = new HashMap<>();
         for (String playerID: playerIDs) {

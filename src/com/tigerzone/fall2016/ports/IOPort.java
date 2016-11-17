@@ -2,6 +2,9 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
@@ -81,23 +84,31 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnPlace(String s){
         Scanner sc = new Scanner(s);
-        String tiletextrep = sc.next();//This gives us the Text representation of the PlayableTile.
-        sc.next();//Gives us AT
-        int x = sc.nextInt();//This gives us the x coord
-        int y = sc.nextInt();//This gives us the y coord
-        int orientation = sc.nextInt();//This gives us the orientation (rotation degree)
-        String animal = sc.next();
-        if (animal.equals("TIGER")) {
+        String tiletextrep = sc.next(); // This gives us the Text representation of the PlayableTile.
+        sc.next();                      // Gives us AT
+        int x = sc.nextInt();           // This gives us the x coord
+        int y = sc.nextInt();           // This gives us the y coord
+        int orientation = sc.nextInt(); // This gives us the orientation (rotation degree)
+        String predatorStr = sc.next(); // Conditional logic below determines what kind of predator
+        Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
+        int zone = 0;                   // The zone of the tile where the predator will be placed
+        if (predatorStr.equals("TIGER")) {
+            predator = new Tiger(getActivePlayer());
             if (sc.hasNext()) {
-                int zone = sc.nextInt();//This gives us zone
+                zone = sc.nextInt();//This gives us zone
             } else {
                 // invalid move
             }
+        } else if (predatorStr.equals("CROCODILE")) {
+            predator = new Crocodile();
+        } else if (predatorStr.equals("NONE")) {
+            predator = null;
+        } else {
+            // invalid move
         }
 
         PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
-        //TODO: Give an actual Direction (or figure out those problems :( )
-        Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, null, 0);
+        Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, predator, zone);
        // System.out.println("We are now at PLACE : "+s);
         inAdapter.receiveTurn(t);
     }
@@ -107,7 +118,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     private void receiveTurnQuit(){
-        System.out.println("We are now at Quit");
+        forfeitQuit(getActivePlayer());
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
@@ -116,16 +127,19 @@ public abstract class IOPort implements PlayerOutAdapter {
     public abstract void notifyBeginGame(List<PlayableTile> allAreaTiles);
 
     @Override
-    public abstract void notifyEndGame(Set<String> winners);
+    public abstract void notifyEndGame(Map<String, Integer> playerScores);
 
     @Override
-    public abstract void forfeitIllegalMeeple(String winner);
+    public abstract void forfeitIllegalMeeple(String currentPlayerID);
 
     @Override
-    public abstract void forfeitInvalidMeeple(String winner);
+    public abstract void forfeitInvalidMeeple(String currentPlayerID);
 
     @Override
-    public abstract void forfeitIllegalTile(String winner);
+    public abstract void forfeitIllegalTile(String currentPlayerID);
+
+
+    protected abstract void forfeitQuit(String currentPlayerID);
 
     //========== Accessors ==========//
 

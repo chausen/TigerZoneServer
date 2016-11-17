@@ -21,8 +21,8 @@ public class Main {
 
         CMDPromptPort cmdPort = new CMDPromptPort(loginName1, loginName2, seed);
         cmdPort.initialize();
-        while(!cmdPort.isGameOver()){
-        cmdPort.receiveTurn(in.nextLine());
+        while(true /*!cmdPort.isGameOver()*/){
+            cmdPort.receiveTurn(in.nextLine());
         }
     }
 }
