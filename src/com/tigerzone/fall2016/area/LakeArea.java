@@ -34,7 +34,7 @@ public class LakeArea extends CrocodileFriendlyArea {
 
     @Override
     public void acceptAnimals(LakeArea area) {
-
+        area.getCrocodileList().addAll(this.getCrocodileList());
     }
 
     @Override
