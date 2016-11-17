@@ -10,7 +10,6 @@ import java.util.*;
  */
 public class CMDPromptPort extends IOPort {
 
-    Scanner sc;
     String activeMove;
 
     /**
@@ -22,26 +21,12 @@ public class CMDPromptPort extends IOPort {
      */
     public CMDPromptPort(String loginName1, String loginName2, long seed) {
         super(loginName1, loginName2, seed);
-        sc = new Scanner(System.in);
-    }
-
-    /**
-     * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
-     *
-     * @param loginName1 First player in our match. Note that this player will always be the first to go.
-     * @param loginName2 Second player in our match. This player will always be second to go.
-     * @param seed       Seed value for randomization of TileStack inside GameSystem.
-     * @param scanner    Scanner reading the input required to play the game
-     */
-    public CMDPromptPort(String loginName1, String loginName2, long seed, Scanner scanner) {
-        super(loginName1, loginName2, seed);
-        this.sc = scanner;
     }
 
     @Override
-    public void sendTurn() {
+    public void sendTurn(String turnString) {
         System.out.println("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE "+getActiveTile().getTileString()+" WITHIN 1 SECONDS");
-        activeMove = sc.nextLine();
+        activeMove = turnString;
         receiveTurn(activeMove);
     }
 
@@ -60,8 +45,6 @@ public class CMDPromptPort extends IOPort {
         System.out.println(stringBuilder.toString());
         System.out.println("MATCH BEGINS IN 15 SECONDS");
         System.out.println("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
-        /*activeMove = sc.nextLine();
-        receiveTurn(activeMove);*/
     }
 
     @Override

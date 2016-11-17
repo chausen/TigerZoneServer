@@ -54,10 +54,10 @@ public abstract class IOPort implements PlayerOutAdapter {
     public void sendTurnInitial(String playerid, PlayableTile activeTile){
         this.activeTile = activeTile;
         activeplayer = playerid;
-        sendTurn();
+        sendTurn("Need to fix this");
     }
 
-    public abstract void sendTurn();
+    public abstract void sendTurn(String turnString);
 
     @Override
     public void receiveTurn(String s) {
