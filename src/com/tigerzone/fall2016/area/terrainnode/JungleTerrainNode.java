@@ -40,6 +40,7 @@ public class JungleTerrainNode extends TerrainNode {
         return super.getArea();
     }
 
+
     @Override
     public Area createArea() {
         JungleArea jungleArea = new JungleArea();

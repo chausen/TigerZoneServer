@@ -16,6 +16,7 @@ public class TrailTerrainNode extends TerrainNode {
         setArea(createArea());
     }
 
+
     public Area getArea() {
         return super.getArea();
     }

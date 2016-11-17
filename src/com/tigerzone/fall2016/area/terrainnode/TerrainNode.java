@@ -18,7 +18,7 @@ public abstract class TerrainNode {
     private BoardTile boardTile;
     private List<Integer> canConnectTo;
     private List<Integer> zones;
-    private Stack<Tiger> tigers;
+    private Stack<Tiger> tigers = new Stack<>();
 
     public void setCanConnectTo(List<Integer> canConnectTo) {
         this.canConnectTo = canConnectTo;
@@ -54,6 +54,7 @@ public abstract class TerrainNode {
         if (this.hasTiger()) {
             if (tiger.getPlayerId().equalsIgnoreCase(tigers.peek().getPlayerId())) {
                 tigers.push(tiger);
+                this.getArea().placeTigerSpecialCase(tiger);
                 placed = true;
             } else {
                 placed = false;
@@ -68,6 +69,7 @@ public abstract class TerrainNode {
             Tiger tiger = tigers.peek();
             if (playerID.equalsIgnoreCase(tiger.getPlayerId())) {
                 tigers.remove(tiger);
+                this.getArea().removeTiger(tiger);
                 removed = true;
             }
         }

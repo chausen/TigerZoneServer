@@ -16,11 +16,7 @@ public class LakeTerrainNode extends TerrainNode {
         super(canConnectTo, zones);
         setArea(createArea());
     }
-
-    public Area getArea() {
-        return super.getArea();
-    }
-
+    
     @Override
     public Area createArea() {
         LakeArea lakeArea = new LakeArea();

@@ -68,6 +68,7 @@ public class TrailArea extends CrocodileFriendlyArea {
         return this.preyList.size();
     }
 
+
     @Override
     boolean isPredatorPlaceable(Predator predator) {
         return predator.placeableInTrail();
@@ -75,7 +76,11 @@ public class TrailArea extends CrocodileFriendlyArea {
 
     @Override
     public boolean isComplete() {
-        return false;
+//        for (TrailTerrainNode trailTerrainNode: trailTerrainNodes) {
+//
+//        }
+//        return true;
+        return true;
     }
 
     @Override

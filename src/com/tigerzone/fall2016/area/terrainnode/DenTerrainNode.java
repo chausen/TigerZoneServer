@@ -18,8 +18,5 @@ public class DenTerrainNode extends TerrainNode {
         return null;
     }
 
-    public DenArea getArea() {
-        return this.getArea();
-    }
 
 }
