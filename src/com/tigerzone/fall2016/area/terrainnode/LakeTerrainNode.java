@@ -19,6 +19,8 @@ public class LakeTerrainNode extends TerrainNode {
 
     @Override
     public Area createArea() {
-        return new LakeArea();
+        LakeArea lakeArea = new LakeArea();
+        lakeArea.addTerrainNode(this);
+        return lakeArea;
     }
 }

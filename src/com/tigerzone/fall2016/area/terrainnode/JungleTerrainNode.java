@@ -36,10 +36,16 @@ public class JungleTerrainNode extends TerrainNode {
 
     }
 
+    public Area getArea() {
+        return super.getArea();
+    }
+
 
     @Override
     public Area createArea() {
-        return new JungleArea();
+        JungleArea jungleArea = new JungleArea();
+        jungleArea.addTerrainNode(this);
+        return jungleArea;
     }
 
     public void mergeNodes(JungleTerrainNode otherNode) {
