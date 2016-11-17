@@ -15,6 +15,31 @@ public class CrossRoadsArea extends Area{
     }
 
     @Override
+    public void mergeAnimals(Area area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(TrailArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(DenArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(JungleArea area) {
+
+    }
+
+    @Override
     boolean isPredatorPlaceable(Predator predator) {
         return false;
     }

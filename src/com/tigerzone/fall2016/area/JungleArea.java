@@ -40,7 +40,7 @@ public class JungleArea extends Area {
     public void findLakeAreas() {
         for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
             for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
-                lakeAreas.add(lakeTerrainNode.getArea());
+                lakeAreas.add((LakeArea)lakeTerrainNode.getArea());
             }
         }
     }
@@ -57,6 +57,31 @@ public class JungleArea extends Area {
         return completedDenCount;
     }
 
+
+    @Override
+    public void mergeAnimals(Area area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(TrailArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(DenArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(JungleArea area) {
+
+    }
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {

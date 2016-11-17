@@ -22,6 +22,31 @@ public class TrailArea extends CrocodileFriendlyArea {
         this.preyList = new ArrayList<>();
     }
 
+    @Override
+    public void mergeAnimals(Area area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(TrailArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(DenArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(JungleArea area) {
+
+    }
+
 
     /**
      * this method should be called when a Boar is added from an AreaTile

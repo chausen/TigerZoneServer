@@ -17,6 +17,31 @@ public class DenArea extends Area {
 
     public  DenArea(){}
 
+    @Override
+    public void mergeAnimals(Area area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(TrailArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(DenArea area) {
+
+    }
+
+    @Override
+    public void acceptAnimals(JungleArea area) {
+
+    }
+
 
     public  DenArea(Point center){
     }

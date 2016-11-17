@@ -27,6 +27,9 @@ public class AreaManagerTest {
         assertTrue(areaManager.getJungleAreas().size() == 3);
         areaManager.addTile(new Point(0,1), new PlayableTile("TJTT-"), 90);
         assertTrue(areaManager.getJungleAreas().size() == 4);
+        assertTrue(areaManager.getLakeAreas().size() == 1);
+        areaManager.addTile(new Point(1,0), new PlayableTile("LLLL-"), 0);
+        assertTrue(areaManager.getLakeAreas().size() == 1);
     }
 
 }
