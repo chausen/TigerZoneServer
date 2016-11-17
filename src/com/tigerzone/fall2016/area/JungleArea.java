@@ -38,7 +38,7 @@ public class JungleArea extends Area {
         this.lakeAreas = new HashSet<>();
         for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
             for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
-                lakeAreas.add(lakeTerrainNode.getArea());
+                lakeAreas.add((LakeArea)lakeTerrainNode.getArea());
             }
         }
     }
