@@ -20,7 +20,9 @@ public abstract class Area implements ListAddable{
      * This constructor is for testing purposes for now
      */
     public Area(){
-        tigerList = new ArrayList<>();
+        this.tigerList = new ArrayList<>();
+        this.boardTiles = new HashSet<>();
+        this.terrainNodes = new HashSet<>();
     }
 
 
@@ -159,7 +161,7 @@ public abstract class Area implements ListAddable{
         return this.boardTiles.size();
     }
 
-    int numOfTigersInArea(){
+    int getTigerCountInArea(){
         return this.tigerList.size();
     }
 

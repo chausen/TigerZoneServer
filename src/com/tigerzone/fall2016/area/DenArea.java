@@ -12,14 +12,13 @@ import java.util.Set;
  * Created by lenovo on 11/7/2016.
  */
 public class DenArea extends Area {
-
+    private Point center;
     Set<JungleTerrainNode> jungleTerrainNodes;
 
     public  DenArea(){}
-    private Point center;
+
 
     public  DenArea(Point center){
-
     }
 
     @Override

@@ -51,7 +51,7 @@ public class LakeAreaTest {
         int expectedTigerListSize = 1;
 
         lakeArea.placePredator(tiger);
-        int actualTigerListSize = lakeArea.numOfTigersInArea();
+        int actualTigerListSize = lakeArea.getTigerCountInArea();
         assertEquals(expectedTigerListSize, actualTigerListSize);
     }
 
