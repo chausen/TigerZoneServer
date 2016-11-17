@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
@@ -134,7 +135,15 @@ public abstract class Area implements ListAddable{
      * Returns true if the Area is complete
      * @return
      */
-    public abstract boolean isComplete();
+    public boolean isComplete() { //complete when canConnectTo() list is empty
+        boolean isComplete = false;
+        for (TerrainNode terrainNode : terrainNodes) {
+            if (terrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = true;
+            }
+        }
+        return isComplete;
+    }
 
     /**
      * Returns a list of playerID's that have equal max tiger counts for an area.

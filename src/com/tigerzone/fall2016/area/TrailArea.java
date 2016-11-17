@@ -22,31 +22,14 @@ public class TrailArea extends CrocodileFriendlyArea {
         this.preyList = new ArrayList<>();
     }
 
-    @Override
-    public void mergeAnimals(Area area) {
-
+    public List<Prey> getPreyList() {
+        return preyList;
     }
 
     @Override
-    public void acceptAnimals(LakeArea area) {
-
+    public void mergeAnimals(Area area) { //area is what I am merging with
+        area.acceptAnimals(this);
     }
-
-    @Override
-    public void acceptAnimals(TrailArea area) {
-
-    }
-
-    @Override
-    public void acceptAnimals(DenArea area) {
-
-    }
-
-    @Override
-    public void acceptAnimals(JungleArea area) {
-
-    }
-
 
     /**
      * this method should be called when a Boar is added from an AreaTile
@@ -99,17 +82,30 @@ public class TrailArea extends CrocodileFriendlyArea {
         return predator.placeableInTrail();
     }
 
-    @Override
-    public boolean isComplete() {
-//        for (TrailTerrainNode trailTerrainNode: trailTerrainNodes) {
-//
-//        }
-//        return true;
-        return true;
-    }
 
     @Override
     public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
         trailAreas.add(this);
     }
+
+
+    @Override
+    public void acceptAnimals(LakeArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+    @Override
+    public void acceptAnimals(TrailArea area) {
+        area.getPreyList().addAll(this.getPreyList());
+        area.getTigerList().addAll(this.getTigerList());
+    }
+    @Override
+    public void acceptAnimals(DenArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+    @Override
+    public void acceptAnimals(JungleArea area) {
+        System.out.println("Wwhy is this getting called in TrailArea?");
+    }
+
+
 }

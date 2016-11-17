@@ -33,7 +33,7 @@ public class JungleArea extends Area {
                     scoredAreas.add(lakeArea);
                 }
             }
-        }
+    }
         return completedLakeCount;
     }
 
