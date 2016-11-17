@@ -112,10 +112,10 @@ public abstract class TerrainNode {
         rotateZones(rotationDegrees);
     }
 
-    private void rotateCanConnectTo(int degrees) {
+    public void rotateCanConnectTo(int degrees) {
         rotateCCW(degrees, getCanConnectTo());
     }
-    private void rotateZones(int degrees) {
+    public void rotateZones(int degrees) {
         rotateCCW(degrees, getZones());
     }
 
@@ -125,25 +125,26 @@ public abstract class TerrainNode {
         }
         int rotations = degrees/90;
         for (int i=0; i<rotations; i++) {
-            for (Integer integer: integerList) {
-                switch(integer) {
-                    case 1: integer=3;
+            //for (Integer integer: integerList) {
+            for(int j=0; j<integerList.size();j++) {
+                switch(integerList.get(j)) {
+                    case 1: integerList.set(j,7);
                         break;
-                    case 2: integer=6;
+                    case 2: integerList.set(j,4);
                         break;
-                    case 3: integer=9;
+                    case 3: integerList.set(j,1);
                         break;
-                    case 4: integer=2;
+                    case 4: integerList.set(j,8);
                         break;
-                    case 5: integer=5;
+                    case 5: integerList.set(j,5);
                         break;
-                    case 6: integer=8;
+                    case 6: integerList.set(j,2);
                         break;
-                    case 7: integer=1;
+                    case 7: integerList.set(j,9);
                         break;
-                    case 8: integer=4;
+                    case 8: integerList.set(j,6);
                         break;
-                    case 9: integer=7;
+                    case 9: integerList.set(j,3);
                         break;
                 }
             }

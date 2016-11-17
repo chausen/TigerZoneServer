@@ -33,7 +33,7 @@ import java.util.Set;
                     scoredAreas.add(lakeArea);
                 }
             }
-        }
+    }
         return completedLakeCount;
     }
 

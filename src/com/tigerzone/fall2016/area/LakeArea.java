@@ -66,17 +66,6 @@ public class LakeArea extends CrocodileFriendlyArea {
         return predator.placeableInLake();
     }
 
-    @Override
-    public boolean isComplete() { //complete when canConnectTo() list is empty
-        boolean isComplete = false;
-        for (LakeTerrainNode lakeTerrainNode : lakeTerrainNodes) {
-            if (lakeTerrainNode.getCanConnectTo().isEmpty()) {
-                isComplete = true;
-            }
-        }
-        return isComplete;
-    }
-
 
     /**
      * this method should be called when a Boar is added from an AreaTile
