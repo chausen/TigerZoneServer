@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class JungleArea extends Area {
+            public class JungleArea extends Area {
     
     //List<JungleTerrainNode> jungleTerrainNodes;
     Set<JungleTerrainNode> jungleTerrainNodes;
@@ -60,7 +60,7 @@ public class JungleArea extends Area {
 
     @Override
     public void mergeAnimals(Area area) {
-
+        area.acceptAnimals(this);
     }
 
     @Override
