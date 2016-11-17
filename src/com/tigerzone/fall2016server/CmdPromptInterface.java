@@ -34,14 +34,16 @@ public class CmdPromptInterface {
 
         gamePort.initialize();
 
+        // Send initial game messages
+        outputDownstreamMessages();
+
+        // Continue to prompt for moves and return results until end of game
         while ( !gamePort.isGameOver() ) {
-            while (!msgQueue.isEmpty()) {
-                message = msgQueue.remove();
-                System.out.println(message);
-            }
             System.out.print("> ");
             turn = scanner.nextLine();
             gamePort.receiveTurn(turn);
+
+            outputDownstreamMessages();
         }
     }
 
@@ -50,6 +52,13 @@ public class CmdPromptInterface {
         this.loginName1 = scanner.nextLine();
         System.out.print("Enter username for player 2: ");
         this.loginName2 = scanner.nextLine();
+    }
+
+    private void outputDownstreamMessages() {
+        while (!msgQueue.isEmpty()) {
+            message = msgQueue.remove();
+            System.out.println(message);
+        }
     }
 
 }
