@@ -63,9 +63,9 @@ public abstract class TerrainNode {
     }
 
     public boolean removeTiger(String playerID) {
-        Tiger tiger = tigers.peek();
         boolean removed = false;
         if (this.hasTiger()) {
+            Tiger tiger = tigers.peek();
             if (playerID.equalsIgnoreCase(tiger.getPlayerId())) {
                 tigers.remove(tiger);
                 removed = true;
@@ -75,7 +75,7 @@ public abstract class TerrainNode {
     }
 
     public boolean hasTiger() {
-        boolean hasTiger = false;
+        boolean hasTiger;
         if (tigers.size()>0) {
             hasTiger = true;
         } else {
