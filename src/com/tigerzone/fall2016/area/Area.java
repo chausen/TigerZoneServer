@@ -43,7 +43,6 @@ public abstract class Area implements ListAddable{
     }
 
 
-
     public void addBoardTile(BoardTile boardTile){
         boardTiles.add(boardTile);
     }
