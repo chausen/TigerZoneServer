@@ -70,15 +70,10 @@ public class LakeArea extends CrocodileFriendlyArea {
     }
 
 
-    public boolean containsBoar() {
-        return false;
-
-
-        /**
-         * this method should be called when a Boar is added from an AreaTile
-         * @param boar
-         */
-    }
+    /**
+     * this method should be called when a Boar is added from an AreaTile
+     * @param boar
+     */
     @Override
     public void addAnimal(Boar boar){
         this.hasBoar = true;
@@ -131,6 +126,18 @@ public class LakeArea extends CrocodileFriendlyArea {
         }
 
         return count;
+    }
+
+    public boolean containsBoar(){
+        return this.hasBoar;
+    }
+
+    public boolean containsBuffalo(){
+        return this.hasBoar;
+    }
+
+    public boolean hasBoar(){
+        return this.hasBoar;
     }
 
     @Override
