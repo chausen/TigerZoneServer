@@ -55,12 +55,22 @@ public class ScorerTest {
 
     @org.junit.Test
     public void scoreDen() throws Exception {
-        // Create a DenArea of size 9 whose owner is player1
-        //DenArea den = new DenArea();
-        //scorer.score(den);
+        // Create a DenArea of size 3 whose owner is Clay
+        DenArea denArea = new DenArea();
+        Set<BoardTile> boardTiles = new HashSet<>();
+        BoardTile boardTile = new BoardTile(new PlayableTile("JJJJ-"));
+        BoardTile boardTile2 = new BoardTile(new PlayableTile("JJTJX"));
+        BoardTile boardTile3 = new BoardTile(new PlayableTile("TLTT-"));
+        boardTiles.add(boardTile);
+        boardTiles.add(boardTile2);
+        boardTiles.add(boardTile3);
+        denArea.addBoardTile(boardTiles);
+        Tiger tiger = new Tiger("Clay");
+        denArea.placePredator(tiger);
+        scorer.score(denArea);
 
-        // player1 should have 9 points and player2 should have 0 points
-        //assertTrue(scorer.getScore("Clay") == 9);
+        // Clay should have 3 points
+        assertTrue(scorer.getScore("Clay") == 3);
     }
 
     @org.junit.Test

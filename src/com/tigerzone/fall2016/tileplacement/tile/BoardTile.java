@@ -31,18 +31,17 @@ public class BoardTile {
         rotateCCW(rotationDegrees);
     }
 
-    public void placeTiger(Tiger tiger) {
+    public boolean placeTiger(Tiger tiger) {
         boolean placed = false;
         for (TerrainNode terrainNode: terrainNodes) {
-            if(terrainNode.hasTiger()) {
-                if (terrainNode.placeTiger(tiger)) {
+            if (terrainNode.placeTiger(tiger)) {
                     placed = true;
-                }
             }
         }
         if (!placed) {
             System.out.println("Can't place tiger; player must forfeit");
         }
+        return placed;
     }
 
     public boolean removeTiger(String playerID) {
