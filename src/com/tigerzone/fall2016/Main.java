@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016;
 
 import com.tigerzone.fall2016.ports.CMDPromptPort;
+import com.tigerzone.fall2016server.CmdPromptInterface;
 
 import java.util.Scanner;
 
@@ -9,20 +10,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String args[]){
-
-        Scanner in = new Scanner(System.in);
-
-        System.out.print("Enter username for player 1: ");
-        String loginName1 = in.nextLine();
-        System.out.print("Enter username for player 2: ");
-        String loginName2 = in.nextLine();
-
-        long seed = 123456789;
-
-        CMDPromptPort cmdPort = new CMDPromptPort(loginName1, loginName2, seed);
-        cmdPort.initialize();
-        while(true /*!cmdPort.isGameOver()*/){
-            cmdPort.receiveTurn(in.nextLine());
-        }
+        CmdPromptInterface cmd = new CmdPromptInterface();
+        cmd.startGame();
     }
 }

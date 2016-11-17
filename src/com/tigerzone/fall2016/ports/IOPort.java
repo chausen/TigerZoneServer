@@ -8,8 +8,6 @@ import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import jdk.internal.org.objectweb.asm.commons.InstructionAdapter;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.awt.*;
 import java.util.*;
@@ -20,23 +18,30 @@ import java.util.List;
  */
 public abstract class IOPort implements PlayerOutAdapter {
     protected PlayerInAdapter inAdapter;
+    protected int gid;
     protected long seed; // seed corresponding to the tile order
     protected String loginName1;
     protected String loginName2;
     protected PlayableTile activeTile;
     protected String activeplayer;
+    protected String currentTurnString;
+    protected Queue<String> upstreamMessages;
+    protected boolean gameOver = false;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
+     * @param gid Game ID
      * @param loginName1 First player in our match. Note that this player will always be the first to go.
      * @param loginName2 Second player in our match. This player will always be second to go.
      * @param seed Seed value for randomization of TileStack inside GameSystem.
      */
-    public IOPort(String loginName1, String loginName2, long seed) {
+    public IOPort(int gid, String loginName1, String loginName2, long seed) {
+        this.gid = gid;
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
         this.seed = seed;
+        upstreamMessages = new LinkedList<>();
     }
 
     public void initialize() {
@@ -50,17 +55,19 @@ public abstract class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
-    @Override
-    public void sendTurnInitial(String playerid, PlayableTile activeTile){
-        this.activeTile = activeTile;
-        activeplayer = playerid;
-        sendTurn();
-    }
-
-    public abstract void sendTurn();
+    //TODO: Do we need to output this every turn, or just before the first move of the game? Delete if not.
+//    @Override
+//    public void sendTurnInitial(String playerid, PlayableTile activeTile){
+//        this.activeTile = activeTile;
+//        activeplayer = playerid;
+//        sendTurn();
+//    }
 
     @Override
     public void receiveTurn(String s) {
+        // Needed to output move is inAdapter finds it successful
+        currentTurnString = s;
+
         Scanner sc = new Scanner(s);
 
         String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
@@ -84,7 +91,7 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnPlace(String s){
         Scanner sc = new Scanner(s);
-        String tiletextrep = sc.next(); // This gives us the Text representation of the PlayableTile.
+        String tileString = sc.next(); // This gives us the Text representation of the PlayableTile.
         sc.next();                      // Gives us AT
         int x = sc.nextInt();           // This gives us the x coord
         int y = sc.nextInt();           // This gives us the y coord
@@ -93,23 +100,28 @@ public abstract class IOPort implements PlayerOutAdapter {
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
         int zone = 0;                   // The zone of the tile where the predator will be placed
         if (predatorStr.equals("TIGER")) {
-            predator = new Tiger(getActivePlayer());
+            predator = new Tiger(activeplayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
             } else {
-                // invalid move
+                //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
+                upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+                //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
             }
         } else if (predatorStr.equals("CROCODILE")) {
             predator = new Crocodile();
         } else if (predatorStr.equals("NONE")) {
             predator = null;
         } else {
-            // invalid move
+            //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
+            upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+            //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
         }
 
-        PlayableTile playableTile = new PlayableTile(tiletextrep, orientation);
+        PlayableTile playableTile = new PlayableTile(tileString, orientation);
         Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, predator, zone);
-       // System.out.println("We are now at PLACE : "+s);
+
+        // Send turn downstream
         inAdapter.receiveTurn(t);
     }
 
@@ -117,11 +129,17 @@ public abstract class IOPort implements PlayerOutAdapter {
        // System.out.println("We are now at Tile : "+s);
     }
 
+    // Only forfeit condition handled in adapter
+    // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        forfeitQuit(getActivePlayer());
+        upstreamMessages.add("GAME 1 PLAYER " + activeplayer + " FORFEITED QUIT");
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
+    @Override
+    public void successfulTurn() {
+        upstreamMessages.add(currentTurnString);
+    }
 
     @Override
     public abstract void notifyBeginGame(List<PlayableTile> allAreaTiles);
@@ -139,8 +157,6 @@ public abstract class IOPort implements PlayerOutAdapter {
     public abstract void forfeitIllegalTile(String currentPlayerID);
 
 
-    protected abstract void forfeitQuit(String currentPlayerID);
-
     //========== Accessors ==========//
 
     protected PlayableTile getActiveTile(){
@@ -150,4 +166,13 @@ public abstract class IOPort implements PlayerOutAdapter {
     protected String getActivePlayer(){
         return activeplayer;
     }
+
+    public Queue<String> getMessageQueue() {
+        return upstreamMessages;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
 }
