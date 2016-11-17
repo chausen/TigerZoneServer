@@ -12,6 +12,7 @@ public class CMDPromptPort extends IOPort {
 
     private String activeMove;
 
+
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      *
