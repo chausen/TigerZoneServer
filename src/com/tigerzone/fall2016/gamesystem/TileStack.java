@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.gamesystem;
 import com.tigerzone.fall2016.adapters.TileReadAdapter;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
@@ -15,6 +16,11 @@ class TileStack
         seed = l;
         ll = new LinkedList<PlayableTile>(tra.createTiles());
 }
+
+    public TileStack(LinkedList<PlayableTile> ll) {
+        this.ll = ll;
+    }
+
     /**
      * Shuffle the TileStack providing we have a seed.
      */
