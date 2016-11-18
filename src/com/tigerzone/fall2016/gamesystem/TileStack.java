@@ -33,6 +33,8 @@ class TileStack
         return ll.removeFirst();
     }
 
+    public PlayableTile peek() { return ll.peek(); }
+
     public LinkedList<PlayableTile> getTileList(){
         return ll;
     }
@@ -47,9 +49,5 @@ class TileStack
             }
         }
         return true;//They matched the entire way, so we're good.
-    }
-
-    public PlayableTile peek() {
-        return ll.peekFirst();
     }
 }

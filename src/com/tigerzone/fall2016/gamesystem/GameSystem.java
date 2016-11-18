@@ -160,9 +160,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(playerScores);
         } else {
             // Check if the next tile is playable
-            if (fsb.needToRemove(currentTile)) {
-                currentTileCannotBePlaced = false;
-            } else currentTileCannotBePlaced = true;
+            currentTileCannotBePlaced = (!fsb.needToRemove(currentTile));//needtoRemove returns TRUE if PLACEABLE
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }
