@@ -27,6 +27,7 @@ public class ScorerTest {
     private Player player2;
     private HashMap<String,Integer> playerScores;
     private Scorer scorer;
+    private  List<Player> players;
 
     private List<DenArea> denAreas;        // }
     private List<JungleArea> jungleAreas;  // |
@@ -41,6 +42,9 @@ public class ScorerTest {
         // Populate player scores, with player1 having the higher score
         player1 = new Player("Clay");
         player2 = new Player("Matt");
+        players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
         playerScores = new HashMap();
         playerScores.put(player1.getPlayerId(), 0);
         playerScores.put(player2.getPlayerId(), 0);
@@ -50,7 +54,7 @@ public class ScorerTest {
         areaManager = new AreaManager();
         outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
         // Create scorer
-        scorer = new Scorer(playerScores, areaManager, outAdapter);
+        scorer = new Scorer(players, playerScores, areaManager, outAdapter);
     }
 
     @org.junit.Test
@@ -157,7 +161,8 @@ public class ScorerTest {
         // Add a third player with the same score as player1
         Player player3 = new Player("3");
         playerScores.put(player3.getPlayerId(), 32);
-        scorer = new Scorer(playerScores, areaManager, outAdapter);
+        players.add(player3);
+        scorer = new Scorer(players, playerScores, areaManager, outAdapter);
         // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));

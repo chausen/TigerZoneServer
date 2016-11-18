@@ -29,6 +29,8 @@ public class Scorer {
 
     public Scorer(List<Player> players, AreaManager am) {
         this.playerScores = new HashMap<>();
+        this.players = new HashMap<>();
+
         for (Player player : players) {
             String playerID = player.getPlayerId();
             this.players.put(playerID, player);
@@ -37,7 +39,12 @@ public class Scorer {
         this.am = am;
     }
 
-    public Scorer(Map<String, Integer> playerScores, AreaManager am, PlayerOutAdapter outAdapter) {
+    public Scorer(List<Player> players,Map<String, Integer> playerScores, AreaManager am, PlayerOutAdapter outAdapter) {
+        this.players = new HashMap<>();
+        for(Player player : players){
+            this.players.put(player.getPlayerId(), player);
+        }
+
         this.playerScores = playerScores;
         this.am = am;
         this.outAdapter = outAdapter;
@@ -49,7 +56,7 @@ public class Scorer {
      */
     private void returnTigerToOwnerAfterScoring(List<Tiger> tigerList){
         for(Tiger tiger : tigerList){
-            Player tigerOwner = players.get(tiger.getPlayerId());
+            Player tigerOwner = this.players.get(tiger.getPlayerId());
             tigerOwner.incrementGoodSupply();
         }
     }
