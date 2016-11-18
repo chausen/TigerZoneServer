@@ -71,7 +71,7 @@ public class FreeSpaceBoard {
         if(freeSpace == null){
             return false;
         }
-        playableTile.rotateCCW(rotationDegrees);
+        //playableTile.rotateCCW(rotationDegrees);
         return (freeSpace.getNorthTerrain().accept(playableTile.getNorthFace())
                 && freeSpace.getEastTerrain().accept(playableTile.getEastFace())
                 && freeSpace.getSouthTerrain().accept(playableTile.getSouthFace())

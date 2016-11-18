@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016.tournament;
+package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
@@ -19,7 +19,7 @@ public class Game {
     }
 
     public void playGame() {
-        GameSystem gameSystem = new GameSystem(player1.getPlayerId(), player2.getPlayerId(), this.seed);
+//        GameSystem gameSystem = new GameSystem(1, player1.getPlayerId(), player2.getPlayerId(), this.seed);
 
         //initialize game is called in the gameSystem constructor
         //gameSystem.startGame(); //startGame() is called in initializeGame(), which is called in the constructor

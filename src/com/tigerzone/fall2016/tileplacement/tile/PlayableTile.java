@@ -94,5 +94,15 @@ public class PlayableTile {
         }
     }
 
+    /**
+     * Compares the tileStrings of two PlayableTiles for equality
+     *
+     * @param tile the tile you're comparing this tile to
+     * @return true if the tileStrings are equal; false otherwise
+     */
+    public boolean equals(PlayableTile tile) {
+        boolean result = (this.tileString.equals(tile.getTileString())) ? true : false;
+        return result;
+    }
 
 }
