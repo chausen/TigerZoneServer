@@ -3,11 +3,13 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -49,6 +51,21 @@ public class JungleAreaTest {
 
     @Test
     public void testMerge() throws Exception {
+
+    }
+
+    @Test
+    public void testFindLakeAreas() throws Exception {
+        LakeArea lakeArea = new LakeArea();
+        LakeTerrainNode lakeTerrainNode = new LakeTerrainNode(null, Arrays.asList(2));
+        LakeTerrainNode lakeTerrainNode2 = new LakeTerrainNode(null, Arrays.asList(8));
+
+
+
+    }
+
+    @Test
+    public void testFindDenAreas() throws Exception {
 
     }
 }
