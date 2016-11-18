@@ -84,7 +84,7 @@ public class AreaManager {
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
         addTile(position, playableTile, degrees);
         BoardTile boardTile = gameBoard.getTile(position);
-        if (predatorPlacementZone>0) {
+        if (predatorPlacementZone > 0) {
             TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
             if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
                 return false;

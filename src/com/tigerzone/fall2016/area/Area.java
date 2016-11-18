@@ -143,59 +143,56 @@ public abstract class Area implements SetAddable{
      * @return
      */
     public boolean isComplete() { //complete when canConnectTo() list is empty
-        boolean isComplete = false;
+        boolean isComplete = true;
         for (TerrainNode terrainNode : terrainNodes) {
-            if (terrainNode.getCanConnectTo().isEmpty()) {
-                isComplete = true;
+            if (!terrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = false;
             }
         }
         return isComplete;
     }
 
-    /**
-     * Returns a list of playerID's that have equal max tiger counts for an area.
-     * @return
-     */
-    public List<String> getOwnerID() {
-        List<String> areaOwners = new ArrayList<>();
-        if(tigerList.size() == 0){
+        /**
+         * Returns a list of playerID's that have equal max tiger counts for an area.
+         * @return
+         */
+        public List<String> getOwnerID() {
+            List<String> areaOwners = new ArrayList<>();
+            if (tigerList.size() == 0) {
+                return areaOwners;
+            }
+            //key: player | value: count
+            Map<String, Integer> playerTigerCountMap = new HashMap<>();
+            for (Tiger tiger : tigerList) {
+                String tigerOwner = tiger.getPlayerId();
+                if (playerTigerCountMap.containsKey(tigerOwner)) {
+                    int newCount = playerTigerCountMap.get(tigerOwner) + 1;
+                    playerTigerCountMap.replace(tigerOwner, newCount);
+                } else {
+                    playerTigerCountMap.put(tigerOwner, 1);
+                }
+            }
+            Iterator<Map.Entry<String, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
+            int maxCount = iterator.next().getValue();
+            //find max number count
+            while (iterator.hasNext()) {
+                int playerCount = iterator.next().getValue();
+                if (maxCount < playerCount) {
+                    maxCount = playerCount;
+                }
+            }
+            //add all owners in the area that have equal number of tigers to areaOwners list
+            iterator = playerTigerCountMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, Integer> player = iterator.next();
+                int playerCount = player.getValue();
+                String playerID = player.getKey();
+                if (playerCount == maxCount) {
+                    areaOwners.add(playerID);
+                }
+            }
             return areaOwners;
         }
-
-        //key: player | value: count
-        Map<String, Integer> playerTigerCountMap = new HashMap<>();
-        for(Tiger tiger : tigerList){
-            String tigerOwner = tiger.getPlayerId();
-            if(playerTigerCountMap.containsKey(tigerOwner)){
-                int newCount = playerTigerCountMap.get(tigerOwner) + 1;
-                playerTigerCountMap.replace(tigerOwner, newCount);
-            }else{
-                playerTigerCountMap.put(tigerOwner, 1);
-            }
-        }
-        Iterator<Map.Entry<String, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
-        int maxCount = iterator.next().getValue();
-
-        //find max number count
-        while(iterator.hasNext()){
-            int playerCount = iterator.next().getValue();
-            if(maxCount < playerCount){
-                maxCount = playerCount;
-            }
-        }
-
-        //add all owners in the area that have equal number of tigers to areaOwners list
-        iterator = playerTigerCountMap.entrySet().iterator();
-        while(iterator.hasNext()){
-            Map.Entry<String, Integer> player = iterator.next();
-            int playerCount = player.getValue();
-            String playerID = player.getKey();
-            if(playerCount == maxCount){
-                areaOwners.add(playerID);
-            }
-        }
-        return areaOwners;
-    }
 
     public int getSize(){
         return this.boardTiles.size();

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -43,9 +44,24 @@ public class Client {
                     out.println(userInput);
                     System.out.println("echo: " + in.readLine());
                 }
+            } else if (response.startsWith("USERNAME?")) {
+                while ((userInput = stdIn.readLine()) != null) {
+                    out.println(userInput);
+                    System.out.println("echo: " + in.readLine());
+                }
+            } else if (response.startsWith("PASSWORD?")) {
+                while ((userInput = stdIn.readLine()) != null) {
+                    out.println(userInput);
+                    System.out.println("echo: " + in.readLine());
+                }
             }
-        }
-        finally {
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            System.exit(1);
+        } finally {
             clientSocket.close();
         }
     }
