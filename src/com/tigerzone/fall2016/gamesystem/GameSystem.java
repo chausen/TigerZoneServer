@@ -57,7 +57,6 @@ public class GameSystem implements PlayerInAdapter {
         currentPlayer = player1; // Player 1 is always the current player
 
         fsb = new FreeSpaceBoard();
-        //am = new AreaManager(null, null, null, null);
         am = new AreaManager();
         List<String> players = new ArrayList<>();
         players.add(player1id);

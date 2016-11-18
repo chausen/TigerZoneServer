@@ -46,14 +46,9 @@ public class ScorerTest {
         playerScores.put(player2.getPlayerId(), 0);
 
         // Create AreaManager
-        denAreas = new ArrayList();
-        jungleAreas = new ArrayList();
-        lakeAreas = new ArrayList();
-        trailAreas = new ArrayList();
         freeSpaceBoard = new FreeSpaceBoard();
-        areaManager = new AreaManager(denAreas, jungleAreas, lakeAreas, trailAreas);
+        areaManager = new AreaManager();
         outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
-
         // Create scorer
         scorer = new Scorer(playerScores, areaManager, outAdapter);
     }

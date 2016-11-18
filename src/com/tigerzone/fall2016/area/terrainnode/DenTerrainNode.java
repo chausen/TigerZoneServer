@@ -4,6 +4,8 @@ import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.area.DenArea;
 import com.tigerzone.fall2016.tileplacement.terrain.DenTerrain;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,8 +13,11 @@ import java.util.List;
  */
 public class DenTerrainNode extends TerrainNode {
 
-    public DenTerrainNode() {
-        setArea(createArea());
+//    public DenTerrainNode() {
+//        setArea(createArea());
+//    }
+    public DenTerrainNode(){
+        this.setZones(Arrays.asList(5));
     }
 
     @Override

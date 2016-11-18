@@ -103,7 +103,7 @@ public class JungleArea extends Area {
     }
 
     @Override
-    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+    public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
         jungleAreas.add(this);
     }
 }
