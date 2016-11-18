@@ -16,6 +16,7 @@ public class Client {
     BufferedReader in;
     PrintWriter out;
     Socket clientSocket;
+    BufferedReader stdIn;
 
 
     public Client(String host, int port) {
@@ -25,8 +26,7 @@ public class Client {
             clientSocket = new Socket(this.host, this.port);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-
+            stdIn = new BufferedReader(new InputStreamReader(System.in));
         } catch (IOException e) {
             System.out.println("Some ioexception");
         }
@@ -35,10 +35,14 @@ public class Client {
 
     public void play() throws Exception {
         String response;
+        String userInput;
         try {
             response = in.readLine();
             if (response.startsWith("TOURNAMENT PASSWORD?")) {
-
+                while ((userInput = stdIn.readLine()) != null) {
+                    out.println(userInput);
+                    System.out.println("echo: " + in.readLine());
+                }
             }
         }
         finally {

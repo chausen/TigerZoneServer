@@ -4,6 +4,7 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
+import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -81,17 +82,29 @@ public class AreaManager {
     }
 
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
+        boolean added = true;
         addTile(position, playableTile, degrees);
         BoardTile boardTile = gameBoard.getTile(position);
-        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
-        if (predatorPlacementNode.getMinimumZoneValue()!=predatorPlacementZone) {
-            return false;
-        } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
-           return false;
+        if (predatorPlacementZone>0) {
+            TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
+            if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+                added = false;
+            } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
+                added = false;
+            } else {
+                predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
+            }
         } else {
-            predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
+            for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
+                if (terrainNode.getArea().isPredatorPlaceable(predator)) {
+                    terrainNode.getArea().placePredator(predator);
+                }
+                else {
+                    added = false;
+                }
+            }
         }
-        return true;
+        return added;
     }
 
     private void placeDenArea(Point position, BoardTile boardTile){
