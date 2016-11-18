@@ -8,7 +8,7 @@ import com.tigerzone.fall2016server.server.TournamentServer;
  */
 public class main {
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Client client = new Client("localhost", 1024);
         TournamentServer server = new TournamentServer(1024);
         server.run();
