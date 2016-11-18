@@ -23,6 +23,7 @@ public class CMDPromptPortTest {
         }
         CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", 123456789);
         cmdp.initialize();
+        //cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
         while(!cmdp.getMessageQueue().isEmpty()){
             System.out.println(cmdp.getMessageQueue().remove());
         }

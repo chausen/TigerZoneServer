@@ -13,4 +13,5 @@ public interface PlayerInAdapter
     public void receivePass();
     public void tigerRetrieve(int x, int y);
     public void tigerPlace(int x, int y);
+    public void truncateTS(int x);//ONLY USED FOR TESTING PURPOSES
 }

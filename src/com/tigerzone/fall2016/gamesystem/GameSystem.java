@@ -183,6 +183,11 @@ public class GameSystem implements PlayerInAdapter {
         prepareNextTurn();
     }
 
+    @Override
+    public void truncateTS(int x) {
+        ts.truncateTS(x);
+    }
+
     // If the current tile can be placed but they are taking one of the actions
     // for when the tile is unplaceable: invalid move; forfeit
     private void tileUnplaceableCheck(){

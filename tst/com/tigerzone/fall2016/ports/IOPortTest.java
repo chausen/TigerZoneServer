@@ -56,6 +56,11 @@ public class IOPortTest {
 
             }
 
+            @Override
+            public void truncateTS(int x) {
+
+            }
+
             public String getTurnString() { return turn; }
         };
 

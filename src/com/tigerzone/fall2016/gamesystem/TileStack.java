@@ -50,4 +50,12 @@ class TileStack
         }
         return true;//They matched the entire way, so we're good.
     }
+
+    //THIS IS ONLY CALLED FOR TESTING PURPOSES
+    public void truncateTS(int num){
+        LinkedList<PlayableTile> ll2 = new LinkedList<>();
+        for(int x = 0; x < num; x++)
+            ll2.add(x, ll.get(x));
+        ll = ll2;
+    }
 }
