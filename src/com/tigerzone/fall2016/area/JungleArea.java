@@ -5,6 +5,7 @@ import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
+import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.HashSet;
 import java.util.List;
@@ -91,6 +92,9 @@ public class JungleArea extends Area {
     public void acceptAnimals(JungleArea area) {
         area.getTigerList().addAll(this.getTigerList());
     }
+
+    @Override
+    public void acceptScorer(Scorer scorer) {}
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {

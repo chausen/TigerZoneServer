@@ -1,10 +1,18 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016.ports.CMDPromptPort;
+import com.tigerzone.fall2016.ports.IOPort;
+import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -12,12 +20,16 @@ import static org.junit.Assert.*;
  * Created by Aidan on 11/16/2016.
  */
 public class AreaManagerTest {
-
     AreaManager areaManager;
 
     @Before
     public void setUp() throws Exception {
-        areaManager = new AreaManager();
+        List<Player> players = new ArrayList<>() ;
+        PlayerOutAdapter playerOutAdapter = new CMDPromptPort(5,"Clay", "Matt",0);
+
+        players.add(new Player("Clay"));
+        Scorer scorer = new Scorer(players, playerOutAdapter);
+        areaManager = new AreaManager(scorer);
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TrailTerrainNode;
+import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +106,8 @@ public class TrailArea extends CrocodileFriendlyArea {
         System.out.println("Wwhy is this getting called in TrailArea?");
     }
 
-
+    @Override
+    public void acceptScorer(Scorer scorer) {
+        scorer.score(this);
+    }
 }
