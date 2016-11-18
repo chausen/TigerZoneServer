@@ -11,4 +11,6 @@ public interface PlayerInAdapter
     //TODO: Do we need this?
     // public void triggerSendTurn();
     public void receivePass();
+    public void tigerRetrieve(int x, int y);
+    public void tigerPlace(int x, int y);
 }

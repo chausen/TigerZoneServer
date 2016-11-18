@@ -128,7 +128,32 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     private void receiveTurnTile(String s){
-       // System.out.println("We are now at Tile : "+s);
+        Scanner scanner = new Scanner(s);
+        StringBuilder sb = new StringBuilder();
+        scanner.next();//This gives us UNPLACEABLE.
+        String determiner = scanner.next();//This gives us which one we need.
+        switch(determiner){
+            case "PASS":
+                inAdapter.receivePass();
+                break;
+
+            case "RETRIEVE":
+                scanner.next();//Gives us TIGER
+                scanner.next();//Gives us AT
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                inAdapter.tigerRetrieve(x,y);
+                break;
+
+            case "ADD":
+                scanner.next();//Gives us ANOTHER
+                scanner.next();//Gives us TIGER
+                scanner.next();//Gives us TO
+                int a = scanner.nextInt();
+                int b = scanner.nextInt();
+                inAdapter.tigerPlace(a,b);
+                break;
+        }
     }
 
     // Only forfeit condition handled in adapter

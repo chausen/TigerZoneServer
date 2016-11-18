@@ -46,6 +46,16 @@ public class IOPortTest {
 
             }
 
+            @Override
+            public void tigerRetrieve(int x, int y) {
+
+            }
+
+            @Override
+            public void tigerPlace(int x, int y) {
+
+            }
+
             public String getTurnString() { return turn; }
         };
 
