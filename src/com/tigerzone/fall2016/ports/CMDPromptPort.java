@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016.ports;
 
-import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.util.*;
@@ -52,17 +51,17 @@ public class CMDPromptPort extends IOPort {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ getCurrentTurnString());
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ getCurrentTurnString());
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ getCurrentTurnString());
     }
 
     @Override

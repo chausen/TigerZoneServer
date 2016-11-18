@@ -15,17 +15,22 @@ public class CMDPromptPortTest {
 
     @Test
     public void testSendTurn() throws Exception {
-//        Scanner sc = null;
-//        {
-//            try {
-//                sc = new Scanner(new File(getClass().getResource("/com/tigerzone/fall2016/ports/Game.txt").getFile()));
-//            } catch(FileNotFoundException exc){System.out.println("FATAL: The Tile text file cannot be found.");}
-//        }
-//        CMDPromptPort cmdp = new CMDPromptPort("Taco", "Bell", 123456789, sc);
-//        cmdp.initialize();
-//
-//        while (true) {
-//            cmdp.sendTurn();
-//        }
+        Scanner sc = null;
+        {
+            try {
+                sc = new Scanner(new File(getClass().getResource("/com/tigerzone/fall2016/ports/Game.txt").getFile()));
+            } catch(FileNotFoundException exc){System.out.println("FATAL: The Tile text file cannot be found.");}
+        }
+        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", 123456789);
+        cmdp.initialize();
+        while(!cmdp.getMessageQueue().isEmpty()){
+            System.out.println(cmdp.getMessageQueue().remove());
+        }
+            while (!cmdp.isGameOver() && sc.hasNext()) {
+                String line = sc.nextLine();
+                //System.out.println(line);
+            cmdp.receiveTurn(line);
+            System.out.println(cmdp.getMessageQueue().remove());
+        }
     }
 }

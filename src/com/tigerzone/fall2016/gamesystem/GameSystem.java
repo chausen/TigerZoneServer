@@ -63,8 +63,8 @@ public class GameSystem implements PlayerInAdapter {
 
         ts = new TileStack(seed, new TextFilePort());
         origintile = ts.pop();
-        currentTile = origintile;
         ts.shuffle(); //Shuffle
+        currentTile = ts.peek();
         List<PlayableTile> allTiles = ts.getTileList();
 
         outAdapter.notifyBeginGame(allTiles);
@@ -89,7 +89,6 @@ public class GameSystem implements PlayerInAdapter {
     public void receiveTurn(Turn turn)
     {
         //TODO: Refactor duplicate code
-        System.out.println("Hello!");
 
         //They called the wrong thing if this goes through.
         if(currentTileCannotBePlaced) {
@@ -153,7 +152,8 @@ public class GameSystem implements PlayerInAdapter {
     // Gets the next tile and checks if any remain / if the tile can be placed
     // This method sets the currentTileCannotBePlaced attribute used in other methods
     private void prepareNextTurn() {
-        this.currentTile = ts.pop();
+        ts.pop();
+        this.currentTile = ts.peek();
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
             Map<String, Integer> playerScores = scorer.getPlayerScores();
@@ -161,8 +161,8 @@ public class GameSystem implements PlayerInAdapter {
         } else {
             // Check if the next tile is playable
             if (fsb.needToRemove(currentTile)) {
-                currentTileCannotBePlaced = true;
-            } else currentTileCannotBePlaced = false;
+                currentTileCannotBePlaced = false;
+            } else currentTileCannotBePlaced = true;
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }

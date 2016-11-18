@@ -171,6 +171,10 @@ public abstract class IOPort implements PlayerOutAdapter {
         return upstreamMessages;
     }
 
+    protected String getCurrentTurnString(){
+        return currentTurnString;
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
