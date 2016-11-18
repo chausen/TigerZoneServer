@@ -1,7 +1,6 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
