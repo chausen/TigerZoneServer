@@ -35,6 +35,11 @@ public class IOPortTest {
             }
 
             @Override
+            public Player getPlayer(String playerID) {
+                return null;
+            }
+
+            @Override
             public void setOutAdapter(PlayerOutAdapter outAdapter) {}
 
             @Override
@@ -70,9 +75,6 @@ public class IOPortTest {
             public void truncateTS(int x) {
 
             }
-
-            @Override
-            public Player getPlayer(String playerID) { return null; }
 
             public String getTurnString() { return turn; }
         };

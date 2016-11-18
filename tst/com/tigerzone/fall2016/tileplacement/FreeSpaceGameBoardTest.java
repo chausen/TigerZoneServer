@@ -32,7 +32,7 @@ public class FreeSpaceGameBoardTest {
     public void needToRemove() throws Exception {
         PlayableTile playableTile1 = new PlayableTile("LJJJ-");
         PlayableTile playableTile2 = new PlayableTile("LLLL-");
-        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
         freeSpaceBoard.placeTile(new Point(1, 0), playableTile1);
         assertTrue(freeSpaceBoard.needToRemove(playableTile2));
     }

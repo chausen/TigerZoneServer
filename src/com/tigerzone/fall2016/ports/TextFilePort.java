@@ -5,8 +5,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Jeff on 2016/11/07.(*´ω｀*)
@@ -35,6 +34,7 @@ public class TextFilePort implements TileReadAdapter
                 set.add(new PlayableTile(s));//Add a multiple Number of Tiles to the set.
             }
         }
+//        Collections.shuffle(set, new Random(100));
         return set;
     }
 }

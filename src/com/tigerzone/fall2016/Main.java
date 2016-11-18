@@ -15,8 +15,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]){
         CmdPromptInterface cmd = new CmdPromptInterface();
-        TextFilePort textFilePort = new TextFilePort();
-        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+//        TextFilePort textFilePort = new TextFilePort();
+//        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+        TileStackGenerator tileStackGenerator = new TileStackGenerator();
+        LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(100);
         cmd.startGame(tileStack);
     }
 }

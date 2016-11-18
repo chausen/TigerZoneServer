@@ -82,7 +82,12 @@ public class AreaManager {
             denTerrainNode.setArea(denArea);
             denAreas.add((DenArea)denArea);
         }
-        placeDenArea(position, boardTile);
+        updateDenArea();
+        for(DenArea denArea: denAreas){
+            if(denArea.isComplete() && denArea.hasOwner()){
+                denArea.acceptScorer(scorer);
+            }
+        }
     }
 
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
@@ -111,18 +116,32 @@ public class AreaManager {
         return true;
     }
 
-    private void placeDenArea(Point position, BoardTile boardTile){
+    private void updateDenArea(){
         for(DenArea denArea: denAreas){
             Point denAreaCenter = denArea.getCenter();
-            if(denAreaCenter.getX() == position.getX() && denAreaCenter.getY() + 1 == position.getY()
-                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() + 1 == position.getY()
-                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() == position.getY()
-                    || denAreaCenter.getX() + 1 == position.getX() && denAreaCenter.getY() - 1 == position.getY()
-                    || denAreaCenter.getX() == position.getX() && denAreaCenter.getY() - 1 == position.getY()
-                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() - 1 == position.getY()
-                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() == position.getY()
-                    || denAreaCenter.getX() - 1 == position.getX() && denAreaCenter.getY() + 1 == position.getY()){
-                denArea.addBoardTile(boardTile);
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX(), (int)denAreaCenter.getY() + 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX(), (int)denAreaCenter.getY() + 1)));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY() + 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY() + 1)));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY())) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY())));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY() - 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() + 1, (int)denAreaCenter.getY() - 1)));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX(), (int)denAreaCenter.getY() - 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX(), (int)denAreaCenter.getY() - 1)));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY() - 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY() - 1)));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY())) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY())));
+            }
+            if(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY() + 1)) != null){
+                denArea.addBoardTile(gameBoard.getTile(new Point((int)denAreaCenter.getX() - 1, (int)denAreaCenter.getY() + 1)));
             }
         }
     }
