@@ -1,9 +1,11 @@
 package com.tigerzone.fall2016.ports;
 
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -19,7 +21,9 @@ public class CMDPromptPortTest {
                 sc = new Scanner(new File(getClass().getResource("/com/tigerzone/fall2016/ports/Game.txt").getFile()));
             } catch(FileNotFoundException exc){System.out.println("FATAL: The Tile text file cannot be found.");}
         }
-        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", 123456789);
+        TextFilePort textFilePort = new TextFilePort();
+        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", tileStack);
         cmdp.initialize();
         //cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
         while(!cmdp.getMessageQueue().isEmpty()){

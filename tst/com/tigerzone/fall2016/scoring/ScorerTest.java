@@ -9,6 +9,7 @@ import com.tigerzone.fall2016.area.*;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.ports.CMDPromptPort;
 import com.tigerzone.fall2016.ports.IOPort;
+import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
@@ -52,7 +53,10 @@ public class ScorerTest {
         // Create AreaManager
         freeSpaceBoard = new FreeSpaceBoard();
 
-        outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
+        TextFilePort textFilePort = new TextFilePort();
+        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+
+        outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), tileStack);
         // Create scorer
         scorer = new Scorer(players, outAdapter);
         areaManager = new AreaManager(scorer);
