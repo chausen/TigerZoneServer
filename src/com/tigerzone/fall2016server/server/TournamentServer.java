@@ -1,9 +1,6 @@
 package com.tigerzone.fall2016server.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,8 +10,8 @@ import java.net.Socket;
 public class TournamentServer implements Runnable {
 
     ServerSocket serverSocket;
-    InputStream inputStream;
-    BufferedReader bufferedReader;
+    BufferedReader in;
+    PrintWriter out;
 
 
     public TournamentServer(int port) {
@@ -25,35 +22,30 @@ public class TournamentServer implements Runnable {
         }
     }
 
-//    public void connect(int portNumber) {
-//
-//        boolean listening = true;
-//        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-//            while (listening) {
-//                new KKMultiServerThread(serverSocket.accept()).start();
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Could not listen on port " + portNumber);
-//            System.exit(-1);
-//        }
-//    }
-
         public void run() {
             Socket clientSocket;
             try {
+                TournamentProtocol tournamentProtocol = new TournamentProtocol();
                 while((clientSocket = serverSocket.accept()) != null) {
-                    inputStream = clientSocket.getInputStream();
-                    bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    String inputLine = bufferedReader.readLine();
-                    if(inputLine!=null) {
-                        //do something with the line (like: gui.write(inputLine);)
+                    InputStream inputStream = clientSocket.getInputStream();
+                    in = new BufferedReader(new InputStreamReader(inputStream));
+                    out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                    String inputLine, outputLine;
+                    outputLine = tournamentProtocol.login(null);
+                    out.println(outputLine);
+                    while ((inputLine = in.readLine())!=null) {
+                        outputLine = tournamentProtocol.login(inputLine);
+                        out.println(outputLine);
+                        if (outputLine.equals("NOPE GOODBYE")) {
+                            break;
+                        }
                     }
+                    clientSocket.close();
                 }
             } catch(IOException e) {
-                //do something like log the error
+                System.out.println("Some exception in server run()");
             }
-
-
     }
 
 

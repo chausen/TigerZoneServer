@@ -8,38 +8,57 @@ import java.util.HashMap;
 
 public class TournamentProtocol {
     private static final int ENTER = 0;
-    private static final int USERNAME = 1;
-    private static final int PASSWORD = 2;
-    private static final int WAITING = 3;
+    private static final int LOGIN = 1;
+    private static final int USERNAME = 2;
+    private static final int PASSWORD = 3;
+    private static final int WAITING = 4;
 
     private int state = ENTER;
+    private int enterAttempts = 0;
     private int loginAttempts = 0;
     private String user = null;
 
     private HashMap<String, String> credentials = new HashMap<>();
 
-    public String login(String theInput) {
+    public TournamentProtocol() { }
+
+    public String login(String input) {
         String output = null;
         credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials
         credentials.put("PLAYER2", "PASSWORD2"); //dummy credentials
+        String tournamentPass = "TIGERZONE";
 
         if (state == ENTER) {
             output = "TOURNAMENT PASSWORD?";
-            state = USERNAME;
+            state = LOGIN;
+        } else if (state == LOGIN) {
+            if (input.equals(tournamentPass) && enterAttempts < 3) {
+                output = "USERNAME?";
+                state = USERNAME;
+            } else if (enterAttempts < 3){
+                output = "NOPE TRY AGAIN";
+                state = LOGIN;
+                enterAttempts++;
+            } else {
+                output = "NOPE GOODBYE";
+                enterAttempts = 0;
+                state = ENTER;
+            }
         } else if (state == USERNAME) {
-            if (credentials.containsKey(theInput)) {
+            if (credentials.containsKey(input)) {
                 output = "PASSWORD?";
-                user = theInput;
+                user = input;
                 state = PASSWORD;
             } else {
                 output = "NOPE TRY AGAIN";
                 state = USERNAME;
             }
-        } else if (state == PASSWORD && loginAttempts<3) {
-            if (theInput.equals(credentials.get(user))) {
+        } else if (state == PASSWORD && loginAttempts < 3) {
+            if (input.equals(credentials.get(user))) {
                 output = "WELCOME " + user + " PLEASE WAIT FOR THE NEXT CHALLENGE";
                 state = WAITING;
-            } else if (loginAttempts<3){
+                //alert(); //alert begin?
+            } else if (loginAttempts < 3){
                 output = "NOPE TRY AGAIN";
                 loginAttempts++;
                 state = PASSWORD;

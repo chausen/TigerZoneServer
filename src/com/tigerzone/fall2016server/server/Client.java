@@ -32,6 +32,12 @@ public class Client {
             System.out.println("Some ioexception");
         }
 
+//        try {
+//            play();
+//        } catch (Exception e) {
+//            System.out.println("EXCEPTION");
+//        }
+
     }
 
     public void play() throws Exception {
