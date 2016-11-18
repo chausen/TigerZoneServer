@@ -49,6 +49,7 @@ public class AreaManager {
     }
 
     public void addTile(Point position, PlayableTile playableTile, int degrees){
+
         BoardTile boardTile = convertToBoardTile(playableTile);
         boardTile.rotateCCW(degrees);
         gameBoard.placeTile(position, boardTile);

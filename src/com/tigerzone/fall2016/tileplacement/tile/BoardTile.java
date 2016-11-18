@@ -52,7 +52,9 @@ public class BoardTile {
     public void setBoardTileInTerrainNodes() {
         for (TerrainNode terrainNode: this.terrainNodes) {
             terrainNode.setBoardTile(this);
-            terrainNode.getArea().addBoardTile(this);
+            if(terrainNode.getArea() != null) {
+                terrainNode.getArea().addBoardTile(this);
+            }
         }
     }
 
