@@ -51,10 +51,11 @@ public class ScorerTest {
 
         // Create AreaManager
         freeSpaceBoard = new FreeSpaceBoard();
-        areaManager = new AreaManager();
+
         outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
         // Create scorer
-        scorer = new Scorer(players, areaManager, outAdapter);
+        scorer = new Scorer(players, outAdapter);
+        areaManager = new AreaManager(scorer);
     }
 
     @org.junit.Test

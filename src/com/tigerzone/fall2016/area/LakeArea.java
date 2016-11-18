@@ -5,6 +5,7 @@ import com.tigerzone.fall2016.animals.Buffalo;
 import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
+import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.List;
 import java.util.Set;
@@ -58,6 +59,10 @@ public class LakeArea extends CrocodileFriendlyArea {
 
     }
 
+    @Override
+    public void acceptScorer(Scorer scorer) {
+        scorer.score(this);
+    }
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {

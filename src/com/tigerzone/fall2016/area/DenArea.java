@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
+import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.awt.*;
 import java.util.List;
@@ -42,6 +43,10 @@ public class DenArea extends Area {
 
     }
 
+    @Override
+    public void acceptScorer(Scorer scorer) {
+        scorer.score(this);
+    }
 
     public  DenArea(Point center){
         this.center = center;
