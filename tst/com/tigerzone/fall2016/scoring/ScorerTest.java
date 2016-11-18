@@ -1,11 +1,14 @@
 package com.tigerzone.fall2016.scoring;
 
+import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.animals.Boar;
 import com.tigerzone.fall2016.animals.Deer;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.*;
 import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016.ports.CMDPromptPort;
+import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
@@ -31,6 +34,7 @@ public class ScorerTest {
     private List<TrailArea> trailAreas;    // |
     private FreeSpaceBoard freeSpaceBoard; // }
     private AreaManager areaManager;
+    private PlayerOutAdapter outAdapter;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -44,9 +48,9 @@ public class ScorerTest {
         // Create AreaManager
         freeSpaceBoard = new FreeSpaceBoard();
         areaManager = new AreaManager();
-
+        outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
         // Create scorer
-        scorer = new Scorer(playerScores, areaManager);
+        scorer = new Scorer(playerScores, areaManager, outAdapter);
     }
 
     @org.junit.Test
@@ -153,7 +157,7 @@ public class ScorerTest {
         // Add a third player with the same score as player1
         Player player3 = new Player("3");
         playerScores.put(player3.getPlayerId(), 32);
-        scorer = new Scorer(playerScores, areaManager);
+        scorer = new Scorer(playerScores, areaManager, outAdapter);
         // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));

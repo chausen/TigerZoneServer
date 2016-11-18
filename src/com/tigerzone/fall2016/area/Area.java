@@ -114,6 +114,11 @@ public abstract class Area implements SetAddable{
         return placeable;
     }
 
+    /**
+     * This method adds a tiger to an area without any checking!
+     * NOTE: This method should only be called in the special case where a tile is not placable.
+     * @param tiger
+     */
     public void placeTigerSpecialCase(Tiger tiger) { //must have already passed all checks in TerrainNode placeTiger
         this.tigerList.add(tiger);
     }

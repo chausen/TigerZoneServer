@@ -1,14 +1,16 @@
 package com.tigerzone.fall2016;
 
-import com.tigerzone.fall2016.gamesystem.GameSystem;
+import com.tigerzone.fall2016.ports.CMDPromptPort;
+import com.tigerzone.fall2016server.CmdPromptInterface;
+
+import java.util.Scanner;
 
 /**
  * Created by Aidan on 11/7/2016.
  */
 public class Main {
     public static void main(String args[]){
-        System.out.println("Deleted your japanese text because I thought we were going to put stuff in here.");
-        System.out.println("Sorry Jeff!");
-        System.out.println("It's ok... (´･ω･｀)");
+        CmdPromptInterface cmd = new CmdPromptInterface();
+        cmd.startGame();
     }
 }

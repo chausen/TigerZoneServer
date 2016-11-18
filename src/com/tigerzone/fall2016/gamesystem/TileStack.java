@@ -33,6 +33,8 @@ class TileStack
         return ll.removeFirst();
     }
 
+    public PlayableTile peek() { return ll.peek(); }
+
     public LinkedList<PlayableTile> getTileList(){
         return ll;
     }
