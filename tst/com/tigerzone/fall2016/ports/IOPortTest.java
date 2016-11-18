@@ -76,6 +76,11 @@ public class IOPortTest {
 
             }
 
+            @Override
+            public Player getPlayer(String playerID) {
+                return null;
+            }
+
             public String getTurnString() { return turn; }
         };
 

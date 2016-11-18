@@ -185,36 +185,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public void notifyBeginGame(List<PlayableTile> allTiles) {
-        PlayableTile firstTile = allTiles.get(0);
-        this.upstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("THE TILES ARE [ ");
-        Iterator<PlayableTile> iter = allTiles.iterator();
-        while (iter.hasNext()) {
-            stringBuilder.append(" ");
-            stringBuilder.append(iter.next().getTileString());
-        }
-        stringBuilder.append(" ] ");
-        this.upstreamMessages.add(stringBuilder.toString());
-        this.upstreamMessages.add("MATCH BEGINS IN 15 SECONDS");
-        this.upstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
-    }
-
-    @Override
-    public void notifyEndGame(Map<Player, Integer> playerScores) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("GAME 1 OUTCOME ");
-        Set<Player> players = playerScores.keySet();
-        Iterator<Player> iterator = players.iterator();
-        Player player1 = iterator.next();
-        Player player2 = iterator.next();
-        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
-        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
-        this.upstreamMessages.add(stringBuilder.toString());
-        //        System.exit(0);
-        gameOver = true;
-    }
+    public abstract void notifyBeginGame(List<PlayableTile> allTiles);
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
@@ -230,6 +201,9 @@ public abstract class IOPort implements PlayerOutAdapter {
     public void forfeitIllegalTile(String currentPlayerID) {
         this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
     }
+
+    @Override
+    public abstract void notifyEndGame(Map<Player,Integer> playerScores);
 
 
     //========== Accessors ==========//
