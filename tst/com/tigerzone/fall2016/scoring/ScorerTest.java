@@ -54,7 +54,7 @@ public class ScorerTest {
         areaManager = new AreaManager();
         outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
         // Create scorer
-        scorer = new Scorer(playerScores, areaManager, outAdapter);
+        scorer = new Scorer(players, areaManager, outAdapter);
     }
 
     @org.junit.Test
@@ -162,7 +162,7 @@ public class ScorerTest {
         Player player3 = new Player("3");
         playerScores.put(player3, 32);
         players.add(player3);
-        scorer = new Scorer(playerScores, areaManager, outAdapter);
+        scorer = new Scorer(players, areaManager, outAdapter);
         // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));

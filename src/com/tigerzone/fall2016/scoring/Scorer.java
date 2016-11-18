@@ -34,8 +34,12 @@ public class Scorer {
         this.am = am;
     }
 
-    public Scorer(Map<Player, Integer> playerScores, AreaManager am, PlayerOutAdapter outAdapter) {
-        this.playerScores = playerScores;
+    public Scorer(List<Player> players, AreaManager am, PlayerOutAdapter outAdapter) {
+        this.playerScores = new HashMap<>();
+
+        for (Player player : players) {
+            playerScores.put(player, 0);
+        }
         this.am = am;
         this.outAdapter = outAdapter;
     }

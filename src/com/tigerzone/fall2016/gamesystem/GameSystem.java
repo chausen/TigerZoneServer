@@ -60,7 +60,7 @@ public class GameSystem implements PlayerInAdapter {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        scorer = new Scorer(players, am);
+        scorer = new Scorer(players, am, outAdapter);
 
         ts = new TileStack(seed, new TextFilePort());
         origintile = ts.pop();
@@ -182,7 +182,6 @@ public class GameSystem implements PlayerInAdapter {
         prepareNextTurn();
     }
 
-    @Override
     public void truncateTS(int x) {
         ts.truncateTS(x);
     }
