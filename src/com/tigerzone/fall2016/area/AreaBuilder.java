@@ -147,7 +147,7 @@ public class AreaBuilder {
         else{
             terrainNodeCompared = gameBoard.getLeftAdjacentTile(position).getTerrainNode(y);
         }
-        if(terrainNode.getCanConnectTo().contains(new Integer(y)) && terrainNodeCompared.getCanConnectTo().contains(new Integer(x))) {
+        if(terrainNode != null && terrainNodeCompared != null && terrainNode.getCanConnectTo().contains(new Integer(y)) && terrainNodeCompared.getCanConnectTo().contains(new Integer(x))) {
             terrainNode.getCanConnectTo().remove(new Integer(y));
             terrainNodeCompared.getCanConnectTo().remove(new Integer(x));
             //Area updatedArea = terrainNode.getArea();
