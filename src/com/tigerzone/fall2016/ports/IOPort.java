@@ -20,7 +20,6 @@ import java.util.List;
 public abstract class IOPort implements PlayerOutAdapter {
     protected PlayerInAdapter inAdapter;
     protected int gid;
-    protected long seed; // seed corresponding to the tile order
     protected String loginName1;
     protected String loginName2;
     protected PlayableTile activeTile;
@@ -29,27 +28,29 @@ public abstract class IOPort implements PlayerOutAdapter {
     protected String currentTurnString;
     protected Queue<String> upstreamMessages;
     protected boolean gameOver = false;
+    protected LinkedList<PlayableTile> tileStack;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
      * @param loginName1 First player in our match. Note that this player will always be the first to go.
      * @param loginName2 Second player in our match. This player will always be second to go.
-     * @param seed Seed value for randomization of TileStack inside GameSystem.
+     * @param tileStack Stack of pre-made Tiles.
      */
-    public IOPort(int gid, String loginName1, String loginName2, long seed) {
+    public IOPort(int gid, String loginName1, String loginName2, LinkedList<PlayableTile> tileStack) {
         this.gid = gid;
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
-        this.seed = seed;
         upstreamMessages = new LinkedList<>();
+        this.tileStack = tileStack;
     }
 
     public void initialize() {
         this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
-        inAdapter.initializeGame(loginName1, loginName2, seed);
+        inAdapter.initializeGame(loginName1, loginName2, tileStack);
+
     }
 
     public void initialize(PlayerInAdapter inAdapter) {
@@ -123,7 +124,7 @@ public abstract class IOPort implements PlayerOutAdapter {
             upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         }
 
-        PlayableTile playableTile = new PlayableTile(tileString, orientation);
+        PlayableTile playableTile = new PlayableTile(tileString);
         Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, predator, zone);
 
         // Send turn downstream

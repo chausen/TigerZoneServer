@@ -28,7 +28,7 @@ public class Scorer {
         this.playerScores = new HashMap<>();
 
         for (Player player : players) {
-            playerScores.put(player, 0);
+            playerScores.put(player, new Integer(0));
         }
     }
 
@@ -36,7 +36,7 @@ public class Scorer {
         this.playerScores = new HashMap<>();
 
         for (Player player : players) {
-            playerScores.put(player, 0);
+            playerScores.put(player, new Integer(0));
         }
         this.outAdapter = outAdapter;
     }
@@ -58,13 +58,13 @@ public class Scorer {
      * @param points
      * @return
      */
-    private Map<String, Integer> updatePlayersScore(List<Player> players, Integer points){
-        Map<String, Integer> scoringEvent = new HashMap<>();
+    private Map<Player, Integer> updatePlayersScore(List<Player> players, Integer points){
+        Map<Player, Integer> scoringEvent = new HashMap<>();
 
         for(Player player: players) {
-            Integer currentScore = playerScores.get(player);
-            playerScores.put(player, currentScore + points);
-            scoringEvent.put(player.getPlayerId(), points);
+            Integer currentScore = this.playerScores.get(player);
+            this.playerScores.put(player, currentScore + points);
+            scoringEvent.put(player, points);
         }
         return scoringEvent;
     }
@@ -80,7 +80,7 @@ public class Scorer {
         Integer points = den.getSize();
         List<Player> owners = den.getOwner();
 
-        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
+        Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(den.getTigerList());
@@ -97,7 +97,7 @@ public class Scorer {
         Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
         List<Player> owners = lake.getOwner();
 
-        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
+        Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(lake.getTigerList());
@@ -116,7 +116,7 @@ public class Scorer {
 
         List<Player> owners = trail.getOwner();
 
-        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
+        Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(trail.getTigerList());
@@ -188,7 +188,7 @@ public class Scorer {
     private void endGameScoreJungles(Set<JungleArea> jungles) {
         int completedLakeValue = 3;
         int completedDenValue = 5;
-        Map<String,Integer> scoringEvent;
+        Map<Player,Integer> scoringEvent;
 
         for(JungleArea jungle : jungles){
             List<Player> owners = jungle.getOwner();
@@ -234,7 +234,6 @@ public class Scorer {
                 winners.add(currentPlayer.getPlayerId());
             }
         }
-
         return winners;
     }
 
@@ -256,9 +255,7 @@ public class Scorer {
         this.playerScores = playerScores;
     }
 
-    public Map<String, Integer> getPlayerScores(){
-        Map<String, Integer> playerIDScores = new HashMap<>();
-        this.playerScores.forEach((player, score)-> playerIDScores.put(player.getPlayerId(), score));
-        return playerIDScores;
+    public Map<Player, Integer> getPlayerScores(){
+        return this.playerScores;
     }
 }

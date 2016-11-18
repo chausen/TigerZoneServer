@@ -58,11 +58,11 @@ public class PlayableTile {
         setFaces(tileString);
     }
 
-    public PlayableTile(String tileString, int rotations) {
-        this.tileString = tileString;
-        setFaces(tileString);
-        rotateCCW(rotations);
-    }
+//    public PlayableTile(String tileString, int rotations) { //this should never be called
+//        this.tileString = tileString;
+//        setFaces(tileString);
+//        rotateCCW(rotations);
+//    }
 
 
     private void setFaces(String tileString) {

@@ -19,10 +19,10 @@ public class CMDPromptPort extends IOPort {
      * @param gid Game ID
      * @param loginName1 First player in our match. Note that this player will always be the first to go.
      * @param loginName2 Second player in our match. This player will always be second to go.
-     * @param seed       Seed value for randomization of TileStack inside GameSystem.
+     * @param tileStack       Stack of tiles for use in the game.
      */
-    public CMDPromptPort(int gid, String loginName1, String loginName2, long seed) {
-        super(gid, loginName1, loginName2, seed);
+    public CMDPromptPort(int gid, String loginName1, String loginName2, LinkedList<PlayableTile> tileStack) {
+        super(gid, loginName1, loginName2, tileStack);
     }
 
     //TODO: Do we need to output this every turn, or just before the first move of the game? Delete if not.

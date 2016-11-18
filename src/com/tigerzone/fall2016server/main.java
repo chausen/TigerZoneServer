@@ -6,11 +6,11 @@ import com.tigerzone.fall2016server.server.TournamentServer;
 /**
  * Created by lenovo on 11/17/2016.
  */
-public class main {
+public class Main {
 
-    public void main(String[] args) {
-        Client client = new Client("localhost", 1024);
-        TournamentServer server = new TournamentServer(1024);
+    public static void main(String[] args) {
+        Client client = new Client("localhost", 9990);
+        TournamentServer server = new TournamentServer(9990);
         server.run();
 
     }

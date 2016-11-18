@@ -13,6 +13,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
 
@@ -26,12 +27,10 @@ public class GameSystem implements PlayerInAdapter {
     private AreaManager am;
 
     // Game State
-    private PlayableTile origintile;
     private PlayableTile currentTile;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
-    private Turn currentTurn;
 
     // Communication
     private PlayerOutAdapter outAdapter;
@@ -47,9 +46,9 @@ public class GameSystem implements PlayerInAdapter {
      *
      * @param player1id  the playerID of the player who will go first
      * @param player2id  the playerID of the player who will go second
-     * @param seed  used to generate a unique Tile order for a game
+     * @param tileStack  is the the stack of playable tiles for a game
      */
-    public void initializeGame(String player1id, String player2id, long seed)
+    public void initializeGame(String player1id, String player2id, LinkedList<PlayableTile> tileStack)
     {
         player1 = new Player(player1id);
         player2 = new Player(player2id);
@@ -62,9 +61,8 @@ public class GameSystem implements PlayerInAdapter {
         scorer = new Scorer(players, outAdapter);
         am = new AreaManager(scorer);
 
-        ts = new TileStack(seed, new TextFilePort());
-        origintile = ts.pop();
-        ts.shuffle(); //Shuffle
+        ts = new TileStack(tileStack);
+
         currentTile = ts.peek();
         List<PlayableTile> allTiles = ts.getTileList();
 
