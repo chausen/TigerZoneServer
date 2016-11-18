@@ -353,7 +353,7 @@ public class BoardTile {
                 List<Integer> jungleMCanConnect = new ArrayList<>(Arrays.asList(7));
                 List<Integer> jungleNCanConnect = new ArrayList<>(Arrays.asList(9)); //checked
                 List<Integer> trailHCanConnect = new ArrayList<>(Arrays.asList(8));
-                List<Integer> lakeHCanConnect = new ArrayList<>(Arrays.asList(4,7,3,2,1,9,6));
+                List<Integer> lakeHCanConnect = new ArrayList<>(Arrays.asList(4,2,6));
 
                 LakeTerrainNode lakeH = new LakeTerrainNode(lakeHCanConnect, lakeHZoneList);
                 TrailTerrainNode trailH = new TrailTerrainNode(trailHCanConnect, trailHZoneList);
@@ -441,7 +441,7 @@ public class BoardTile {
                 List<Integer> jungleUCanConnect = new ArrayList<>(Arrays.asList(7,3));
                 List<Integer> jungleVCanConnect = new ArrayList<>(Arrays.asList(9,9));
                 List<Integer> trailOCanConnect = new ArrayList<>(Arrays.asList(6,8));
-                List<Integer> lakeKCanConnect = new ArrayList<>(Arrays.asList(2,3,4,7));
+                List<Integer> lakeKCanConnect = new ArrayList<>(Arrays.asList(2,4));
 
                 LakeTerrainNode lakeK = new LakeTerrainNode(lakeKCanConnect, lakeKZoneList);
                 TrailTerrainNode trailO = new TrailTerrainNode(trailOCanConnect, trailOZoneList);
@@ -462,7 +462,7 @@ public class BoardTile {
                 List<Integer> jungleWCanConnect = new ArrayList<>(Arrays.asList(7,3));
                 List<Integer> jungleXCanConnect = new ArrayList<>(Arrays.asList(9,9));
                 List<Integer> trailPCanConnect = new ArrayList<>(Arrays.asList(6,8));
-                List<Integer> lakeLCanConnect = new ArrayList<>(Arrays.asList(2,3,4,7));
+                List<Integer> lakeLCanConnect = new ArrayList<>(Arrays.asList(2,4));
 
                 LakeTerrainNode lakeL = new LakeTerrainNode(lakeLCanConnect, lakeLZoneList);
                 TrailTerrainNode trailP = new TrailTerrainNode(trailPCanConnect, trailPZoneList);
@@ -531,7 +531,7 @@ public class BoardTile {
                 List<Integer> jungle1CCanConnect = new ArrayList<>(Arrays.asList(7));
                 List<Integer> jungle1DCanConnect = new ArrayList<>(Arrays.asList(9)); //checked
                 List<Integer> trailSCanConnect = new ArrayList<>(Arrays.asList(8));
-                List<Integer> lakeOCanConnect = new ArrayList<>(Arrays.asList(4,7,3,2,1,9,6));
+                List<Integer> lakeOCanConnect = new ArrayList<>(Arrays.asList(4,2,6));
 
                 LakeTerrainNode lakeO = new LakeTerrainNode(lakeOCanConnect, lakeOZoneList);
                 TrailTerrainNode trailS = new TrailTerrainNode(trailSCanConnect, trailSZoneList);

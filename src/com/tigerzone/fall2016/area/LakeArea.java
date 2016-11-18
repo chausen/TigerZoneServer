@@ -18,8 +18,6 @@ public class LakeArea extends CrocodileFriendlyArea {
     private boolean containsBuffalo;
     private boolean containsDeer;
 
-    private Set<LakeTerrainNode> lakeTerrainNodes;
-
     public LakeArea(){
         this.containsBoar = false;
         this.containsBuffalo = false;
@@ -125,15 +123,15 @@ public class LakeArea extends CrocodileFriendlyArea {
         return count;
     }
 
-    public boolean containsBoar(){
+    boolean containsBoar(){
         return this.containsBoar;
     }
 
-    public boolean containsBuffalo(){
+    boolean containsBuffalo(){
         return this.containsBuffalo;
     }
 
-    public boolean containsDeer(){
+    boolean containsDeer(){
         return this.containsDeer;
     }
 

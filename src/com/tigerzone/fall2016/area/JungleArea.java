@@ -24,15 +24,15 @@ public class JungleArea extends Area {
     private Set<Area> scoredAreas = new HashSet<>();
 
 
-    public void findLakeAreas() {
+    void findLakeAreas() {
         for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
             for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
-                lakeAreas.add((LakeArea)lakeTerrainNode.getArea());
+                lakeAreas.add(lakeTerrainNode.getArea());
             }
         }
     }
 
-    public void findDenAreas() {
+    void findDenAreas() {
         for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
             for (DenTerrainNode denTerrainNode: jungleTerrainNode.getAdjacentDens()) {
                 denAreas.add(denTerrainNode.getArea());
@@ -42,7 +42,7 @@ public class JungleArea extends Area {
 
     public int countCompletedLakes() {
         findLakeAreas();
-        int completedLakeCount=0;
+        int completedLakeCount = 0;
         for (Area lakeArea: lakeAreas) {
             if(lakeArea.isComplete()) {
                 if (!scoredAreas.contains(lakeArea)) {

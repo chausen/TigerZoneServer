@@ -13,21 +13,38 @@ public class Client {
 
     String host;
     int port;
+    BufferedReader in;
+    PrintWriter out;
+    Socket clientSocket;
+
 
     public Client(String host, int port) {
         this.host = host;
         this.port = port;
         try {
-            Socket clientSocket = new Socket(this.host, this.port);
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            clientSocket = new Socket(this.host, this.port);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 
-
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Some ioexception");
         }
 
     }
 
+    public void play() throws Exception {
+        String response;
+        try {
+            response = in.readLine();
+            if (response.startsWith("TOURNAMENT PASSWORD?")) {
+
+            }
+        }
+        finally {
+            clientSocket.close();
+        }
+    }
+
 }
+
