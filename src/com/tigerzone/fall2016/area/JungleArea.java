@@ -20,8 +20,25 @@ public class JungleArea extends Area {
     Set<JungleTerrainNode> jungleTerrainNodes;
 
     private Set<Area> lakeAreas = new HashSet<>();
-    private Set<Area> scoredAreas = new HashSet<>();
     private Set<Area> denAreas = new HashSet<>();
+    private Set<Area> scoredAreas = new HashSet<>();
+
+
+    public void findLakeAreas() {
+        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
+            for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
+                lakeAreas.add((LakeArea)lakeTerrainNode.getArea());
+            }
+        }
+    }
+
+    public void findDenAreas() {
+        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
+            for (DenTerrainNode denTerrainNode: jungleTerrainNode.getAdjacentDens()) {
+                denAreas.add(denTerrainNode.getArea());
+            }
+        }
+    }
 
     public int countCompletedLakes() {
         findLakeAreas();
@@ -37,20 +54,14 @@ public class JungleArea extends Area {
         return completedLakeCount;
     }
 
-    public void findLakeAreas() {
-        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) {
-            for (LakeTerrainNode lakeTerrainNode: jungleTerrainNode.getAdjacentLakes()) { //get adjacentLakes returns set of LakeTerrainNodes
-                lakeAreas.add((LakeArea)lakeTerrainNode.getArea());
-            }
-        }
-    }
-
     public int countCompletedDens() {
+        findDenAreas();
         int completedDenCount = 0;
-        for (JungleTerrainNode jungleTerrainNode: jungleTerrainNodes) { //what if have multiple jungleTerrainNodes with same Lake?
-            for (DenTerrainNode dens: jungleTerrainNode.getAdjacentDens()) {
-                if (dens.getArea().isComplete()) { // TODO: 11/15/2016 how to avoid double counting???
+        for (Area denArea: denAreas) {
+            if(denArea.isComplete()) {
+                if (!scoredAreas.contains(denArea)) {
                     completedDenCount++;
+                    scoredAreas.add(denArea);
                 }
             }
         }
@@ -60,19 +71,17 @@ public class JungleArea extends Area {
 
     @Override
     public void mergeAnimals(Area area) {
-
+        area.acceptAnimals(this);
     }
 
     @Override
     public void acceptAnimals(LakeArea area) {
 
     }
-
     @Override
     public void acceptAnimals(TrailArea area) {
 
     }
-
     @Override
     public void acceptAnimals(DenArea area) {
 
@@ -80,7 +89,7 @@ public class JungleArea extends Area {
 
     @Override
     public void acceptAnimals(JungleArea area) {
-
+        area.getTigerList().addAll(this.getTigerList());
     }
 
     @Override
@@ -93,9 +102,8 @@ public class JungleArea extends Area {
         return false;
     }
 
-
     @Override
-    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+    public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
         jungleAreas.add(this);
     }
 }

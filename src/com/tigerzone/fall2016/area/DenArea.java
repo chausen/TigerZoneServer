@@ -44,6 +44,7 @@ public class DenArea extends Area {
 
 
     public  DenArea(Point center){
+        this.center = center;
     }
 
     @Override
@@ -56,12 +57,13 @@ public class DenArea extends Area {
         return this.getBoardTiles().size() == 8;
     }
 
-    @Override
-    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
-
-    }
 
     public Point getCenter() {
         return center;
+    }
+
+    @Override
+    public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
+
     }
 }

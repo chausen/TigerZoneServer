@@ -15,8 +15,6 @@ import java.util.Set;
  */
 public class JungleTerrainNode extends TerrainNode {
 
-//    List<LakeTerrainNode> adjacentLakes;
-//    List<DenTerrainNode> adjacentDens;
     Set<LakeTerrainNode> adjacentLakes;
     Set<DenTerrainNode> adjacentDens;
 

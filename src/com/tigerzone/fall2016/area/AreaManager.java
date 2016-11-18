@@ -8,10 +8,8 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by lenovo on 11/7/2016.
@@ -20,24 +18,16 @@ public class AreaManager {
 
     private GameBoard gameBoard;
 
-    private List<DenArea> denAreas;
-    private List<JungleArea> jungleAreas;
-    private List<LakeArea> lakeAreas;
-    private List<TrailArea> trailAreas;
-
-    public AreaManager(List<DenArea> denAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas, List<TrailArea> trailAreas) {
-        this.denAreas = denAreas;
-        this.jungleAreas = jungleAreas;
-        this.lakeAreas = lakeAreas;
-        this.trailAreas = trailAreas;
-        gameBoard = new GameBoard();
-    }
+    private Set<DenArea> denAreas;
+    private Set<JungleArea> jungleAreas;
+    private Set<LakeArea> lakeAreas;
+    private Set<TrailArea> trailAreas;
 
     public AreaManager() {
-        this.denAreas = new ArrayList<DenArea>();
-        this.jungleAreas = new ArrayList<JungleArea>();
-        this.lakeAreas = new ArrayList<LakeArea>();
-        this.trailAreas = new ArrayList<TrailArea>();
+        this.denAreas = new HashSet<DenArea>();
+        this.jungleAreas = new HashSet<JungleArea>();
+        this.lakeAreas = new HashSet<LakeArea>();
+        this.trailAreas = new HashSet<TrailArea>();
         this.gameBoard = new GameBoard();
         addTile(new Point(0,0), new PlayableTile("TLTJ-"), 0);
     }
@@ -49,14 +39,37 @@ public class AreaManager {
     }
 
     public void addTile(Point position, PlayableTile playableTile, int degrees){
+
         BoardTile boardTile = convertToBoardTile(playableTile);
         boardTile.rotateCCW(degrees);
         gameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
-        Set<Area> newAreas = areaBuilder.build(position);
-        for(Area area: newAreas){
-            area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
+        areaBuilder.build(position);
+        Set<Area> newAreas = areaBuilder.buildNewAreas();
+        Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
+        Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
+        if(!newAreas.isEmpty()) {
+            for (Area area : newAreas) {
+                if(area != null) {
+                    area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
+                }
+            }
         }
+        for(Area area : deletedAreas){
+            if(trailAreas.contains(area)){
+                trailAreas.remove(area);
+            }
+            else if(jungleAreas.contains(area)){
+                jungleAreas.remove(area);
+            }
+            else if(lakeAreas.contains(area)){
+                lakeAreas.remove(area);
+            }
+        }
+        for(Area area : updatedAreas){
+            area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
+        }
+
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
             Area denArea = new DenArea(position);
@@ -101,7 +114,7 @@ public class AreaManager {
      * Returns the list of Den Areas
      * @return
      */
-    public List<DenArea> getDenAreas() {
+    public Set<DenArea> getDenAreas() {
         return this.denAreas;
     }
 
@@ -109,7 +122,7 @@ public class AreaManager {
      * Returns the list of Jungle Areas
      * @return
      */
-    public List<JungleArea> getJungleAreas() {
+    public Set<JungleArea> getJungleAreas() {
         return this.jungleAreas;
     }
 
@@ -117,7 +130,7 @@ public class AreaManager {
      * Returns the list of Lake Areas
      * @return
      */
-    public List<LakeArea> getLakeAreas() {
+    public Set<LakeArea> getLakeAreas() {
         return this.lakeAreas;
     }
 
@@ -125,7 +138,7 @@ public class AreaManager {
      * Returns the list of Trail Areas
      * @return
      */
-    public List<TrailArea> getTrailAreas() {
+    public Set<TrailArea> getTrailAreas() {
         return this.trailAreas;
     }
 }

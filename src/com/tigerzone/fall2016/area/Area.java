@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public abstract class Area implements ListAddable{
+public abstract class Area implements SetAddable{
 
     private Set<BoardTile> boardTiles;
     private Set<TerrainNode> terrainNodes;
