@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.*;
@@ -99,9 +100,6 @@ public abstract class Area implements SetAddable{
     public void placePredator(Tiger tiger){
         if(canPlaceTiger()){
             this.tigerList.add(tiger);
-        }else{
-            String playerID = tiger.getPlayerId();
-            //player should forfeit
         }
     }
 
@@ -142,56 +140,59 @@ public abstract class Area implements SetAddable{
      * @return
      */
     public boolean isComplete() { //complete when canConnectTo() list is empty
-        boolean isComplete = true;
+        boolean isComplete = false;
         for (TerrainNode terrainNode : terrainNodes) {
-            if (!terrainNode.getCanConnectTo().isEmpty()) {
-                isComplete = false;
+            if (terrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = true;
             }
         }
         return isComplete;
     }
 
-        /**
-         * Returns a list of playerID's that have equal max tiger counts for an area.
-         * @return
-         */
-        public List<String> getOwnerID() {
-            List<String> areaOwners = new ArrayList<>();
-            if (tigerList.size() == 0) {
-                return areaOwners;
-            }
-            //key: player | value: count
-            Map<String, Integer> playerTigerCountMap = new HashMap<>();
-            for (Tiger tiger : tigerList) {
-                String tigerOwner = tiger.getPlayerId();
-                if (playerTigerCountMap.containsKey(tigerOwner)) {
-                    int newCount = playerTigerCountMap.get(tigerOwner) + 1;
-                    playerTigerCountMap.replace(tigerOwner, newCount);
-                } else {
-                    playerTigerCountMap.put(tigerOwner, 1);
-                }
-            }
-            Iterator<Map.Entry<String, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
-            int maxCount = iterator.next().getValue();
-            //find max number count
-            while (iterator.hasNext()) {
-                int playerCount = iterator.next().getValue();
-                if (maxCount < playerCount) {
-                    maxCount = playerCount;
-                }
-            }
-            //add all owners in the area that have equal number of tigers to areaOwners list
-            iterator = playerTigerCountMap.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, Integer> player = iterator.next();
-                int playerCount = player.getValue();
-                String playerID = player.getKey();
-                if (playerCount == maxCount) {
-                    areaOwners.add(playerID);
-                }
-            }
+    /**
+     * Returns a list of players that have equal max tiger counts for an area.
+     * @return
+     */
+    public List<Player> getOwner() {
+        List<Player> areaOwners = new ArrayList<>();
+        if(tigerList.size() == 0){
             return areaOwners;
         }
+
+        //key: player | value: count
+        Map<Player, Integer> playerTigerCountMap = new HashMap<>();
+        for(Tiger tiger : tigerList){
+            Player tigerOwner = tiger.getOwner();
+            if(playerTigerCountMap.containsKey(tigerOwner)){
+                int newCount = playerTigerCountMap.get(tigerOwner) + 1;
+                playerTigerCountMap.replace(tigerOwner, newCount);
+            }else{
+                playerTigerCountMap.put(tigerOwner, 1);
+            }
+        }
+        Iterator<Map.Entry<Player, Integer>> iterator = playerTigerCountMap.entrySet().iterator();
+        int maxCount = iterator.next().getValue();
+
+        //find max number count
+        while(iterator.hasNext()){
+            int playerCount = iterator.next().getValue();
+            if(maxCount < playerCount){
+                maxCount = playerCount;
+            }
+        }
+
+        //add all owners in the area that have equal number of tigers to areaOwners list
+        iterator = playerTigerCountMap.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<Player, Integer> playerInfo = iterator.next();
+            int playerCount = playerInfo.getValue();
+            Player player = playerInfo.getKey();
+            if(playerCount == maxCount){
+                areaOwners.add(player);
+            }
+        }
+        return areaOwners;
+    }
 
     public int getSize(){
         return this.boardTiles.size();

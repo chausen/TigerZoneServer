@@ -1,19 +1,16 @@
 package com.tigerzone.fall2016.animals;
 
 import com.tigerzone.fall2016.area.Area;
+import com.tigerzone.fall2016.gamesystem.Player;
 
 /**
  * Created by Aidan on 11/9/2016.
  */
 public class Tiger extends Predator {
-    private String playerId;
+    private Player owner;
 
-    public Tiger(String playerId){
-        this.playerId = playerId;
-    }
-
-    public String getPlayerId(){
-        return this.playerId;
+    public Tiger(Player owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -39,5 +36,9 @@ public class Tiger extends Predator {
     @Override
     public void placeInArea(Area area) {
         area.placePredator(this);
+    }
+
+    public Player getOwner(){
+        return this.owner;
     }
 }

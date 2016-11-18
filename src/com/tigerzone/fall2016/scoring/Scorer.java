@@ -18,10 +18,8 @@ import java.util.*;
  */
 public class Scorer {
 
-    // key = playerID, value = score
-    private Map<String, Integer> playerScores;
-    //key = playerID, value = player
-    private Map<String, Player> players;
+    // key = player, value = score
+    private Map<Player, Integer> playerScores;
 
     // Collaborators
     private AreaManager am;
@@ -29,23 +27,19 @@ public class Scorer {
 
     public Scorer(List<Player> players, AreaManager am) {
         this.playerScores = new HashMap<>();
-        this.players = new HashMap<>();
 
         for (Player player : players) {
-            String playerID = player.getPlayerId();
-            this.players.put(playerID, player);
-            playerScores.put(playerID, 0);
+            playerScores.put(player, 0);
         }
         this.am = am;
     }
 
-    public Scorer(List<Player> players,Map<String, Integer> playerScores, AreaManager am, PlayerOutAdapter outAdapter) {
-        this.players = new HashMap<>();
-        for(Player player : players){
-            this.players.put(player.getPlayerId(), player);
-        }
+    public Scorer(List<Player> players, AreaManager am, PlayerOutAdapter outAdapter) {
+        this.playerScores = new HashMap<>();
 
-        this.playerScores = playerScores;
+        for (Player player : players) {
+            playerScores.put(player, 0);
+        }
         this.am = am;
         this.outAdapter = outAdapter;
     }
@@ -56,9 +50,26 @@ public class Scorer {
      */
     private void returnTigerToOwnerAfterScoring(List<Tiger> tigerList){
         for(Tiger tiger : tigerList){
-            Player tigerOwner = this.players.get(tiger.getPlayerId());
+            Player tigerOwner = tiger.getOwner();
             tigerOwner.incrementGoodSupply();
         }
+    }
+
+    /**
+     * Updates Player scores and returns a scoringEvent
+     * @param players
+     * @param points
+     * @return
+     */
+    private Map<String, Integer> updatePlayersScore(List<Player> players, Integer points){
+        Map<String, Integer> scoringEvent = new HashMap<>();
+
+        for(Player player: players) {
+            Integer currentScore = playerScores.get(player);
+            playerScores.put(player, currentScore + points);
+            scoringEvent.put(player.getPlayerId(), points);
+        }
+        return scoringEvent;
     }
 
 
@@ -70,15 +81,9 @@ public class Scorer {
     public void score(DenArea den) {
         // The point value equals the number of tiles in the area
         Integer points = den.getSize();
-        HashMap<String, Integer> scoringEvent = new HashMap<>();
+        List<Player> owners = den.getOwner();
 
-        List<String> ownerIDs = den.getOwnerID();
-
-        for(String id: ownerIDs) {
-            Integer currentScore = playerScores.get(id);
-            playerScores.put(id, currentScore + points);
-            scoringEvent.put(id, points);
-        }
+        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(den.getTigerList());
@@ -93,15 +98,9 @@ public class Scorer {
     public void score(LakeArea lake) {
         // points = 2 * (# of tiles) * (1 + # of unique animals)
         Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
-        HashMap<String, Integer> scoringEvent = new HashMap<>();
+        List<Player> owners = lake.getOwner();
 
-        List<String> ownerIDs = lake.getOwnerID();
-
-        for(String id: ownerIDs) {
-            Integer currentScore = playerScores.get(id);
-            playerScores.put(id, currentScore + points);
-            scoringEvent.put(id, points);
-        }
+        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(lake.getTigerList());
@@ -117,15 +116,10 @@ public class Scorer {
     public void score(TrailArea trail) {
         // points = (# of tiles) + (# of unique animals)
         Integer points = trail.getSize() + trail.getNumOfPreyAfterCrocodileEffect();
-        HashMap<String, Integer> scoringEvent = new HashMap<>();
 
-        List<String> ownerIDs = trail.getOwnerID();
+        List<Player> owners = trail.getOwner();
 
-        for(String id: ownerIDs) {
-            Integer currentScore = playerScores.get(id);
-            playerScores.put(id, currentScore + points);
-            scoringEvent.put(id, points);
-        }
+        Map<String, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(trail.getTigerList());
@@ -174,12 +168,9 @@ public class Scorer {
                 // points = (# of tiles) * (# of unique animals)
                 Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
 
-                List<String> ownerIDs = lake.getOwnerID();
+                List<Player> owners = lake.getOwner();
 
-                for (String id : ownerIDs) {
-                    Integer currentScore = playerScores.get(id);
-                    playerScores.put(id, currentScore + points);
-                }
+                updatePlayersScore(owners, points);
             }
         }
     }
@@ -200,20 +191,16 @@ public class Scorer {
     private void endGameScoreJungles(Set<JungleArea> jungles) {
         int completedLakeValue = 3;
         int completedDenValue = 5;
-        HashMap<String,Integer> scoringEvent = new HashMap<>();
+        Map<String,Integer> scoringEvent;
 
         for(JungleArea jungle : jungles){
-            List<String> ownerIDS = jungle.getOwnerID();
+            List<Player> owners = jungle.getOwner();
 
             //pointers = (completedLakeValue * num of completed lakes) + (completedDenValue * num of completed dens)
             Integer points = (completedLakeValue * jungle.countCompletedLakes())
                               + (completedDenValue * jungle.countCompletedDens());
 
-            for(String id: ownerIDS){
-                Integer currentScore = playerScores.get(id);
-                playerScores.put(id, currentScore + points);
-                scoringEvent.put(id, points);
-            }
+            scoringEvent = updatePlayersScore(owners, points);
             outAdapter.reportScoringEvent(scoringEvent);
         }
     }
@@ -227,27 +214,27 @@ public class Scorer {
 
         Set<String> winners = new HashSet<>();
 
-        Set<String> playerIDs = playerScores.keySet();
+        Set<Player> players = playerScores.keySet();
 
         // Find the highest score
         Integer highestScore = 0;
 
-        Iterator<String> iterator = playerIDs.iterator();
+        Iterator<Player> iterator = players.iterator();
         while(iterator.hasNext()) {
-            String currentplayerID = iterator.next();
-            Integer currentScore = playerScores.get(currentplayerID);
+            Player currentPlayer = iterator.next();
+            Integer currentScore = playerScores.get(currentPlayer);
             if (currentScore > highestScore) {
                 highestScore = currentScore;
             }
         }
 
         // Add each player with a score equal to the highest one found to the set of winners
-        iterator = playerIDs.iterator(); // reset iterator
+        iterator = players.iterator(); // reset iterator
         while(iterator.hasNext()) {
-            String currentplayerID = iterator.next();
-            Integer currentScore = playerScores.get(currentplayerID);
+            Player currentPlayer = iterator.next();
+            Integer currentScore = playerScores.get(currentPlayer);
             if (currentScore == highestScore) {
-                winners.add(currentplayerID);
+                winners.add(currentPlayer.getPlayerId());
             }
         }
 
@@ -257,18 +244,24 @@ public class Scorer {
     /**
      * Returns a player's score given their playerID.
      *
-     * @param playerID
-     * @return  int  playerID's score. 0 if playerID does not exist
+     * @param player
+     * @return  int  player's score. 0 if playerID does not exist
      */
-    public int getScore(String playerID) {
-        if (playerScores.containsKey(playerID)) {
-            return playerScores.get(playerID);    
+    public int getScore(Player player) {
+        if (playerScores.containsKey(player)) {
+            return playerScores.get(player);
         } else {
             return 0;
         }
     }
 
+    public void setPlayerScores(Map<Player, Integer> playerScores){
+        this.playerScores = playerScores;
+    }
+
     public Map<String, Integer> getPlayerScores(){
-        return playerScores;
+        Map<String, Integer> playerIDScores = new HashMap<>();
+        this.playerScores.forEach((player, score)-> playerIDScores.put(player.getPlayerId(), score));
+        return playerIDScores;
     }
 }

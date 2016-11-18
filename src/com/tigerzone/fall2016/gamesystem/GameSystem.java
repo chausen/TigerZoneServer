@@ -60,7 +60,7 @@ public class GameSystem implements PlayerInAdapter {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        scorer = new Scorer(players, am);
+        scorer = new Scorer(players, am, outAdapter);
 
         ts = new TileStack(seed, new TextFilePort());
         origintile = ts.pop();
@@ -169,7 +169,7 @@ public class GameSystem implements PlayerInAdapter {
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if(!(currentPlayerSupply == 0)){
             currentPlayer.decrementGoodSupply();
-            Tiger tiger = new Tiger(currentPlayer.getPlayerId());
+            Tiger tiger = new Tiger(currentPlayer);
             boardTile.placeTiger(tiger);
         }else{
             //forfeit
@@ -182,7 +182,6 @@ public class GameSystem implements PlayerInAdapter {
         prepareNextTurn();
     }
 
-    @Override
     public void truncateTS(int x) {
         ts.truncateTS(x);
     }
@@ -215,7 +214,7 @@ public class GameSystem implements PlayerInAdapter {
     //TODO: Do we need this?
 //    @Override
 //    public void triggerSendTurn() {
-//        outAdapter.sendTurnInitial(currentPlayer.getPlayerId(), currentTile);
+//        outAdapter.sendTurnInitial(currentPlayer.getOwner(), currentTile);
 //    }
 
     //========== Helper Methods ===========//

@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
+import com.tigerzone.fall2016.gamesystem.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,13 +17,14 @@ public class LakeAreaTest {
     private Animal boar;
     private Animal buffalo;
     private Animal deer;
+    private Player owner;
 
     @Before
     public void setUp() throws Exception {
         lakeArea = new LakeArea();
-
+        owner = new Player("matt");
         crocodile = new Crocodile();
-        tiger = new Tiger("0");
+        tiger = new Tiger(owner);
 
         boar = new Boar();
         buffalo = new Buffalo();
