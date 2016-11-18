@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.ports.CMDPromptPort;
 import com.tigerzone.fall2016.ports.IOPort;
+import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -25,7 +27,9 @@ public class AreaManagerTest {
     @Before
     public void setUp() throws Exception {
         List<Player> players = new ArrayList<>() ;
-        PlayerOutAdapter playerOutAdapter = new CMDPromptPort(5,"Clay", "Matt",0);
+        TextFilePort textFilePort = new TextFilePort();
+        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+        PlayerOutAdapter playerOutAdapter = new CMDPromptPort(5,"Clay", "Matt",tileStack);
 
         players.add(new Player("Clay"));
         Scorer scorer = new Scorer(players, playerOutAdapter);

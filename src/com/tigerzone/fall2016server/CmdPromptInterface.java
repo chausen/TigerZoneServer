@@ -2,7 +2,9 @@ package com.tigerzone.fall2016server;
 
 import com.tigerzone.fall2016.ports.CMDPromptPort;
 import com.tigerzone.fall2016.ports.IOPort;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -25,11 +27,11 @@ public class CmdPromptInterface {
         scanner = new Scanner(System.in);
     }
 
-    public void startGame() {
+    public void startGame(LinkedList<PlayableTile> tileStack) {
 
         login();
 
-        gamePort = new CMDPromptPort(gid, loginName1, loginName2, seed);
+        gamePort = new CMDPromptPort(gid, loginName1, loginName2, tileStack);
         msgQueue = gamePort.getMessageQueue();
 
         gamePort.initialize();

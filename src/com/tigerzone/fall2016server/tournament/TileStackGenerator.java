@@ -16,14 +16,14 @@ public final class TileStackGenerator {
 
 
     public static LinkedList<PlayableTile> generateTiles(String[] tiles, long seed) {
-        LinkedList<PlayableTile> tilesStack = new LinkedList<>();
+        LinkedList<PlayableTile> tileStack = new LinkedList<>();
 
         for (int i=0; i<tiles.length; i++) {
             PlayableTile tile = new PlayableTile(tiles[i]);
-            tilesStack.add(tile);
+            tileStack.add(tile);
         }
-        shuffle(tilesStack, seed);
-        return tilesStack;
+        shuffle(tileStack, seed);
+        return tileStack;
     }
 
     public static void shuffle(LinkedList<PlayableTile> tiles, long seed){

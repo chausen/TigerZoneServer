@@ -52,7 +52,7 @@ public class FreeSpaceBoard {
                 tempTile.rotateCCW(90);
             }
         }
-        return placeable;
+        return !placeable;
     }
 
     public boolean isPlaceable(Point position, PlayableTile playableTile){
@@ -67,15 +67,16 @@ public class FreeSpaceBoard {
     }
 
     public boolean isPlaceable(Point position, PlayableTile playableTile, int rotationDegrees){
+        PlayableTile tempTile = playableTile;
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
             return false;
         }
-        //playableTile.rotateCCW(rotationDegrees);
-        return (freeSpace.getNorthTerrain().accept(playableTile.getNorthFace())
-                && freeSpace.getEastTerrain().accept(playableTile.getEastFace())
-                && freeSpace.getSouthTerrain().accept(playableTile.getSouthFace())
-                && freeSpace.getWestTerrain().accept(playableTile.getWestFace()));
+        tempTile.rotateCCW(rotationDegrees);
+        return (freeSpace.getNorthTerrain().accept(tempTile.getNorthFace())
+                && freeSpace.getEastTerrain().accept(tempTile.getEastFace())
+                && freeSpace.getSouthTerrain().accept(tempTile.getSouthFace())
+                && freeSpace.getWestTerrain().accept(tempTile.getWestFace()));
     }
 
     //when the player wants to add the tile, they need to specify the

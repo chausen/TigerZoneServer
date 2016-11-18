@@ -30,9 +30,9 @@ public class FreeSpaceGameBoardTest {
     //all lake tile.
     @Test
     public void needToRemove() throws Exception {
-        PlayableTile playableTile1 = new PlayableTile("LJJJ-", 0);
-        PlayableTile playableTile2 = new PlayableTile("LLLL-", 0);
-        assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
+        PlayableTile playableTile1 = new PlayableTile("LJJJ-");
+        PlayableTile playableTile2 = new PlayableTile("LLLL-");
+        assertTrue(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1, 90));
         freeSpaceBoard.placeTile(new Point(1, 0), playableTile1);
         assertTrue(freeSpaceBoard.needToRemove(playableTile2));
     }
@@ -41,8 +41,8 @@ public class FreeSpaceGameBoardTest {
     //I shouldnt be able to place a tile at the origin but can place a tile above it
     @Test
     public void isPlaceable() throws Exception {
-        PlayableTile playableTile1 = new PlayableTile("LLJJ-", 0);
-        PlayableTile playableTil2 = new PlayableTile("TTTT-", 0);
+        PlayableTile playableTile1 = new PlayableTile("LLJJ-");
+        PlayableTile playableTil2 = new PlayableTile("TTTT-");
         assertFalse(freeSpaceBoard.isPlaceable(new Point(1, 0), playableTile1));
         assertTrue(freeSpaceBoard.isPlaceable(new Point(0, 1), playableTil2));
     }
@@ -50,11 +50,11 @@ public class FreeSpaceGameBoardTest {
     //This is the most complicated test case that is going over a random game progression.
     @Test
     public void placeTile() throws Exception {
-        PlayableTile playableTile1 = new PlayableTile("TJTJ-", 0);
-        PlayableTile playableTile2 = new PlayableTile("TJTT-", 0);
-        PlayableTile playableTile3 = new PlayableTile("TLLL-", 0);
-        PlayableTile playableTile4 = new PlayableTile("LLLL-", 0);
-        PlayableTile playableTile5 = new PlayableTile("LLLL-", 0);
+        PlayableTile playableTile1 = new PlayableTile("TJTJ-");
+        PlayableTile playableTile2 = new PlayableTile("TJTT-");
+        PlayableTile playableTile3 = new PlayableTile("TLLL-");
+        PlayableTile playableTile4 = new PlayableTile("LLLL-");
+        PlayableTile playableTile5 = new PlayableTile("LLLL-");
         assertTrue(freeSpaceBoard.isPlaceable(new Point(0, 1), playableTile1));
         freeSpaceBoard.placeTile(new Point(0, 1), playableTile1);
         assertTrue(freeSpaceBoard.isPlaceable(new Point(-1, 0), playableTile2));

@@ -2,17 +2,24 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedList;
+
 /**
  * Created by Jeff on 2016/11/14.
  */
 public class IOPortTest {
-    private CMDPromptPort cmdp = new CMDPromptPort(1, "Ruby Red", "Sapphire Blue", 234);
+
+    TextFilePort textFilePort = new TextFilePort();
+    LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+
+    private CMDPromptPort cmdp = new CMDPromptPort(1, "Ruby Red", "Sapphire Blue", tileStack);
     private PlayerInAdapter mockGameSystem;
 
     @Before
@@ -21,8 +28,11 @@ public class IOPortTest {
         mockGameSystem = new PlayerInAdapter() {
             String turn;
 
+
             @Override
-            public void initializeGame(String player1id, String player2id, long seed) {}
+            public void initializeGame(String player1id, String player2id, LinkedList<PlayableTile> playableTiles) {
+
+            }
 
             @Override
             public void setOutAdapter(PlayerOutAdapter outAdapter) {}
@@ -59,6 +69,11 @@ public class IOPortTest {
             @Override
             public void truncateTS(int x) {
 
+            }
+
+            @Override
+            public Player getPlayer(String playerID) {
+                return null;
             }
 
             public String getTurnString() { return turn; }

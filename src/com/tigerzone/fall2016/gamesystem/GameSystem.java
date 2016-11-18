@@ -184,6 +184,24 @@ public class GameSystem implements PlayerInAdapter {
         ts.truncateTS(x);
     }
 
+    /**
+     * Used to get a Player from their ID
+     *
+     * @param playerID
+     * @return the Player object corresponding to a playerID, or null if their is no player with that ID
+     */
+    public Player getPlayer(String playerID) {
+        Player player;
+        if (player1.getPlayerId() == playerID) {
+            player = player1;
+        } else if (player2.getPlayerId() == playerID) {
+            player = player2;
+        } else {
+            player = null;
+        }
+        return player;
+    }
+
     // If the current tile can be placed but they are taking one of the actions
     // for when the tile is unplaceable: invalid move; forfeit
     private void tileUnplaceableCheck(){
@@ -201,7 +219,7 @@ public class GameSystem implements PlayerInAdapter {
         if (this.currentTile == null) {
             //scores incomplete areas
             scorer.endGameScoring(am);
-            Map<String, Integer> playerScores = scorer.getPlayerScores();
+            Map<Player, Integer> playerScores = scorer.getPlayerScores();
             outAdapter.notifyEndGame(playerScores);
         } else {
             // Check if the next tile is playable

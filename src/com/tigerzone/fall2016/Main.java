@@ -1,8 +1,12 @@
 package com.tigerzone.fall2016;
 
 import com.tigerzone.fall2016.ports.CMDPromptPort;
+import com.tigerzone.fall2016.ports.TextFilePort;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.CmdPromptInterface;
+import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -11,6 +15,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String args[]){
         CmdPromptInterface cmd = new CmdPromptInterface();
-        cmd.startGame();
+        TextFilePort textFilePort = new TextFilePort();
+        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+        cmd.startGame(tileStack);
     }
 }

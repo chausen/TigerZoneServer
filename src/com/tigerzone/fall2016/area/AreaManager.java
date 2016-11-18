@@ -83,6 +83,11 @@ public class AreaManager {
             denAreas.add((DenArea)denArea);
         }
         updateDenArea();
+        for(DenArea denArea: denAreas){
+            if(denArea.isComplete() && denArea.hasOwner()){
+                denArea.acceptScorer(scorer);
+            }
+        }
     }
 
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
