@@ -65,4 +65,5 @@ public class AreaManagerTest {
         areaManager.addTile(new Point(1, 0), new PlayableTile("LJJJ-"), 90);
     }
 
+
 }
