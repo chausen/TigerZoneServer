@@ -151,21 +151,19 @@ public class ScorerTest {
     public void testAnnounceWinner() throws Exception {
         // player1 score = 32
         // player2 score = 15
-        playerScores.put(player1, 32);
-        playerScores.put(player2, 15);
+        Map<Player, Integer> players = new HashMap<>();
+
+        players.put(player1, 32);
+        players.put(player2, 15);
+        scorer.setPlayerScores(players);
+
         // player1 should be in the winners set, but player2 should not
         Set<String> winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()));
         assertFalse(winners.contains(player2.getPlayerId()));
 
-        // Add a third player with the same score as player1
-        Player player3 = new Player("3");
-        playerScores.put(player3, 32);
-        players.add(player3);
-        scorer = new Scorer(players, areaManager, outAdapter);
-        // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
-        assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));
+        assertTrue(winners.contains(player1.getPlayerId()));
     }
 
     @Test
