@@ -255,6 +255,10 @@ public class Scorer {
         }
     }
 
+    public void setPlayerScores(Map<Player, Integer> playerScores){
+        this.playerScores = playerScores;
+    }
+
     public Map<String, Integer> getPlayerScores(){
         Map<String, Integer> playerIDScores = new HashMap<>();
         this.playerScores.forEach((player, score)-> playerIDScores.put(player.getPlayerId(), score));
