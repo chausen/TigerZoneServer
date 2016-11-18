@@ -19,7 +19,7 @@ public class Game {
     }
 
     public void playGame() {
-//        GameSystem gameSystem = new GameSystem(1, player1.getPlayerId(), player2.getPlayerId(), this.seed);
+//        GameSystem gameSystem = new GameSystem(1, player1.getOwner(), player2.getOwner(), this.seed);
 
         //initialize game is called in the gameSystem constructor
         //gameSystem.startGame(); //startGame() is called in initializeGame(), which is called in the constructor

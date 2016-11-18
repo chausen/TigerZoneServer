@@ -1,9 +1,7 @@
 package com.tigerzone.fall2016.area.terrainnode;
 
-import com.tigerzone.fall2016.animals.Animal;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.Area;
-import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.util.List;
@@ -52,7 +50,7 @@ public abstract class TerrainNode {
     public boolean placeTiger(Tiger tiger) {
         boolean placed = false;
         if (this.hasTiger()) {
-            if (tiger.getPlayerId().equalsIgnoreCase(tigers.peek().getPlayerId())) {
+            if (tiger.getOwner().equals(tigers.peek().getOwner())) {
                 tigers.push(tiger);
                 this.getArea().placeTigerSpecialCase(tiger);
                 placed = true;
@@ -67,7 +65,7 @@ public abstract class TerrainNode {
         boolean removed = false;
         if (this.hasTiger()) {
             Tiger tiger = tigers.peek();
-            if (playerID.equalsIgnoreCase(tiger.getPlayerId())) {
+            if (playerID.equals(tiger.getOwner())) {
                 tigers.remove(tiger);
                 this.getArea().removeTiger(tiger);
                 removed = true;

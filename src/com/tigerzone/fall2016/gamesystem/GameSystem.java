@@ -169,7 +169,7 @@ public class GameSystem implements PlayerInAdapter {
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if(!(currentPlayerSupply == 0)){
             currentPlayer.decrementGoodSupply();
-            Tiger tiger = new Tiger(currentPlayer.getPlayerId());
+            Tiger tiger = new Tiger(currentPlayer);
             boardTile.placeTiger(tiger);
         }else{
             //forfeit
@@ -215,7 +215,7 @@ public class GameSystem implements PlayerInAdapter {
     //TODO: Do we need this?
 //    @Override
 //    public void triggerSendTurn() {
-//        outAdapter.sendTurnInitial(currentPlayer.getPlayerId(), currentTile);
+//        outAdapter.sendTurnInitial(currentPlayer.getOwner(), currentTile);
 //    }
 
     //========== Helper Methods ===========//

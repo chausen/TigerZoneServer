@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import javafx.geometry.Point2D;
 import org.junit.Before;
@@ -21,13 +22,15 @@ public class JungleAreaTest {
     private Area jungleArea;
     private Predator crocodile;
     private Predator tiger;
+    private Player owner;
 
     @Before
     public void setUp() throws Exception {
         PlayableTile areaTile1 = new PlayableTile("TTTT-");
         jungleArea = new JungleArea();
         crocodile = new Crocodile();
-        tiger = new Tiger("0");
+        owner = new Player("matt");
+        tiger = new Tiger(owner);
     }
 
     @Test

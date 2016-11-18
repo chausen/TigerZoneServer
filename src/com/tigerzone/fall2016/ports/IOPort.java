@@ -6,6 +6,7 @@ import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -100,9 +101,12 @@ public abstract class IOPort implements PlayerOutAdapter {
         int orientation = sc.nextInt(); // This gives us the orientation (rotation degree)
         String predatorStr = sc.next(); // Conditional logic below determines what kind of predator
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
-        int zone = 0;                   // The zone of the tile where the predator will be placed
+        int zone = 0;
+        // The zone of the tile where the predator will be placed
+        Player activePlayer = new Player(activeplayer);
         if (predatorStr.equals("TIGER")) {
-            predator = new Tiger(activeplayer);
+
+            predator = new Tiger(activePlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
             } else {
@@ -111,7 +115,7 @@ public abstract class IOPort implements PlayerOutAdapter {
                 //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
             }
         } else if (predatorStr.equals("CROCODILE")) {
-            predator = new Crocodile();
+            predator = new Crocodile(activePlayer);
         } else if (predatorStr.equals("NONE")) {
             predator = null;
         } else {

@@ -3,6 +3,7 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.terrain.JungleTerrain;
 import com.tigerzone.fall2016.tileplacement.terrain.TrailTerrain;
 import com.tigerzone.fall2016.tileplacement.tile.Edge;
@@ -24,13 +25,15 @@ public class DenAreaTest {
     private Area denArea;
     private Predator crocodile;
     private Predator tiger;
+    private Player owner;
 
     @Before
     public void setUp() throws Exception {
         PlayableTile areaTile1 = new PlayableTile("TTTT-");
         denArea = new DenArea(new Point(0,0));
         crocodile = new Crocodile();
-        tiger = new Tiger("0");
+        owner = new Player("matt");
+        tiger = new Tiger(owner);
     }
 
     @Test

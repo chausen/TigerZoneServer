@@ -25,7 +25,7 @@ public class ScorerTest {
 
     private Player player1;
     private Player player2;
-    private HashMap<String,Integer> playerScores;
+    private HashMap<Player,Integer> playerScores;
     private Scorer scorer;
     private  List<Player> players;
 
@@ -46,15 +46,15 @@ public class ScorerTest {
         players.add(player1);
         players.add(player2);
         playerScores = new HashMap();
-        playerScores.put(player1.getPlayerId(), 0);
-        playerScores.put(player2.getPlayerId(), 0);
+        playerScores.put(player1, 0);
+        playerScores.put(player2, 0);
 
         // Create AreaManager
         freeSpaceBoard = new FreeSpaceBoard();
         areaManager = new AreaManager();
         outAdapter = new CMDPromptPort(0, player1.getPlayerId(), player2.getPlayerId(), 0);
         // Create scorer
-        scorer = new Scorer(players, playerScores, areaManager, outAdapter);
+        scorer = new Scorer(playerScores, areaManager, outAdapter);
     }
 
     @org.junit.Test
@@ -69,12 +69,12 @@ public class ScorerTest {
         boardTiles.add(boardTile2);
         boardTiles.add(boardTile3);
         denArea.addBoardTile(boardTiles);
-        Tiger tiger = new Tiger("Clay");
+        Tiger tiger = new Tiger(player1);
         denArea.placePredator(tiger);
         scorer.score(denArea);
 
         // Clay should have 3 points
-        assertTrue(scorer.getScore("Clay") == 3);
+        assertTrue(scorer.getScore(player1) == 3);
     }
 
     @org.junit.Test
@@ -91,15 +91,15 @@ public class ScorerTest {
         lakeArea.addBoardTile(boardTiles);
         Animal boar = new Boar();
         Animal deer = new Deer();
-        Tiger tiger = new Tiger("Clay");
+        Tiger tiger = new Tiger(player1);
 
         lakeArea.addAnimal(boar);
         lakeArea.addAnimal(deer);
         lakeArea.placePredator(tiger);
         scorer.score(lakeArea);
-        System.out.print(scorer.getScore("Clay"));
+        System.out.print(scorer.getScore(player1));
          //Clay should have 3*2*(1+2) = 18 points
-        assertTrue(scorer.getScore("Clay") == 18);
+        assertTrue(scorer.getScore(player1) == 18);
     }
 
     @org.junit.Test
@@ -121,13 +121,13 @@ public class ScorerTest {
         trailArea.addBoardTile(boardTiles);
         Animal boar = new Boar();
         trailArea.addAnimal(boar);
-        Tiger tiger = new Tiger("Clay");
+        Tiger tiger = new Tiger(player1);
         trailArea.placePredator(tiger);
         scorer.score(trailArea);
 
         // player1 should have 5+1 = 6 points and player2 should have 0 points
-        System.out.print(scorer.getScore("Clay"));
-        assertTrue(scorer.getScore("Clay") == 6);
+        System.out.print(scorer.getScore(player1));
+        assertTrue(scorer.getScore(player1) == 6);
     }
 
     @org.junit.Test
@@ -151,8 +151,8 @@ public class ScorerTest {
     public void testAnnounceWinner() throws Exception {
         // player1 score = 32
         // player2 score = 15
-        playerScores.put(player1.getPlayerId(), 32);
-        playerScores.put(player2.getPlayerId(), 15);
+        playerScores.put(player1, 32);
+        playerScores.put(player2, 15);
         // player1 should be in the winners set, but player2 should not
         Set<String> winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()));
@@ -160,9 +160,9 @@ public class ScorerTest {
 
         // Add a third player with the same score as player1
         Player player3 = new Player("3");
-        playerScores.put(player3.getPlayerId(), 32);
+        playerScores.put(player3, 32);
         players.add(player3);
-        scorer = new Scorer(players, playerScores, areaManager, outAdapter);
+        scorer = new Scorer(playerScores, areaManager, outAdapter);
         // Now the set of winners should contain player1 and player3
         winners = scorer.announceWinners();
         assertTrue(winners.contains(player1.getPlayerId()) && winners.contains(player3.getPlayerId()));
