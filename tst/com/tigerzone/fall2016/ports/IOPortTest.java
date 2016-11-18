@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Assert;
@@ -31,6 +32,11 @@ public class IOPortTest {
             @Override
             public void initializeGame(String player1id, String player2id, LinkedList<PlayableTile> playableTiles) {
 
+            }
+
+            @Override
+            public Player getPlayer(String playerID) {
+                return null;
             }
 
             @Override
