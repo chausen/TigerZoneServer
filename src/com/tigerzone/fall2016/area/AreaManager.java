@@ -3,14 +3,13 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
+import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
-import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by lenovo on 11/7/2016.
@@ -23,13 +22,15 @@ public class AreaManager {
     private Set<JungleArea> jungleAreas;
     private Set<LakeArea> lakeAreas;
     private Set<TrailArea> trailAreas;
+    private Scorer scorer;
 
-    public AreaManager() {
-        this.denAreas = new HashSet<DenArea>();
-        this.jungleAreas = new HashSet<JungleArea>();
-        this.lakeAreas = new HashSet<LakeArea>();
-        this.trailAreas = new HashSet<TrailArea>();
+    public AreaManager(Scorer scorer) {
+        this.denAreas = new HashSet<>();
+        this.jungleAreas = new HashSet<>();
+        this.lakeAreas = new HashSet<>();
+        this.trailAreas = new HashSet<>();
         this.gameBoard = new GameBoard();
+        this.scorer = scorer;
         addTile(new Point(0,0), new PlayableTile("TLTJ-"), 0);
     }
 
@@ -69,6 +70,9 @@ public class AreaManager {
         }
         for(Area area : updatedAreas){
             area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
+            if(area.isComplete() && area.hasOwner()){
+                area.acceptScorer(scorer);
+            }
         }
 
         if(playableTile.getTileString().contains("X")){

@@ -22,25 +22,22 @@ public class Scorer {
     private Map<Player, Integer> playerScores;
 
     // Collaborators
-    private AreaManager am;
     private PlayerOutAdapter outAdapter;
 
-    public Scorer(List<Player> players, AreaManager am) {
+    public Scorer(List<Player> players) {
         this.playerScores = new HashMap<>();
 
         for (Player player : players) {
             playerScores.put(player, 0);
         }
-        this.am = am;
     }
 
-    public Scorer(List<Player> players, AreaManager am, PlayerOutAdapter outAdapter) {
+    public Scorer(List<Player> players, PlayerOutAdapter outAdapter) {
         this.playerScores = new HashMap<>();
 
         for (Player player : players) {
             playerScores.put(player, 0);
         }
-        this.am = am;
         this.outAdapter = outAdapter;
     }
 
@@ -137,7 +134,7 @@ public class Scorer {
      * 3) incomplete trails
      * 4) jungles
      */
-    public void endGameScoring() {
+    public void endGameScoring(AreaManager am) {
         Set<DenArea> dens = am.getDenAreas();
         endGameScoreDens(dens);
 

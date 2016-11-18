@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,9 @@ public class CrossRoadsArea extends Area{
     public void acceptAnimals(JungleArea area) {
 
     }
+
+    @Override
+    public void acceptScorer(Scorer scorer) {}
 
     @Override
     boolean isPredatorPlaceable(Predator predator) {
