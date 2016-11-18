@@ -198,6 +198,9 @@ public abstract class Area implements ListAddable{
         return this.tigerList.size();
     }
 
+    public void setBoardTiles(Set<BoardTile> boardTiles) {
+        this.boardTiles = boardTiles;
+    }
 
     public Set<BoardTile> getBoardTiles(){
         return this.boardTiles;

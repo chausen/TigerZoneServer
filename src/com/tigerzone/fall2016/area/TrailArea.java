@@ -15,8 +15,6 @@ import java.util.Set;
  */
 public class TrailArea extends CrocodileFriendlyArea {
 
-    Set<TrailTerrainNode> trailTerrainNodes;
-
     private List<Prey> preyList;
     public TrailArea(){
         this.preyList = new ArrayList<>();
