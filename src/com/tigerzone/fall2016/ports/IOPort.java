@@ -24,6 +24,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     protected String loginName2;
     protected PlayableTile activeTile;
     protected String activeplayer;
+    protected String activeMove;
     protected String currentTurnString;
     protected Queue<String> upstreamMessages;
     protected boolean gameOver = false;
@@ -91,6 +92,7 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnPlace(String s){
         Scanner sc = new Scanner(s);
+
         String tileString = sc.next(); // This gives us the Text representation of the PlayableTile.
         sc.next();                      // Gives us AT
         int x = sc.nextInt();           // This gives us the x coord
@@ -139,22 +141,66 @@ public abstract class IOPort implements PlayerOutAdapter {
     @Override
     public void successfulTurn() {
         upstreamMessages.add(currentTurnString);
+        switchActivePlayer();
     }
 
     @Override
-    public abstract void notifyBeginGame(List<PlayableTile> allAreaTiles);
+    public void reportScoringEvent(Map<String,Integer> playerScores) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("GAME " + gid + " ");
+        Set<String> players = playerScores.keySet();
+        for (String player: players) {
+            stringBuilder.append("PLAYER " + player + " SCORED " + playerScores.get(player) + " POINTS ");
+        }
+        this.upstreamMessages.add(stringBuilder.toString());
+    }
 
     @Override
-    public abstract void notifyEndGame(Map<String, Integer> playerScores);
+    public void notifyBeginGame(List<PlayableTile> allTiles) {
+        PlayableTile firstTile = allTiles.get(0);
+        this.upstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("THE TILES ARE [ ");
+        Iterator<PlayableTile> iter = allTiles.iterator();
+        while (iter.hasNext()) {
+            stringBuilder.append(" ");
+            stringBuilder.append(iter.next().getTileString());
+        }
+        stringBuilder.append(" ] ");
+        this.upstreamMessages.add(stringBuilder.toString());
+        this.upstreamMessages.add("MATCH BEGINS IN 15 SECONDS");
+        this.upstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
+    }
 
     @Override
-    public abstract void forfeitIllegalMeeple(String currentPlayerID);
+    public void notifyEndGame(Map<String, Integer> playerScores) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("GAME 1 OUTCOME ");
+        Set<String> players = playerScores.keySet();
+        Iterator<String> iterator = players.iterator();
+        String loginName1 = iterator.next();
+        String loginName2 = iterator.next();
+        stringBuilder.append("PLAYER " + loginName1 + " " + playerScores.get(loginName1) + " ");
+        stringBuilder.append("PLAYER " + loginName2 + " " + playerScores.get(loginName2));
+        this.upstreamMessages.add(stringBuilder.toString());
+        //        System.exit(0);
+        gameOver = true;
+    }
 
     @Override
-    public abstract void forfeitInvalidMeeple(String currentPlayerID);
+    public void forfeitIllegalMeeple(String currentPlayerID) {
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
+    }
 
     @Override
-    public abstract void forfeitIllegalTile(String currentPlayerID);
+    public void forfeitInvalidMeeple(String currentPlayerID) {
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
+    }
+
+    @Override
+    public void forfeitIllegalTile(String currentPlayerID) {
+        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+    }
 
 
     //========== Accessors ==========//
@@ -173,6 +219,12 @@ public abstract class IOPort implements PlayerOutAdapter {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    //========== Helper Methods ==========//
+    // Helps alternate between player1 and player2
+    private void switchActivePlayer() {
+        activeplayer = (activeplayer == loginName1) ? loginName2 : loginName1;
     }
 
 }
