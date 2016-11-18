@@ -28,7 +28,7 @@ public abstract class CrocodileFriendlyArea extends Area {
      * @return
      */
     private boolean hasCrocodileInArea(){
-        return this.crocodileList.isEmpty();
+        return !(this.crocodileList.isEmpty());
     }
 
     /**
@@ -37,10 +37,10 @@ public abstract class CrocodileFriendlyArea extends Area {
      */
     @Override
     public void placePredator(Crocodile crocodile){
-        if(hasCrocodileInArea()){
+        if(!hasCrocodileInArea()){
             this.addAnimal(crocodile);
         }else{
-            //throw forfeit!!
+            //throw forfeit!! // TODO: 11/17/2016 add logic here 
         }
     }
 
