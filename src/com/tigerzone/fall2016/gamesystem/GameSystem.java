@@ -91,7 +91,6 @@ public class GameSystem implements PlayerInAdapter {
     public void receiveTurn(Turn turn)
     {
         //TODO: Refactor duplicate code
-
         //They called the wrong thing if this goes through.
         if(currentTileCannotBePlaced) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
@@ -110,11 +109,18 @@ public class GameSystem implements PlayerInAdapter {
         } else {
             fsb.placeTile(turn.getPosition(), turn.getPlayableTile());
             // update areas
-            //am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(), turn.getPredatorPlacementZone());
-
-            // notify outAdapter with results
+            if ( turn.placingPredator() ) {
+                if (am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(),
+                        turn.getPredatorPlacementZone(), turn.getRotationDegrees())) {
+                } else {
+                    outAdapter.forfeitIllegalMeeple(getCurrentPlayerID());
+                    outAdapter.notifyEndGame(scorer.getPlayerScores());
+                }
+            } else if ( !turn.placingPredator() ) {
+                am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees());
+            }
             outAdapter.successfulTurn();
-
+            // notify outAdapter with results
             prepareNextTurn();
         }
     }
