@@ -82,29 +82,29 @@ public class AreaManager {
     }
 
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
-        boolean added = true;
         addTile(position, playableTile, degrees);
         BoardTile boardTile = gameBoard.getTile(position);
         if (predatorPlacementZone>0) {
             TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
             if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
-                added = false;
+                return false;
             } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
-                added = false;
+                return false;
             } else {
                 predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
+                return true;
             }
-        } else {
+        } else if (predatorPlacementZone==0){
+            boolean crocPlaced = false;
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
                 if (terrainNode.getArea().isPredatorPlaceable(predator)) {
                     terrainNode.getArea().placePredator(predator);
-                }
-                else {
-                    added = false;
+                    crocPlaced = true;
                 }
             }
+            return crocPlaced;
         }
-        return added;
+        return true;
     }
 
     private void placeDenArea(Point position, BoardTile boardTile){
