@@ -4,7 +4,6 @@ import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.AreaManager;
-import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
