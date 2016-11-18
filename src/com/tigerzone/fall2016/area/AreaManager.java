@@ -55,9 +55,6 @@ public class AreaManager {
                 }
             }
         }
-        for(Area area : updatedAreas){
-            area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
-        }
         for(Area area : deletedAreas){
             if(trailAreas.contains(area)){
                 trailAreas.remove(area);
@@ -69,6 +66,10 @@ public class AreaManager {
                 lakeAreas.remove(area);
             }
         }
+        for(Area area : updatedAreas){
+            area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
+        }
+
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
             Area denArea = new DenArea(position);
