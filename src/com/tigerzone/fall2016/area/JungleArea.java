@@ -71,19 +71,17 @@ public class JungleArea extends Area {
 
     @Override
     public void mergeAnimals(Area area) {
-
+        area.acceptAnimals(this);
     }
 
     @Override
     public void acceptAnimals(LakeArea area) {
 
     }
-
     @Override
     public void acceptAnimals(TrailArea area) {
 
     }
-
     @Override
     public void acceptAnimals(DenArea area) {
 
@@ -91,7 +89,7 @@ public class JungleArea extends Area {
 
     @Override
     public void acceptAnimals(JungleArea area) {
-
+        area.getTigerList().addAll(this.getTigerList());
     }
 
     @Override
@@ -103,7 +101,6 @@ public class JungleArea extends Area {
     public boolean isComplete() {
         return false;
     }
-
 
     @Override
     public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {

@@ -11,11 +11,15 @@ import java.util.List;
  */
 public class DenTerrainNode extends TerrainNode {
 
-
+    public DenTerrainNode() {
+        setArea(createArea());
+    }
 
     @Override
-    public Area createArea() {
-        return null;
+    public Area createArea() { //this was returning null and we were trying to get area's
+        DenArea denArea = new DenArea();
+        denArea.addTerrainNode(this);
+        return denArea;
     }
 
 
