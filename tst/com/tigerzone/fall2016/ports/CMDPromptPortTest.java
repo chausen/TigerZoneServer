@@ -8,8 +8,6 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Jeff on 2016/11/16.
  */
