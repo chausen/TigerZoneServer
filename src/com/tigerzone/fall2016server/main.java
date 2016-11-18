@@ -9,8 +9,8 @@ import com.tigerzone.fall2016server.server.TournamentServer;
 public class main {
 
     public static void main(String[] args) {
-        Client client = new Client("localhost", 1024);
-        TournamentServer server = new TournamentServer(1024);
+        Client client = new Client("localhost", 9990);
+        TournamentServer server = new TournamentServer(9990);
         server.run();
 
     }
