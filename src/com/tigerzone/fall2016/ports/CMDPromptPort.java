@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.ports;
 
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.util.*;
@@ -65,15 +66,15 @@ public class CMDPromptPort extends IOPort {
     }
 
     @Override
-    public void notifyEndGame(Map<String, Integer> playerScores) {
+    public void notifyEndGame(Map<Player, Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("GAME 1 OUTCOME ");
-        Set<String> players = playerScores.keySet();
-        Iterator<String> iterator = players.iterator();
-        String loginName1 = iterator.next();
-        String loginName2 = iterator.next();
-        stringBuilder.append("PLAYER " + loginName1 + " " + playerScores.get(loginName1) + " ");
-        stringBuilder.append("PLAYER " + loginName2 + " " + playerScores.get(loginName2));
+        Set<Player> players = playerScores.keySet();
+        Iterator<Player> iterator = players.iterator();
+        Player player1 = iterator.next();
+        Player player2 = iterator.next();
+        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
+        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
         this.upstreamMessages.add(stringBuilder.toString());
         //        System.exit(0);
         gameOver = true;
