@@ -63,8 +63,8 @@ public class GameSystem implements PlayerInAdapter {
 
         ts = new TileStack(seed, new TextFilePort());
         origintile = ts.pop();
-        currentTile = origintile;
         ts.shuffle(); //Shuffle
+        currentTile = ts.pop();
         List<PlayableTile> allTiles = ts.getTileList();
 
         outAdapter.notifyBeginGame(allTiles);
@@ -89,7 +89,6 @@ public class GameSystem implements PlayerInAdapter {
     public void receiveTurn(Turn turn)
     {
         //TODO: Refactor duplicate code
-        System.out.println("Hello!");
 
         //They called the wrong thing if this goes through.
         if(currentTileCannotBePlaced) {
@@ -160,9 +159,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(playerScores);
         } else {
             // Check if the next tile is playable
-            if (fsb.needToRemove(currentTile)) {
-                currentTileCannotBePlaced = true;
-            } else currentTileCannotBePlaced = false;
+            currentTileCannotBePlaced = (fsb.needToRemove(currentTile));
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }

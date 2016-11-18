@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.scoring;
 
+import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.area.*;
 
 import java.util.*;
@@ -20,6 +21,7 @@ public class Scorer {
 
     // Collaborators
     private AreaManager am;
+    private PlayerOutAdapter outAdapter;
 
     public Scorer(List<String> playerIDs, AreaManager am) {
         this.playerScores = new HashMap<>();
@@ -29,9 +31,10 @@ public class Scorer {
         this.am = am;
     }
 
-    public Scorer(Map<String, Integer> playerScores, AreaManager am) {
+    public Scorer(Map<String, Integer> playerScores, AreaManager am, PlayerOutAdapter outAdapter) {
         this.playerScores = playerScores;
         this.am = am;
+        this.outAdapter = outAdapter;
     }
 
 
@@ -43,13 +46,17 @@ public class Scorer {
     public void score(DenArea den) {
         // The point value equals the number of tiles in the area
         Integer points = den.getSize();
+        HashMap<String, Integer> scoringEvent = new HashMap<>();
 
         List<String> ownerIDs = den.getOwnerID();
 
         for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
+            scoringEvent.put(id, points);
         }
+
+        outAdapter.reportScoringEvent(scoringEvent);
     }
 
     /**
@@ -59,13 +66,17 @@ public class Scorer {
     public void score(LakeArea lake) {
         // points = 2 * (# of tiles) * (1 + # of unique animals)
         Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
+        HashMap<String, Integer> scoringEvent = new HashMap<>();
 
         List<String> ownerIDs = lake.getOwnerID();
 
         for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
+            scoringEvent.put(id, points);
         }
+
+        outAdapter.reportScoringEvent(scoringEvent);
     }
 
     /**
@@ -76,13 +87,17 @@ public class Scorer {
     public void score(TrailArea trail) {
         // points = (# of tiles) + (# of unique animals)
         Integer points = trail.getSize() + trail.getNumOfPreyAfterCrocodileEffect();
+        HashMap<String, Integer> scoringEvent = new HashMap<>();
 
         List<String> ownerIDs = trail.getOwnerID();
 
         for(String id: ownerIDs) {
             Integer currentScore = playerScores.get(id);
             playerScores.put(id, currentScore + points);
+            scoringEvent.put(id, points);
         }
+
+        outAdapter.reportScoringEvent(scoringEvent);
     }
 
 
@@ -152,6 +167,8 @@ public class Scorer {
     private void endGameScoreJungles(List<JungleArea> jungles) {
         int completedLakeValue = 3;
         int completedDenValue = 5;
+        HashMap<String,Integer> scoringEvent = new HashMap<>();
+
         for(JungleArea jungle : jungles){
             List<String> ownerIDS = jungle.getOwnerID();
 
@@ -162,7 +179,9 @@ public class Scorer {
             for(String id: ownerIDS){
                 Integer currentScore = playerScores.get(id);
                 playerScores.put(id, currentScore + points);
+                scoringEvent.put(id, points);
             }
+            outAdapter.reportScoringEvent(scoringEvent);
         }
     }
 
