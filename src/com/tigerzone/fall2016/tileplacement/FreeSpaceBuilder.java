@@ -90,7 +90,7 @@ public class FreeSpaceBuilder {
             needUpdateFreeSpace.setEastTerrain(playableTile.getWestFace());
         }
         else {
-            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), playableTile.getEastFace(),
+            FreeSpace freeSpaceWest = new FreeSpace(new FreeTerrain(), playableTile.getWestFace(),
                     new FreeTerrain(), new FreeTerrain());
             freeSpaceMap.put(westPoint, freeSpaceWest);
         }
