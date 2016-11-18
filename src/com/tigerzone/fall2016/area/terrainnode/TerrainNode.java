@@ -125,7 +125,6 @@ public abstract class TerrainNode {
         }
         int rotations = degrees/90;
         for (int i=0; i<rotations; i++) {
-            //for (Integer integer: integerList) {
             for(int j=0; j<integerList.size();j++) {
                 switch(integerList.get(j)) {
                     case 1: integerList.set(j,7);
