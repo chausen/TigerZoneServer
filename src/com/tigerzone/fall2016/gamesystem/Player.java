@@ -20,16 +20,30 @@ public class Player {
      * Increase supply by 1.
      * PRECONDITION: Supply <= 7
      */
-    public void incrementSupply() {
-
+    public void incrementGoodSupply() {
+        if(this.goodSupply < 7){
+            this.goodSupply++;
+        }
     }
 
     /**
      * Decrease supply by 1.
      * POSTCONDITION: If supply is 0, game is forfeited
      */
-    public void decrementSupply() {
+    public void decrementGoodSupply() {
+        if(getGoodSupply() >= 1){
+            this.goodSupply--;
+        }
+    }
 
+    /**
+     * Decrease supply by 1.
+     * POSTCONDITION: If supply is 0, game is forfeited
+     */
+    public void decrementBadSupply(){
+        if(getBadSupply() >= 1){
+            this.badSupply--;
+        }
     }
 
     /**
@@ -37,16 +51,22 @@ public class Player {
      * @return String
      */
     public String getPlayerId() {
-        return playerId;
+        return this.playerId;
     }
 
     /**
-     * Accessor for supply (number of followers)
+     * Accessor for good supply (number of tigers)
      * @return int
      */
-    public int getSupply() {
-        return goodSupply;
+    public int getGoodSupply() {
+        return this.goodSupply;
     }
+
+    /**
+     * Accessor for bad supply (number of crocodiles)
+     * @return
+     */
+    public int getBadSupply(){ return this.badSupply; }
 
     /**
      * Determines whether this player is equal to another based on playerID
