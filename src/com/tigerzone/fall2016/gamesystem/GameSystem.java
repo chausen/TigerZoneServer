@@ -219,7 +219,7 @@ public class GameSystem implements PlayerInAdapter {
         if (this.currentTile == null) {
             //scores incomplete areas
             scorer.endGameScoring(am);
-            Map<String, Integer> playerScores = scorer.getPlayerScores();
+            Map<Player, Integer> playerScores = scorer.getPlayerScores();
             outAdapter.notifyEndGame(playerScores);
         } else {
             // Check if the next tile is playable
