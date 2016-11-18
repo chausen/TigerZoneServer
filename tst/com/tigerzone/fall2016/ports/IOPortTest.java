@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Assert;
@@ -69,6 +70,9 @@ public class IOPortTest {
             public void truncateTS(int x) {
 
             }
+
+            @Override
+            public Player getPlayer(String playerID) { return null; }
 
             public String getTurnString() { return turn; }
         };

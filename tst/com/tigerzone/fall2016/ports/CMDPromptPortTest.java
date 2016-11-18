@@ -1,6 +1,8 @@
 package com.tigerzone.fall2016.ports;
 
+import com.tigerzone.fall2016.gamesystem.TileStackTest;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016.gamesystem.TileStack;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,9 +25,13 @@ public class CMDPromptPortTest {
         }
         TextFilePort textFilePort = new TextFilePort();
         LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
-        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", tileStack);
+        TileStack ts = new TileStack(tileStack);
+        ts.pop();
+        ts.setSeed(123456789);
+        ts.shuffle();
+        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", ts.getTileList());
         cmdp.initialize();
-        //cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
+        cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
         while(!cmdp.getMessageQueue().isEmpty()){
             System.out.println(cmdp.getMessageQueue().remove());
         }
