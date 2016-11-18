@@ -44,4 +44,9 @@ public class AreaManagerTest {
         assertTrue(areaManager.getDenAreas().size() == 1);
     }
 
+    @Test
+    public void addTile3() throws Exception {
+        areaManager.addTile(new Point(1, 0), new PlayableTile("LJJJ-"), 90);
+    }
+
 }
