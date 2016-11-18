@@ -52,7 +52,7 @@ public class FreeSpaceBoard {
                 tempTile.rotateCCW(90);
             }
         }
-        return placeable;
+        return !placeable;
     }
 
     public boolean isPlaceable(Point position, PlayableTile playableTile){
