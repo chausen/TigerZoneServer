@@ -30,4 +30,11 @@ public class TerrainNodeTest {
         System.out.println(tn.getZones().get(0) + " " + tn.getZones().get(1));
 
     }
+
+
+    @Test
+    public void testPlaceTiger() throws Exception {
+
+
+    }
 }
