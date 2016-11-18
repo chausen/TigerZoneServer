@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016.tournament;
+package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.gamesystem.Player;
 
