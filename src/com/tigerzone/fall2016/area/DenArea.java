@@ -44,6 +44,7 @@ public class DenArea extends Area {
 
 
     public  DenArea(Point center){
+        this.center = center;
     }
 
     @Override

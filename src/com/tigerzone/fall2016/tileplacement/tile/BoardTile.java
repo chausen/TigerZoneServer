@@ -105,7 +105,7 @@ public class BoardTile {
                 this.terrainNodes = new ArrayList<>(Arrays.asList(J1terrainNode1, D1terrainNode1));
                 break;
             case "JJTJX":
-                List<Integer> J1zoneList2 = new ArrayList<>(Arrays.asList(1,2,3,4,6,7,8,9));
+                List<Integer> J1zoneList2 = new ArrayList<>(Arrays.asList(1,2,3,4,6,7,9));
                 List<Integer> J1cc2List2 = new ArrayList<>(Arrays.asList(7,9,1,4,7,1,2,3,3,6,9));
                 DenTerrainNode D1terrainNode2 = new DenTerrainNode();
                 TerrainNode J1terrainNode2 = new JungleTerrainNode(J1cc2List2, J1zoneList2, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>(Arrays.asList(D1terrainNode2)));

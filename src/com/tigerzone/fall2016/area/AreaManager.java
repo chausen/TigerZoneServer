@@ -54,8 +54,12 @@ public class AreaManager {
         gameBoard.placeTile(position, boardTile);
         AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
         Set<Area> newAreas = areaBuilder.build(position);
-        for(Area area: newAreas){
-            area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
+        if(!newAreas.isEmpty()) {
+            for (Area area : newAreas) {
+                if(area != null) {
+                    area.addToAppropriateList(trailAreas, jungleAreas, lakeAreas);
+                }
+            }
         }
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);

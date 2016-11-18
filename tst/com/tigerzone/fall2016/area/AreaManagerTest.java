@@ -37,10 +37,11 @@ public class AreaManagerTest {
         areaManager.addTile(new Point(0,-1), new PlayableTile("TJTT-"), 270);
         areaManager.addTile(new Point(0,-2), new PlayableTile("TJJT-"), 180);
         areaManager.addTile(new Point(0,-3), new PlayableTile("TLLTB"), 0);
+        areaManager.addTile(new Point(1, -1), new PlayableTile("JJTJX"), 270);
         assertTrue(areaManager.getJungleAreas().size() == 4);
         assertTrue(areaManager.getLakeAreas().size() == 2);
         assertTrue(areaManager.getTrailAreas().size() == 4);
-        assertTrue(areaManager.getDenAreas().size() == 0);
+        assertTrue(areaManager.getDenAreas().size() == 1);
     }
 
 }
