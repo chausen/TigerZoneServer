@@ -1,7 +1,9 @@
 package com.tigerzone.fall2016.scoring;
 
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.*;
+import com.tigerzone.fall2016.gamesystem.Player;
 
 import java.util.*;
 
@@ -18,14 +20,18 @@ public class Scorer {
 
     // key = playerID, value = score
     private Map<String, Integer> playerScores;
+    //key = playerID, value = player
+    private Map<String, Player> players;
 
     // Collaborators
     private AreaManager am;
     private PlayerOutAdapter outAdapter;
 
-    public Scorer(List<String> playerIDs, AreaManager am) {
+    public Scorer(List<Player> players, AreaManager am) {
         this.playerScores = new HashMap<>();
-        for (String playerID: playerIDs) {
+        for (Player player : players) {
+            String playerID = player.getPlayerId();
+            this.players.put(playerID, player);
             playerScores.put(playerID, 0);
         }
         this.am = am;
@@ -35,6 +41,17 @@ public class Scorer {
         this.playerScores = playerScores;
         this.am = am;
         this.outAdapter = outAdapter;
+    }
+
+    /**
+     * Returns tigers back to owners after scoring completed areas!
+     * @param tigerList
+     */
+    private void returnTigerToOwnerAfterScoring(List<Tiger> tigerList){
+        for(Tiger tiger : tigerList){
+            Player tigerOwner = players.get(tiger.getPlayerId());
+            tigerOwner.incrementGoodSupply();
+        }
     }
 
 
@@ -56,6 +73,9 @@ public class Scorer {
             scoringEvent.put(id, points);
         }
 
+        //return tigers back to player after an area is completed
+        returnTigerToOwnerAfterScoring(den.getTigerList());
+
         outAdapter.reportScoringEvent(scoringEvent);
     }
 
@@ -75,6 +95,9 @@ public class Scorer {
             playerScores.put(id, currentScore + points);
             scoringEvent.put(id, points);
         }
+
+        //return tigers back to player after an area is completed
+        returnTigerToOwnerAfterScoring(lake.getTigerList());
 
         outAdapter.reportScoringEvent(scoringEvent);
     }
@@ -96,6 +119,9 @@ public class Scorer {
             playerScores.put(id, currentScore + points);
             scoringEvent.put(id, points);
         }
+
+        //return tigers back to player after an area is completed
+        returnTigerToOwnerAfterScoring(trail.getTigerList());
 
         outAdapter.reportScoringEvent(scoringEvent);
     }
@@ -234,6 +260,7 @@ public class Scorer {
             return 0;
         }
     }
+
     public Map<String, Integer> getPlayerScores(){
         return playerScores;
     }

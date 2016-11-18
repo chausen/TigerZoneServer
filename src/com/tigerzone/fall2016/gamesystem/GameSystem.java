@@ -12,7 +12,6 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -58,9 +57,9 @@ public class GameSystem implements PlayerInAdapter {
 
         fsb = new FreeSpaceBoard();
         am = new AreaManager();
-        List<String> players = new ArrayList<>();
-        players.add(player1id);
-        players.add(player2id);
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
         scorer = new Scorer(players, am);
 
         ts = new TileStack(seed, new TextFilePort());
@@ -146,7 +145,7 @@ public class GameSystem implements PlayerInAdapter {
         BoardTile boardTile = gameBoard.getTile(position);
 
         if(boardTile.removeTiger(this.currentPlayer.getPlayerId())){
-            this.currentPlayer.incrementSupply();
+            this.currentPlayer.incrementGoodSupply();
         }else{
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
             outAdapter.notifyEndGame(scorer.getPlayerScores());
@@ -167,9 +166,9 @@ public class GameSystem implements PlayerInAdapter {
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
 
-        int currentPlayerSupply = currentPlayer.getSupply();
+        int currentPlayerSupply = currentPlayer.getGoodSupply();
         if(!(currentPlayerSupply == 0)){
-            currentPlayer.decrementSupply();
+            currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer.getPlayerId());
             boardTile.placeTiger(tiger);
         }else{
