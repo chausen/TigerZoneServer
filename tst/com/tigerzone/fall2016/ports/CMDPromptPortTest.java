@@ -28,7 +28,6 @@ public class CMDPromptPortTest {
         }
             while (!cmdp.isGameOver() && sc.hasNext()) {
                 String line = sc.nextLine();
-                //System.out.println(line);
             cmdp.receiveTurn(line);
             System.out.println(cmdp.getMessageQueue().remove());
         }

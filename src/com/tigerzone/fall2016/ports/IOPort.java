@@ -140,7 +140,7 @@ public abstract class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        upstreamMessages.add(currentTurnString);
+        upstreamMessages.add("GAME "+gid+" PLAYER "+getActivePlayer()+" PLACED "+currentTurnString);
         switchActivePlayer();
     }
 
