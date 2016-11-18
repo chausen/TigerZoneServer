@@ -124,7 +124,7 @@ public abstract class IOPort implements PlayerOutAdapter {
             upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         }
 
-        PlayableTile playableTile = new PlayableTile(tileString, orientation);
+        PlayableTile playableTile = new PlayableTile(tileString);
         Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, predator, zone);
 
         // Send turn downstream
