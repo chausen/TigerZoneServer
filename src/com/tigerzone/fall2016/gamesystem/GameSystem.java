@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.gamesystem;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
@@ -11,6 +12,7 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -101,13 +103,14 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(scorer.getPlayerScores());
         }
         // Check if they tried to place the tile in an invalid position
+        //areaManager.place() //needs to be boolean
         else if (!fsb.isPlaceable(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees())) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
             outAdapter.notifyEndGame(scorer.getPlayerScores());
         } else {
             fsb.placeTile(turn.getPosition(), turn.getPlayableTile());
             // update areas
-            // am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(), turn.getPredatorPlacementZone());
+            //am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(), turn.getPredatorPlacementZone());
 
             // notify outAdapter with results
             outAdapter.successfulTurn();
@@ -125,17 +128,50 @@ public class GameSystem implements PlayerInAdapter {
         prepareNextTurn();
     }
 
+    /**
+     * This method retrieves a Tiger from an area and adds it back to the current player's supply
+     * NOTE: should be used during special case when tile is not placable
+     * @param x
+     * @param y
+     */
     public void tigerRetrieve(int x, int y){
         tileUnplaceableCheck();
+        Point position = new Point(x,y);
+        BoardTile boardTile = gameBoard.getTile(position);
+
+        if(boardTile.removeTiger(this.currentPlayer.getPlayerId())){
+            this.currentPlayer.incrementSupply();
+        }else{
+            outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
+        }
 
         //Add logic for dealing with retrieving Tigers from a location with one placed.
         // outAdapter.successfulTurn();
         prepareNextTurn();
     }
 
+    /**
+     * This method places a Tiger to an area and decrements the current player's supply
+     * @param x
+     * @param y
+     */
     public void tigerPlace(int x, int y){
         tileUnplaceableCheck();
+        Point position = new Point(x,y);
+        BoardTile boardTile = gameBoard.getTile(position);
 
+        int currentPlayerSupply = currentPlayer.getSupply();
+        if(!(currentPlayerSupply == 0)){
+            currentPlayer.decrementSupply();
+            Tiger tiger = new Tiger(currentPlayer.getPlayerId());
+            boardTile.placeTiger(tiger);
+        }else{
+            //forfeit
+            outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
+            outAdapter.notifyEndGame(scorer.getPlayerScores());
+
+        }
         //Add logic for dealing with placing an additional Tiger.
         // outAdapter.successfulTurn();
         prepareNextTurn();
