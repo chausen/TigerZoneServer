@@ -19,7 +19,6 @@ public class Game extends Thread{
         this.player1 = player1;
         this.player2 = player2;
         this.tileStack = tileStack;
-
     }
 
     @Override
