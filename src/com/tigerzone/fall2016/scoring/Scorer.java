@@ -97,22 +97,22 @@ public class Scorer {
      * 4) jungles
      */
     public void endGameScoring() {
-        List<DenArea> dens = am.getDenAreas();
+        Set<DenArea> dens = am.getDenAreas();
         endGameScoreDens(dens);
 
-        List<LakeArea> lakes = am.getLakeAreas();
+        Set<LakeArea> lakes = am.getLakeAreas();
         endGameScoreLakes(lakes);
 
-        List<TrailArea> trails = am.getTrailAreas();
+        Set<TrailArea> trails = am.getTrailAreas();
         endGameScoreTrails(trails);
 
-        List<JungleArea> jungles = am.getJungleAreas();
+        Set<JungleArea> jungles = am.getJungleAreas();
         endGameScoreJungles(jungles);
     }
 
     //========== End Game Scoring Helper Methods ===========//
     // Score incomplete dens
-    private void endGameScoreDens(List<DenArea> dens) {
+    private void endGameScoreDens(Set<DenArea> dens) {
         for (DenArea den: dens) {
             if ( !den.isComplete() ) {
                 score(den);
@@ -121,7 +121,7 @@ public class Scorer {
     }
 
     // Score incomplete lakes
-    private void endGameScoreLakes(List<LakeArea> lakes) {
+    private void endGameScoreLakes(Set<LakeArea> lakes) {
         for (LakeArea lake: lakes) {
             if ( !lake.isComplete() ) {
                 // points = (# of tiles) * (# of unique animals)
@@ -138,7 +138,7 @@ public class Scorer {
     }
 
     // Score incomplete trails
-    private void endGameScoreTrails(List<TrailArea> trails) {
+    private void endGameScoreTrails(Set<TrailArea> trails) {
         for (TrailArea trail: trails) {
             if ( !trail.isComplete() ) {
                 score(trail);
@@ -150,7 +150,7 @@ public class Scorer {
      * Scores all jungle areas of the game and adds those points to owners to those players
      * @param jungles
      */
-    private void endGameScoreJungles(List<JungleArea> jungles) {
+    private void endGameScoreJungles(Set<JungleArea> jungles) {
         int completedLakeValue = 3;
         int completedDenValue = 5;
         for(JungleArea jungle : jungles){

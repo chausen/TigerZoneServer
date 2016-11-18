@@ -21,6 +21,8 @@ public class AreaBuilder {
 
     private Point position;
     private Set<TerrainNode> completeTerrainNodes = new HashSet<>();
+    private Set<Area> updatedAreas = new HashSet<>();
+    private Set<Area> deletedAreas = new HashSet<>();
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
         this.gameBoard = gameGameBoard;
@@ -28,16 +30,15 @@ public class AreaBuilder {
     }
 
 
-    public Set<Area> build(Point position){
+    public void build(Point position){
         this.position = position;
         buildNorthFace();
         buildEastFace();
         buildSouthFace();
         buildWestFace();
-        return buildNewAreas();
     }
 
-    private Set<Area> buildNewAreas() {
+    public Set<Area> buildNewAreas() {
         Set<Area> areaSet = new HashSet<>();
         for(TerrainNode terrainNode: boardTile.getTerrainNodeList()){
             if(!completeTerrainNodes.contains(terrainNode)){
@@ -151,10 +152,19 @@ public class AreaBuilder {
             terrainNodeCompared.getCanConnectTo().remove(new Integer(x));
             //Area updatedArea = terrainNode.getArea();
             //make sure later that the area was actually updated
+            deletedAreas.add(terrainNodeCompared.getArea());
             terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
+            updatedAreas.add(terrainNode.getArea());
             completeTerrainNodes.add(terrainNode);
         }
     }
 
+    public Set<Area> getUpdatedAreas() {
+        return updatedAreas;
+    }
+
+    public Set<Area> getDeletedAreas() {
+        return deletedAreas;
+    }
 }
 

@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by lenovo on 11/7/2016.
  */
-            public class JungleArea extends Area {
+public class JungleArea extends Area {
     
     //List<JungleTerrainNode> jungleTerrainNodes;
     Set<JungleTerrainNode> jungleTerrainNodes;
@@ -95,7 +95,7 @@ import java.util.Set;
 
 
     @Override
-    public void addToAppropriateList(List<TrailArea> trailAreas, List<JungleArea> jungleAreas, List<LakeArea> lakeAreas) {
+    public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
         jungleAreas.add(this);
     }
 }
