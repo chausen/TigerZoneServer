@@ -3,8 +3,10 @@ package com.tigerzone.fall2016.area;
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -50,6 +52,9 @@ public abstract class Area implements SetAddable{
     public abstract void acceptAnimals(TrailArea area);
     public abstract void acceptAnimals(DenArea area);
     public abstract void acceptAnimals(JungleArea area);
+
+    public abstract void acceptScorer(Scorer scorer);
+
 
     public void addBoardTile(BoardTile boardTile){
         boardTiles.add(boardTile);
@@ -192,6 +197,14 @@ public abstract class Area implements SetAddable{
             }
         }
         return areaOwners;
+    }
+
+    /**
+     * Returns true if the area has an owner
+     * @return
+     */
+    public boolean hasOwner(){
+        return !(this.tigerList.isEmpty());
     }
 
     public int getSize(){

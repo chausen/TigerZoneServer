@@ -120,9 +120,8 @@ public abstract class IOPort implements PlayerOutAdapter {
         } else if (predatorStr.equals("NONE")) {
             predator = null;
         } else {
-            //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
+            //TODO: See about TODO
             upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
-            //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
         }
 
         PlayableTile playableTile = new PlayableTile(tileString, orientation);

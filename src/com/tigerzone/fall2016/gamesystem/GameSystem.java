@@ -55,11 +55,11 @@ public class GameSystem implements PlayerInAdapter {
         currentPlayer = player1; // Player 1 is always the current player
 
         fsb = new FreeSpaceBoard();
-        am = new AreaManager();
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        scorer = new Scorer(players, am, outAdapter);
+        scorer = new Scorer(players, outAdapter);
+        am = new AreaManager(scorer);
 
         ts = new TileStack(tileStack);
 
@@ -199,6 +199,8 @@ public class GameSystem implements PlayerInAdapter {
         this.currentTile = ts.peek();
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
+            //scores incomplete areas
+            scorer.endGameScoring(am);
             Map<String, Integer> playerScores = scorer.getPlayerScores();
             outAdapter.notifyEndGame(playerScores);
         } else {
