@@ -104,7 +104,7 @@ public abstract class IOPort implements PlayerOutAdapter {
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
         int zone = 0;
         // The zone of the tile where the predator will be placed
-        Player activePlayer = new Player(activeplayer);
+        Player activePlayer = inAdapter.getPlayer(activeplayer); // get the Player object associated with the loginID
         if (predatorStr.equals("TIGER")) {
 
             predator = new Tiger(activePlayer);
@@ -174,12 +174,12 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public void reportScoringEvent(Map<String,Integer> playerScores) {
+    public void reportScoringEvent(Map<Player,Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("GAME " + gid + " ");
-        Set<String> players = playerScores.keySet();
-        for (String player: players) {
-            stringBuilder.append("PLAYER " + player + " SCORED " + playerScores.get(player) + " POINTS ");
+        Set<Player> players = playerScores.keySet();
+        for (Player player: players) {
+            stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
         this.upstreamMessages.add(stringBuilder.toString());
     }
@@ -202,15 +202,15 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public void notifyEndGame(Map<String, Integer> playerScores) {
+    public void notifyEndGame(Map<Player, Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("GAME 1 OUTCOME ");
-        Set<String> players = playerScores.keySet();
-        Iterator<String> iterator = players.iterator();
-        String loginName1 = iterator.next();
-        String loginName2 = iterator.next();
-        stringBuilder.append("PLAYER " + loginName1 + " " + playerScores.get(loginName1) + " ");
-        stringBuilder.append("PLAYER " + loginName2 + " " + playerScores.get(loginName2));
+        Set<Player> players = playerScores.keySet();
+        Iterator<Player> iterator = players.iterator();
+        Player player1 = iterator.next();
+        Player player2 = iterator.next();
+        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
+        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
         this.upstreamMessages.add(stringBuilder.toString());
         //        System.exit(0);
         gameOver = true;
