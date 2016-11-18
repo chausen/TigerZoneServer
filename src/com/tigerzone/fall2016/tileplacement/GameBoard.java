@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public class GameBoard { //make GameBoard a singleton?
 
-    private AreaManager areaManager;
     private HashMap<Point, BoardTile> board = new HashMap<>();
 
     public void placeTile(Point position, BoardTile tile) {
