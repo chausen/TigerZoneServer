@@ -22,7 +22,7 @@ public class Match {
     }
 
     public void startMatch() {
-        game1.playGame();
-        game2.playGame();
+        game1.start();
+        game2.start();
     }
 }
