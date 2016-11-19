@@ -2,7 +2,6 @@ package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.ports.CMDPromptPort;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
@@ -29,7 +28,7 @@ public class AreaManagerTest {
         List<Player> players = new ArrayList<>() ;
         TextFilePort textFilePort = new TextFilePort();
         LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
-        PlayerOutAdapter playerOutAdapter = new CMDPromptPort(5,"Clay", "Matt",tileStack);
+        PlayerOutAdapter playerOutAdapter = new IOPort(5,"Clay", "Matt",tileStack);
 
         players.add(new Player("Clay"));
         Scorer scorer = new Scorer(players, playerOutAdapter);
