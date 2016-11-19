@@ -118,6 +118,7 @@ public class JungleArea extends Area {
 
     @Override
     public void addTerrainNode(TerrainNode terrainNode) {
+        super.addTerrainNode(terrainNode);
         jungleTerrainNodes.add((JungleTerrainNode)terrainNode);
     }
 }
