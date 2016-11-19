@@ -30,6 +30,7 @@ public class TournamentProtocol {
 
         if (state == ENTER) {
             output = "TOURNAMENT PASSWORD?";
+            System.out.println("Soliciting tournament password");
             state = LOGIN;
         } else if (state == LOGIN) {
             if (input.equals(tournamentPass) && enterAttempts < 3) {
@@ -51,7 +52,7 @@ public class TournamentProtocol {
             if (credentials.containsKey(input)) {
                 output = "PASSWORD?";
                 user = input;
-                System.out.println("User entered correct " + user);
+                System.out.println("User entered correct username" + user);
                 state = PASSWORD;
             } else {
                 output = "NOPE TRY AGAIN";
