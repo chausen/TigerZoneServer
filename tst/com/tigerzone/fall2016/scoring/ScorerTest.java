@@ -15,7 +15,9 @@ import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -60,6 +62,12 @@ public class ScorerTest {
         // Create scorer
         scorer = new Scorer(players, outAdapter);
         areaManager = new AreaManager(scorer);
+    }
+
+    @org.junit.Test
+    public void scoreAreas() throws Exception {
+        areaManager.addTile(new Point(1, 0), new PlayableTile("LJJJ-"), new Tiger(player1), 4, 90);
+        Integer x = scorer.getScore(player1);
     }
 
     @org.junit.Test

@@ -37,8 +37,8 @@ public class CMDPromptPortTest {
         while(!cmdp.getMessageQueue().isEmpty()){
             System.out.println(cmdp.getMessageQueue().remove());
         }
-            while (!cmdp.isGameOver() && sc.hasNext()) {
-                String line = sc.nextLine();
+        while (!cmdp.isGameOver() && sc.hasNext()) {
+            String line = sc.nextLine();
             cmdp.receiveTurn(line);
             System.out.println(cmdp.getMessageQueue().remove());
         }
