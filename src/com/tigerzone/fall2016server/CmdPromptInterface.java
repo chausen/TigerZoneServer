@@ -1,6 +1,5 @@
 package com.tigerzone.fall2016server;
 
-import com.tigerzone.fall2016.ports.CMDPromptPort;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -31,7 +30,7 @@ public class CmdPromptInterface {
 
         login();
 
-        gamePort = new CMDPromptPort(gid, loginName1, loginName2, tileStack);
+        gamePort = new IOPort(gid, loginName1, loginName2, tileStack);
         msgQueue = gamePort.getMessageQueue();
 
         gamePort.initialize();

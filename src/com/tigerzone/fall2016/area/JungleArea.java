@@ -5,6 +5,7 @@ import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
+import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.HashSet;
@@ -17,12 +18,16 @@ import java.util.Set;
  */
 public class JungleArea extends Area {
     
-    //List<JungleTerrainNode> jungleTerrainNodes;
     Set<JungleTerrainNode> jungleTerrainNodes;
 
     private Set<Area> lakeAreas = new HashSet<>();
     private Set<Area> denAreas = new HashSet<>();
     private Set<Area> scoredAreas = new HashSet<>();
+
+    public JungleArea(){
+        super();
+        jungleTerrainNodes = new HashSet<>();
+    }
 
 
     void findLakeAreas() {
@@ -109,5 +114,11 @@ public class JungleArea extends Area {
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
         jungleAreas.add(this);
+    }
+
+    @Override
+    public void addTerrainNode(TerrainNode terrainNode) {
+        super.addTerrainNode(terrainNode);
+        jungleTerrainNodes.add((JungleTerrainNode)terrainNode);
     }
 }

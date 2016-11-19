@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
-class TileStack
+public class TileStack
 {
     private LinkedList<PlayableTile> ll;
     long seed;
@@ -44,6 +44,8 @@ class TileStack
     public LinkedList<PlayableTile> getTileList(){
         return ll;
     }
+
+    public void setSeed(long seed) { this.seed = seed; }
 
     public boolean equals(TileStack ts)
     {
