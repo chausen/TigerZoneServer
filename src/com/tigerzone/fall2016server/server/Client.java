@@ -33,45 +33,21 @@ public class Client {
         }
     }
 
+
     public void login() {
         try {
             String fromServer;
             String userInput;
 
             while ((fromServer = in.readLine()) != null) {
-                System.out.println("Message from server: " + fromServer);
+                System.out.println(fromServer);
                 if (fromServer.equals("NOPE GOODBYE")) {
                     System.out.println("Server says goodbye");
                     break;
                 }
-                if (fromServer.startsWith("TOURNAMENT PASSWORD?")) {
-                    System.out.println("GOT THE TOURNAMENT PASSWORD REQUEST \n");
-                    while ((userInput = stdIn.readLine()) != null) {
-                        out.println(userInput);
-                        System.out.println("echo: password is TIGERZONE");
-                        break;
-                    }
-                } else if (fromServer.startsWith("USERNAME?")) {
-                    while ((userInput = stdIn.readLine()) != null) {
-                        out.println(userInput);
-                        System.out.println("echo: username is PLAYER1");
-                        break;
-                    }
-                } else if (fromServer.startsWith("PASSWORD?")) {
-                    while ((userInput = stdIn.readLine()) != null) {
-                        out.println(userInput);
-                        System.out.println("echo: password is PASSWORD1");
-                        break;
-                    }
-                } else if (fromServer.startsWith("WELCOME")) {
-                    System.out.println("ACCEPTED TO THE TOURNEY");
-                    break;
-                } else {
-                    while ((userInput = stdIn.readLine()) != null) {
-                        out.println(userInput);
-                        System.out.println("Must have messed up password or something");
-                        break;
-                    }
+                userInput = stdIn.readLine();
+                if (userInput != null) {
+                    out.println(userInput);
                 }
             }
         } catch (UnknownHostException e) {
@@ -80,17 +56,12 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             System.exit(1);
-//        } finally {
-//            clientSocket.close();
-//        }
         }
     }
 
 
     public void defaultLogin() throws Exception {
-
         String fromServer;
-
         while ((fromServer = in.readLine()) != null) {
             if (fromServer.equals("NOPE GOODBYE")) {
                 System.out.println("Server says goodbye");
