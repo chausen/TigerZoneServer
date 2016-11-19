@@ -22,4 +22,9 @@ public class CrossRoadsNode extends TerrainNode {
     public Area createArea() {
         return new CrossRoadsArea();
     }
+
+    @Override
+    public boolean isSingleEdge() {
+        return false;
+    }
 }

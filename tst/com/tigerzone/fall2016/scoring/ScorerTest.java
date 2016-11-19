@@ -68,7 +68,7 @@ public class ScorerTest {
         areaManager.addTile(new Point(0, 1), new PlayableTile("TJJT-"), 90);
         areaManager.addTile(new Point(-1, 1), new PlayableTile("TJTJ-"), 90);
         areaManager.addTile(new Point(1, -1), new PlayableTile("LLJJ-"), 0);
-        areaManager.addTile(new Point(2, 0), new PlayableTile("LJLJ-"), 90);
+        areaManager.addTile(new Point(2, 0), new PlayableTile("LJLJ-"), new Tiger(player1), 1, 90);
         areaManager.addTile(new Point(1, 1), new PlayableTile("LLJJ-"), 270);
         areaManager.addTile(new Point(-3, 0), new PlayableTile("TLLLC"), 270);
         areaManager.addTile(new Point(-2, 1), new PlayableTile("TLLTB"), 180);
@@ -82,6 +82,7 @@ public class ScorerTest {
         areaManager.addTile(new Point(4, 0), new PlayableTile("LJJJ-"), new Tiger(player2), 8, 180);
         areaManager.addTile(new Point(3, -2), new PlayableTile("JLTTB"), 270);
         areaManager.addTile(new Point(2, 1), new PlayableTile("JLLJ-"), new Crocodile(player2), 0, 180);
+        scorer.endGameScoring(areaManager);
 
     }
 
