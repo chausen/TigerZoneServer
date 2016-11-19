@@ -48,6 +48,7 @@ public class TileStackGenerator {
                     stack.add(new PlayableTile(s));//Add a multiple Number of Tiles to the set.
                 }
             }
+            PlayableTile originTile = stack.pop();
             Collections.shuffle(stack, new Random(seed));
             return stack;
         }
