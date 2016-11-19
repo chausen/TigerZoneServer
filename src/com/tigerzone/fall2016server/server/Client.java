@@ -31,87 +31,23 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Some ioexception");
         }
-
     }
 
 
-    public static void main(String[] args) throws Exception {
-        String response;
-        String userInput;
-        BufferedReader in;
-        PrintWriter out;
-        Socket clientSocket;
-        BufferedReader stdIn;
-        String host = "localhost";
-
-        clientSocket = new Socket("localhost", 4444);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        stdIn = new BufferedReader(new InputStreamReader(System.in));
-        String fromServer;
-
-        while ((fromServer = in.readLine()) != null) {
-            if(fromServer.equals("NOPE GOODBYE")) {
-                System.out.println("Server says goodbye");
-                break;
-            }
-
-//            try {
-                //response = in.readLine();
-                if (fromServer.startsWith("TOURNAMENT PASSWORD?")) {
-                    //while ((userInput = stdIn.readLine()) != null) {
-                    //out.println(userInput);
-                    out.println("TIGERZONE");
-                    System.out.println("echo: password is TIGERZONE");
-                    //}
-                } else if (fromServer.startsWith("USERNAME?")) {
-                    //while ((userInput = stdIn.readLine()) != null) {
-                    //out.println(userInput);
-                    out.println("PLAYER1");
-                    System.out.println("echo: username is PLAYER1");
-                    //}
-                } else if (fromServer.startsWith("PASSWORD?")) {
-                    //while ((userInput = stdIn.readLine()) != null) {
-                    //out.println(userInput);
-                    out.println("PASSWORD1");
-                    System.out.println("echo: password is PASSWORD1");
-                    //}
-                } else if (fromServer.startsWith("WELCOME")) {
-                    System.out.println("ACCEPTED TO THE TOURNEY");
-                }
-//            } catch (UnknownHostException e) {
-//                System.err.println("Don't know about host " + host);
-//                System.exit(1);
-//            } catch (IOException e) {
-//                System.err.println("Couldn't get I/O for the connection to " + host);
-//                System.exit(1);
-//            } finally {
-//                clientSocket.close();
-//            }
-            }
-        }
-
-
-
-    public void play() throws Exception {
-        String response;
-        String userInput;
+    public void login() {
         try {
-            response = in.readLine();
-            if (response.startsWith("TOURNAMENT PASSWORD?")) {
-                while ((userInput = stdIn.readLine()) != null) {
-                    out.println(userInput);
-                    System.out.println("echo: " + in.readLine());
+            String fromServer;
+            String userInput;
+
+            while ((fromServer = in.readLine()) != null) {
+                System.out.println(fromServer);
+                if (fromServer.equals("NOPE GOODBYE")) {
+                    System.out.println("Server says goodbye");
+                    break;
                 }
-            } else if (response.startsWith("USERNAME?")) {
-                while ((userInput = stdIn.readLine()) != null) {
+                userInput = stdIn.readLine();
+                if (userInput != null) {
                     out.println(userInput);
-                    System.out.println("echo: " + in.readLine());
-                }
-            } else if (response.startsWith("PASSWORD?")) {
-                while ((userInput = stdIn.readLine()) != null) {
-                    out.println(userInput);
-                    System.out.println("echo: " + in.readLine());
                 }
             }
         } catch (UnknownHostException e) {
@@ -120,8 +56,29 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
             System.exit(1);
-        } finally {
-            clientSocket.close();
+        }
+    }
+
+
+    public void defaultLogin() throws Exception {
+        String fromServer;
+        while ((fromServer = in.readLine()) != null) {
+            if (fromServer.equals("NOPE GOODBYE")) {
+                System.out.println("Server says goodbye");
+                break;
+            }
+            if (fromServer.startsWith("TOURNAMENT PASSWORD?")) {
+                out.println("TIGERZONE");
+                System.out.println("echo: password is TIGERZONE");
+            } else if (fromServer.startsWith("USERNAME?")) {
+                out.println("PLAYER1");
+                System.out.println("echo: username is PLAYER1");
+            } else if (fromServer.startsWith("PASSWORD?")) {
+                out.println("PASSWORD1");
+                System.out.println("echo: password is PASSWORD1");
+            } else if (fromServer.startsWith("WELCOME")) {
+                System.out.println("ACCEPTED TO THE TOURNEY");
+            }
         }
     }
 

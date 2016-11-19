@@ -8,8 +8,12 @@ import com.tigerzone.fall2016server.server.Client;
 public class ClientMain {
 
     public static void main(String[] args) {
-
-        Client client = new Client("localhost", 9990);
-
+        Client client = new Client("localhost", 4444);
+        try {
+            client.login();
+            //client.defaultLogin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
