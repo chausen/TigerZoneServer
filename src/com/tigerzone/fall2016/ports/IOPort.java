@@ -8,6 +8,7 @@ import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
@@ -18,17 +19,19 @@ import java.util.List;
  * Created by Jeff on 2016/11/13.
  */
 public class IOPort implements PlayerOutAdapter {
-    protected PlayerInAdapter inAdapter;
-    protected int gid;
-    protected String loginName1;
-    protected String loginName2;
-    protected PlayableTile activeTile;
-    protected String activeplayer;
-    protected String activeMove;
-    protected String currentTurnString;
-    protected Queue<String> upstreamMessages;
-    protected boolean gameOver = false;
-    protected LinkedList<PlayableTile> tileStack;
+    private PlayerInAdapter inAdapter;
+    private Queue<String> upstreamMessages;
+    private LinkedList<PlayableTile> tileStack;
+    private ProtocolStateMachine protocol;
+    
+    private int gid;
+    private String loginName1;
+    private String loginName2;
+    private PlayableTile activeTile;
+    private String activeplayer;
+    private String activeMove;
+    private String currentTurnString;
+    private boolean gameOver = false;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -226,11 +229,11 @@ public class IOPort implements PlayerOutAdapter {
 
     //========== Accessors ==========//
 
-    protected PlayableTile getActiveTile(){
+    private PlayableTile getActiveTile(){
         return activeTile;
     }
 
-    protected String getActivePlayer(){
+    private String getActivePlayer(){
         return activeplayer;
     }
 
@@ -238,12 +241,16 @@ public class IOPort implements PlayerOutAdapter {
         return upstreamMessages;
     }
 
-    protected String getCurrentTurnString(){
+    private String getCurrentTurnString(){
         return currentTurnString;
     }
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public PlayerInAdapter getInAdapter() {
+        return this.inAdapter;
     }
 
     //========== Helper Methods ==========//
