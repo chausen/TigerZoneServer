@@ -18,7 +18,7 @@ public class Main {
 //        TextFilePort textFilePort = new TextFilePort();
 //        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
         TileStackGenerator tileStackGenerator = new TileStackGenerator();
-        LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(100);
+        LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(123456789);
         cmd.startGame(tileStack);
     }
 }

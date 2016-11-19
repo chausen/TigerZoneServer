@@ -46,8 +46,7 @@ public class FreeSpaceBoard {
                         && freeSpaceMap.get(point).getSouthTerrain().accept(tempTile.getSouthFace())
                         && freeSpaceMap.get(point).getWestTerrain().accept(tempTile.getWestFace()))
                 {
-                    placeable = true;
-                    break;
+                    return true;
                 }
                 tempTile.rotateCCW(90);
             }

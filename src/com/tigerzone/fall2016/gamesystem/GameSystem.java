@@ -31,6 +31,8 @@ public class GameSystem implements PlayerInAdapter {
     private Player player2;
     private Player currentPlayer;
 
+    private PlayableTile originTile;
+
     // Communication
     private PlayerOutAdapter outAdapter;
     // Set in prepareNextTurn()
@@ -61,6 +63,7 @@ public class GameSystem implements PlayerInAdapter {
         am = new AreaManager(scorer);
 
         ts = new TileStack(tileStack);
+        //originTile = ts.pop();
 
         currentTile = ts.peek();
         List<PlayableTile> allTiles = ts.getTileList();

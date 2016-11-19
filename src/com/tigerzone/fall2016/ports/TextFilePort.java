@@ -34,7 +34,6 @@ public class TextFilePort implements TileReadAdapter
                 set.add(new PlayableTile(s));//Add a multiple Number of Tiles to the set.
             }
         }
-//        Collections.shuffle(set, new Random(100));
         return set;
     }
 }
