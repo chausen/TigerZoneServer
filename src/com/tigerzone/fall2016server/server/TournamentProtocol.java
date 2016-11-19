@@ -34,13 +34,16 @@ public class TournamentProtocol {
         } else if (state == LOGIN) {
             if (input.equals(tournamentPass) && enterAttempts < 3) {
                 output = "USERNAME?";
+                System.out.println("Client entered correct tournament password");
                 state = USERNAME;
             } else if (enterAttempts < 3){
                 output = "NOPE TRY AGAIN";
+                System.out.println("Client did not enter correct tournament password");
                 state = LOGIN;
                 enterAttempts++;
             } else {
                 output = "NOPE GOODBYE";
+                System.out.println("Client did not enter correct tournament password");
                 enterAttempts = 0;
                 state = ENTER;
             }
@@ -48,6 +51,7 @@ public class TournamentProtocol {
             if (credentials.containsKey(input)) {
                 output = "PASSWORD?";
                 user = input;
+                System.out.println("User entered correct " + user);
                 state = PASSWORD;
             } else {
                 output = "NOPE TRY AGAIN";
