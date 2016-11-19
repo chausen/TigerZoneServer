@@ -29,10 +29,12 @@ public class TournamentProtocol {
         String tournamentPass = "TIGERZONE";
 
         if (state == ENTER) {
+            System.out.println("STATE IS enter IN PROTOCOL");
             output = "TOURNAMENT PASSWORD?";
             System.out.println("Soliciting tournament password");
             state = LOGIN;
         } else if (state == LOGIN) {
+            System.out.println("STATE IS login IN PROTOCOL");
             if (input.equals(tournamentPass) && enterAttempts < 3) {
                 output = "USERNAME?";
                 System.out.println("Client entered correct tournament password");
@@ -49,6 +51,7 @@ public class TournamentProtocol {
                 state = ENTER;
             }
         } else if (state == USERNAME) {
+            System.out.println("STATE IS USERNAME IN PROTOCOL");
             if (credentials.containsKey(input)) {
                 output = "PASSWORD?";
                 user = input;
@@ -59,7 +62,9 @@ public class TournamentProtocol {
                 state = USERNAME;
             }
         } else if (state == PASSWORD && loginAttempts < 3) {
+            System.out.println("STATE IS PASSWORD IN PROTOCOL");
             if (input.equals(credentials.get(user))) {
+                System.out.println("client entered correct PASSWORD");
                 output = "WELCOME " + user + " PLEASE WAIT FOR THE NEXT CHALLENGE";
                 state = WAITING;
                 //alert(); //alert begin?
@@ -72,6 +77,10 @@ public class TournamentProtocol {
                 loginAttempts=0;
                 state = ENTER;
             }
+        } else {
+            output = "NOPE GOODBYE";
+            System.out.println("INVALID ENTRY");
+
         }
         return output;
     }
