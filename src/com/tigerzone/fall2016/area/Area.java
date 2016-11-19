@@ -145,10 +145,10 @@ public abstract class Area implements SetAddable{
      * @return
      */
     public boolean isComplete() { //complete when canConnectTo() list is empty
-        boolean isComplete = false;
+        boolean isComplete = true;
         for (TerrainNode terrainNode : terrainNodes) {
-            if (terrainNode.getCanConnectTo().isEmpty()) {
-                isComplete = true;
+            if (!terrainNode.getCanConnectTo().isEmpty()) {
+                isComplete = false;
             }
         }
         return isComplete;

@@ -5,21 +5,24 @@ import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import org.junit.Assert;
+
+import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
- * Created by Jeff on 2016/11/14.
+ * Created by Jeff on 2016/11/16.
  */
 public class IOPortTest {
-
     TextFilePort textFilePort = new TextFilePort();
     LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
 
-    private CMDPromptPort cmdp = new CMDPromptPort(1, "Ruby Red", "Sapphire Blue", tileStack);
+    private IOPort cmdp = new IOPort(1, "Ruby Red", "Sapphire Blue", tileStack);
     private PlayerInAdapter mockGameSystem;
 
     @Before
@@ -27,7 +30,6 @@ public class IOPortTest {
         // Create mock anonymous class
         mockGameSystem = new PlayerInAdapter() {
             String turn;
-
 
             @Override
             public void initializeGame(String player1id, String player2id, LinkedList<PlayableTile> playableTiles) {
@@ -83,11 +85,6 @@ public class IOPortTest {
     }
 
     @Test
-    public void testSendTurn() throws Exception {
-
-    }
-
-    @Test
     public void testReceiveTurn() throws Exception {
         String s = "PLACE JJJJ- AT 3 2 90 NONE";
         cmdp.receiveTurn(s);
@@ -114,5 +111,31 @@ public class IOPortTest {
     @Test
     public void testNotifyEndGame() throws Exception {
 
+    }
+    @Test
+    public void testSendTurn() throws Exception {
+        Scanner sc = null;
+        {
+            try {
+                sc = new Scanner(new File(getClass().getResource("/com/tigerzone/fall2016/ports/Game.txt").getFile()));
+            } catch(FileNotFoundException exc){System.out.println("FATAL: The Tile text file cannot be found.");}
+        }
+//        TextFilePort textFilePort = new TextFilePort();
+//        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
+
+        TileStackGenerator tileStackGenerator = new TileStackGenerator();
+        LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(123456789);
+
+        IOPort cmdp = new IOPort(1, "Taco", "Bell", tileStack);
+        cmdp.initialize();
+        cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
+        while(!cmdp.getMessageQueue().isEmpty()){
+            System.out.println(cmdp.getMessageQueue().remove());
+        }
+            while (!cmdp.isGameOver() && sc.hasNext()) {
+                String line = sc.nextLine();
+            cmdp.receiveTurn(line);
+            System.out.println(cmdp.getMessageQueue().remove());
+        }
     }
 }

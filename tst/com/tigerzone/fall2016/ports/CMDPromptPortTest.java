@@ -31,16 +31,16 @@ public class CMDPromptPortTest {
         TileStackGenerator tileStackGenerator = new TileStackGenerator();
         LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(123456789);
 
-        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", tileStack);
-        cmdp.initialize();
-        cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
-        while(!cmdp.getMessageQueue().isEmpty()){
-            System.out.println(cmdp.getMessageQueue().remove());
-        }
-        while (!cmdp.isGameOver() && sc.hasNext()) {
-            String line = sc.nextLine();
-            cmdp.receiveTurn(line);
-            System.out.println(cmdp.getMessageQueue().remove());
-        }
+//        CMDPromptPort cmdp = new CMDPromptPort(1, "Taco", "Bell", tileStack);
+//        cmdp.initialize();
+//        cmdp.inAdapter.truncateTS(20);//Make the tile set only 20
+//        while(!cmdp.getMessageQueue().isEmpty()){
+//            System.out.println(cmdp.getMessageQueue().remove());
+//        }
+//        while (!cmdp.isGameOver() && sc.hasNext()) {
+//            String line = sc.nextLine();
+//            cmdp.receiveTurn(line);
+//            System.out.println(cmdp.getMessageQueue().remove());
+//        }
     }
 }

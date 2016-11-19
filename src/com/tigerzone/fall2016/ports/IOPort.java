@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Jeff on 2016/11/13.
  */
-public abstract class IOPort implements PlayerOutAdapter {
+public class IOPort implements PlayerOutAdapter {
     protected PlayerInAdapter inAdapter;
     protected int gid;
     protected String loginName1;
@@ -58,13 +58,22 @@ public abstract class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
-    //TODO: Do we need to output this every turn, or just before the first move of the game? Delete if not.
-//    @Override
-//    public void sendTurnInitial(String playerid, PlayableTile activeTile){
-//        this.activeTile = activeTile;
-//        activeplayer = playerid;
-//        sendTurn();
-//    }
+    @Override
+    public void notifyBeginGame(List<PlayableTile> allTiles) {
+        PlayableTile firstTile = allTiles.get(0);
+        this.upstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("THE TILES ARE [ ");
+        Iterator<PlayableTile> iter = allTiles.iterator();
+        while (iter.hasNext()) {
+            stringBuilder.append(" ");
+            stringBuilder.append(iter.next().getTileString());
+        }
+        stringBuilder.append(" ] ");
+        this.upstreamMessages.add(stringBuilder.toString());
+        this.upstreamMessages.add("MATCH BEGINS IN 15 SECONDS");
+        this.upstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
+    }
 
     @Override
     public void receiveTurn(String s) {
@@ -185,9 +194,6 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public abstract void notifyBeginGame(List<PlayableTile> allTiles);
-
-    @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
         this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
     }
@@ -203,7 +209,19 @@ public abstract class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public abstract void notifyEndGame(Map<Player,Integer> playerScores);
+    public void notifyEndGame(Map<Player, Integer> playerScores) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("GAME 1 OUTCOME ");
+        Set<Player> players = playerScores.keySet();
+        Iterator<Player> iterator = players.iterator();
+        Player player1 = iterator.next();
+        Player player2 = iterator.next();
+        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
+        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
+        this.upstreamMessages.add(stringBuilder.toString());
+        //        System.exit(0);
+        gameOver = true;
+    }
 
 
     //========== Accessors ==========//
