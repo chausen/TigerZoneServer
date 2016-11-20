@@ -10,9 +10,7 @@ import java.util.List;
  * Created by Aidan on 11/19/2016.
  */
 public class RoundRobinTest {
-
-    private int round;
-
+    
     /**
      * Either pass in an incremented round each time or increment the round in this class and call it
      * the amount of times based on the rounds you need. If you have odd amount of players iterate with
