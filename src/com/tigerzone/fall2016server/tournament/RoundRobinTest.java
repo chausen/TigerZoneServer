@@ -1,6 +1,9 @@
 package com.tigerzone.fall2016server.tournament;
 
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,55 +11,56 @@ import java.util.List;
  */
 public class RoundRobinTest {
 
-    public static void listMatches(List<String> listTeam) {
+    private int round;
 
-        if (listTeam.size() % 2 != 0) {
+    /**
+     * Either pass in an incremented round each time or increment the round in this class and call it
+     * the amount of times based on the rounds you need. If you have odd amount of players iterate with
+     * this method n times. If you have even number of players iterate through n-1 times
+     *
+     * @param playerList
+     * @param round
+     * @param tileStack
+     * @return
+     */
+    public static List<Match> listMatches(List<TournamentPlayer> playerList, int round, LinkedList<PlayableTile> tileStack) {
 
-            listTeam.add("Bye"); // If odd number of teams add a dummy
+        List<Match> matchList = new ArrayList<>();
+
+        TournamentPlayer dummyPlayer = new TournamentPlayer("ByePlayer");
+
+        boolean isOddNumOfPlayers = playerList.size() % 2 != 0 ? true : false;
+
+        if (isOddNumOfPlayers) {
+            //TODO: Make this player be a dummy player that has different behavior when played against
+            // If odd number of players add a dummy Player
+            playerList.add(dummyPlayer);
         }
 
-        int numDays = (listTeam.size() - 1); // Days needed to complete tournament
-        int halfSize = listTeam.size() / 2;
+        int halfSize = playerList.size() / 2;
 
-        List<String> teams = new ArrayList<>();
+        List<TournamentPlayer> players = new ArrayList<>();
 
-        teams.addAll(listTeam); // Add teams to List and remove the first team
-        teams.remove(0);
+        players.addAll(playerList); // Add players to List and remove the first player
+        players.remove(0);
 
-        int teamsSize = teams.size();
+        int playersSize = players.size();
 
-        for (int day = 0; day < numDays; day++)
+        int playerIdx = round % playersSize;
+
+        matchList.add(new Match(playerList.get(0), players.get(playerIdx), tileStack));
+
+        for (int idx = 1; idx < halfSize; idx++)
         {
-            System.out.println("Day " + (day + 1));
-
-            int teamIdx = day % teamsSize;
-
-            System.out.println(teams.get(teamIdx) + " vs " + listTeam.get(0));
-
-            for (int idx = 1; idx < halfSize; idx++)
-            {
-                int firstTeam = (day + idx) % teamsSize;
-                int secondTeam = (day  + teamsSize - idx) % teamsSize;
-                System.out.println((teams.get(firstTeam) +  " vs " + teams.get(secondTeam)));
-            }
+            int firstTeam = (round + idx) % playersSize;
+            int secondTeam = (round  + playersSize - idx) % playersSize;
+            matchList.add(new Match(players.get(firstTeam), players.get(secondTeam), tileStack));
         }
-    }
 
-    public static void main(String [] args){
-        List<String> teamList1 = new ArrayList<String>();
-        teamList1.add("TEAM1");
-        teamList1.add("TEAM2");
-        teamList1.add("TEAM3");
-        teamList1.add("TEAM4");
-        listMatches(teamList1);
-        System.out.println("\n***TESTING WITH ODD NUMBER OF TEAMS***\n");
-        List<String> teamList2 = new ArrayList<String>();
-        teamList2.add("TEAM1");
-        teamList2.add("TEAM2");
-        teamList2.add("TEAM3");
-        teamList2.add("TEAM4");
-        teamList2.add("TEAM5");
-        listMatches(teamList2);
-    }
+        if(isOddNumOfPlayers) {
+            playerList.remove(dummyPlayer);
+        }
+        return matchList;
 
+    }
 }
