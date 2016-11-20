@@ -25,17 +25,33 @@ public class Connection {
     int port;
 
 
-    public Connection(int port) {
+    public Connection(int port) throws IOException {
         try {
             this.serverSocket = new ServerSocket(port);
-            clientSocket = serverSocket.accept();
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
             this.messageQueue = new LinkedList<>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Exception in connection");
         }
     }
 
+
+   public void accept() {
+       try {
+           clientSocket = serverSocket.accept();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+   }
+
+    public void setupIO() {
+        try {
+            in = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
+            out = new PrintWriter(getClientSocket().getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getPort() {
         return port;
