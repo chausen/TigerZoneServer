@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.server.KnockKnock;
 
 /**
  * Created by lenovo on 11/18/2016.

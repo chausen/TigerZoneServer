@@ -32,8 +32,12 @@ public class Connection {
         }
     }
 
+    public Connection(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+        this.messageQueue = new LinkedList<>();
+    }
 
-   public void accept() {
+    public void accept() {
        try {
            clientSocket = serverSocket.accept();
        } catch (IOException e) {

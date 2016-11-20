@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server;
+package com.tigerzone.fall2016server.server;
 
 import com.tigerzone.fall2016server.server.Client;
 
@@ -11,7 +11,6 @@ public class ClientMain {
         Client client = new Client("localhost", 4444);
         try {
             client.login();
-            //client.defaultLogin();
         } catch (Exception e) {
             e.printStackTrace();
         }

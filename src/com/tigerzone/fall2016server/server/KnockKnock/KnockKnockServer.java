@@ -1,4 +1,6 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.server.KnockKnock;
+
+import com.tigerzone.fall2016server.server.KnockKnock.KnockKnockProtocol;
 
 import java.io.BufferedReader;
 import java.io.IOException;
