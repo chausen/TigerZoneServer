@@ -28,4 +28,8 @@ public class DenTerrainNode extends TerrainNode {
     }
 
 
+    @Override
+    public boolean isSingleEdge() {
+        return false;
+    }
 }

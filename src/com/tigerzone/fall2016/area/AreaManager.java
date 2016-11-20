@@ -40,15 +40,7 @@ public class AreaManager {
 
     }
 
-    public void addTile(Point position, PlayableTile playableTile, int degrees){
-        BoardTile boardTile = convertToBoardTile(playableTile);
-        boardTile.rotateCCW(degrees);
-        gameBoard.placeTile(position, boardTile);
-        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
-        areaBuilder.build(position);
-        Set<Area> newAreas = areaBuilder.buildNewAreas();
-        Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
-        Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
+    private void addNewAreas(Set<Area> newAreas){
         if(!newAreas.isEmpty()) {
             for (Area area : newAreas) {
                 if(area != null) {
@@ -56,6 +48,9 @@ public class AreaManager {
                 }
             }
         }
+    }
+
+    private void deleteAreas(Set<Area> deletedAreas){
         for(Area area : deletedAreas){
             if(trailAreas.contains(area)){
                 trailAreas.remove(area);
@@ -67,13 +62,31 @@ public class AreaManager {
                 lakeAreas.remove(area);
             }
         }
+    }
+
+    private void addUpdatedAreas(Set<Area> updatedAreas){
         for(Area area : updatedAreas){
             area.addToAppropriateSet(trailAreas, jungleAreas, lakeAreas);
+        }
+    }
+
+    public void addTile(Point position, PlayableTile playableTile, int degrees){
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
+        gameBoard.placeTile(position, boardTile);
+        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
+        areaBuilder.build(position);
+        Set<Area> newAreas = areaBuilder.buildNewAreas();
+        Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
+        Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
+        addNewAreas(newAreas);
+        deleteAreas(deletedAreas);
+        addUpdatedAreas(updatedAreas);
+        for(Area area : updatedAreas){
             if(area.isComplete() && area.hasOwner()){
                 area.acceptScorer(scorer);
             }
         }
-
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
             Area denArea = new DenArea(position);
@@ -90,29 +103,61 @@ public class AreaManager {
     }
 
     public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
-        addTile(position, playableTile, degrees);
-        BoardTile boardTile = gameBoard.getTile(position);
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
+        gameBoard.placeTile(position, boardTile);
+        AreaBuilder areaBuilder = new AreaBuilder(gameBoard, boardTile);
+        areaBuilder.build(position);
+        Set<Area> newAreas = areaBuilder.buildNewAreas();
+        Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
+        Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
+        addNewAreas(newAreas);
+        deleteAreas(deletedAreas);
+        addUpdatedAreas(updatedAreas);
+        boolean predatorPlaceable = false;
+        boolean crocPlaced = false;
         if (predatorPlacementZone > 0) {
             TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
             if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
-                return false;
+                predatorPlaceable = false;
             } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
-                return false;
+                predatorPlaceable = false;
             } else {
                 predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
-                return true;
+                predatorPlaceable = true;
             }
         } else if (predatorPlacementZone==0){
-            boolean crocPlaced = false;
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
                 if (terrainNode.getArea().isPredatorPlaceable(predator)) {
                     terrainNode.getArea().placePredator(predator);
                     crocPlaced = true;
                 }
             }
+        }
+        for(Area area : updatedAreas){
+            if(area.isComplete() && area.hasOwner()){
+                area.acceptScorer(scorer);
+            }
+        }
+        if(playableTile.getTileString().contains("X")){
+            TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
+            Area denArea = new DenArea(position);
+            denArea.addBoardTile(boardTile);
+            denTerrainNode.setArea(denArea);
+            denAreas.add((DenArea)denArea);
+        }
+        updateDenArea();
+        for(DenArea denArea: denAreas){
+            if(denArea.isComplete() && denArea.hasOwner()){
+                denArea.acceptScorer(scorer);
+            }
+        }
+        if (predatorPlacementZone==0) {
             return crocPlaced;
         }
-        return true;
+        else {
+            return predatorPlaceable;
+        }
     }
 
     private void updateDenArea(){

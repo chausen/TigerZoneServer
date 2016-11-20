@@ -10,7 +10,7 @@ import java.util.Stack;
 /**
  * Created by lenovo on 11/14/2016.
  */
-public abstract class TerrainNode {
+public abstract class TerrainNode implements SingleEdgeable{
 
     private Area area;
     private BoardTile boardTile;

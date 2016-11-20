@@ -8,6 +8,7 @@ import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
@@ -18,17 +19,21 @@ import java.util.List;
  * Created by Jeff on 2016/11/13.
  */
 public class IOPort implements PlayerOutAdapter {
-    protected PlayerInAdapter inAdapter;
-    protected int gid;
-    protected String loginName1;
-    protected String loginName2;
-    protected PlayableTile activeTile;
-    protected String activeplayer;
-    protected String activeMove;
-    protected String currentTurnString;
-    protected Queue<String> upstreamMessages;
-    protected boolean gameOver = false;
-    protected LinkedList<PlayableTile> tileStack;
+    private PlayerInAdapter inAdapter;
+    private Queue<String> player1UpstreamMessages;
+    private Queue<String> player2UpstreamMessages;
+    private Queue<String> currentUpstreamMessages;
+    private LinkedList<PlayableTile> tileStack;
+    private ProtocolStateMachine protocol;
+    
+    private int gid;
+    private String loginName1;
+    private String loginName2;
+    private PlayableTile activeTile;
+    private String activeplayer;
+    private String activeMove;
+    private String currentTurnString;
+    private boolean gameOver = false;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -42,7 +47,10 @@ public class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
-        upstreamMessages = new LinkedList<>();
+        player1UpstreamMessages = new LinkedList<>();
+        player2UpstreamMessages = new LinkedList<>();
+        currentUpstreamMessages = player1UpstreamMessages;
+        
         this.tileStack = tileStack;
     }
 
@@ -61,7 +69,7 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void notifyBeginGame(List<PlayableTile> allTiles) {
         PlayableTile firstTile = allTiles.get(0);
-        this.upstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
+        this.currentUpstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("THE TILES ARE [ ");
         Iterator<PlayableTile> iter = allTiles.iterator();
@@ -70,9 +78,9 @@ public class IOPort implements PlayerOutAdapter {
             stringBuilder.append(iter.next().getTileString());
         }
         stringBuilder.append(" ] ");
-        this.upstreamMessages.add(stringBuilder.toString());
-        this.upstreamMessages.add("MATCH BEGINS IN 15 SECONDS");
-        this.upstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
+        this.currentUpstreamMessages.add(stringBuilder.toString());
+        this.currentUpstreamMessages.add("MATCH BEGINS IN 15 SECONDS");
+        this.currentUpstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
     }
 
     @Override
@@ -121,7 +129,7 @@ public class IOPort implements PlayerOutAdapter {
                 zone = sc.nextInt();//This gives us zone
             } else {
                 //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
-                upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+                currentUpstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
                 //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
             }
         } else if (predatorStr.equals("CROCODILE")) {
@@ -130,7 +138,7 @@ public class IOPort implements PlayerOutAdapter {
             predator = null;
         } else {
             //TODO: See about TODO
-            upstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+            currentUpstreamMessages.add("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
@@ -172,13 +180,13 @@ public class IOPort implements PlayerOutAdapter {
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        upstreamMessages.add("GAME 1 PLAYER " + activeplayer + " FORFEITED QUIT");
+        currentUpstreamMessages.add("GAME 1 PLAYER " + activeplayer + " FORFEITED QUIT");
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        upstreamMessages.add("GAME "+gid+" PLAYER "+getActivePlayer()+" PLACED "+currentTurnString);
+        currentUpstreamMessages.add("GAME "+gid+" PLAYER "+getActivePlayer()+" PLACED "+currentTurnString);
         switchActivePlayer();
     }
 
@@ -190,22 +198,22 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        this.upstreamMessages.add(stringBuilder.toString());
+        this.currentUpstreamMessages.add(stringBuilder.toString());
     }
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
+        this.currentUpstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
+        this.currentUpstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        this.upstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+        this.currentUpstreamMessages.add("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
     }
 
     @Override
@@ -218,7 +226,7 @@ public class IOPort implements PlayerOutAdapter {
         Player player2 = iterator.next();
         stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
         stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
-        this.upstreamMessages.add(stringBuilder.toString());
+        this.currentUpstreamMessages.add(stringBuilder.toString());
         //        System.exit(0);
         gameOver = true;
     }
@@ -226,19 +234,27 @@ public class IOPort implements PlayerOutAdapter {
 
     //========== Accessors ==========//
 
-    protected PlayableTile getActiveTile(){
+    private PlayableTile getActiveTile(){
         return activeTile;
     }
 
-    protected String getActivePlayer(){
+    private String getActivePlayer(){
         return activeplayer;
     }
 
-    public Queue<String> getMessageQueue() {
-        return upstreamMessages;
+    public Queue<String> getCurrentMessageQueue() {
+        return currentUpstreamMessages;
     }
 
-    protected String getCurrentTurnString(){
+    public Queue<String> getPlayer1MessageQueue() {
+        return player1UpstreamMessages;
+    }
+
+    public Queue<String> getPlayer2MessageQueue() {
+        return player2UpstreamMessages;
+    }
+
+    private String getCurrentTurnString(){
         return currentTurnString;
     }
 
@@ -246,10 +262,15 @@ public class IOPort implements PlayerOutAdapter {
         return gameOver;
     }
 
+    public PlayerInAdapter getInAdapter() {
+        return this.inAdapter;
+    }
+
     //========== Helper Methods ==========//
     // Helps alternate between player1 and player2
     private void switchActivePlayer() {
         activeplayer = (activeplayer == loginName1) ? loginName2 : loginName1;
+        currentUpstreamMessages = (currentUpstreamMessages == player1UpstreamMessages) ? player2UpstreamMessages : player1UpstreamMessages;
     }
 
 }

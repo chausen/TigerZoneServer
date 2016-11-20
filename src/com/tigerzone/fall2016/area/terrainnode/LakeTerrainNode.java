@@ -23,4 +23,9 @@ public class LakeTerrainNode extends TerrainNode {
         lakeArea.addTerrainNode(this);
         return lakeArea;
     }
+
+    @Override
+    public boolean isSingleEdge() {
+        return true;
+    }
 }

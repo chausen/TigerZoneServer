@@ -31,7 +31,7 @@ public class CmdPromptInterface {
         login();
 
         gamePort = new IOPort(gid, loginName1, loginName2, tileStack);
-        msgQueue = gamePort.getMessageQueue();
+        msgQueue = gamePort.getCurrentMessageQueue();
 
         gamePort.initialize();
 

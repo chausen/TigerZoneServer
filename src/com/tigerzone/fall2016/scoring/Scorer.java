@@ -152,7 +152,7 @@ public class Scorer {
     // Score incomplete dens
     private void endGameScoreDens(Set<DenArea> dens) {
         for (DenArea den: dens) {
-            if ( !den.isComplete() ) {
+            if ( !den.isComplete() && den.hasOwner()) {
                 score(den);
             }
         }
@@ -161,7 +161,7 @@ public class Scorer {
     // Score incomplete lakes
     private void endGameScoreLakes(Set<LakeArea> lakes) {
         for (LakeArea lake: lakes) {
-            if ( !lake.isComplete() ) {
+            if ( !lake.isComplete() && lake.hasOwner()) {
                 // points = (# of tiles) * (# of unique animals)
                 Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
 
@@ -175,7 +175,7 @@ public class Scorer {
     // Score incomplete trails
     private void endGameScoreTrails(Set<TrailArea> trails) {
         for (TrailArea trail: trails) {
-            if ( !trail.isComplete() ) {
+            if ( !trail.isComplete() && trail.hasOwner()) {
                 score(trail);
             }
         }
@@ -191,14 +191,16 @@ public class Scorer {
         Map<Player,Integer> scoringEvent;
 
         for(JungleArea jungle : jungles){
-            List<Player> owners = jungle.getOwner();
+            if(jungle.hasOwner()) {
+                List<Player> owners = jungle.getOwner();
 
-            //pointers = (completedLakeValue * num of completed lakes) + (completedDenValue * num of completed dens)
-            Integer points = (completedLakeValue * jungle.countCompletedLakes())
-                              + (completedDenValue * jungle.countCompletedDens());
+                //pointers = (completedLakeValue * num of completed lakes) + (completedDenValue * num of completed dens)
+                Integer points = (completedLakeValue * jungle.countCompletedLakes())
+                        + (completedDenValue * jungle.countCompletedDens());
 
-            scoringEvent = updatePlayersScore(owners, points);
-            outAdapter.reportScoringEvent(scoringEvent);
+                scoringEvent = updatePlayersScore(owners, points);
+                outAdapter.reportScoringEvent(scoringEvent);
+            }
         }
     }
 
