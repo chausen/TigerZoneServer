@@ -78,16 +78,8 @@ public class TournamentServer {
                 return false;
             }
         }
-<<<<<<< HEAD
-
-        out.close();
-        in.close();
-        clientSocket.close();
-        serverSocket.close();
-=======
         return true;
     }
->>>>>>> 096f853efe54cd3ff481cd7c0901ca463543b276
 
     public void addPLayerToPlayerToList(Connection connection, String userName){
         Player player = new Player(userName, connection);
