@@ -129,6 +129,7 @@ public class IOPortTest {
         IOPort cmdp = new IOPort(1, "Taco", "Bell", tileStack);
         cmdp.initialize();
         cmdp.getInAdapter().truncateTS(20);//Make the tile set only 20
+
         while(!cmdp.getCurrentMessageQueue().isEmpty()){
             System.out.println(cmdp.getCurrentMessageQueue().remove());
         }

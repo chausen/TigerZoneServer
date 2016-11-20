@@ -15,20 +15,28 @@ import java.net.Socket;
 public class ServerMain {
 
     public static void main(String[] args) {
-        TournamentServer server = new TournamentServer(4444, 2);
 
-        while (!server.isTournamentReady() ) {
-            try {
-                //create new Connection
-                Connection connection  = server.createConnection(4444);
-
-                //is login successful (connection)
-                if(server.isLoginSuccessful(connection)){}
-
-            } catch (IOException e) {
-                System.out.println("I/O error: " + e);
-            }
-            server.startGame();
+        TournamentServer server = new TournamentServer(4444);
+        try {
+            server.login();
+        } catch (Exception e) {
+            e.printStackTrace();
+//            TournamentServer server = new TournamentServer(4444, 2);
+//
+//            while (!server.isTournamentReady()) {
+//                try {
+//                    //create new Connection
+//                    Connection connection = server.createConnection(4444);
+//
+//                    //is login successful (connection)
+//                    if (server.isLoginSuccessful(connection)) {
+//                    }
+//
+//                } catch (IOException e) {
+//                    System.out.println("I/O error: " + e);
+//                }
+//                server.startGame();
+//            }
         }
     }
 }

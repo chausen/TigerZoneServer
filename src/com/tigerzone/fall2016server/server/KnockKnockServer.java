@@ -24,7 +24,9 @@ public class KnockKnockServer {
 
         Socket clientSocket = null;
         try {
+            System.out.println("Trying to read a port");
             clientSocket = serverSocket.accept();
+            System.out.println("Created connection with " + clientSocket.getLocalPort());
         } catch (IOException e) {
             System.err.println("Accept failed.");
             System.exit(1);

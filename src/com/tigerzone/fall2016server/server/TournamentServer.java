@@ -36,9 +36,48 @@ public class TournamentServer {
         this.tournamentPlayers = new ArrayList<>();
     }
 
+    public TournamentServer(int portNum) {
+        this.portNum = portNum;
+    }
+
     public boolean isTournamentReady(){
         return (this.tournamentPlayers.size() == this.numOfPlayers);
 
+    }
+
+
+    public void login() throws IOException {
+        Connection connection = new Connection(portNum);
+        connection.accept();
+        connection.setupIO();
+
+        Socket clientSocket = connection.getClientSocket();
+        ServerSocket serverSocket = connection.getServerSocket();
+
+        String inputLine, outputLine;
+        TournamentProtocol tp = new TournamentProtocol();
+        outputLine = tp.login(null);
+        connection.getOut().println(outputLine);
+
+        while ((inputLine = connection.getIn().readLine()) != null) {
+            System.out.println("Entering server with message" + inputLine);
+            outputLine = tp.login(inputLine);
+            connection.getOut().println(outputLine);
+            if (outputLine.equals("NOPE GOOD BYE")) {
+                connection.getOut().println(outputLine);
+                if (outputLine.startsWith("WELCOME")) {
+                    System.out.println("Player has been welcomed to the system");
+                    break;
+                }
+                if (outputLine.equals("NOPE GOODBYE")) {
+                    System.out.println("Server says goodbye inside server");
+                    out.close();
+                    in.close();
+                    clientSocket.close();
+                    serverSocket.close();
+                }
+            }
+        }
     }
 
     public Connection createConnection(int portNum) throws IOException {
@@ -63,22 +102,26 @@ public class TournamentServer {
             System.out.println("Entering server with message" + inputLine);
             outputLine = tp.login(inputLine);
             serverOutput.println(outputLine);
-            if(outputLine.startsWith("WELCOME")){
-                addPLayerToPlayerToList(connection, tp.getUser());
-                return true;
-            }
+                if (outputLine.startsWith("WELCOME")) {
+                    addPLayerToPlayerToList(connection, tp.getUser());
+                    return true;
+                }
 
-            if (outputLine.equals("NOPE GOODBYE")) {
-                System.out.println("Server says goodbye inside server");
-                out.close();
-                in.close();
-                clientSocket.close();
-                serverSocket.close();
-                return false;
+                if (outputLine.equals("NOPE GOODBYE")) {
+                    System.out.println("Server says goodbye inside server");
+                    serverOutput.close();
+                    serverInput.close();
+                    clientSocket.close();
+                    serverSocket.close();
+                    return false;
+                }
             }
-        }
+        serverOutput.close();
+        serverInput.close();
         return true;
-    }
+        }
+
+
 
     public void addPLayerToPlayerToList(Connection connection, String userName){
         TournamentPlayer tournamentPlayer = new TournamentPlayer(userName, connection);
