@@ -1,54 +1,96 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016server.tournament.Challenge;
-import com.tigerzone.fall2016server.tournament.Player;
 
-import java.io.*;
+import com.tigerzone.fall2016.gamesystem.TileStack;
+import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.Challenge;
+import com.tigerzone.fall2016server.tournament.Game;
+import com.tigerzone.fall2016server.tournament.Player;
+import com.tigerzone.fall2016server.tournament.TileStackGenerator;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
  */
 public class TournamentServer {
+    BufferedReader serverInput;
+    PrintWriter serverOutput;
 
-    private int port;
+    BufferedReader in;
+    PrintWriter out;
+    int numOfPlayers;
+    int portNum;
 
     Challenge challenge;
-    Set<Player> players;
-    Set<Connection> connections;
+    List<Player> players;
 
-    public TournamentServer(int port) {
-        this.port = port;
+    public TournamentServer(int portNum, int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+        this.portNum = portNum;
+        this.players = new ArrayList<>();
     }
 
-    public TournamentServer() {
+    public boolean isTournamentReady(){
+        return (this.players.size() == this.numOfPlayers);
+
     }
 
-    public void login() throws IOException {
-        Connection connection = new Connection(port);
+    public Connection createConnection(int portNum) throws IOException {
+        return new Connection(portNum);
+    }
+
+
+    public boolean isLoginSuccessful(Connection connection) throws IOException {
+        Socket clientSocket = connection.getClientSocket();
+        ServerSocket serverSocket = connection.getServerSocket();
+        this.serverOutput = new PrintWriter(clientSocket.getOutputStream(), true);
+        this.serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         String inputLine, outputLine;
         TournamentProtocol tp = new TournamentProtocol();
 
         outputLine = tp.login(null);
-        connection.getOut().println(outputLine);
 
-        while ((inputLine = connection.getIn().readLine()) != null) {
+        serverOutput.println(outputLine);
+
+        while ((inputLine = serverInput.readLine()) != null) {
             System.out.println("Entering server with message" + inputLine);
             outputLine = tp.login(inputLine);
-            connection.getOut().println(outputLine);
+            serverOutput.println(outputLine);
+            if(outputLine.startsWith("WELCOME")){
+                addPLayerToPlayerToList(connection, tp.getUser());
+                return true;
+            }
+
             if (outputLine.equals("NOPE GOODBYE")) {
                 System.out.println("Server says goodbye inside server");
-                break;
+                out.close();
+                in.close();
+                clientSocket.close();
+                serverSocket.close();
+                return false;
             }
         }
-        connection.getOut().close();
-        connection.getIn().close();
-        connection.getClientSocket().close();
-        connection.getServerSocket().close();
+        return true;
     }
 
+    public void addPLayerToPlayerToList(Connection connection, String userName){
+        Player player = new Player(userName, connection);
+        this.players.add(player);
+    }
 
+    //This class is for testing purposes only
+    public void startGame(){
+        TileStackGenerator stackGenerator = new TileStackGenerator();
+        LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
+        Game game = new Game(1,players.get(0).getUsername(), players.get(1).getUsername(), tileStack);
+        game.start();
+    }
 }

@@ -1,8 +1,6 @@
 package com.tigerzone.fall2016server.tournament;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.sql.Connection;
+import com.tigerzone.fall2016server.server.Connection;
 
 /**
  * Created by lenovo on 11/19/2016.

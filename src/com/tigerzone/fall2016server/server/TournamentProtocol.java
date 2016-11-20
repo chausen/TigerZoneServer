@@ -26,6 +26,10 @@ public class TournamentProtocol {
         this.credentials = credentials;
     }
 
+    public String getUser(){
+        return this.user;
+    }
+
     public String login(String input) {
         String output = null;
         credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials

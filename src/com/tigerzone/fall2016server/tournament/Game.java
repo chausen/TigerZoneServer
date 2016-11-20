@@ -1,21 +1,22 @@
 package com.tigerzone.fall2016server.tournament;
 
-import com.tigerzone.fall2016.gamesystem.GameSystem;
-import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by lenovo on 11/17/2016.
  */
 public class Game extends Thread{
-
-    Player player1;
-    Player player2;
+    int gameID;
+    String player1;
+    String player2;
     LinkedList<PlayableTile> tileStack;
 
-    public Game(Player player1, Player player2, LinkedList<PlayableTile> tileStack) {
+    public Game(int gameID, String player1, String player2, LinkedList<PlayableTile> tileStack) {
+        this.gameID = gameID;
         this.player1 = player1;
         this.player2 = player2;
         this.tileStack = tileStack;
@@ -27,9 +28,27 @@ public class Game extends Thread{
     }
 
     void playGame() {
-        GameSystem gameSystem = new GameSystem();
-        gameSystem.initializeGame(player1.getPlayerId(), player2.getPlayerId(), tileStack);
-        //initialize game is called in the gameSystem constructor
-        //gameSystem.startGame(); //startGame() is called in initializeGame(), which is called in the constructor
+        IOPort ioPort = new IOPort(this.gameID, player1, player2, tileStack);
+        ioPort.initialize();
+        Queue<String> player1Messages = ioPort.getPlayer1MessageQueue();
+        Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
+        // get input from socket and pass it to this method
+        ioPort.receiveTurn("");
+
+        // expect output from game in the current player's messages
+        // the first player in the IOPort parameter list goes first
+        while (!player1Messages.isEmpty()) {
+            String message = player1Messages.remove();
+            // Send message to player1 socket
+            if(message.startsWith("WELCOME")){
+
+            }
+            }
+//        }
+//        while (!player2Messages.isEmpty()) {
+//            String message = player2Messages.remove();
+//            // Send message to player2 socket
+//        }
+
     }
 }
