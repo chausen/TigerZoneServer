@@ -50,6 +50,7 @@ public class TournamentServer {
                 break;
             }
         }
+
         out.close();
         in.close();
         clientSocket.close();
