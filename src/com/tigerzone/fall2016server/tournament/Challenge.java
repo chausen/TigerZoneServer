@@ -10,9 +10,8 @@ import java.util.Set;
  * Created by lenovo on 11/17/2016.
  */
 public class Challenge {
-
     LinkedList<PlayableTile> tiles;
-    Set<Player> players;
+    Set<TournamentPlayer> players;
 
     public Challenge(String[] tiles, long seed) {
         this.tiles = TileStackGenerator.generateTiles(tiles, seed);
@@ -23,8 +22,4 @@ public class Challenge {
         int playerCount = players.size();
         return playerCount;
     }
-
-
-
-
 }

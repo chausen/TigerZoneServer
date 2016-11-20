@@ -61,7 +61,7 @@ public class ScorerTest {
     }
 
     @org.junit.Test
-    public void scoreAreas() throws Exception {
+    public void sampleGame1() throws Exception {
         areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), 0);
         areaManager.addTile(new Point(-2, 0), new PlayableTile("JLTT-"), 270);
         areaManager.addTile(new Point(1, 0), new PlayableTile("LLLL-"), 0);

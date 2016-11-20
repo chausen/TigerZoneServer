@@ -18,16 +18,16 @@ public class TournamentProtocol {
     private int loginAttempts = 0;
     private String user = null;
 
-    public String getUser() {
-        return user;
-    }
-
     private HashMap<String, String> credentials = new HashMap<>();
 
     public TournamentProtocol() { }
 
     public TournamentProtocol(HashMap<String, String> credentials) {
         this.credentials = credentials;
+    }
+
+    public String getUser(){
+        return this.user;
     }
 
     public String login(String input) {

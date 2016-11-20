@@ -8,11 +8,11 @@ import com.tigerzone.fall2016.gamesystem.Player;
 import java.util.*;
 
 /**
- * Maintains scores for each Player playing TigerZone. Responsibilities include:
+ * Maintains scores for each TournamentPlayer playing TigerZone. Responsibilities include:
  * calculating point value for a completed area and providing that value,
  * scoring the end of a game by calculating point value for incomplete areas and jungles,
  * determining who points are awarded to for a given area, based ownership,
- * providing the Player(s) with the highest score
+ * providing the TournamentPlayer(s) with the highest score
  *
  * @author Clay Hausen
  */
@@ -53,7 +53,7 @@ public class Scorer {
     }
 
     /**
-     * Updates Player scores and returns a scoringEvent
+     * Updates TournamentPlayer scores and returns a scoringEvent
      * @param players
      * @param points
      * @return

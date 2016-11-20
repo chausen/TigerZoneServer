@@ -13,9 +13,9 @@ public interface Context {
     void changeState(ProtocolState nextState, ProtocolState previousState);
     ProtocolState getState();
     ProtocolState getPreviousState();
-    Turn getTurn();
-    void setTileString(String tileString);
-    void setPoint(Point point);
+    void validMove();
     void illegalMove(); // call to indicate an illegal move was made
-    boolean wasMoveIllegal(); // query whether or not an illegal move was made
+    boolean wasMoveValid(); // query whether or not an illegal move was made
 }
+
+
