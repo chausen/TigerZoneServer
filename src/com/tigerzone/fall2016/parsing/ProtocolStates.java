@@ -119,6 +119,9 @@ enum ProtocolStates implements ProtocolState {
             Scanner scanner = context.getScanner();
             if (scanner.hasNextInt()) {
                 int x = scanner.nextInt();
+                if (scanner.hasNextInt()) {
+                    int y = scanner.nextInt();
+                }
             }
             return false;
         }

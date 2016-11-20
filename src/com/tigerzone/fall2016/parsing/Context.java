@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.parsing;
 
 import com.tigerzone.fall2016.gamesystem.Turn;
 
+import java.awt.*;
 import java.util.Scanner;
 
 /**
@@ -14,6 +15,7 @@ public interface Context {
     ProtocolState getPreviousState();
     Turn getTurn();
     void setTileString(String tileString);
+    void setPoint(Point point);
     void illegalMove(); // call to indicate an illegal move was made
     boolean wasMoveIllegal(); // query whether or not an illegal move was made
 }
