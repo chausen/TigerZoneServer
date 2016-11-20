@@ -22,6 +22,10 @@ public class TournamentProtocol {
 
     public TournamentProtocol() { }
 
+    public TournamentProtocol(HashMap<String, String> credentials) {
+        this.credentials = credentials;
+    }
+
     public String login(String input) {
         String output = null;
         credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials

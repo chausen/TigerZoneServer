@@ -1,60 +1,54 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016server.tournament.Challenge;
+import com.tigerzone.fall2016server.tournament.Player;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Set;
 
 /**
  * Created by lenovo on 11/17/2016.
  */
 public class TournamentServer {
 
-    ServerSocket serverSocket;
-    BufferedReader in;
-    PrintWriter out;
+    private int port;
 
+    Challenge challenge;
+    Set<Player> players;
+    Set<Connection> connections;
 
     public TournamentServer(int port) {
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            System.out.println("Could not listen on port: " + port);
-            e.printStackTrace();
-            System.exit(1);
-        }
+        this.port = port;
+    }
+
+    public TournamentServer() {
     }
 
     public void login() throws IOException {
-        Socket clientSocket = null;
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (IOException e) {
-            System.err.println("Accept failed.");
-            System.exit(1);
-        }
+        Connection connection = new Connection(port);
 
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String inputLine, outputLine;
         TournamentProtocol tp = new TournamentProtocol();
 
         outputLine = tp.login(null);
-        out.println(outputLine);
+        connection.getOut().println(outputLine);
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = connection.getIn().readLine()) != null) {
             System.out.println("Entering server with message" + inputLine);
             outputLine = tp.login(inputLine);
-            out.println(outputLine);
+            connection.getOut().println(outputLine);
             if (outputLine.equals("NOPE GOODBYE")) {
                 System.out.println("Server says goodbye inside server");
                 break;
             }
         }
-        out.close();
-        in.close();
-        clientSocket.close();
-        serverSocket.close();
-
+        connection.getOut().close();
+        connection.getIn().close();
+        connection.getClientSocket().close();
+        connection.getServerSocket().close();
     }
+
 
 }

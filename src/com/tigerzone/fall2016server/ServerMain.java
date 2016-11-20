@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server;
 
 import com.tigerzone.fall2016server.server.Client;
+import com.tigerzone.fall2016server.server.TournamentProtocol;
 import com.tigerzone.fall2016server.server.TournamentServer;
 
 /**
@@ -15,7 +16,6 @@ public class ServerMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 }
