@@ -1,8 +1,5 @@
 package com.tigerzone.fall2016server.server;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import com.tigerzone.fall2016server.tournament.Player;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -10,8 +10,8 @@ public class Turn
 {
     /**
      * Constructor creating the Turn, using the necessary information, such as Tile placement, position, etc..
-     * @param playableTile Tile representing the Player's Turn.
-     * @param playerID Player's ID number, assigned elsewhere.
+     * @param playableTile Tile representing the TournamentPlayer's Turn.
+     * @param playerID TournamentPlayer's ID number, assigned elsewhere.
      * @param rotationdegree Degree of rotation Counterclockwise that the player wishes to enact on the Tile.
      * @param predator Either a tiger or a crocodile that the player wishes to place on the tile
      * @param predatorPlacementZone A value 1-9 that determines where the predator should be placed

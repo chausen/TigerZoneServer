@@ -1,11 +1,10 @@
 package com.tigerzone.fall2016server.server;
 
 
-import com.tigerzone.fall2016.gamesystem.TileStack;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.tournament.Challenge;
 import com.tigerzone.fall2016server.tournament.Game;
-import com.tigerzone.fall2016server.tournament.Player;
+import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 
 import java.io.BufferedReader;
@@ -29,16 +28,16 @@ public class TournamentServer {
     int portNum;
 
     Challenge challenge;
-    List<Player> players;
+    List<TournamentPlayer> tournamentPlayers;
 
     public TournamentServer(int portNum, int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
         this.portNum = portNum;
-        this.players = new ArrayList<>();
+        this.tournamentPlayers = new ArrayList<>();
     }
 
     public boolean isTournamentReady(){
-        return (this.players.size() == this.numOfPlayers);
+        return (this.tournamentPlayers.size() == this.numOfPlayers);
 
     }
 
@@ -82,15 +81,15 @@ public class TournamentServer {
     }
 
     public void addPLayerToPlayerToList(Connection connection, String userName){
-        Player player = new Player(userName, connection);
-        this.players.add(player);
+        TournamentPlayer tournamentPlayer = new TournamentPlayer(userName, connection);
+        this.tournamentPlayers.add(tournamentPlayer);
     }
 
     //This class is for testing purposes only
     public void startGame(){
         TileStackGenerator stackGenerator = new TileStackGenerator();
         LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
-        Game game = new Game(1,players.get(0).getUsername(), players.get(1).getUsername(), tileStack);
+        Game game = new Game(1, tournamentPlayers.get(0), tournamentPlayers.get(1), tileStack);
         game.start();
     }
 }

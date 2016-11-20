@@ -120,7 +120,7 @@ public class IOPort implements PlayerOutAdapter {
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
         int zone = 0;
         // The zone of the tile where the predator will be placed
-        Player activePlayer = inAdapter.getPlayer(activeplayer); // get the Player object associated with the loginID
+        Player activePlayer = inAdapter.getPlayer(activeplayer); // get the TournamentPlayer object associated with the loginID
         if (predatorStr.equals("TIGER")) {
 
             predator = new Tiger(activePlayer);
