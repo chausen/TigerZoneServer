@@ -8,7 +8,6 @@ import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.awt.*;
@@ -24,7 +23,6 @@ public class IOPort implements PlayerOutAdapter {
     private Queue<String> player2UpstreamMessages;
     private Queue<String> currentUpstreamMessages;
     private LinkedList<PlayableTile> tileStack;
-    private ProtocolStateMachine protocol;
     
     private int gid;
     private String loginName1;

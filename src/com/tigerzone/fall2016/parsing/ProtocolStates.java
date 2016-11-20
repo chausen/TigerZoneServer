@@ -42,55 +42,43 @@ enum ProtocolStates implements ProtocolState {
     UNPLACEABLE("Entry point to the three unplaceable tile options") {
         @Override
         public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            if (scanner.hasNext()) {
+                String token = scanner.next();
+                if (token == "PASS") {
+                    context.validMove();
+                    context.changeState(START, this);
+                    return false; // end iteration through state machine due to valid move
+                } else {
+                    Pattern addOrRetrieveTiger = Pattern.compile("(RETRIEVE TIGER AT)|(ADD ANOTHER TIGER TO)");
+                    if (scanner.hasNext(addOrRetrieveTiger)) {
+                        context.changeState(POINT, this);
+                        return true;
+                    }
+                }
+            }
             return false;
         }
     },
-    PASS("Pass turn") {
-        @Override
-        public boolean parse(Context context) {
-            return false;
-        }
-    },
-    RETREIVETIGER("Retrieve a tiger from x,y") {
-        @Override
-        public boolean parse(Context context) {
-            return false;
-        }
-    },
-    ADDTIGER("Add another tiger to x,y") {
-        @Override
-        public boolean parse(Context context) {
-            return false;
-        }
-    },
-
     PLACE("Entry point to placeable tile") {
         @Override
         public boolean parse(Context context) {
             return false;
         }
     },
-    NONE("No predator") {
+    ZONE("An integer between 0 & 9") {
         @Override
         public boolean parse(Context context) {
-            return false;
-        }
-    },
-    CROCODILE("Place crocodile") {
-        @Override
-        public boolean parse(Context context) {
-            return false;
-        }
-    },
-    TIGER("Place tiger") {
-        @Override
-        public boolean parse(Context context) {
-            return false;
-        }
-    },
-    ZONE("tile zone (1-9) to place tiger on") {
-        @Override
-        public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            if (scanner.hasNextInt()) {
+                int zone = scanner.nextInt();
+                if (0 <= zone && zone <= 9) {
+                    context.validMove();
+                    context.changeState(START, this);
+                    return false;
+                }
+            }
+            context.illegalMove();
             return false;
         }
     },
@@ -100,7 +88,6 @@ enum ProtocolStates implements ProtocolState {
             Scanner scanner = context.getScanner();
             Pattern tileCodePattern = Pattern.compile("[J,L,T]{4}+[-,B,C,D,P,X]");
             if (scanner.hasNext(tileCodePattern)) {
-                context.setTileString(scanner.next());
                 if (context.getPreviousState() == TILE && scanner.next().equals("UNPLACEABLE")) {
                     context.changeState(UNPLACEABLE, this);
                     return true;
@@ -118,24 +105,42 @@ enum ProtocolStates implements ProtocolState {
         public boolean parse(Context context) {
             Scanner scanner = context.getScanner();
             if (scanner.hasNextInt()) {
-                int x = scanner.nextInt();
+                scanner.nextInt();
                 if (scanner.hasNextInt()) {
-                    int y = scanner.nextInt();
+                    scanner.nextInt();
+                    if (context.getPreviousState() == UNPLACEABLE) {
+                        context.validMove();
+                        context.changeState(START, this);
+                        return false; // end iteration through state machine due to valid move
+                    }
+                    context.changeState(ORIENTATION, this);
+                    return true;
                 }
             }
+            context.illegalMove();
             return false;
         }
     },
     ORIENTATION("{0,90,180,270}, Rotation in degrees counter-clockwise") {
         @Override
         public boolean parse(Context context) {
-            return false;
-        }
-    },
-
-    FORFEIT("An alternate path for every state: invalid message trigger forfeit") {
-        @Override
-        public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            Pattern tileCodePattern = Pattern.compile("[0, 90, 180, 270]");
+            if (scanner.hasNext(tileCodePattern)) { // has valid orientation
+                if (scanner.hasNext()) {
+                    String token = scanner.next();
+                    if (token == "NONE" || token == "CROCODILE") {
+                        context.validMove();
+                        context.changeState(START, this);
+                        return false; // end iteration through state machine due to valie move
+                    } else if (token == "TIGER") {
+                        context.changeState(ZONE, this);
+                        return true;
+                    }
+                    return true;
+                }
+            }
+            context.illegalMove();
             return false;
         }
     };
