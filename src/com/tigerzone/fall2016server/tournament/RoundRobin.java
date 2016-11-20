@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Aidan on 11/19/2016.
  */
-public class RoundRobinTest {
+public class RoundRobin {
     
     /**
      * Either pass in an incremented round each time or increment the round in this class and call it
@@ -46,13 +46,17 @@ public class RoundRobinTest {
 
         int playerIdx = round % playersSize;
 
-        matchList.add(new Match(playerList.get(0), players.get(playerIdx), tileStack));
+        if(!players.get(playerIdx).equals(dummyPlayer)){
+            matchList.add(new Match(playerList.get(0), players.get(playerIdx), tileStack));
+        }
 
         for (int idx = 1; idx < halfSize; idx++)
         {
-            int firstTeam = (round + idx) % playersSize;
-            int secondTeam = (round  + playersSize - idx) % playersSize;
-            matchList.add(new Match(players.get(firstTeam), players.get(secondTeam), tileStack));
+            int firstPlayer = (round + idx) % playersSize;
+            int secondPlayer = (round  + playersSize - idx) % playersSize;
+            if(!players.get(firstPlayer).equals(dummyPlayer) && !players.get(secondPlayer).equals(dummyPlayer)) {
+                matchList.add(new Match(players.get(firstPlayer), players.get(secondPlayer), tileStack));
+            }
         }
 
         if(isOddNumOfPlayers) {
