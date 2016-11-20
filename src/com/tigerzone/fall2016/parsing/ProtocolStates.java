@@ -63,6 +63,12 @@ enum ProtocolStates implements ProtocolState {
     PLACE("Entry point to placeable tile") {
         @Override
         public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            if (scanner.hasNext()) {
+                context.changeState(TILECODE, this);
+                return true;
+            }
+            context.illegalMove();
             return false;
         }
     },
@@ -88,12 +94,17 @@ enum ProtocolStates implements ProtocolState {
             Scanner scanner = context.getScanner();
             Pattern tileCodePattern = Pattern.compile("[J,L,T]{4}+[-,B,C,D,P,X]");
             if (scanner.hasNext(tileCodePattern)) {
-                if (context.getPreviousState() == TILE && scanner.next().equals("UNPLACEABLE")) {
-                    context.changeState(UNPLACEABLE, this);
-                    return true;
-                } else if (context.getPreviousState() == PLACE) {
-                    context.changeState(POINT, this);
-                    return true;
+                scanner.next(tileCodePattern); // move past the tile code after validating
+                if (context.getPreviousState() == TILE && scanner.hasNext()) {
+                    if (scanner.next().equals("UNPLACEABLE")) {
+                        context.changeState(UNPLACEABLE, this);
+                        return true;
+                    }
+                } else if (context.getPreviousState() == PLACE && scanner.hasNext()) {
+                    if (scanner.next().equals("AT")) {
+                        context.changeState(POINT, this);
+                        return true;
+                    }
                 }
             }
             context.illegalMove();
@@ -125,15 +136,15 @@ enum ProtocolStates implements ProtocolState {
         @Override
         public boolean parse(Context context) {
             Scanner scanner = context.getScanner();
-            Pattern tileCodePattern = Pattern.compile("[0, 90, 180, 270]");
-            if (scanner.hasNext(tileCodePattern)) { // has valid orientation
-                if (scanner.hasNext()) {
+            if (scanner.hasNextInt()) {
+                int orientation = scanner.nextInt();
+                if (orientation == 0 || orientation == 90 || orientation == 180 || orientation == 270) {
                     String token = scanner.next();
-                    if (token == "NONE" || token == "CROCODILE") {
+                    if (token.equals("NONE") || token.equals("CROCODILE")) {
                         context.validMove();
                         context.changeState(START, this);
                         return false; // end iteration through state machine due to valie move
-                    } else if (token == "TIGER") {
+                    } else if (token.equals("TIGER")) {
                         context.changeState(ZONE, this);
                         return true;
                     }
