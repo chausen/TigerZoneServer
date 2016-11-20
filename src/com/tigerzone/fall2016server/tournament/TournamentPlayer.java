@@ -5,17 +5,16 @@ import com.tigerzone.fall2016server.server.Connection;
 /**
  * Created by lenovo on 11/19/2016.
  */
-public class Player {
-
+public class TournamentPlayer {
     private String username;
     private PlayerStats stats;
     Connection connection;
 
-    public Player(String username) {
+    public TournamentPlayer(String username) {
         this.username = username;
     }
 
-    public Player(String username, Connection connection) {
+    public TournamentPlayer(String username, Connection connection) {
         this.username = username;
         this.connection = connection;
     }
@@ -35,5 +34,4 @@ public class Player {
     public void setStats(PlayerStats stats) {
         this.stats = stats;
     }
-
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * Created by lenovo on 11/17/2016.
  */
 public class Round {
-    List<Player> players;
+    List<TournamentPlayer> players;
     LinkedList<PlayableTile> tileStack;
 
     /**
@@ -19,7 +19,7 @@ public class Round {
      * @param players
      * @param tileStack
      */
-    public Round(List<Player> players, LinkedList<PlayableTile> tileStack){
+    public Round(List<TournamentPlayer> players, LinkedList<PlayableTile> tileStack){
         this.players = players;
         this.tileStack = tileStack;
     }
@@ -31,8 +31,8 @@ public class Round {
     List<Match> generateMatches(){
         List<Match> matches = new ArrayList<>();
         for(int i = 0; i < players.size() - 1; i = i + 2){
-            Player p1 = this.players.get(i);
-            Player p2 = this.players.get(i + 1);
+            TournamentPlayer p1 = this.players.get(i);
+            TournamentPlayer p2 = this.players.get(i + 1);
             Match match = new Match(p1, p2, this.tileStack);
             matches.add(match);
         }

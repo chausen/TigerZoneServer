@@ -53,7 +53,7 @@ public class GameSystem implements PlayerInAdapter {
     {
         player1 = new Player(player1id);
         player2 = new Player(player2id);
-        currentPlayer = player1; // Player 1 is always the current player
+        currentPlayer = player1; // TournamentPlayer 1 is always the current player
 
         fsb = new FreeSpaceBoard();
         List<Player> players = new ArrayList<>();
@@ -187,10 +187,10 @@ public class GameSystem implements PlayerInAdapter {
     }
 
     /**
-     * Used to get a Player from their ID
+     * Used to get a TournamentPlayer from their ID
      *
      * @param playerID
-     * @return the Player object corresponding to a playerID, or null if their is no player with that ID
+     * @return the TournamentPlayer object corresponding to a playerID, or null if their is no player with that ID
      */
     public Player getPlayer(String playerID) {
         Player player;

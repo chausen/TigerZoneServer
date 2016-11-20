@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Challenge {
     LinkedList<PlayableTile> tiles;
-    Set<Player> players;
+    Set<TournamentPlayer> players;
 
     public Challenge(String[] tiles, long seed) {
         this.tiles = TileStackGenerator.generateTiles(tiles, seed);
