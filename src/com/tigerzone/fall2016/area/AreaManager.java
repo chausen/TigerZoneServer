@@ -2,6 +2,7 @@ package com.tigerzone.fall2016.area;
 
 
 import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
