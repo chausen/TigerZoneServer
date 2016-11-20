@@ -11,11 +11,11 @@ import java.util.Queue;
  */
 public class Game extends Thread{
     int gameID;
-    String player1;
-    String player2;
+    TournamentPlayer player1;
+    TournamentPlayer player2;
     LinkedList<PlayableTile> tileStack;
 
-    public Game(int gameID, String player1, String player2, LinkedList<PlayableTile> tileStack) {
+    public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.gameID = gameID;
         this.player1 = player1;
         this.player2 = player2;
@@ -28,7 +28,7 @@ public class Game extends Thread{
     }
 
     void playGame() {
-        IOPort ioPort = new IOPort(this.gameID, player1, player2, tileStack);
+        IOPort ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
         ioPort.initialize();
         Queue<String> player1Messages = ioPort.getPlayer1MessageQueue();
         Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
