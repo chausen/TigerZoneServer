@@ -27,4 +27,9 @@ public class TrailTerrainNode extends TerrainNode {
         trailArea.addTerrainNode(this);
         return trailArea;
     }
+
+    @Override
+    public boolean isSingleEdge() {
+        return false;
+    }
 }

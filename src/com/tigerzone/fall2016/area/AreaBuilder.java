@@ -6,10 +6,8 @@ import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Aidan on 11/15/2016.
@@ -23,6 +21,8 @@ public class AreaBuilder {
     private Set<TerrainNode> completeTerrainNodes = new HashSet<>();
     private Set<Area> updatedAreas = new HashSet<>();
     private Set<Area> deletedAreas = new HashSet<>();
+    //this is a map of edges which have a lake. These edges can't have any more added to them.
+    private HashMap<Integer, Boolean> singleEdgeMap = new HashMap<>();
 
     public AreaBuilder(GameBoard gameGameBoard, BoardTile boardTile){
         this.gameBoard = gameGameBoard;
@@ -51,33 +51,41 @@ public class AreaBuilder {
 
     private void buildWestFace() {
         if(gameBoard.getLeftAdjacentTile(position) != null) {
-            updateTerrainNodes(1, 3); //3 = west
             updateTerrainNodes(4, 3);
-            updateTerrainNodes(7, 3);
+            if(!singleEdgeMap.get(3)) {
+                updateTerrainNodes(1, 3); //3 = west
+                updateTerrainNodes(7, 3);
+            }
         }
     }
 
     private void buildSouthFace() {
         if(gameBoard.getBelowAdjacentTile(position) != null) {
-            updateTerrainNodes(7, 2);
             updateTerrainNodes(8, 2);
-            updateTerrainNodes(9, 2);
+            if(!singleEdgeMap.get(2)) {
+                updateTerrainNodes(7, 2);
+                updateTerrainNodes(9, 2);
+            }
         }
     }
 
     private void buildEastFace() {
         if (gameBoard.getRightAdjacentTile(position) != null) {
-            updateTerrainNodes(3, 1);
             updateTerrainNodes(6, 1);
-            updateTerrainNodes(9, 1);
+            if(!singleEdgeMap.get(1)) {
+                updateTerrainNodes(3, 1);
+                updateTerrainNodes(9, 1);
+            }
         }
     }
 
     private void buildNorthFace() {
         if(gameBoard.getAboveAdjacentTile(position) != null) {
-            updateTerrainNodes(1, 0);
             updateTerrainNodes(2, 0);
-            updateTerrainNodes(3, 0);
+            if(!singleEdgeMap.get(0)) {
+                updateTerrainNodes(1, 0);
+                updateTerrainNodes(3, 0);
+            }
         }
     }
 
@@ -156,6 +164,7 @@ public class AreaBuilder {
             terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
             updatedAreas.add(terrainNode.getArea());
             completeTerrainNodes.add(terrainNode);
+            singleEdgeMap.put(dir, terrainNode.isSingleEdge());
         }
     }
 

@@ -53,4 +53,8 @@ public class JungleTerrainNode extends TerrainNode {
         otherNode.setArea(this.getArea());
     }
 
+    @Override
+    public boolean isSingleEdge() {
+        return false;
+    }
 }

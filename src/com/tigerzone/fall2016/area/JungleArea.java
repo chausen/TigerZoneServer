@@ -121,4 +121,12 @@ public class JungleArea extends Area {
         super.addTerrainNode(terrainNode);
         jungleTerrainNodes.add((JungleTerrainNode)terrainNode);
     }
+
+    @Override
+    public void addTerrainNode(Set<TerrainNode> terrainNodes) {
+        super.addTerrainNode(terrainNodes);
+        for(TerrainNode terrainNode: terrainNodes){
+            jungleTerrainNodes.add((JungleTerrainNode)terrainNode);
+        }
+    }
 }
