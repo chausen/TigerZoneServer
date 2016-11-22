@@ -12,20 +12,23 @@ import java.util.Queue;
  * Created by lenovo on 11/17/2016.
  */
 public class Game extends Thread{
-    int gameID;
+    private int gameID;
     TournamentPlayer player1;
     TournamentPlayer player2;
     LinkedList<PlayableTile> tileStack;
     private Match match;
     Deque<String> readQueue;
+    private int player1FinalScore;
+    private int player2FinalScore;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
-                LinkedList<PlayableTile> tileStack) {
+                LinkedList<PlayableTile> tileStack, Match match) {
         readQueue = new ArrayDeque<>();
         this.gameID = gameID;
         this.player1 = player1;
         this.player2 = player2;
         this.tileStack = tileStack;
+        this.match = match;
     }
 
     public Deque<String> getReadQueue(){
@@ -75,11 +78,31 @@ public class Game extends Thread{
 
     }
 
+    private void notifyComplete(){
+        match.notifyComplete(gameID);
+    }
+
     public Match getMatch() {
         return match;
     }
 
     public int getGameID() {
         return gameID;
+    }
+
+    public TournamentPlayer getPlayer1() {
+        return player1;
+    }
+
+    public TournamentPlayer getPlayer2() {
+        return player2;
+    }
+
+    public int getPlayer1FinalScore(){
+        return player1FinalScore;
+    }
+
+    public int getPlayer2FinalScore(){
+        return player2FinalScore;
     }
 }

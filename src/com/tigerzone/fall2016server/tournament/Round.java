@@ -3,6 +3,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,12 @@ public class Round {
     List<TournamentPlayer> players;
     LinkedList<PlayableTile> tileStack;
     private Challenge challenge;
-    private int roundID;
+    private static int roundID = 0;
+    private int rid;
+    private int numOfMatches;
+    private int numOfMatchesComplete = 0;
+    private int currentRound = 0;
+    private int numOfRounds;
 
     /**
      * NOTE: players size should be even
@@ -22,8 +28,16 @@ public class Round {
      * @param tileStack
      */
     public Round(List<TournamentPlayer> players, LinkedList<PlayableTile> tileStack){
+        rid = roundID++;
         this.players = players;
         this.tileStack = tileStack;
+        numOfMatches = players.size()/2;
+        if(players.size()/2 % 2 == 0){
+            numOfRounds = players.size() - 1;
+        }
+        else {
+            numOfRounds = players.size();
+        }
     }
 
     /**
@@ -41,13 +55,38 @@ public class Round {
         return matches;
     }
 
+    private List<Match> makeMatches(){
+        List<Match> matchList =  RoundRobin.listMatches(players,currentRound,tileStack);
+        currentRound++;
+        return matchList;
+    }
+
+    private void sendMessageToPlayers(){
+        for(TournamentPlayer tournamentPlayer: players){
+            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+            printWriter.println("BEGIN ROUND " + rid + " OF " + numOfRounds);
+        }
+    }
+
     /**
      * This method starts the current Round.
      */
-    public void startRound() {
-        List<Match> matches = generateMatches();
+    public void startMatches() {
+        sendMessageToPlayers();
+        List<Match> matches = makeMatches();
         for(Match match : matches){
-            match.startMatch();
+            match.startGames();
+        }
+    }
+
+    public void notifyComplete(){
+        numOfMatchesComplete++;
+        if(numOfMatchesComplete == numOfMatches){
+            for(TournamentPlayer tournamentPlayer: players){
+                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+                printWriter.println("END OF ROUND " + rid + " OF " + numOfRounds);
+            }
+            challenge.notifyComplete();
         }
     }
 
