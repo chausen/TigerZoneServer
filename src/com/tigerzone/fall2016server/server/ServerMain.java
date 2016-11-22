@@ -21,5 +21,20 @@ public class ServerMain {
             System.out.println("GOT AN ERROR IN MAIN");
         }
 
+
+//        TournamentProtocol tp = new TournamentProtocol();
+//        Socket clientSocket;
+//        try {
+            //ServerSocket serverSocket = new ServerSocket(4444);
+//            Connection connection = new Connection(4444);
+//            while (true) {
+                //clientSocket = serverSocket.accept();
+//                connection.accept();
+//                connection.setupIO();
+//                new MultiServerThread(connection).start();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

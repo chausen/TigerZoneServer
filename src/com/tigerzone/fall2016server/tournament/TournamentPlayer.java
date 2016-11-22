@@ -37,4 +37,8 @@ public class TournamentPlayer {
     public void setStats(PlayerStats stats) {
         this.stats = stats;
     }
+
+    public Connection getConnection(){
+        return this.connection;
+    }
 }
