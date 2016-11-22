@@ -61,14 +61,13 @@ public class GameSystem implements PlayerInAdapter {
         players.add(player2);
         scorer = new Scorer(players, outAdapter);
         am = new AreaManager(scorer);
+        gameBoard = am.getGameBoard();
 
+        //TODO: Remove this and just use the LinkedList?
         ts = new TileStack(tileStack);
         //originTile = ts.pop();
 
         currentTile = ts.peek();
-        List<PlayableTile> allTiles = ts.getTileList();
-
-        outAdapter.notifyBeginGame(allTiles);
     }
 
     public void setOutAdapter(PlayerOutAdapter outAdapter){
@@ -93,18 +92,18 @@ public class GameSystem implements PlayerInAdapter {
         //They called the wrong thing if this goes through.
         if(currentTileCannotBePlaced) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
         }
         // place tile, if Tile isn't the same one we gave, boot them.
         else if (!currentTile.equals(turn.getPlayableTile())) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
         }
         // Check if they tried to place the tile in an invalid position
         //areaManager.place() //needs to be boolean
         else if (!fsb.isPlaceable(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees())) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
         } else {
             fsb.placeTile(turn.getPosition(), turn.getPlayableTile());
             // update areas
@@ -113,7 +112,7 @@ public class GameSystem implements PlayerInAdapter {
                         turn.getPredatorPlacementZone(), turn.getRotationDegrees())) {
                 } else {
                     outAdapter.forfeitIllegalMeeple(getCurrentPlayerID());
-                    outAdapter.notifyEndGame(scorer.getPlayerScores());
+                    endOfGame();
                 }
             } else if ( !turn.placingPredator() ) {
                 am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees());
@@ -127,9 +126,7 @@ public class GameSystem implements PlayerInAdapter {
     @Override
     public void receivePass(){
         tileUnplaceableCheck();
-        //TODO: Ask Dave if we need to broadcast a person's Unplaceable Turn.
-        //Add logic for dealing with unplaceable Tile PASS turns.
-        // outAdapter.successfulTurn();
+        outAdapter.successfulTurn();
         prepareNextTurn();
     }
 
@@ -148,11 +145,9 @@ public class GameSystem implements PlayerInAdapter {
             this.currentPlayer.incrementGoodSupply();
         }else{
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
         }
-
-        //Add logic for dealing with retrieving Tigers from a location with one placed.
-        // outAdapter.successfulTurn();
+        outAdapter.successfulTurn();
         prepareNextTurn();
     }
 
@@ -167,18 +162,16 @@ public class GameSystem implements PlayerInAdapter {
         BoardTile boardTile = gameBoard.getTile(position);
 
         int currentPlayerSupply = currentPlayer.getGoodSupply();
-        if(!(currentPlayerSupply == 0)){
+        if (!(currentPlayerSupply == 0)) {
             currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer);
             boardTile.placeTiger(tiger);
-        }else{
-            //forfeit
+        } else {
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
 
         }
-        //Add logic for dealing with placing an additional Tiger.
-        // outAdapter.successfulTurn();
+        outAdapter.successfulTurn();
         prepareNextTurn();
     }
 
@@ -207,9 +200,10 @@ public class GameSystem implements PlayerInAdapter {
     // If the current tile can be placed but they are taking one of the actions
     // for when the tile is unplaceable: invalid move; forfeit
     private void tileUnplaceableCheck(){
-        if(!currentTileCannotBePlaced)
+        if(!currentTileCannotBePlaced) {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            outAdapter.notifyEndGame(scorer.getPlayerScores());
+            endOfGame();
+        }
     }
 
     // Gets the next tile and checks if any remain / if the tile can be placed
@@ -231,15 +225,23 @@ public class GameSystem implements PlayerInAdapter {
         }
     }
 
-    //TODO: Do we need this?
-//    @Override
-//    public void triggerSendTurn() {
-//        outAdapter.sendTurnInitial(currentPlayer.getOwner(), currentTile);
-//    }
+    /**
+     * Only called in the event an illegal message is received so that the GameSystem is always the
+     * object to trigger the end of a game. Notifies the outAdapter of end of game.
+     */
+    @Override
+    public void forfeit() {
+        endOfGame();
+    }
 
     //========== Helper Methods ===========//
     private String getCurrentPlayerID() {
         return currentPlayer.getPlayerId();
+    }
+
+    // This method is used a lot so it makes the code a little clearer
+    private void endOfGame() {
+        outAdapter.notifyEndGame(scorer.getPlayerScores());
     }
 
 }

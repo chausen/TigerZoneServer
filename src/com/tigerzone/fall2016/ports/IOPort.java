@@ -27,11 +27,15 @@ public class IOPort implements PlayerOutAdapter {
     private int gid;
     private String loginName1;
     private String loginName2;
+    private int player1FinalScore;
+    private int player2FinalScore;
     private PlayableTile activeTile;
     private String activeplayer;
     private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
+
+
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -62,24 +66,6 @@ public class IOPort implements PlayerOutAdapter {
     public void initialize(PlayerInAdapter inAdapter) {
         this.inAdapter = inAdapter;
         inAdapter.setOutAdapter(this);
-    }
-
-    @Override
-    public void notifyBeginGame(List<PlayableTile> allTiles) {
-        PlayableTile firstTile = allTiles.get(0);
-        player1UpstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
-        player2UpstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName1);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("THE TILES ARE [ ");
-        Iterator<PlayableTile> iter = allTiles.iterator();
-        while (iter.hasNext()) {
-            stringBuilder.append(" ");
-            stringBuilder.append(iter.next().getTileString());
-        }
-        stringBuilder.append(" ] ");
-        broadcast(stringBuilder.toString());
-        broadcast("MATCH BEGINS IN 15 SECONDS");
-        currentUpstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME " + gid + " PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
     }
 
     @Override
@@ -169,8 +155,9 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public void receiveIllegalMove() {
+    public void receiveIllegalMessage() {
         broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        inAdapter.forfeit();
     }
 
     // Only forfeit condition handled in adapter
@@ -182,7 +169,7 @@ public class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast("GAME " + gid + " PLAYER " + getActivePlayer() + " PLACED " + currentTurnString);
+        broadcast("GAME " + gid + " PLAYER " + getActivePlayer() + currentTurnString);
         switchActivePlayer();
     }
 
@@ -214,17 +201,25 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void notifyEndGame(Map<Player, Integer> playerScores) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("GAME " + gid + " OUTCOME ");
-        Set<Player> players = playerScores.keySet();
-        Iterator<Player> iterator = players.iterator();
-        Player player1 = iterator.next();
-        Player player2 = iterator.next();
-        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
-        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
-        broadcast(stringBuilder.toString());
-        //        System.exit(0);
+        player1FinalScore = playerScores.get(loginName1);
+        player2FinalScore = playerScores.get(loginName2);
         gameOver = true;
+    }
+
+    /**
+     * To be called at the end of a game so that the match protocol can announce the winner / scores
+     * @param playerId
+     * @return the score of the player with playerId. Returns 0 if no player exists with that playerId
+     */
+    @Override
+    public int getFinalScore(String playerId) {
+        if (playerId.equals(loginName1)) {
+            return player1FinalScore;
+        } else if (playerId.equals(loginName2)) {
+            return player2FinalScore;
+        } else {
+            return 0;
+        }
     }
 
 

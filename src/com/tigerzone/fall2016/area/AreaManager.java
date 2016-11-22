@@ -192,6 +192,14 @@ public class AreaManager {
     }
 
     /**
+     * Returns the Gameboard of the AreaManager. Needed by TigerRetrieve() in GameSystem.
+     * @return the Gameboard
+     */
+    public GameBoard getGameBoard() {
+        return this.gameBoard;
+    }
+
+    /**
      * Returns the list of Den Areas
      * @return
      */
