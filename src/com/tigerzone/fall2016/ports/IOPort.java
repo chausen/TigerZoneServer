@@ -79,7 +79,7 @@ public class IOPort implements PlayerOutAdapter {
         stringBuilder.append(" ] ");
         broadcast(stringBuilder.toString());
         broadcast("MATCH BEGINS IN 15 SECONDS");
-        currentUpstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
+        currentUpstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME " + gid + " PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
     }
 
     @Override
@@ -126,18 +126,11 @@ public class IOPort implements PlayerOutAdapter {
             predator = new Tiger(activePlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
-            } else {
-                //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
-                broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
-                //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
             }
         } else if (predatorStr.equals("CROCODILE")) {
             predator = new Crocodile(activePlayer);
         } else if (predatorStr.equals("NONE")) {
             predator = null;
-        } else {
-            //TODO: See about TODO
-            broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
@@ -149,7 +142,6 @@ public class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
-        StringBuilder sb = new StringBuilder();
         scanner.next();//This gives us UNPLACEABLE.
         String determiner = scanner.next();//This gives us which one we need.
         switch(determiner){
@@ -176,16 +168,21 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
+    @Override
+    public void receiveIllegalMove() {
+        broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+    }
+
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast("GAME 1 PLAYER " + activeplayer + " FORFEITED QUIT");
+        broadcast("GAME " + gid + " PLAYER " + activeplayer + " FORFEITED QUIT");
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast("GAME "+gid+" PLAYER "+getActivePlayer()+" PLACED "+currentTurnString);
+        broadcast("GAME " + gid + " PLAYER " + getActivePlayer() + " PLACED " + currentTurnString);
         switchActivePlayer();
     }
 
@@ -202,23 +199,23 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
+        broadcast("GAME " +  gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
+        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
     }
 
     @Override
     public void notifyEndGame(Map<Player, Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("GAME 1 OUTCOME ");
+        stringBuilder.append("GAME " + gid + " OUTCOME ");
         Set<Player> players = playerScores.keySet();
         Iterator<Player> iterator = players.iterator();
         Player player1 = iterator.next();

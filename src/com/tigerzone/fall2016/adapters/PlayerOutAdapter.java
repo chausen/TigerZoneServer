@@ -13,6 +13,7 @@ public interface PlayerOutAdapter
     //TODO: Do we need to output this every turn, or just before the first move of the game? Delete if not.
     // public void sendTurnInitial(String currentPlayer, PlayableTile currentTile);
     public void receiveTurn(String s);
+    public void receiveIllegalMove();
     public void successfulTurn();
     public void reportScoringEvent(Map<Player,Integer> playerScores);
     public void forfeitInvalidMeeple(String currentPlayerID);
