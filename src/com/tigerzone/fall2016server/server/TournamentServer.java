@@ -52,6 +52,10 @@ public class TournamentServer {
         return ready;
     }
 
+    public void notifyChallengeComplete(){
+
+    }
+
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
         return playerThreads;
     }

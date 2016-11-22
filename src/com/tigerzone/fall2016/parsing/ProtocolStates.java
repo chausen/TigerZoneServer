@@ -14,6 +14,27 @@ enum ProtocolStates implements ProtocolState {
             Scanner scanner = context.getScanner();
             if (scanner.hasNext()) {
                 String token = scanner.next();
+                if (token.equals("GAME")) {
+                    int gid = context.getGid();
+                    if(scanner.hasNextInt()) {
+                        if(scanner.nextInt() == gid) {
+                            context.changeState(GAME, this);
+                            return true;
+                        }
+                    }
+                }
+            }
+            context.illegalMove();
+            return false;
+        }
+    },
+
+    GAME("Entry point to game messages") {
+        @Override
+        public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            if (scanner.hasNext()) {
+                String token = scanner.next();
                 if (token.equals("TILE")) {
                     context.changeState(TILE, this);
                     return true;

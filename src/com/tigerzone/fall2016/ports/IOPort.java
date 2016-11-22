@@ -75,6 +75,9 @@ public class IOPort implements PlayerOutAdapter {
 
         Scanner sc = new Scanner(s);
 
+        sc.next();
+        sc.next();
+        //Moving past the GAME and gid
         String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
         switch(determiner)
         {
