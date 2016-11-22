@@ -53,7 +53,7 @@ public class TournamentServer {
     }
 
     public void notifyChallengeComplete(){
-
+        //TODO: end of tournament shut down
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
