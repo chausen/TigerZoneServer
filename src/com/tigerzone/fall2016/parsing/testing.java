@@ -20,6 +20,7 @@ public class testing {
         System.out.println(testString1 + " is a valid move: " + context.wasMoveValid());
 
         context = new GameContext(scanner2, 1);
+
         psm.parse(context);
         System.out.println(testString2 + " is a valid move: " + context.wasMoveValid());
     }

@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016.ports.TextFilePort;
+import com.tigerzone.fall2016server.tournament.Challenge;
 import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -35,6 +37,9 @@ public class TournamentServer {
                 System.out.println("Created a connection with " + connection.getClientSocket());
                 System.out.println("This is the number of tournament players: " + tournamentPlayers.size());
             }
+            TextFilePort textFilePort = new TextFilePort();
+            Challenge challenge = new Challenge(this, textFilePort.createStringTiles(),123456789,tournamentPlayers);
+            challenge.startRound();
             for (TournamentPlayer tp: tournamentPlayers) {
                 System.out.println("These are the players " + tp.getUsername());
             }

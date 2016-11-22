@@ -69,7 +69,7 @@ public class Game extends Thread{
         }
 
         notifyComplete();
-        
+
     }
 
     private void notifyComplete(){

@@ -22,7 +22,6 @@ public class Challenge {
     private int cid;
     private int numOfRounds;
     private int numOfRoundsComplete;
-    private boolean challengeComplete = false;
 
     public Challenge(TournamentServer tournamentServers, String[] tiles, long seed, List<TournamentPlayer> players) {
         cid = challengeID++;
