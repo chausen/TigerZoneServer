@@ -13,26 +13,27 @@ public class ServerMain {
 
     public static void main(String[] args) {
 
-//        TournamentServer server = new TournamentServer(4444);
-//        try {
-//            server.login();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        TournamentProtocol tp = new TournamentProtocol();
-        Socket clientSocket;
+        TournamentServer server = new TournamentServer(4444);
         try {
-            //ServerSocket serverSocket = new ServerSocket(4444);
-            Connection connection = new Connection(4444);
-            while (true) {
-                //clientSocket = serverSocket.accept();
-                connection.accept();
-                connection.setupIO();
-                new MultiServerThread(connection).start();
-            }
-        } catch (IOException e) {
+            server.isLoginSuccessful();
+            server.startGame();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        TournamentProtocol tp = new TournamentProtocol();
+//        Socket clientSocket;
+//        try {
+            //ServerSocket serverSocket = new ServerSocket(4444);
+//            Connection connection = new Connection(4444);
+//            while (true) {
+                //clientSocket = serverSocket.accept();
+//                connection.accept();
+//                connection.setupIO();
+//                new MultiServerThread(connection).start();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

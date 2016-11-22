@@ -38,6 +38,7 @@ public class TournamentServer {
 
     public TournamentServer(int portNum) {
         this.portNum = portNum;
+        this.tournamentPlayers = new ArrayList<>();
     }
 
     public boolean isTournamentReady(){
@@ -85,7 +86,11 @@ public class TournamentServer {
     }
 
 
-    public boolean isLoginSuccessful(Connection connection) throws IOException {
+    public void isLoginSuccessful() throws IOException {
+        Connection connection = new Connection(portNum);
+        connection.accept();
+        connection.setupIO();
+
         Socket clientSocket = connection.getClientSocket();
         ServerSocket serverSocket = connection.getServerSocket();
         this.serverOutput = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -104,7 +109,7 @@ public class TournamentServer {
             serverOutput.println(outputLine);
                 if (outputLine.startsWith("WELCOME")) {
                     addPLayerToPlayerToList(connection, tp.getUser());
-                    return true;
+                    startGame();
                 }
 
                 if (outputLine.equals("NOPE GOODBYE")) {
@@ -113,15 +118,11 @@ public class TournamentServer {
                     serverInput.close();
                     clientSocket.close();
                     serverSocket.close();
-                    return false;
                 }
             }
         serverOutput.close();
         serverInput.close();
-        return true;
         }
-
-
 
     public void addPLayerToPlayerToList(Connection connection, String userName){
         TournamentPlayer tournamentPlayer = new TournamentPlayer(userName, connection);
@@ -130,9 +131,27 @@ public class TournamentServer {
 
     //This class is for testing purposes only
     public void startGame(){
+        System.out.println("in game method");
         TileStackGenerator stackGenerator = new TileStackGenerator();
         LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
-        Game game = new Game(1, tournamentPlayers.get(0), tournamentPlayers.get(1), tileStack);
+        TournamentPlayer player1 = tournamentPlayers.get(0);
+        Game game = new Game(1, player1,  player1, tileStack);
         game.start();
+        Connection player1Connection = player1.getConnection();
+
+        Deque<String> writeQueue = game.getReadQueue();
+
+        String player1Message = "";
+        try{
+
+            while ((player1Message = player1Connection.getIn().readLine()) != null) {
+                System.out.println("Reading input" + player1Message);
+
+                writeQueue.push(player1Message);
+            }
+        }catch(IOException e){
+
+        }
     }
+
 }
