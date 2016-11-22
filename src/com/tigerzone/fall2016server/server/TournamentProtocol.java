@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class TournamentProtocol {
     private static final int ENTER = 0;
     private static final int LOGIN = 1;
-    private static final int USERNAME = 2;
+    private static final int CREDENTIALS = 2;
     private static final int PASSWORD = 3;
     private static final int WAITING = 4;
 
@@ -37,58 +37,68 @@ public class TournamentProtocol {
         String tournamentPass = "TIGERZONE";
 
         if (state == ENTER) {
-            System.out.println("STATE IS enter IN PROTOCOL");
-            output = "TOURNAMENT PASSWORD?";
-            System.out.println("Soliciting tournament password");
-            state = LOGIN;
+                System.out.println("STATE IS enter IN PROTOCOL");
+                output = "THIS IS SPARTA!";
+                System.out.println("Soliciting tournament password");
+                state = LOGIN;
         } else if (state == LOGIN) {
             System.out.println("STATE IS login IN PROTOCOL");
-            if (input.equals(tournamentPass) && enterAttempts < 3) {
-                output = "USERNAME?";
-                System.out.println("Client entered correct tournament password");
-                state = USERNAME;
-            } else if (enterAttempts < 3){
-                output = "NOPE TRY AGAIN";
-                System.out.println("Client did not enter correct tournament password");
-                state = LOGIN;
-                enterAttempts++;
+            if (enterAttempts < 3) {
+                if (input.equals("JOIN " + tournamentPass)) {
+                    output = "HELLO!";
+                    System.out.println("Client entered correct tournament password");
+                    state = CREDENTIALS;
+                } else {
+                    output = "NOPE TRY AGAIN";
+                    System.out.println("Client did not enter correct tournament password");
+                    state = LOGIN;
+                    enterAttempts++;
+                }
             } else {
                 output = "NOPE GOODBYE";
                 System.out.println("Client did not enter correct tournament password");
                 enterAttempts = 0;
                 state = ENTER;
             }
-        } else if (state == USERNAME) {
-            System.out.println("STATE IS USERNAME IN PROTOCOL");
-            if (credentials.containsKey(input)) {
-                output = "PASSWORD?";
-                user = input;
-                System.out.println("User entered correct username" + user);
-                state = PASSWORD;
+        } else if (state == CREDENTIALS) {
+            if (loginAttempts < 3) {
+                if (input.startsWith("I AM ")) {
+                    String credentialString = input.substring(5);
+                    String[] credentialSplit = credentialString.split("\\s+");
+                    String username = "";
+                    String password = "";
+                    if (!(credentialSplit.length > 1)) {
+                        output = "NOPE TRY AGAIN";
+                        System.out.println("CATCHING SOME SHIT IN CS");
+                        enterAttempts++;
+                        state = CREDENTIALS;
+                    } else {
+                        username = credentialSplit[0];
+                        password = credentialSplit[1];
+                    }
+                    if (credentials.containsKey(username) && credentials.get(username).equals(password)) {
+                        user = username;
+                        output = "WELCOME " + user + " PLEASE WAIT FOR THE NEXT CHALLENGE";
+                        state = WAITING;
+                    } else {
+                        output = "NOPE TRY AGAIN";
+                        loginAttempts++;
+                        state = CREDENTIALS;
+                    }
+                } else {
+                    output = "NOPE TRY AGAIN";
+                    loginAttempts++;
+                    state = CREDENTIALS;
+                }
             } else {
-                output = "NOPE TRY AGAIN";
-                state = USERNAME;
-            }
-        } else if (state == PASSWORD && loginAttempts < 3) {
-            System.out.println("STATE IS PASSWORD IN PROTOCOL");
-            if (input.equals(credentials.get(user))) {
-                System.out.println("client entered correct PASSWORD");
-                output = "WELCOME " + user + " PLEASE WAIT FOR THE NEXT CHALLENGE";
-                state = WAITING;
-                //alert(); //alert begin?
-            } else if (loginAttempts < 3){
-                output = "NOPE TRY AGAIN";
-                loginAttempts++;
-                state = PASSWORD;
-            } else {
-                output = "NOPE GOODBYE";
-                loginAttempts=0;
+                output = "NOPE GOOD BYE";
+                System.out.println("TOO MANY LOGIN ATTEMPTS " + loginAttempts);
+                loginAttempts = 0;
                 state = ENTER;
             }
         } else {
-            output = "NOPE GOODBYE";
-            System.out.println("INVALID ENTRY");
-
+            output = "NOPE GOOD BYE";
+            System.out.println("INVALID ENTRY THAT DIDN'T ENTER ANY STATE LOGIC");
         }
         return output;
     }

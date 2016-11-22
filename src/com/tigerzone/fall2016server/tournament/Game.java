@@ -14,6 +14,7 @@ public class Game extends Thread{
     TournamentPlayer player1;
     TournamentPlayer player2;
     LinkedList<PlayableTile> tileStack;
+    private Match match;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.gameID = gameID;
@@ -50,5 +51,13 @@ public class Game extends Thread{
 //            // Send message to player2 socket
 //        }
 
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public int getGameID() {
+        return gameID;
     }
 }

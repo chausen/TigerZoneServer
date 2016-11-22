@@ -9,6 +9,8 @@ import java.util.LinkedList;
  * Created by lenovo on 11/17/2016.
  */
 public class Match {
+    private Round round;
+    private int matchID;
     private Game game1;
     private Game game2;
 
@@ -20,5 +22,13 @@ public class Match {
     public void startMatch() {
         game1.start();
         game2.start();
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+    public int getMatchID() {
+        return matchID;
     }
 }

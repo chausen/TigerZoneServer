@@ -30,6 +30,8 @@ public class TournamentServer {
     Challenge challenge;
     List<TournamentPlayer> tournamentPlayers;
 
+    Game game;
+
     public TournamentServer(int portNum, int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
         this.portNum = portNum;
@@ -45,8 +47,8 @@ public class TournamentServer {
 
     }
 
-
-    public void login() throws IOException {
+    public void gamePlay() throws IOException
+    {
         Connection connection = new Connection(portNum);
         connection.accept();
         connection.setupIO();
@@ -55,30 +57,43 @@ public class TournamentServer {
         ServerSocket serverSocket = connection.getServerSocket();
 
         String inputLine, outputLine;
-        TournamentProtocol tp = new TournamentProtocol();
-        outputLine = tp.login(null);
+        GameProtocol tp = new GameProtocol();
+        //outputLine = tp.game(null);
+        //connection.getOut().println(outputLine);
+
+
+
+    }
+
+    public void login() throws IOException {
+        Connection connection = new Connection(portNum);
+        connection.accept();
+        connection.setupIO();
+
+        String inputLine, outputLine;
+        LoginProtocol lp = new LoginProtocol();
+        outputLine = lp.login(null);
         connection.getOut().println(outputLine);
 
         while ((inputLine = connection.getIn().readLine()) != null) {
             System.out.println("Entering server with message" + inputLine);
-            outputLine = tp.login(inputLine);
+            outputLine = lp.login(inputLine);
             connection.getOut().println(outputLine);
-            if (outputLine.equals("NOPE GOOD BYE")) {
-                connection.getOut().println(outputLine);
                 if (outputLine.startsWith("WELCOME")) {
                     System.out.println("Player has been welcomed to the system");
                     break;
                 }
-                if (outputLine.equals("NOPE GOODBYE")) {
+                if (outputLine.equals("NOPE GOOD BYE")) {
+                    connection.getOut().println(outputLine);
                     System.out.println("Server says goodbye inside server");
-                    out.close();
-                    in.close();
-                    clientSocket.close();
-                    serverSocket.close();
+                    connection.getOut().close();
+                    connection.getIn().close();
+                    connection.getClientSocket().close();
+                    connection.getServerSocket().close();
+                    break;
                 }
             }
         }
-    }
 
     public Connection createConnection(int portNum) throws IOException {
         return new Connection(portNum);

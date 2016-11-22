@@ -13,6 +13,8 @@ import java.util.List;
 public class Round {
     List<TournamentPlayer> players;
     LinkedList<PlayableTile> tileStack;
+    private Challenge challenge;
+    private int roundID;
 
     /**
      * NOTE: players size should be even
@@ -47,5 +49,13 @@ public class Round {
         for(Match match : matches){
             match.startMatch();
         }
+    }
+
+    public Challenge getChallenge() {
+        return challenge;
+    }
+
+    public int getRoundID() {
+        return roundID;
     }
 }

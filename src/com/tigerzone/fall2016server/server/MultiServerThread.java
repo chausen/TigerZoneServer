@@ -1,6 +1,8 @@
 package com.tigerzone.fall2016server.server;
 
 
+import com.tigerzone.fall2016server.tournament.Game;
+
 import java.io.IOException;
 
 /**
@@ -9,6 +11,7 @@ import java.io.IOException;
 public class MultiServerThread extends Thread {
 
     private Connection connection;
+
 
     public MultiServerThread(Connection connection) {
         super("MultiServerThread");

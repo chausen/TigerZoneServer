@@ -17,7 +17,8 @@ public class ServerMain {
         try {
             server.login();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("GOT AN ERROR IN MAIN");
         }
 
     }

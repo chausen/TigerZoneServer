@@ -12,6 +12,7 @@ import java.util.Set;
 public class Challenge {
     LinkedList<PlayableTile> tiles;
     Set<TournamentPlayer> players;
+    private int challengeID;
 
     public Challenge(String[] tiles, long seed) {
         this.tiles = TileStackGenerator.generateTiles(tiles, seed);
@@ -21,5 +22,9 @@ public class Challenge {
     public int getPlayerCount() {
         int playerCount = players.size();
         return playerCount;
+    }
+
+    public int getChallengeID() {
+        return challengeID;
     }
 }

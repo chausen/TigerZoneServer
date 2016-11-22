@@ -41,7 +41,7 @@ public class Client {
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.equals("NOPE GOODBYE")) {
+                if (fromServer.equals("NOPE GOOD BYE")) {
                     System.out.println("Server says goodbye");
                     break;
                 }
