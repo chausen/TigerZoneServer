@@ -25,11 +25,12 @@ public class IOPort implements PlayerOutAdapter {
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
+    private int turnTime; // time allotted to place a turn
+    private int turnCount; // used to track the current turn #
     private String loginName1;
     private String loginName2;
     private int player1FinalScore;
     private int player2FinalScore;
-    private PlayableTile activeTile;
     private String activeplayer;
     private String activeMove;
     private String currentTurnString;
@@ -46,6 +47,8 @@ public class IOPort implements PlayerOutAdapter {
      */
     public IOPort(int gid, String loginName1, String loginName2, LinkedList<PlayableTile> tileStack) {
         this.gid = gid;
+        this.turnTime = 1;
+        this.turnCount = 1;
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
@@ -69,9 +72,23 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     @Override
+    public void promptForTurn(PlayableTile currentTile) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("MAKE YOUR MOVE IN GAME ");
+        sb.append(gid);
+        sb.append(" WITHIN ");
+        sb.append(turnTime);
+        String secondOrSeconds = (turnTime == 1) ? "SECOND" : "SECONDS";
+        sb.append(secondOrSeconds + ":");
+        sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
+        currentUpstreamMessages.add(sb.toString());
+    }
+
+    @Override
     public void receiveTurn(String s) {
         // Needed to output move is inAdapter finds it successful
         currentTurnString = s;
+        ++turnCount;
 
         Scanner sc = new Scanner(s);
 
@@ -227,10 +244,6 @@ public class IOPort implements PlayerOutAdapter {
 
 
     //========== Accessors ==========//
-
-    private PlayableTile getActiveTile(){
-        return activeTile;
-    }
 
     private String getActivePlayer(){
         return activeplayer;
