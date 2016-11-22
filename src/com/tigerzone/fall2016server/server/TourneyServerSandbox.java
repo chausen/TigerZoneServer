@@ -2,10 +2,7 @@ package com.tigerzone.fall2016server.server;
 
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.tournament.Challenge;
-import com.tigerzone.fall2016server.tournament.Game;
-import com.tigerzone.fall2016server.tournament.TournamentPlayer;
-import com.tigerzone.fall2016server.tournament.TileStackGenerator;
+import com.tigerzone.fall2016server.tournament.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -145,7 +142,7 @@ public class TourneyServerSandbox {
         TileStackGenerator stackGenerator = new TileStackGenerator();
         LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
         TournamentPlayer player1 = tournamentPlayers.get(0);
-        Game game = new Game(1, player1,  player1, tileStack);
+        Game game = new Game(1, player1,  player1, tileStack, null);
         game.start();
         Connection player1Connection = player1.getConnection();
 
