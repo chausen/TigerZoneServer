@@ -1,172 +1,64 @@
 package com.tigerzone.fall2016server.server;
 
-
-import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.tournament.Challenge;
-import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.TournamentPlayer;
-import com.tigerzone.fall2016server.tournament.TileStackGenerator;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
- * Created by lenovo on 11/17/2016.
+ * Created by lenovo on 11/19/2016.
  */
 public class TournamentServer {
-    BufferedReader serverInput;
-    PrintWriter serverOutput;
 
-    BufferedReader in;
-    PrintWriter out;
-    int numOfPlayers;
-    int portNum;
+    private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
+    private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
 
-    Challenge challenge;
-    List<TournamentPlayer> tournamentPlayers;
+    private static int PORT = 4444;
 
-    Game game;
+    public TournamentServer() { }
 
-    public TournamentServer(int portNum, int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
-        this.portNum = portNum;
-        this.tournamentPlayers = new ArrayList<>();
-    }
+    public void authenticate() {
 
-    public TournamentServer(int portNum) {
-        this.portNum = portNum;
-        this.tournamentPlayers = new ArrayList<>();
-    }
+        long startTime = System.currentTimeMillis();
 
-    public boolean isTournamentReady(){
-        return (this.tournamentPlayers.size() == this.numOfPlayers);
-
-    }
-
-    public void gamePlay() throws IOException
-    {
-        Connection connection = new Connection(portNum);
-        connection.accept();
-        connection.setupIO();
-
-        Socket clientSocket = connection.getClientSocket();
-        ServerSocket serverSocket = connection.getServerSocket();
-
-        String inputLine, outputLine;
-        GameProtocol tp = new GameProtocol();
-        //outputLine = tp.game(null);
-        //connection.getOut().println(outputLine);
-
-
-
-    }
-
-    public void login() throws IOException {
-        Connection connection = new Connection(portNum);
-        connection.accept();
-        connection.setupIO();
-
-        String inputLine, outputLine;
-        LoginProtocol lp = new LoginProtocol();
-        outputLine = lp.login(null);
-        connection.getOut().println(outputLine);
-
-        while ((inputLine = connection.getIn().readLine()) != null) {
-            System.out.println("Entering server with message" + inputLine);
-            outputLine = lp.login(inputLine);
-            connection.getOut().println(outputLine);
-                if (outputLine.startsWith("WELCOME")) {
-                    System.out.println("Player has been welcomed to the system");
-                    break;
-                }
-                if (outputLine.equals("NOPE GOOD BYE")) {
-                    connection.getOut().println(outputLine);
-                    System.out.println("Server says goodbye inside server");
-                    connection.getOut().close();
-                    connection.getIn().close();
-                    connection.getClientSocket().close();
-                    connection.getServerSocket().close();
-                    break;
-                }
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            Connection connection;
+            boolean running = ((System.currentTimeMillis()-startTime)<20000);
+            while (!tournamentReady()){
+                connection = new Connection(serverSocket);
+                connection.accept();
+                connection.setupIO();
+                new AuthenticationThread(connection).start();
+                System.out.println("Created a connection with " + connection.getClientSocket());
+                System.out.println("This is the number of tournament players: " + tournamentPlayers.size());
             }
-        }
-
-    public Connection createConnection(int portNum) throws IOException {
-        return new Connection(portNum);
-    }
-
-
-    public void isLoginSuccessful() throws IOException {
-        Connection connection = new Connection(portNum);
-        connection.accept();
-        connection.setupIO();
-
-        Socket clientSocket = connection.getClientSocket();
-        ServerSocket serverSocket = connection.getServerSocket();
-        this.serverOutput = new PrintWriter(clientSocket.getOutputStream(), true);
-        this.serverInput = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        String inputLine, outputLine;
-        TournamentProtocol tp = new TournamentProtocol();
-
-        outputLine = tp.login(null);
-
-        serverOutput.println(outputLine);
-
-        while ((inputLine = serverInput.readLine()) != null) {
-            System.out.println("Entering server with message" + inputLine);
-            outputLine = tp.login(inputLine);
-            serverOutput.println(outputLine);
-                if (outputLine.startsWith("WELCOME")) {
-                    addPLayerToPlayerToList(connection, tp.getUser());
-                    startGame();
-                }
-
-                if (outputLine.equals("NOPE GOODBYE")) {
-                    System.out.println("Server says goodbye inside server");
-                    serverOutput.close();
-                    serverInput.close();
-                    clientSocket.close();
-                    serverSocket.close();
-                }
+            for (TournamentPlayer tp: tournamentPlayers) {
+                System.out.println("These are the players " + tp.getUsername());
             }
-        serverOutput.close();
-        serverInput.close();
-        }
-
-    public void addPLayerToPlayerToList(Connection connection, String userName){
-        TournamentPlayer tournamentPlayer = new TournamentPlayer(userName, connection);
-        this.tournamentPlayers.add(tournamentPlayer);
-    }
-
-    //This class is for testing purposes only
-    public void startGame(){
-        System.out.println("in game method");
-        TileStackGenerator stackGenerator = new TileStackGenerator();
-        LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
-        TournamentPlayer player1 = tournamentPlayers.get(0);
-        Game game = new Game(1, player1,  player1, tileStack);
-        game.start();
-        Connection player1Connection = player1.getConnection();
-
-        Deque<String> writeQueue = game.getReadQueue();
-
-        String player1Message = "";
-        try{
-
-            while ((player1Message = player1Connection.getIn().readLine()) != null) {
-                System.out.println("Reading input" + player1Message);
-
-                writeQueue.push(player1Message);
-            }
-        }catch(IOException e){
-
+        } catch (IOException e) {
+            System.err.println("Could not listen on port " + PORT);
+            System.exit(-1);
         }
     }
 
+    public boolean tournamentReady() {
+        boolean ready = false;
+        if (tournamentPlayers.size()>=2) {
+            ready = true;
+        }
+        return ready;
+    }
+
+    public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
+        return playerThreads;
+    }
+
+    public static List<TournamentPlayer> getTournamentPlayers() {
+        return tournamentPlayers;
+    }
 }
+
+
