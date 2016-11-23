@@ -33,7 +33,7 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         challenge = new Challenge(this, seed, tournamentPlayers);
-        challenge.startRound();
+        challenge.beginChallenge();
     }
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
@@ -71,34 +71,6 @@ public class TournamentServer {
             System.exit(-1);
         }
     }
-
-
-    public void mattAuthenticate() {
-
-        long startTime = System.currentTimeMillis();
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            serverSocket.setSoTimeout(1000);
-            Connection connection;
-            boolean running = ((System.currentTimeMillis() - startTime) < 20000);
-            while (!tournamentReady()) {
-                connection = new Connection(serverSocket);
-                connection.accept();
-                connection.setupIO();
-                new AuthenticationThread(connection).start();
-                System.out.println("Created a connection with " + connection.getClientSocket());
-                System.out.println("This is the number of tournament players: " + tournamentPlayers.size());
-            }
-        } catch (IOException e) {
-            System.out.println("Some exception in matt's authenticate");
-        }
-        TextFilePort textFilePort = new TextFilePort();
-        challenge = new Challenge(this, seed, tournamentPlayers);
-        challenge.startRound();
-        for (TournamentPlayer tp : tournamentPlayers) {
-            System.out.println("These are the players " + tp.getUsername());
-        }
-    }
-
 
     public boolean tournamentReady() {
         boolean ready = false;

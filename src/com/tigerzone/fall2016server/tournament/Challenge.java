@@ -47,11 +47,13 @@ public class Challenge {
     }
 
     public void beginChallenge() {
+        sendMessageToPlayers();
         rounds = generateRounds();
         for (Round round: rounds) {
             round.playRound();
+            numOfRoundsComplete++;
         }
-
+        notifyComplete();
     }
 
     private void sendMessageToPlayers(){
@@ -67,44 +69,36 @@ public class Challenge {
     }
 
 
-    public int getPlayerCount() {
-        int playerCount = players.size();
-        return playerCount;
-    }
-
-
-    public void startRound(){
-        sendMessageToPlayers();
-        Round round = new Round(players, tiles);
-        round.startMatches();
-    }
-
     //erik generateRounds
     public Stack<Round> generateRounds(){
         Stack<Round> rounds = new Stack<>();
         Round round;
         for (int roundNumber = 0; roundNumber < numOfRounds; roundNumber++) {
-            round = new Round(RoundRobin.listMatches(players, roundNumber, tiles));
+            round = new Round(this, RoundRobin.listMatches(players, roundNumber, tiles));
+            round.setRoundID(roundNumber);
             rounds.push(round);
         }
         return rounds;
     }
 
     public void notifyComplete(){
-        numOfRoundsComplete++;
-        if(numOfRounds == numOfRoundsComplete){
             for(TournamentPlayer tournamentPlayer: players){
                 PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
                 printWriter.println("END OF CHALLENGES");
             }
             tournamentServer.notifyChallengeComplete();
         }
-        else{
-            startRound();
-        }
-    }
+
 
     public int getChallengeID() {
         return challengeID;
+    }
+
+    public List<TournamentPlayer> getPlayers() {
+        return players;
+    }
+
+    public int getNumOfRounds() {
+        return numOfRounds;
     }
 }

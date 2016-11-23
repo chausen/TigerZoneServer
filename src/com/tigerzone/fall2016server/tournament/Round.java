@@ -24,86 +24,66 @@ public class Round {
 
     List<Match> matches;
 
-    /**
-     * NOTE: players size should be even
-     * @param players
-     * @param tileStack
-     */
-    public Round(List<TournamentPlayer> players, LinkedList<PlayableTile> tileStack){
-        rid = roundID++;
-        this.players = players;
-        this.tileStack = tileStack;
-        numOfMatches = players.size()/2;
-        if(players.size()/2 % 2 == 0){
-            numOfRounds = players.size() - 1;
-        }
-        else {
-            numOfRounds = players.size();
-        }
-    }
 
     public Round(List<Match> matches) {
         this.matches = matches;
+        this.numOfMatches = matches.size();
+    }
+
+
+    public Round(Challenge challenge, List<Match> matches) {
+        this.challenge = challenge;
+        this.matches = matches;
+        this.numOfMatches = matches.size();
+        getChallengeInfo();
     }
 
     public void playRound() {
+        sendMessageToPlayers();
         for (Match match: matches) {
             match.playMatch();
         }
+        notifyComplete();
     }
 
-    /**
-     * Generates all Matches for the Round
-     * @return
-     */
-    List<Match> generateMatches(){
-        List<Match> matches = new ArrayList<>();
-        for(int i = 0; i < players.size() - 1; i = i + 2){
-            TournamentPlayer p1 = this.players.get(i);
-            TournamentPlayer p2 = this.players.get(i + 1);
-            Match match = new Match(p1, p2, this.tileStack);
-            matches.add(match);
-        }
-        return matches;
-    }
-
-    private List<Match> makeMatches(){
-        List<Match> matchList =  RoundRobin.listMatches(players,currentRound,tileStack);
-        currentRound++;
-        return matchList;
+    public void getChallengeInfo() {
+        this.players = challenge.getPlayers();
+        this.numOfRounds = challenge.getNumOfRounds();
     }
 
     private void sendMessageToPlayers(){
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("BEGIN ROUND " + rid + " OF " + numOfRounds);
+            printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
-    /**
-     * This method starts the current Round.
-     */
-    public void startMatches() {
-        sendMessageToPlayers();
-        List<Match> matches = makeMatches();
-        for(Match match : matches){
-            match.startGames();
+    public void notifyComplete() {
+        for(TournamentPlayer tournamentPlayer: players){
+            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+            printWriter.println("END OF ROUND " + rid + " OF " + numOfRounds);
         }
+        challenge.notifyComplete();
     }
 
-    public void notifyComplete(){
-        numOfMatchesComplete++;
-        if(numOfMatchesComplete == numOfMatches){
-            for(TournamentPlayer tournamentPlayer: players){
-                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-                printWriter.println("END OF ROUND " + rid + " OF " + numOfRounds);
-            }
-            challenge.notifyComplete();
-        }
+    public void setPlayers(List<TournamentPlayer> players) {
+        this.players = players;
     }
 
     public Challenge getChallenge() {
         return challenge;
+    }
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
+    }
+
+    public static void setRoundID(int roundID) {
+        Round.roundID = roundID;
+    }
+
+    public void setNumOfRounds(int numOfRounds) {
+        this.numOfRounds = numOfRounds;
     }
 
     public int getRoundID() {
