@@ -36,7 +36,8 @@ public class IOPort implements PlayerOutAdapter {
     private String currentTurnString;
     private boolean gameOver = false;
 
-
+    // Cleans up the outgoing messages starting with "GAME <gid> MOVE <#> PLAYER <pid>"
+    private String messagePrefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -176,20 +177,20 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void receiveIllegalMessage() {
-        broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         inAdapter.forfeit();
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast("GAME " + gid + " PLAYER " + activeplayer + " FORFEITED QUIT");
+        broadcast(messagePrefix + " FORFEITED QUIT");
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast("GAME " + gid + " PLAYER " + getActivePlayer() + currentTurnString);
+        broadcast(messagePrefix + " " + currentTurnString);
         switchActivePlayer();
     }
 
@@ -206,17 +207,17 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        broadcast("GAME " +  gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
+        broadcast(messagePrefix + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
+        broadcast(messagePrefix + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
+        broadcast(messagePrefix + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
     }
 
     @Override
