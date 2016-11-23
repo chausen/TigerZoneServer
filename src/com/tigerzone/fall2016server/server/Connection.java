@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -37,13 +38,18 @@ public class Connection {
         this.messageQueue = new LinkedList<>();
     }
 
-    public void accept() {
-       try {
-           clientSocket = serverSocket.accept();
-       } catch (IOException e) {
-           e.printStackTrace();
-       }
-   }
+    public Connection(ServerSocket serverSocket, Socket clientSocket) {
+        this.serverSocket = serverSocket;
+        this.clientSocket = clientSocket;
+        this.messageQueue = new LinkedList<>();
+    }
+
+
+
+    public void accept() throws IOException {
+        clientSocket = serverSocket.accept();
+    }
+
 
     public void setupIO() {
         try {

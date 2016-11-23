@@ -12,13 +12,8 @@ import java.util.List;
 public class AuthenticationThread extends Thread {
 
     private Connection connection;
-    private TournamentPlayer player;
-
     public Connection getConnection() {
         return connection;
-    }
-    public TournamentPlayer getPlayer() {
-        return player;
     }
 
     HashMap<TournamentPlayer, AuthenticationThread> playerThreads;
@@ -28,7 +23,6 @@ public class AuthenticationThread extends Thread {
         super("AuthenticationThread");
         this.connection=connection;
     }
-
 
     public void run() {
         try {
