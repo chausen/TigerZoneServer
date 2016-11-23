@@ -22,6 +22,8 @@ public class Round {
     private int currentRound = 0;
     private int numOfRounds;
 
+    List<Match> matches;
+
     /**
      * NOTE: players size should be even
      * @param players
@@ -37,6 +39,16 @@ public class Round {
         }
         else {
             numOfRounds = players.size();
+        }
+    }
+
+    public Round(List<Match> matches) {
+        this.matches = matches;
+    }
+
+    public void playRound() {
+        for (Match match: matches) {
+            match.playMatch();
         }
     }
 

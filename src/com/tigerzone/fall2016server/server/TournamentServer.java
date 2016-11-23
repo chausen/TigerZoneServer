@@ -7,10 +7,7 @@ import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/19/2016.
@@ -19,14 +16,29 @@ public class TournamentServer {
 
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
+    Challenge challenge;
 
     private static int PORT = 4444;
+    private static int seed = 123456789;
 
     public TournamentServer() {
     }
 
+
+    public void runTournament() {
+        authentication();
+        startChallenge(tournamentPlayers);
+    }
+
+
+    public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
+        challenge = new Challenge(this, seed, tournamentPlayers);
+        challenge.startRound();
+    }
+
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        ConnectionHandler connectionHandler = new ConnectionHandler(24);
+        int maxConnections = 24;
+        ConnectionHandler connectionHandler = new ConnectionHandler(maxConnections);
         connectionHandler.start();
         try {
             connectionHandler.join();
@@ -80,7 +92,7 @@ public class TournamentServer {
             System.out.println("Some exception in matt's authenticate");
         }
         TextFilePort textFilePort = new TextFilePort();
-        Challenge challenge = new Challenge(this, textFilePort.createStringTiles(), 123456789, tournamentPlayers);
+        challenge = new Challenge(this, seed, tournamentPlayers);
         challenge.startRound();
         for (TournamentPlayer tp : tournamentPlayers) {
             System.out.println("These are the players " + tp.getUsername());

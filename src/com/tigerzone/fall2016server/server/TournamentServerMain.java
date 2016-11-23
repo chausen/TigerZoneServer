@@ -14,7 +14,6 @@ public class TournamentServerMain {
 //        tournamentServer.authenticate();
         tournamentServer.authentication();
 
-
         System.out.println("While loop finally executed after 30 secs in main");
 
     }

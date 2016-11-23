@@ -29,6 +29,10 @@ public class Match {
         game2 = new Game(2, player2, player1, tileStack, this);
     }
 
+    public void playMatch() {
+        startGames();
+    }
+
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ ");
