@@ -30,7 +30,10 @@ public class Match {
     }
 
     public void playMatch() {
+        sendMessageToPlayers();
         startGames();
+        notifyComplete(game1.getGameID());
+        notifyComplete(game2.getGameID());
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -60,7 +63,6 @@ public class Match {
     }
 
     public void startGames() {
-        sendMessageToPlayers();
         game1.start();
         game2.start();
     }

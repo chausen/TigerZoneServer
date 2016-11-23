@@ -28,6 +28,7 @@ public class TournamentServer {
     public void runTournament() {
         authentication();
         startChallenge(tournamentPlayers);
+        notifyChallengeComplete();
     }
 
 
