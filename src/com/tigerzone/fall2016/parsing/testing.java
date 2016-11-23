@@ -15,11 +15,12 @@ public class testing {
         Scanner scanner1 = new Scanner(testString1);
         Scanner scanner2 = new Scanner(testString2);
 
-        Context context = new MatchContext(scanner1);
+        Context context = new GameContext(scanner1, 1);
         psm.parse(context);
         System.out.println(testString1 + " is a valid move: " + context.wasMoveValid());
 
-        context = new MatchContext(scanner2);
+        context = new GameContext(scanner2, 1);
+
         psm.parse(context);
         System.out.println(testString2 + " is a valid move: " + context.wasMoveValid());
     }

@@ -36,4 +36,20 @@ public class TextFilePort implements TileReadAdapter
         }
         return set;
     }
+
+    public String[] createStringTiles(){
+        String[] tiles = new String[76];
+        while(sc.hasNextLine()) {
+            int i = 0;
+            int multiple = sc.nextInt();//Number of this Tile to add.
+            sc.nextLine();//Move marker to next line.
+            String s = sc.nextLine();//Get Tile String rep.
+            for(int x = 0; x < multiple; x++)//For each multiple
+            {
+                tiles[i++] = s;
+            }
+        }
+        return tiles;
+    }
+
 }

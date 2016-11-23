@@ -79,6 +79,11 @@ public class IOPortTest {
             }
 
             public String getTurnString() { return turn; }
+
+            @Override
+            public void forfeit() {
+
+            }
         };
 
         cmdp.initialize(mockGameSystem);

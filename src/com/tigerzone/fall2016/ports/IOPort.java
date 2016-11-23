@@ -25,13 +25,18 @@ public class IOPort implements PlayerOutAdapter {
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
+    private int turnTime; // time allotted to place a turn
+    private int turnCount; // used to track the current turn #
     private String loginName1;
     private String loginName2;
-    private PlayableTile activeTile;
+    private int player1FinalScore;
+    private int player2FinalScore;
     private String activeplayer;
     private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
+
+
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -42,6 +47,8 @@ public class IOPort implements PlayerOutAdapter {
      */
     public IOPort(int gid, String loginName1, String loginName2, LinkedList<PlayableTile> tileStack) {
         this.gid = gid;
+        this.turnTime = 1;
+        this.turnCount = 1;
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
@@ -65,30 +72,29 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     @Override
-    public void notifyBeginGame(List<PlayableTile> allTiles) {
-        PlayableTile firstTile = allTiles.get(0);
-        player1UpstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName2);
-        player2UpstreamMessages.add("NEW MATCH YOUR OPPONENT IS " + loginName1);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("THE TILES ARE [ ");
-        Iterator<PlayableTile> iter = allTiles.iterator();
-        while (iter.hasNext()) {
-            stringBuilder.append(" ");
-            stringBuilder.append(iter.next().getTileString());
-        }
-        stringBuilder.append(" ] ");
-        broadcast(stringBuilder.toString());
-        broadcast("MATCH BEGINS IN 15 SECONDS");
-        currentUpstreamMessages.add("YOU ARE THE ACTIVE PLAYER IN GAME 1 PLACE " + firstTile.getTileString() + " WITHIN 1 SECONDS");
+    public void promptForTurn(PlayableTile currentTile) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("MAKE YOUR MOVE IN GAME ");
+        sb.append(gid);
+        sb.append(" WITHIN ");
+        sb.append(turnTime);
+        String secondOrSeconds = (turnTime == 1) ? "SECOND" : "SECONDS";
+        sb.append(secondOrSeconds + ":");
+        sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
+        currentUpstreamMessages.add(sb.toString());
     }
 
     @Override
     public void receiveTurn(String s) {
         // Needed to output move is inAdapter finds it successful
         currentTurnString = s;
+        ++turnCount;
 
         Scanner sc = new Scanner(s);
 
+        sc.next();
+        sc.next();
+        //Moving past the GAME and gid
         String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
         switch(determiner)
         {
@@ -126,18 +132,11 @@ public class IOPort implements PlayerOutAdapter {
             predator = new Tiger(activePlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
-            } else {
-                //TODO:  move this to server? Doesn't seem like a bad idea to leave it as an extra layer of protection
-                broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
-                //TODO: think of way to send the message for "notifyEndGame" that is usually only called by GS here
             }
         } else if (predatorStr.equals("CROCODILE")) {
             predator = new Crocodile(activePlayer);
         } else if (predatorStr.equals("NONE")) {
             predator = null;
-        } else {
-            //TODO: See about TODO
-            broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
@@ -149,7 +148,6 @@ public class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
-        StringBuilder sb = new StringBuilder();
         scanner.next();//This gives us UNPLACEABLE.
         String determiner = scanner.next();//This gives us which one we need.
         switch(determiner){
@@ -176,16 +174,22 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
+    @Override
+    public void receiveIllegalMessage() {
+        broadcast("GAME " + gid + " PLAYER " +  activeplayer + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        inAdapter.forfeit();
+    }
+
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast("GAME 1 PLAYER " + activeplayer + " FORFEITED QUIT");
+        broadcast("GAME " + gid + " PLAYER " + activeplayer + " FORFEITED QUIT");
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast("GAME "+gid+" PLAYER "+getActivePlayer()+" PLACED "+currentTurnString);
+        broadcast("GAME " + gid + " PLAYER " + getActivePlayer() + currentTurnString);
         switchActivePlayer();
     }
 
@@ -202,40 +206,44 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT "+ activeMove);
+        broadcast("GAME " +  gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT "+ activeMove);
+        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        broadcast("GAME 1 PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT "+ activeMove);
+        broadcast("GAME " + gid + " PLAYER " + currentPlayerID + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
     }
 
     @Override
     public void notifyEndGame(Map<Player, Integer> playerScores) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("GAME 1 OUTCOME ");
-        Set<Player> players = playerScores.keySet();
-        Iterator<Player> iterator = players.iterator();
-        Player player1 = iterator.next();
-        Player player2 = iterator.next();
-        stringBuilder.append("PLAYER " + player1.getPlayerId() + " " + playerScores.get(loginName1) + " ");
-        stringBuilder.append("PLAYER " + player2.getPlayerId() + " " + playerScores.get(loginName2));
-        broadcast(stringBuilder.toString());
-        //        System.exit(0);
+        player1FinalScore = playerScores.get(loginName1);
+        player2FinalScore = playerScores.get(loginName2);
         gameOver = true;
+    }
+
+    /**
+     * To be called at the end of a game so that the match protocol can announce the winner / scores
+     * @param playerId
+     * @return the score of the player with playerId. Returns 0 if no player exists with that playerId
+     */
+    @Override
+    public int getFinalScore(String playerId) {
+        if (playerId.equals(loginName1)) {
+            return player1FinalScore;
+        } else if (playerId.equals(loginName2)) {
+            return player2FinalScore;
+        } else {
+            return 0;
+        }
     }
 
 
     //========== Accessors ==========//
-
-    private PlayableTile getActiveTile(){
-        return activeTile;
-    }
 
     private String getActivePlayer(){
         return activeplayer;

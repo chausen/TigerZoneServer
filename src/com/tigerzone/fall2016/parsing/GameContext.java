@@ -7,17 +7,19 @@ import static com.tigerzone.fall2016.parsing.ProtocolStates.START;
 /**
  * Created by clayhausen on 11/19/16.
  */
-public class MatchContext implements Context {
+public class GameContext implements Context {
     private Scanner scanner;
     ProtocolState currentState;
     ProtocolState previousState;
     boolean validMove;
+    int gid;
 
-    public MatchContext(Scanner scanner) {
+    public GameContext(Scanner scanner, int gid) {
         this.scanner = scanner;
         this.currentState = START;
         this.previousState = null;
         this.validMove = false;
+        this.gid = gid;
     }
 
     @Override
@@ -54,5 +56,10 @@ public class MatchContext implements Context {
     @Override
     public boolean wasMoveValid() {
         return validMove;
+    }
+
+    @Override
+    public int getGid() {
+        return gid;
     }
 }
