@@ -33,7 +33,7 @@ public class Challenge {
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
         this.tiles = TileStackGenerator.generateTiles(seed);
-        if(players.size()/2 % 2 == 0){
+        if(players.size() % 2 == 0){
             numOfRounds = players.size() - 1;
         }
         else {
