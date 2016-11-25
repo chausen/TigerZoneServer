@@ -45,8 +45,8 @@ public class Challenge {
         rounds = generateRounds();
         for (Round round: rounds) {
             round.playRound();
-            System.out.println("PLAYING DIS ROUND " + round.getRoundID());
             numOfRoundsComplete++;
+            currentRound++;
         }
         notifyComplete();
     }

@@ -55,6 +55,7 @@ public class Round {
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
             printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+            System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
