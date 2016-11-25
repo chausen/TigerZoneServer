@@ -4,6 +4,7 @@ import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,7 +17,7 @@ public class ConnectionExecutor implements Runnable {
     protected int serverPort = 4444;
     protected Thread runningThread = null;
     protected ExecutorService threadPool =
-            Executors.newFixedThreadPool(10);
+            Executors.newFixedThreadPool(12);
 
     private List<TournamentPlayer> connectedPlayers;
     private int maxConnections;
@@ -44,14 +45,12 @@ public class ConnectionExecutor implements Runnable {
 
         try (ServerSocket serverSocket = new ServerSocket(serverPort)) {
             serverSocket.setSoTimeout(1000);
-            Connection connection;
+            Socket clientSocket = null;
             while (!tournamentReady(startTime)) {
                 try {
-                    connection = new Connection(serverSocket);
-                    connection.accept(); //the loop holds here until a new connection attempt is made
-                    connection.setupIO();
+                    clientSocket = serverSocket.accept();
                     this.threadPool.execute(
-                            new AuthenticationThread(connection));
+                            new AuthenticationThread(clientSocket));
                 } catch (IOException e) {
                     System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
                 }
@@ -59,8 +58,8 @@ public class ConnectionExecutor implements Runnable {
         } catch (IOException e) {
             System.out.println("Some IOException in ConnectionExecutor");
         }
-        this.threadPool.shutdown();
-        System.out.println("Server Stopped.");
+        //this.threadPool.shutdown();
+        //System.out.println("Server Stopped.");
     }
 
 

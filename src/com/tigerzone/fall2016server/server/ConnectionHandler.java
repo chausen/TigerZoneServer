@@ -4,6 +4,7 @@ import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
@@ -15,7 +16,6 @@ public class ConnectionHandler extends Thread {
     private static int port = 4444;
     private List<TournamentPlayer> connectedPlayers;
     private int maxConnections;
-
 
 
     public ConnectionHandler(int maxConnections) {
@@ -39,13 +39,11 @@ public class ConnectionHandler extends Thread {
         long startTime = System.currentTimeMillis();
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(1000);
-            Connection connection;
+            Socket clientSocket = null;
             while (!tournamentReady(startTime)) { //might need to spin a thread for authentication itself so can interrupt?
                 try {
-                    connection = new Connection(serverSocket);
-                    connection.accept(); //the loop holds here until a new connection attempt is made
-                    connection.setupIO();
-                    new AuthenticationThread(connection).start();
+                    clientSocket = serverSocket.accept();
+                    new AuthenticationThread(clientSocket).start();
                 } catch (SocketTimeoutException ste) {
                     //System.out.println("Waited 1000 millis but no connection made");
                 }

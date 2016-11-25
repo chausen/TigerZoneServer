@@ -10,9 +10,9 @@ public class TournamentServerMain {
     public static void main(String[] args) throws IOException {
 
         TournamentServer tournamentServer = new TournamentServer();
-        //tournamentServer.runTournament();
+        tournamentServer.runTournament();
         //tournamentServer.authenticationExecutor();
-        tournamentServer.authentication();
+//        tournamentServer.authentication();
         System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
 
 

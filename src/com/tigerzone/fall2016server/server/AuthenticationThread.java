@@ -2,7 +2,11 @@ package com.tigerzone.fall2016server.server;
 
 import com.tigerzone.fall2016server.tournament.TournamentPlayer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,37 +15,45 @@ import java.util.List;
  */
 public class AuthenticationThread extends Thread {
 
-    private Connection connection;
-    public Connection getConnection() {
-        return connection;
-    }
+    private Socket clientSocket;
+    private BufferedReader in;
+    private PrintWriter out;
 
     HashMap<TournamentPlayer, AuthenticationThread> playerThreads;
     List<TournamentPlayer> tournamentPlayers;
 
-    public AuthenticationThread(Connection connection) {
-        super("AuthenticationThread");
-        this.connection=connection;
+    public AuthenticationThread(Socket socket) {
+        this.clientSocket = socket;
+        try {
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
+        authenticate();
+    }
+
+    public void authenticate() {
         try {
             String input, output;
             LoginProtocol loginProtocol = new LoginProtocol();
             output = loginProtocol.login(null);
-            connection.getOut().println(output);
-            //connection.getServerSocket().setSoTimeout(10000);
-            System.out.println("Connected to " + connection.getClientSocket());
 
-            while ((input = connection.getIn().readLine()) != null) { //so this will not sotp
+            out.println(output);
+            clientSocket.setSoTimeout(20000);
+
+            while ((input = in.readLine()) != null) { //so this will not sotp
                 output = loginProtocol.login(input);
-                connection.getOut().println(output);
+                out.println(output);
                 if (output.equals("NOPE GOOD BYE")) {
-                    connection.close();
+                    clientSocket.close();
                     break;
                 }
                 if (output.startsWith("WELCOME")) {
-                    TournamentPlayer tournamentPlayer = new TournamentPlayer(loginProtocol.getUser(), connection);
+                    TournamentPlayer tournamentPlayer = new TournamentPlayer(loginProtocol.getUser(), new Connection(clientSocket));
                     tournamentPlayers = TournamentServer.getTournamentPlayers();
                     tournamentPlayers.add(tournamentPlayer);
                     playerThreads = TournamentServer.getPlayerThreads(); //might not need this
@@ -49,12 +61,15 @@ public class AuthenticationThread extends Thread {
                     break;
                 }
             }
-            //System.out.println("Connection in multiserverthread not reading lines anymore?");
-            //connection.getClientSocket().close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
+        } catch (IOException e) {
+            try {
+                out.close();
+                in.close();
+                clientSocket.close();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 
 }

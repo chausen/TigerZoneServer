@@ -45,6 +45,11 @@ public class Connection {
     }
 
 
+    public Connection(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        this.messageQueue = new LinkedList<>();
+        setupIO();
+    }
 
     public void accept() throws IOException {
         clientSocket = serverSocket.accept();
@@ -55,7 +60,6 @@ public class Connection {
             out.close();
             in.close();
             clientSocket.close();
-            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,8 +68,8 @@ public class Connection {
 
     public void setupIO() {
         try {
-            in = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
-            out = new PrintWriter(getClientSocket().getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

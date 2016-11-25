@@ -52,6 +52,8 @@ public class Challenge {
     }
 
     private void sendMessageToPlayers(){
+        System.out.println("CID " + cid);
+        System.out.println("num round " + numOfRounds);
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
             if(numOfRounds == 1) {

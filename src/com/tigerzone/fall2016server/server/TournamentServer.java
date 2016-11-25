@@ -20,6 +20,7 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
+    private static int MAX_CONNECTIONS = 2;
 
     public TournamentServer() {
     }
@@ -39,8 +40,7 @@ public class TournamentServer {
     }
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        int maxConnections = 24;
-        ConnectionHandler connectionHandler = new ConnectionHandler(maxConnections);
+        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS);
         connectionHandler.start();
         try {
             connectionHandler.join();
@@ -53,53 +53,13 @@ public class TournamentServer {
     }
 
     public void authenticationExecutor() {
-        int maxConnections = 24;
-        ConnectionExecutor connectionExecutor = new ConnectionExecutor(maxConnections);
+        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
         new Thread(connectionExecutor).start();
         for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
             System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
         }
     }
 
-    public void authenticate() { //handles authentication from within this server class
-
-        long startTime = System.currentTimeMillis();
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            serverSocket.setSoTimeout(1000);
-            Connection connection;
-            while (!tournamentReady(startTime)) { //might need to spin a thread for authentication itself so can interrupt?
-                try {
-                    connection = new Connection(serverSocket);
-                    connection.accept(); //the loop holds here until a new connection attempt is made
-                    connection.setupIO();
-                    new AuthenticationThread(connection).start();
-                } catch (SocketTimeoutException ste) {
-                    System.out.println("Waited 1000 millis but no connection made");
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Could not listen on port " + PORT);
-            System.exit(-1);
-        }
-    }
-
-    public boolean tournamentReady() {
-        boolean ready = false;
-        if (tournamentPlayers.size() >= 2) {
-            ready = true;
-        }
-        return ready;
-    }
-
-    public boolean tournamentReady(long start) {
-        boolean ready = false;
-        long timePassed = System.currentTimeMillis() - start;
-        System.out.println("This is how much time has passed in tournamnet ready " + timePassed);
-        if (tournamentPlayers.size() >= 24 || (timePassed > 40000)) {
-            ready = true;
-        }
-        return ready;
-    }
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
