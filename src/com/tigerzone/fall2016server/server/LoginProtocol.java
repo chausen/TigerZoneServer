@@ -90,5 +90,8 @@ public class LoginProtocol {
             return output;
         }
 
+    public int getState() {
+        return state;
     }
+}
 

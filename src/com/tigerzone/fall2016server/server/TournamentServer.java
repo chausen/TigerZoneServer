@@ -27,6 +27,7 @@ public class TournamentServer {
 
     public void runTournament() {
         authentication();
+        //authenticationExecutor();
         startChallenge(tournamentPlayers);
         notifyChallengeComplete();
     }
@@ -46,6 +47,15 @@ public class TournamentServer {
         } catch (InterruptedException e) {
             System.out.println("Interrupted");
         }
+        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
+        }
+    }
+
+    public void authenticationExecutor() {
+        int maxConnections = 24;
+        ConnectionExecutor connectionExecutor = new ConnectionExecutor(maxConnections);
+        new Thread(connectionExecutor).start();
         for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
             System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
         }

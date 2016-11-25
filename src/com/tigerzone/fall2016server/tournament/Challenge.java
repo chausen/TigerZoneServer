@@ -8,10 +8,7 @@ import com.tigerzone.fall2016server.server.TournamentServer;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -24,19 +21,16 @@ public class Challenge {
     private int cid;
     private int numOfRounds;
     private int numOfRoundsComplete;
-    Stack<Round> rounds;
+    List<Round> rounds;
 
     private int currentRound = 0;
 
-    TextFilePort tileTextInput;
 
     public Challenge(TournamentServer tournamentServers, long seed, List<TournamentPlayer> players) {
-        tileTextInput = new TextFilePort();
-        String[] stringTiles = tileTextInput.createStringTiles();
 
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
-        this.tiles = TileStackGenerator.generateTiles(stringTiles, seed);
+        this.tiles = TileStackGenerator.generateTiles(seed);
         if(players.size()/2 % 2 == 0){
             numOfRounds = players.size() - 1;
         }
@@ -51,6 +45,7 @@ public class Challenge {
         rounds = generateRounds();
         for (Round round: rounds) {
             round.playRound();
+            System.out.println("PLAYING DIS ROUND " + round.getRoundID());
             numOfRoundsComplete++;
         }
         notifyComplete();
@@ -68,15 +63,14 @@ public class Challenge {
         }
     }
 
-
     //erik generateRounds
-    public Stack<Round> generateRounds(){
-        Stack<Round> rounds = new Stack<>();
+    public List<Round> generateRounds(){
+        List<Round> rounds = new ArrayList<>();
         Round round;
-        for (int roundNumber = 0; roundNumber < numOfRounds; roundNumber++) {
+        for (int roundNumber = 1; roundNumber <= numOfRounds; roundNumber++) {
             round = new Round(this, RoundRobin.listMatches(players, roundNumber, tiles));
             round.setRoundID(roundNumber);
-            rounds.push(round);
+            rounds.add(round);
         }
         return rounds;
     }

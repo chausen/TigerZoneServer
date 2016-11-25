@@ -61,9 +61,9 @@ public class Round {
     public void notifyComplete() {
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("END OF ROUND " + rid + " OF " + numOfRounds);
+            printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
         }
-        challenge.notifyComplete();
+        //challenge.notifyComplete();
     }
 
     public void setPlayers(List<TournamentPlayer> players) {

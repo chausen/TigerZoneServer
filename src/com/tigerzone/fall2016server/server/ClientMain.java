@@ -12,11 +12,14 @@ public class ClientMain {
 
     public static void main(String[] args) {
         Client client = new Client("localhost", 4444);
+        System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
+
         try {
             client.login();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 }

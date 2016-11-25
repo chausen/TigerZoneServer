@@ -10,11 +10,19 @@ public class TournamentServerMain {
     public static void main(String[] args) throws IOException {
 
         TournamentServer tournamentServer = new TournamentServer();
+        //tournamentServer.runTournament();
+        //tournamentServer.authenticationExecutor();
+        tournamentServer.authentication();
+        System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
+
+
+//        ConnectionExecutor connectionExecutor = new ConnectionExecutor(3);
+//        new Thread(connectionExecutor).start();
 
 //        tournamentServer.authenticate();
-        tournamentServer.authentication();
+       // tournamentServer.authentication();
 
-        System.out.println("While loop finally executed after 30 secs in main");
+       // System.out.println("While loop finally executed after 30 secs in main");
 
     }
 

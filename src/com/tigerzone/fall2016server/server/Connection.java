@@ -50,6 +50,17 @@ public class Connection {
         clientSocket = serverSocket.accept();
     }
 
+    public void close() {
+        try {
+            out.close();
+            in.close();
+            clientSocket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setupIO() {
         try {

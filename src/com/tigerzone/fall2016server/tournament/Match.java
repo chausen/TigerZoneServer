@@ -32,8 +32,9 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         startGames();
-        notifyComplete(game1.getGameID());
-        notifyComplete(game2.getGameID());
+        notifyEndGameToPlayers();
+        //notifyComplete(game1.getGameID());
+        //notifyComplete(game2.getGameID());
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -53,6 +54,12 @@ public class Match {
         printWriter.println("STARTING TILE IS TLTJ- AT 0 0 0");
         printWriter.println("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
         printWriter.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
+
+
+        System.out.println("YOUR OPPONENT IS PLAYER" + userName);
+        System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
+        System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
+        System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
     }
 
     private void sendMessageToPlayers(){
@@ -98,5 +105,9 @@ public class Match {
 
     public int getMatchID() {
         return matchID;
+    }
+
+    public void setMatchID(int matchID) {
+        this.matchID = matchID;
     }
 }
