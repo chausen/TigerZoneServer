@@ -95,7 +95,7 @@ public class Match {
         game2complete = gID == game2.getGameID() ? true : game2complete;
         if(game1complete && game2complete){
             notifyEndGameToPlayers();
-            round.notifyComplete();
+            //round.notifyComplete();
         }
     }
 
