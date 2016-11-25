@@ -22,6 +22,8 @@ public class Challenge {
     private int numOfRounds;
     private int numOfRoundsComplete;
     List<Round> rounds;
+    //Queue<Round> rounds;
+
 
     private int currentRound = 0;
 
@@ -52,8 +54,6 @@ public class Challenge {
     }
 
     private void sendMessageToPlayers(){
-        System.out.println("CID " + cid);
-        System.out.println("num round " + numOfRounds);
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
             if(numOfRounds == 1) {
@@ -76,6 +76,19 @@ public class Challenge {
         }
         return rounds;
     }
+
+    //erik generateRounds
+    public Queue<Round> generateRounds2(){
+        Queue<Round> rounds = new LinkedList<>();
+        Round round;
+        for (int roundNumber = 1; roundNumber <= numOfRounds; roundNumber++) {
+            round = new Round(this, RoundRobin.listMatches(players, roundNumber, tiles));
+            round.setRoundID(roundNumber);
+            rounds.add(round);
+        }
+        return rounds;
+    }
+
 
     public void notifyComplete(){
             for(TournamentPlayer tournamentPlayer: players){
