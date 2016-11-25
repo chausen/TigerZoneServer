@@ -63,24 +63,19 @@ public class Client {
     public void defaultLogin() throws Exception {
         String fromServer;
         while ((fromServer = in.readLine()) != null) {
-            if (fromServer.equals("NOPE GOODBYE")) {
+            if (fromServer.equals("NOPE GOOD BYE")) {
                 System.out.println("Server says goodbye");
                 break;
             }
-            if (fromServer.startsWith("TOURNAMENT PASSWORD?")) {
-                out.println("TIGERZONE");
-                System.out.println("echo: password is TIGERZONE");
-            } else if (fromServer.startsWith("USERNAME?")) {
-                out.println("PLAYER1");
-                System.out.println("echo: username is PLAYER1");
-            } else if (fromServer.startsWith("PASSWORD?")) {
-                out.println("PASSWORD1");
-                System.out.println("echo: password is PASSWORD1");
+            if (fromServer.equals("THIS IS SPARTA!")) {
+                out.println("JOIN TIGERZONE");
+            } else if (fromServer.startsWith("HELLO!")) {
+                out.println("I AM PLAYER1 PASSWORD1");
             } else if (fromServer.startsWith("WELCOME")) {
                 System.out.println("ACCEPTED TO THE TOURNEY");
             }
+            }
         }
-    }
 
-}
+    }
 

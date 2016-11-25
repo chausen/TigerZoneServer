@@ -15,8 +15,7 @@ public class Round {
     List<TournamentPlayer> players;
     LinkedList<PlayableTile> tileStack;
     private Challenge challenge;
-    private static int roundID = 0;
-    private int rid;
+    private int roundID;
     private int numOfMatches;
     private int numOfMatchesComplete = 0;
     private int currentRound = 0;
@@ -55,7 +54,6 @@ public class Round {
         for(TournamentPlayer tournamentPlayer: players){
             PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
             printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
-            System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
@@ -79,8 +77,8 @@ public class Round {
         this.challenge = challenge;
     }
 
-    public static void setRoundID(int roundID) {
-        Round.roundID = roundID;
+    public void setRoundID(int roundID) {
+        this.roundID = roundID;
     }
 
     public void setNumOfRounds(int numOfRounds) {
