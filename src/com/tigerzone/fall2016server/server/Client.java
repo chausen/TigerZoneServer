@@ -45,6 +45,10 @@ public class Client {
                     System.out.println("Server says goodbye");
                     break;
                 }
+                if (fromServer.startsWith("WELCOME")) {
+                    System.out.println("Server says WELCOME");
+                    break;
+                }
                 userInput = stdIn.readLine();
                 if (userInput != null) {
                     out.println(userInput);
@@ -58,6 +62,31 @@ public class Client {
             System.exit(1);
         }
     }
+
+    public void waitForGame() {
+        try {
+            String fromServer;
+
+            while ((fromServer = in.readLine()) != null) {
+                System.out.println(fromServer);
+                if (fromServer.startsWith("MATCH BEGINS")) {
+                    break;
+                }
+                if (fromServer.equals("NOPE GOOD BYE")) {
+                    System.out.println("Server says goodbye");
+                    break;
+                }
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            System.exit(1);
+        }
+
+    }
+
 
 
     public void defaultLogin() throws Exception {
