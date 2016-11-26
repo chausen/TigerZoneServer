@@ -64,18 +64,17 @@ public class Game extends Thread{
                 e.printStackTrace();
         }
 
-
-
             if(!player1Messages.isEmpty()){
                 String message = player1Messages.remove();
                 System.out.println("GOT A MESSAGE IN message queue " + message);
-                player1.sendMessageToPlayer(message);
+                match.giveMessage(message,gameID);
+
             }
 
             if(!player2Messages.isEmpty()) {
                 String message = player2Messages.remove();
                 System.out.println("Got a messsage in message queue " + message);
-                player2.sendMessageToPlayer(message);
+                match.giveMessage(message,gameID);
             }
 
 //            if (!player1ReadQueue.isEmpty()) {
