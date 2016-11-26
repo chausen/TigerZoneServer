@@ -32,9 +32,7 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         startGames();
-        //notifyEndGameToPlayers();
-        //notifyComplete(game1.getGameID());
-        //notifyComplete(game2.getGameID());
+
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -95,7 +93,7 @@ public class Match {
         game2complete = gID == game2.getGameID() ? true : game2complete;
         if(game1complete && game2complete){
             notifyEndGameToPlayers();
-            //round.notifyComplete();
+            round.notifyComplete();
         }
     }
 
