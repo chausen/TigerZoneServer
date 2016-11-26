@@ -42,7 +42,8 @@ public class IOPortTest {
             }
 
             @Override
-            public void setOutAdapter(PlayerOutAdapter outAdapter) {}
+            public void setOutAdapter(PlayerOutAdapter outAdapter) {
+            }
 
             @Override
             public void receiveTurn(Turn t) {
@@ -78,7 +79,9 @@ public class IOPortTest {
 
             }
 
-            public String getTurnString() { return turn; }
+            public String getTurnString() {
+                return turn;
+            }
 
             @Override
             public void forfeit() {
@@ -117,16 +120,17 @@ public class IOPortTest {
     public void testNotifyEndGame() throws Exception {
 
     }
+
     @Test
     public void testSendTurn() throws Exception {
         Scanner sc = null;
         {
             try {
                 sc = new Scanner(new File(getClass().getResource("/com/tigerzone/fall2016/ports/Game.txt").getFile()));
-            } catch(FileNotFoundException exc){System.out.println("FATAL: The Tile text file cannot be found.");}
+            } catch (FileNotFoundException exc) {
+                System.out.println("FATAL: The Tile text file cannot be found.");
+            }
         }
-//        TextFilePort textFilePort = new TextFilePort();
-//        LinkedList<PlayableTile> tileStack = textFilePort.createTiles();
 
         TileStackGenerator tileStackGenerator = new TileStackGenerator();
         LinkedList<PlayableTile> tileStack = tileStackGenerator.createTilesFromTextFile(123456789);
@@ -135,13 +139,14 @@ public class IOPortTest {
         cmdp.initialize();
         cmdp.getInAdapter().truncateTS(20);//Make the tile set only 20
 
-        while(!cmdp.getCurrentMessageQueue().isEmpty()){
-            System.out.println(cmdp.getCurrentMessageQueue().remove());
+        while (!cmdp.isCurrentMessageQueueEmpty()) {
+            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
         }
-            while (!cmdp.isGameOver() && sc.hasNext()) {
-                String line = sc.nextLine();
+
+        while (!cmdp.isCurrentMessageQueueEmpty() && (!cmdp.isGameOver() && sc.hasNext())) {
+            String line = sc.nextLine();
             cmdp.receiveTurn(line);
-            System.out.println(cmdp.getCurrentMessageQueue().remove());
+            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
         }
     }
 }

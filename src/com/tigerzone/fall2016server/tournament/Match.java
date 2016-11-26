@@ -1,8 +1,8 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -39,7 +39,6 @@ public class Match {
             e.printStackTrace();
         }
         startGames();
-
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -115,18 +114,26 @@ public class Match {
         if(playerMessages.size() == numOfActiveGames){
             Set<Integer> keyset = playerMessages.keySet();
             Iterator<Integer> iterator = keyset.iterator();
+            List<Integer> removeList = new ArrayList<>();
             while(iterator.hasNext()){
                 Integer removeMessage = iterator.next();
                 sendGameMessage(playerMessages.get(removeMessage));
-                playerMessages.remove(removeMessage);
+                removeList.add(removeMessage);
             }
             checkForForfeit(playerMessage);
+            removeAll(removeList);
         }
     }
 
     public void checkForForfeit(String playerMessage){
         if(playerMessage.contains("FORFEITED")){
             decreaseNumOfActiveGames();
+        }
+    }
+
+    public void removeAll(List<Integer> removeList){
+        for(Integer integer: removeList){
+            playerMessages.remove(integer);
         }
     }
 

@@ -1,13 +1,11 @@
 package com.tigerzone.fall2016server.tournament;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 import java.io.IOException;
-import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
+
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -17,22 +15,29 @@ public class Game extends Thread{
     private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
-    LinkedList<PlayableTile> tileStack;
     //private GamePlayerCommunication gamePlayerCommunication;
-    private IOPort ioPort;
+    private TournamentPlayer activePlayer;
+    private TournamentPlayer restingPlayer;
 
+    LinkedList<PlayableTile> tileStack;
+    private IOPort ioPort;
+    private static long MAX_PLAYER_DECISION_TIME = 1000;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
 
         this.gameID = gameID;
+
         this.player1 = player1;
+        this.activePlayer = this.player1;
+
         this.player2 = player2;
+        this.restingPlayer = this.player2;
+
         this.tileStack = tileStack;
         this.match = match;
         //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
-
 
     }
 
@@ -41,81 +46,79 @@ public class Game extends Thread{
         playGame();
     }
 
-    public void readMessageFromTournamemtPlayer(){
-
+    /**
+     * Method that puts current game thread to sleep
+     * for specified amount of milliseconds
+     * @param milliseconds
+     */
+    private void putGameThreadToSleep(int milliseconds){
+        try {
+            sleep(milliseconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void writeMessageToTournamentPlayer(){
+    /**
+     * This method swaps active player between
+     * player1 and player2 and vice-versa.
+     *
+     */
+    private void swapActivePlayer(){
+        TournamentPlayer placeHolder = this.activePlayer;
+        this.activePlayer = this.restingPlayer;
+        this.restingPlayer = placeHolder;
+    }
 
+    private boolean didActivePlayerTimeOut(TournamentPlayer previousActivePlayer){
+        return this.activePlayer == previousActivePlayer;
     }
 
     void playGame() {
-        ioPort.initialize();
-        Queue<String> player1Messages = ioPort.getPlayer1MessageQueue();
-        Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
-        System.out.println("Trying to play a game within Game");
 
-        TournamentPlayer activePlayer = player1;
-        TournamentPlayer otherPlayer = player2;
-        TournamentPlayer temp;
 
-        int loopCount = 0;
+            this.ioPort.initialize();
+            while (!this.ioPort.isGameOver()) {
+                //not sure if this logic is correct
+                while (this.ioPort.isCurrentMessageQueueEmpty()) {
+                    putGameThreadToSleep(20);
+                }
+                //send active player message from Game System
+                String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
+                this.activePlayer.sendMessageToPlayer(gameMessage);
 
-        try {
-            player1.setCommunicationTimeout(12000);
-            player2.setCommunicationTimeout(12000);
-        } catch (IOException e) {
-            System.out.println("Some timeout exceptions in game?");
-        }
+                long startTime = System.nanoTime();
+                long activePlayerDecisionTime = startTime;
 
-        // get input from socket and pass it to this method
-        while(!ioPort.isGameOver()) {
-            try {
-                sleep(200);
-            } catch (Exception e) {
-                e.printStackTrace();
-        }
+                TournamentPlayer previousActivePlayer = this.activePlayer;
+                while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
+                    putGameThreadToSleep(200);
 
-            loopCount++;
-            System.out.println("This is the game loop count:" + loopCount);
-            if(!player1Messages.isEmpty()){
-                String message = player1Messages.remove();
-                System.out.println("GOT A MESSAGE IN message queue " + message);
-                //match.giveMessage(message,gameID);
-                player1.sendMessageToPlayer(message);
+                    String activePlayerMessage = this.activePlayer.readPlayerMessage();
+                    //send active player's move to game
+                    if (activePlayerMessage != null) {
+                        this.ioPort.receiveTurn(activePlayerMessage);
+                        //swap resting player to be active player
+                        swapActivePlayer();
+                    } else {
+                        activePlayerDecisionTime = System.nanoTime() - startTime;
+                    }
+                }
 
+                //decide if active player should forfeit due to (TimeOut)
+                if (didActivePlayerTimeOut(previousActivePlayer)) {
+                    //active player should forfeit
+                }
             }
 
-            if(!player2Messages.isEmpty()) {
-                String message = player2Messages.remove();
-                System.out.println("Got a messsage in message queue " + message);
-                //match.giveMessage(message,gameID);
-                player2.sendMessageToPlayer(message);
-            }
-
-            try {
-                receiveMove(activePlayer);
-            } catch (IOException e) {
-                System.out.println("Caught exception in receive move in game");
-            }
-
-//            if (!player1ReadQueue.isEmpty()) {
-//                String messageFromServer = player1ReadQueue.pop();
-//                ioPort.receiveTurn(messageFromServer);
-//            }
+            notifyComplete();
         }
-
-        temp = otherPlayer;
-        otherPlayer = activePlayer;
-        activePlayer = temp;
-
-        notifyComplete();
-    }
 
     private void receiveMove(TournamentPlayer player) throws IOException {
         String move = "";
         move = player.playerInput();
         ioPort.receiveTurn(move);
+        notifyComplete();
     }
 
     private void notifyComplete(){
@@ -145,8 +148,4 @@ public class Game extends Thread{
     public int getPlayer2FinalScore(){
         return ioPort.getFinalScore(player2.getUsername());
     }
-
-//    public Deque<String> getPlayer1ReadQueue(){
-//        return this.player1ReadQueue;
-//    }
 }

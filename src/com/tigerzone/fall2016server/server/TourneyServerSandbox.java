@@ -2,7 +2,11 @@ package com.tigerzone.fall2016server.server;
 
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
+import com.tigerzone.fall2016server.server.protocols.LoginProtocol;
+import com.tigerzone.fall2016server.server.protocols.TournamentProtocol;
 import com.tigerzone.fall2016server.tournament.*;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -48,7 +52,7 @@ public class TourneyServerSandbox {
         ServerSocket serverSocket = connection.getServerSocket();
 
         String inputLine, outputLine;
-        GameProtocol tp = new GameProtocol();
+        GameToClientMessageFormatter tp = new GameToClientMessageFormatter();
         //outputLine = tp.game(null);
         //connection.getOut().println(outputLine);
 

@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class CmdPromptInterface {
     private IOPort gamePort;
     private Scanner scanner;
-    private Queue<String> msgQueue;
+    //private Queue<String> msgQueue;
     private String message;
     private String turn;
 
@@ -31,7 +31,7 @@ public class CmdPromptInterface {
         login();
 
         gamePort = new IOPort(gid, loginName1, loginName2, tileStack);
-        msgQueue = gamePort.getCurrentMessageQueue();
+        //msgQueue = gamePort.getCurrentMessageQueue();
 
         gamePort.initialize();
 
@@ -56,8 +56,8 @@ public class CmdPromptInterface {
     }
 
     private void outputDownstreamMessages() {
-        while (!msgQueue.isEmpty()) {
-            message = msgQueue.remove();
+        while (!gamePort.isCurrentMessageQueueEmpty()) {
+            message = gamePort.getMessageFromCurrentMessageQueue();
             System.out.println(message);
         }
     }

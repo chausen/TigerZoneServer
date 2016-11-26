@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016server.tournament.TournamentPlayer;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
