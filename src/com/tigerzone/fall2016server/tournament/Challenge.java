@@ -20,7 +20,7 @@ public class Challenge {
     private static int challengeID = 0;
     private int cid;
     private int numOfRounds;
-    private int numOfRoundsComplete;
+    private int numOfRoundsComplete = 0;
     List<Round> rounds;
     //Queue<Round> rounds;
 
@@ -91,12 +91,15 @@ public class Challenge {
 
 
     public void notifyComplete(){
-            for(TournamentPlayer tournamentPlayer: players){
+        numOfRoundsComplete++;
+        if(numOfRoundsComplete == numOfRounds) {
+            for (TournamentPlayer tournamentPlayer : players) {
                 PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
                 printWriter.println("END OF CHALLENGES");
             }
             tournamentServer.notifyChallengeComplete();
         }
+    }
 
 
     public int getChallengeID() {

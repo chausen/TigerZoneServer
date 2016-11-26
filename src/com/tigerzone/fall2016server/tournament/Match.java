@@ -37,9 +37,7 @@ public class Match {
             e.printStackTrace();
         }
         startGames();
-        notifyEndGameToPlayers();
-        //notifyComplete(game1.getGameID());
-        //notifyComplete(game2.getGameID());
+
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){

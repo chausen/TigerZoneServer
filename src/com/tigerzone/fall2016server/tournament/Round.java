@@ -42,7 +42,7 @@ public class Round {
         for (Match match: matches) {
             match.playMatch();
         }
-        notifyComplete();
+        //notifyComplete();
     }
 
     public void getChallengeInfo() {
@@ -58,11 +58,14 @@ public class Round {
     }
 
     public void notifyComplete() {
-        for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
+        numOfMatchesComplete++;
+        if(numOfMatchesComplete == numOfMatches) {
+            for (TournamentPlayer tournamentPlayer : players) {
+                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+                printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
+            }
+            challenge.notifyComplete();
         }
-        //challenge.notifyComplete();
     }
 
     public void setPlayers(List<TournamentPlayer> players) {
