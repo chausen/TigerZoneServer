@@ -9,10 +9,10 @@ import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Jeff on 2016/11/13.
@@ -35,9 +35,6 @@ public class IOPort implements PlayerOutAdapter {
     private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
-
-    // Cleans up the outgoing messages starting with "GAME <gid> MOVE <#> PLAYER <pid>"
-    private String messagePrefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -180,20 +177,20 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void receiveIllegalMessage() {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast(messagePrefix + " FORFEITED QUIT");
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast(messagePrefix + " " + currentTurnString);
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
         switchActivePlayer();
     }
 
@@ -210,17 +207,20 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
+        broadcast(forfeitMessage);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
+        broadcast(forfeitMessage);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT ");
+        broadcast(forfeitMessage);
     }
 
     @Override
