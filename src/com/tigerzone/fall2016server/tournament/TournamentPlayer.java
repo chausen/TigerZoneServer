@@ -2,6 +2,8 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016server.server.Connection;
 
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.Deque;
 
 /**
@@ -53,4 +55,22 @@ public class TournamentPlayer {
     public String readPlayerMessage(){
         return this.connection.receiveMessageFromPlayer();
     }
+
+    public String playerInput() throws IOException {
+        String input = connection.playerInput();
+        return input;
+    }
+
+    public void playerOutput(String message) {
+        connection.playerOutput(message);
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public void setCommunicationTimeout(int millis) throws SocketException {
+        connection.setCommunicationTimeout(millis);
+    }
+
 }

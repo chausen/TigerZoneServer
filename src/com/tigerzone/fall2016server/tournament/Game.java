@@ -3,6 +3,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -18,14 +19,10 @@ public class Game extends Thread{
     LinkedList<PlayableTile> tileStack;
     //private GamePlayerCommunication gamePlayerCommunication;
     private IOPort ioPort;
-    private static final int WAITING_FOR_MOVE = 3;
-    private static final int SENDING_MOVE = 3;
-
 
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
-        ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
         this.gameID = gameID;
         this.player1 = player1;
@@ -33,6 +30,9 @@ public class Game extends Thread{
         this.tileStack = tileStack;
         this.match = match;
         //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
+        ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
+
+
     }
 
     @Override
@@ -54,8 +54,11 @@ public class Game extends Thread{
         Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
         System.out.println("Trying to play a game within Game");
 
+        TournamentPlayer activePlayer = player1;
+        TournamentPlayer otherPlayer = player2;
+        TournamentPlayer temp;
 
-
+        int loopCount = 0;
         // get input from socket and pass it to this method
         while(!ioPort.isGameOver()) {
             try {
@@ -64,6 +67,8 @@ public class Game extends Thread{
                 e.printStackTrace();
         }
 
+            loopCount++;
+            System.out.println("This is the game loop count:" + loopCount);
             if(!player1Messages.isEmpty()){
                 String message = player1Messages.remove();
                 System.out.println("GOT A MESSAGE IN message queue " + message);
@@ -77,18 +82,29 @@ public class Game extends Thread{
                 match.giveMessage(message,gameID);
             }
 
+            receiveMove(activePlayer);
+
+
 //            if (!player1ReadQueue.isEmpty()) {
 //                String messageFromServer = player1ReadQueue.pop();
 //                ioPort.receiveTurn(messageFromServer);
 //            }
         }
 
-        notifyComplete();
+        temp = otherPlayer;
+        otherPlayer = activePlayer;
+        activePlayer = temp;
 
+        notifyComplete();
     }
 
     private void receiveMove(TournamentPlayer player) {
-        String move = player.readPlayerMessage();
+        String move = "";
+        try {
+            move = player.playerInput();
+        } catch (IOException e) {
+            System.out.println("Didn't receive player move in Game");
+        }
         ioPort.receiveTurn(move);
     }
 

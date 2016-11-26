@@ -96,7 +96,7 @@ public class Client {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
                 if (fromServer.startsWith("MAKE")) {
-                    userInput = "GAME 0 PLACE JJJJX AT -1 0 0 NONE";
+                    userInput = "GAME 1 PLACE JJJJX AT -1 0 0 NONE";
                     System.out.println(userInput);
                     out.println(userInput);
                 }
@@ -129,9 +129,30 @@ public class Client {
                 out.println("I AM PLAYER1 PASSWORD1");
             } else if (fromServer.startsWith("WELCOME")) {
                 System.out.println("ACCEPTED TO THE TOURNEY");
+                break;
             }
+
             }
         }
+
+    public void defaultLogin2() throws Exception {
+        String fromServer;
+        while ((fromServer = in.readLine()) != null) {
+            if (fromServer.equals("NOPE GOOD BYE")) {
+                System.out.println("Server says goodbye");
+                break;
+            }
+            if (fromServer.equals("THIS IS SPARTA!")) {
+                out.println("JOIN TIGERZONE");
+            } else if (fromServer.startsWith("HELLO!")) {
+                out.println("I AM PLAYER2 PASSWORD2");
+            } else if (fromServer.startsWith("WELCOME")) {
+                System.out.println("ACCEPTED TO THE TOURNEY");
+                break;
+            }
+
+        }
+    }
 
     }
 

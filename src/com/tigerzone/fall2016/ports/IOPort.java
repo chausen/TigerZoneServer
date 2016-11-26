@@ -193,7 +193,8 @@ public class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast(messagePrefix + " " + currentTurnString);
+        String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
+        broadcast(prefix + " " + currentTurnString);
         switchActivePlayer();
     }
 

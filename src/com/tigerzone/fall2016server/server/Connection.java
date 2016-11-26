@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -75,6 +76,10 @@ public class Connection {
         }
     }
 
+    public void setCommunicationTimeout(int millis) throws SocketException {
+        this.clientSocket.setSoTimeout(millis);
+    }
+
     public int getPort() {
         return port;
     }
@@ -101,10 +106,18 @@ public class Connection {
         this.out.println(message);
     }
 
-    public String receiveMessageFromPlayer(){
-        return "";
+    public String receiveMessageFromPlayer() {
+       return "";
     }
 
+    public String playerInput() throws IOException {
+        String message = this.in.readLine();
+        return message;
+    }
+
+    public void playerOutput(String message) {
+        this.out.println(message);
+    }
 
     public Queue<String> getMessageQueue() {
         return messageQueue;
