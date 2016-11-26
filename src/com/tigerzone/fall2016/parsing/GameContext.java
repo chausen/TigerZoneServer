@@ -13,6 +13,7 @@ public class GameContext implements Context {
     ProtocolState previousState;
     boolean validMove;
     int gid;
+    int moveNumber = 0;
 
     public GameContext(Scanner scanner, int gid) {
         this.scanner = scanner;
@@ -61,5 +62,14 @@ public class GameContext implements Context {
     @Override
     public int getGid() {
         return gid;
+    }
+
+    @Override
+    public boolean compareMoveNum(int moveNumber) {
+        moveNumber++;
+        if(moveNumber == this.moveNumber){
+            return true;
+        }
+        return false;
     }
 }

@@ -18,6 +18,26 @@ enum ProtocolStates implements ProtocolState {
                     int gid = context.getGid();
                     if(scanner.hasNextInt()) {
                         if(scanner.nextInt() == gid) {
+                            context.changeState(MOVE, this);
+                            return true;
+                        }
+                    }
+                }
+            }
+            context.illegalMove();
+            return false;
+        }
+    },
+
+    MOVE("Move number specified") {
+        @Override
+        public boolean parse(Context context) {
+            Scanner scanner = context.getScanner();
+            if (scanner.hasNext()) {
+                String token = scanner.next();
+                if (token.equals("MOVE")) {
+                    if(scanner.hasNextInt()) {
+                        if(context.compareMoveNum(scanner.nextInt())) {
                             context.changeState(GAME, this);
                             return true;
                         }

@@ -3,8 +3,6 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.io.PrintWriter;
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,31 +12,36 @@ import java.util.Queue;
  */
 public class Game extends Thread{
     private int gameID;
+    private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
     LinkedList<PlayableTile> tileStack;
-    private Match match;
-    Deque<String> readQueue;
+    //private GamePlayerCommunication gamePlayerCommunication;
     private IOPort ioPort;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
-        readQueue = new ArrayDeque<>();
+
         this.gameID = gameID;
         this.player1 = player1;
         this.player2 = player2;
         this.tileStack = tileStack;
         this.match = match;
-    }
-
-    public Deque<String> getReadQueue(){
-        return this.readQueue;
+        //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
     }
 
     @Override
     public void run(){
         playGame();
+    }
+
+    public void readMessageFromTournamemtPlayer(){
+
+    }
+
+    public void writeMessageToTournamentPlayer(){
+
     }
 
     void playGame() {
@@ -53,20 +56,20 @@ public class Game extends Thread{
                 sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
+        }
+
+            if(!player1Messages.isEmpty()){
+                player1.sendMessageToPlayer(player1Messages.remove());
             }
 
-            PrintWriter printWriter1 = player1.connection.getOut();
-            if(!player1Messages.isEmpty()){
-                printWriter1.println(player1Messages.remove());
-            }
-            PrintWriter printWriter2 = player2.connection.getOut();
             if(!player1Messages.isEmpty()) {
-                printWriter2.println(player2Messages.remove());
+                player2.sendMessageToPlayer(player2Messages.remove());
             }
-            if (!readQueue.isEmpty()) {
-                String messageFromServer = readQueue.pop();
-                ioPort.receiveTurn(messageFromServer);
-            }
+
+//            if (!player1ReadQueue.isEmpty()) {
+//                String messageFromServer = player1ReadQueue.pop();
+//                ioPort.receiveTurn(messageFromServer);
+//            }
         }
 
         notifyComplete();
@@ -100,4 +103,8 @@ public class Game extends Thread{
     public int getPlayer2FinalScore(){
         return ioPort.getFinalScore(player2.getUsername());
     }
+
+//    public Deque<String> getPlayer1ReadQueue(){
+//        return this.player1ReadQueue;
+//    }
 }

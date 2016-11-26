@@ -64,21 +64,20 @@ public class TourneyServerSandbox {
         String inputLine, outputLine;
         LoginProtocol lp = new LoginProtocol();
         outputLine = lp.login(null);
-        connection.getOut().println(outputLine);
+        connection.writeMessageToPlayer(outputLine);
 
         while ((inputLine = connection.getIn().readLine()) != null) {
             System.out.println("Entering server with message" + inputLine);
             outputLine = lp.login(inputLine);
-            connection.getOut().println(outputLine);
+            connection.writeMessageToPlayer(outputLine);
                 if (outputLine.startsWith("WELCOME")) {
                     System.out.println("Player has been welcomed to the system");
                     break;
                 }
                 if (outputLine.equals("NOPE GOOD BYE")) {
-                    connection.getOut().println(outputLine);
+                    connection.writeMessageToPlayer(outputLine);
                     System.out.println("Server says goodbye inside server");
-                    connection.getOut().close();
-                    connection.getIn().close();
+                    connection.close();
                     connection.getClientSocket().close();
                     connection.getServerSocket().close();
                     break;
@@ -106,14 +105,14 @@ public class TourneyServerSandbox {
         outputLine = tp.login(null);
 
         //serverOutput.println(outputLine);
-        connection.getOut().println(outputLine);
+        connection.writeMessageToPlayer(outputLine);
 
         //while ((inputLine = serverInput.readLine()) != null) {
         while ((inputLine = connection.getIn().readLine()) != null) {
             System.out.println("Entering server with message" + inputLine);
             outputLine = tp.login(inputLine);
             //serverOutput.println(outputLine);
-            connection.getOut().println(outputLine);
+            connection.writeMessageToPlayer(outputLine);
                 if (outputLine.startsWith("WELCOME")) {
                     addPLayerToPlayerToList(connection, tp.getUser());
                     startGame();
@@ -121,14 +120,12 @@ public class TourneyServerSandbox {
 
                 if (outputLine.equals("NOPE GOODBYE")) {
                     System.out.println("Server says goodbye inside server");
-                    connection.getIn().close();
-                    connection.getOut().close();
+                    connection.close();
                     clientSocket.close();
                     serverSocket.close();
                 }
             }
-        connection.getIn().close();
-        connection.getOut().close();
+        connection.close();
         }
 
     public void addPLayerToPlayerToList(Connection connection, String userName){
@@ -155,21 +152,21 @@ public class TourneyServerSandbox {
         Connection connection2 = new Connection(clientSocket2);
         Game game = new Game(1, player1,  player1, tileStack, null);
         game.start();
-        Connection player1Connection = player1.getConnection();
-
-        Deque<String> writeQueue = game.getReadQueue();
-
-        String player1Message = "";
-        try{
-
-            while ((player1Message = player1Connection.getIn().readLine()) != null) {
-                System.out.println("Reading input" + player1Message);
-
-                writeQueue.push(player1Message);
-            }
-        }catch(IOException e){
-
-        }
+//        Connection player1Connection = player1.getConnection();
+//
+//        Deque<String> writeQueue = game.getPlayer1ReadQueue();
+//
+//        String player1Message = "";
+//        try{
+//
+//            while ((player1Message = player1Connection.getIn().readLine()) != null) {
+//                System.out.println("Reading input" + player1Message);
+//
+//                writeQueue.push(player1Message);
+//            }
+//        }catch(IOException e){
+//
+//        }
     }
 
 }
