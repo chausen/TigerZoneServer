@@ -34,7 +34,7 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

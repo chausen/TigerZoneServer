@@ -3,7 +3,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
-
+import java.io.IOException;
 import java.util.LinkedList;
 
 
@@ -15,9 +15,9 @@ public class Game extends Thread{
     private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
+    //private GamePlayerCommunication gamePlayerCommunication;
     private TournamentPlayer activePlayer;
     private TournamentPlayer restingPlayer;
-
 
     LinkedList<PlayableTile> tileStack;
     private IOPort ioPort;
@@ -36,6 +36,8 @@ public class Game extends Thread{
 
         this.tileStack = tileStack;
         this.match = match;
+        //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
+
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
     }
@@ -74,39 +76,49 @@ public class Game extends Thread{
     }
 
     void playGame() {
-        this.ioPort.initialize();
-        while(!this.ioPort.isGameOver()) {
-            //not sure if this logic is correct
-            while(this.ioPort.isCurrentMessageQueueEmpty()){
-                putGameThreadToSleep(20);
-            }
-            //send active player message from Game System
-            String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
-            this.activePlayer.sendMessageToPlayer(gameMessage);
 
-            long startTime = System.nanoTime();
-            long activePlayerDecisionTime = startTime;
 
-            TournamentPlayer previousActivePlayer = this.activePlayer;
-            while(activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME){
-                putGameThreadToSleep(200);
+            this.ioPort.initialize();
+            while (!this.ioPort.isGameOver()) {
+                //not sure if this logic is correct
+                while (this.ioPort.isCurrentMessageQueueEmpty()) {
+                    putGameThreadToSleep(20);
+                }
+                //send active player message from Game System
+                String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
+                this.activePlayer.sendMessageToPlayer(gameMessage);
 
-                String activePlayerMessage = this.activePlayer.readPlayerMessage();
-                //send active player's move to game
-                if(activePlayerMessage != null){
-                    this.ioPort.receiveTurn(activePlayerMessage);
-                    //swap resting player to be active player
-                    swapActivePlayer();
-                }else{
-                    activePlayerDecisionTime = System.nanoTime() - startTime;
+                long startTime = System.nanoTime();
+                long activePlayerDecisionTime = startTime;
+
+                TournamentPlayer previousActivePlayer = this.activePlayer;
+                while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
+                    putGameThreadToSleep(200);
+
+                    String activePlayerMessage = this.activePlayer.readPlayerMessage();
+                    //send active player's move to game
+                    if (activePlayerMessage != null) {
+                        this.ioPort.receiveTurn(activePlayerMessage);
+                        //swap resting player to be active player
+                        swapActivePlayer();
+                    } else {
+                        activePlayerDecisionTime = System.nanoTime() - startTime;
+                    }
+                }
+
+                //decide if active player should forfeit due to (TimeOut)
+                if (didActivePlayerTimeOut(previousActivePlayer)) {
+                    //active player should forfeit
                 }
             }
 
-            //decide if active player should forfeit due to (TimeOut)
-            if(didActivePlayerTimeOut(previousActivePlayer)){
-                //active player should forfeit
-            }
+            notifyComplete();
         }
+
+    private void receiveMove(TournamentPlayer player) throws IOException {
+        String move = "";
+        move = player.playerInput();
+        ioPort.receiveTurn(move);
         notifyComplete();
     }
 
