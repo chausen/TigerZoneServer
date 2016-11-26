@@ -4,6 +4,7 @@ import com.tigerzone.fall2016server.server.Connection;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.Deque;
 
 /**

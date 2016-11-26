@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016server.tournament;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -59,6 +60,14 @@ public class Game extends Thread{
         TournamentPlayer temp;
 
         int loopCount = 0;
+
+        try {
+            player1.setCommunicationTimeout(12000);
+            player2.setCommunicationTimeout(12000);
+        } catch (IOException e) {
+            System.out.println("Some timeout exceptions in game?");
+        }
+
         // get input from socket and pass it to this method
         while(!ioPort.isGameOver()) {
             try {
@@ -84,8 +93,11 @@ public class Game extends Thread{
                 player2.sendMessageToPlayer(message);
             }
 
-            receiveMove(activePlayer);
-
+            try {
+                receiveMove(activePlayer);
+            } catch (IOException e) {
+                System.out.println("Caught exception in receive move in game");
+            }
 
 //            if (!player1ReadQueue.isEmpty()) {
 //                String messageFromServer = player1ReadQueue.pop();
@@ -100,13 +112,9 @@ public class Game extends Thread{
         notifyComplete();
     }
 
-    private void receiveMove(TournamentPlayer player) {
+    private void receiveMove(TournamentPlayer player) throws IOException {
         String move = "";
-        try {
-            move = player.playerInput();
-        } catch (IOException e) {
-            System.out.println("Didn't receive player move in Game");
-        }
+        move = player.playerInput();
         ioPort.receiveTurn(move);
     }
 

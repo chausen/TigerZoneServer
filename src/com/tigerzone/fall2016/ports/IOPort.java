@@ -88,8 +88,14 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void receiveTurn(String s) {
         // Needed to output move is inAdapter finds it successful
+        //boolean received = false;
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
+
+        if (!s.contains("PLACE") || !s.contains("TILE") || !s.contains("QUIT")) {
+            receiveIllegalMessage();
+            return;
+        }
 
         Scanner sc = new Scanner(s);
 
@@ -103,16 +109,20 @@ public class IOPort implements PlayerOutAdapter {
             case "PLACE":
                 System.out.println("GOT PLACE WITHIN IOPORT");
                 receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                //received = true;
                 break;
 
             case "TILE":
                 receiveTurnTile(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                //received = true;
                 break;
 
             case "QUIT":
                 receiveTurnQuit();
+                //received = true;
                 break;
         }
+        //return received;
     }
 
     //========== Helper Methods for Receive Turn ==========//
@@ -179,6 +189,7 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void receiveIllegalMessage() {
+        // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null) 
         broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         inAdapter.forfeit();
     }
