@@ -58,11 +58,15 @@ public class Game extends Thread{
         }
 
             if(!player1Messages.isEmpty()){
-                player1.sendMessageToPlayer(player1Messages.remove());
+                String player1message = player1Messages.remove();
+//                player1.sendMessageToPlayer(player1message);
+                match.giveMessage(player1message, gameID);
             }
 
-            if(!player1Messages.isEmpty()) {
-                player2.sendMessageToPlayer(player2Messages.remove());
+            if(!player2Messages.isEmpty()) {
+                String player2message = player2Messages.remove();
+//                player2.sendMessageToPlayer(player2message);
+                match.giveMessage(player2message,gameID);
             }
 
 //            if (!player1ReadQueue.isEmpty()) {

@@ -3,8 +3,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -20,6 +19,8 @@ public class Match {
     private boolean game1complete = false;
     private boolean game2complete = false;
     private final int setUpTime = 10;
+    private Map<Integer, String> playerMessages = new HashMap<>();
+    private int numOfActiveGames = 2;
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -91,6 +92,28 @@ public class Match {
             notifyEndGameToPlayers();
             round.notifyComplete();
         }
+    }
+
+    public void sendGameMessage(String playerMessage){
+        player1.sendMessageToPlayer(playerMessage);
+        player2.sendMessageToPlayer(playerMessage);
+    }
+
+    public void giveMessage(String playerMessage, int gid){
+        playerMessages.put(gid, playerMessage);
+        if(playerMessages.size() == numOfActiveGames){
+            Set<Integer> keyset = playerMessages.keySet();
+            Iterator<Integer> iterator = keyset.iterator();
+            while(iterator.hasNext()){
+                Integer removeMessage = iterator.next();
+                sendGameMessage(playerMessages.get(removeMessage));
+                playerMessages.remove(removeMessage);
+            }
+        }
+    }
+
+    public void decreaseNumOfActiveGames(){
+        numOfActiveGames--;
     }
 
     public Round getRound() {
