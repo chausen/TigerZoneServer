@@ -232,10 +232,19 @@ public class IOPort implements PlayerOutAdapter {
         broadcast(forfeitMessage);
     }
 
+//    @Override
+//    public void notifyEndGame(Map<Player, Integer> playerScores) {
+//        Set<Player> players = playerScores.keySet();
+//
+//        player1FinalScore = playerScores.get(loginName1);
+//        player2FinalScore = playerScores.get(loginName2);
+//        gameOver = true;
+//    }
+
     @Override
-    public void notifyEndGame(Map<Player, Integer> playerScores) {
-        player1FinalScore = playerScores.get(loginName1);
-        player2FinalScore = playerScores.get(loginName2);
+    public void notifyEndGame(int player1Score, int player2Score) {
+        player1FinalScore = player1Score;
+        player2FinalScore = player2Score;
         gameOver = true;
     }
 

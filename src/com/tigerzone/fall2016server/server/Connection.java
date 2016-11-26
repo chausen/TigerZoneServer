@@ -111,8 +111,11 @@ public class Connection {
     }
 
     public String playerInput() throws IOException {
-        String message = this.in.readLine();
-        return message;
+        String input;
+        while ((input = this.in.readLine()) != null) {
+            return input;
+        }
+        return input;
     }
 
     public void playerOutput(String message) {

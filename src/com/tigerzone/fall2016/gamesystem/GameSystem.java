@@ -217,8 +217,9 @@ public class GameSystem implements PlayerInAdapter {
         if (this.currentTile == null) {
             //scores incomplete areas
             scorer.endGameScoring(am);
-            Map<Player, Integer> playerScores = scorer.getPlayerScores();
-            outAdapter.notifyEndGame(playerScores);
+            int player1Score = scorer.getScore(player1);
+            int player2Score = scorer.getScore(player2);
+            outAdapter.notifyEndGame(player1Score, player2Score);
         } else {
             // Check if the next tile is playable
             currentTileCannotBePlaced = (!fsb.needToRemove(currentTile));//needtoRemove returns TRUE if PLACEABLE
@@ -243,7 +244,9 @@ public class GameSystem implements PlayerInAdapter {
 
     // This method is used a lot so it makes the code a little clearer
     private void endOfGame() {
-        outAdapter.notifyEndGame(scorer.getPlayerScores());
+        int player1Score = scorer.getScore(player1);
+        int player2Score = scorer.getScore(player2);
+        outAdapter.notifyEndGame(player1Score, player2Score);
     }
 
 }
