@@ -47,24 +47,22 @@ public class Match {
         return stringBuilder.toString();
     }
 
-    private void sendStartMessage(PrintWriter printWriter, String userName){
-        printWriter.println("YOUR OPPONENT IS PLAYER " + userName);
-        printWriter.println("STARTING TILE IS TLTJ- AT 0 0 0");
-        printWriter.println("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
-        printWriter.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
+    private void sendStartMessage(TournamentPlayer player, String opponentUserName){
+        player.sendMessageToPlayer("YOUR OPPONENT IS PLAYER " + opponentUserName);
+        player.sendMessageToPlayer("STARTING TILE IS TLTJ- AT 0 0 0");
+        player.sendMessageToPlayer("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
+        player.sendMessageToPlayer("MATCH BEGINS IN " + setUpTime + " SECONDS");
 
 
-        System.out.println("YOUR OPPONENT IS PLAYER" + userName);
+        System.out.println("YOUR OPPONENT IS PLAYER" + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
         System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
     }
 
     private void sendMessageToPlayers(){
-        PrintWriter printWriter1 = player1.connection.getOut();
-        PrintWriter printWriter2 = player2.connection.getOut();
-        sendStartMessage(printWriter1, player2.getUsername());
-        sendStartMessage(printWriter2, player1.getUsername());
+        sendStartMessage(player1, player2.getUsername());
+        sendStartMessage(player2, player1.getUsername());
     }
 
     public void startGames() {
@@ -75,11 +73,9 @@ public class Match {
     private void sendEndMessage(Game game){
         TournamentPlayer p1 = game.getPlayer1();
         TournamentPlayer p2 = game.getPlayer2();
-        PrintWriter printWriter1 = p1.getConnection().getOut();
-        PrintWriter printWriter2 = p2.getConnection().getOut();
-        printWriter1.println("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        printWriter2.println("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
     }
 

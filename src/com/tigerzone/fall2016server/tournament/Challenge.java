@@ -55,12 +55,12 @@ public class Challenge {
 
     private void sendMessageToPlayers(){
         for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+            String message = "NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCH");
+                tournamentPlayer.sendMessageToPlayer(message + " MATCH");
             }
             else {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCHES");
+                tournamentPlayer.sendMessageToPlayer(message + " MATCHES");
             }
         }
     }
@@ -89,18 +89,15 @@ public class Challenge {
         return rounds;
     }
 
-
     public void notifyComplete(){
         numOfRoundsComplete++;
         if(numOfRoundsComplete == numOfRounds) {
             for (TournamentPlayer tournamentPlayer : players) {
-                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-                printWriter.println("END OF CHALLENGES");
+                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
             }
             tournamentServer.notifyChallengeComplete();
         }
     }
-
 
     public int getChallengeID() {
         return challengeID;

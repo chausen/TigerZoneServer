@@ -39,7 +39,7 @@ public class Round {
 
     public void playRound() {
         sendMessageToPlayers();
-        for (Match match: matches) {
+        for (Match match : matches) {
             match.playMatch();
         }
         //notifyComplete();
@@ -50,10 +50,10 @@ public class Round {
         this.numOfRounds = challenge.getNumOfRounds();
     }
 
-    private void sendMessageToPlayers(){
-        for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+    private void sendMessageToPlayers() {
+        for (TournamentPlayer tournamentPlayer : players) {
+            tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+            System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
@@ -61,8 +61,7 @@ public class Round {
         numOfMatchesComplete++;
         if(numOfMatchesComplete == numOfMatches) {
             for (TournamentPlayer tournamentPlayer : players) {
-                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-                printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
+                tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
             }
             challenge.notifyComplete();
         }
