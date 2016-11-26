@@ -52,7 +52,7 @@ public class Game extends Thread{
                 sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+        }
 
             PrintWriter printWriter1 = player1.connection.getOut();
             if(!player1Messages.isEmpty()){
@@ -63,8 +63,8 @@ public class Game extends Thread{
                 printWriter2.println(player2Messages.remove());
             }
             if (!readQueue.isEmpty()) {
-                String messageFromServer = readQueue.pop();
-                ioPort.receiveTurn(messageFromServer);
+                String messageFromClient = readQueue.pop();
+                ioPort.receiveTurn(messageFromClient);
             }
         }
 
