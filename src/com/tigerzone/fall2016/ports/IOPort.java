@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class IOPort implements PlayerOutAdapter {
     private PlayerInAdapter inAdapter;
-    private Queue<String> player1UpstreamMessages;
-    private Queue<String> player2UpstreamMessages;
-    private Queue<String> currentUpstreamMessages;
+    private Deque<String> player1UpstreamMessages;
+    private Deque<String> player2UpstreamMessages;
+    private Deque<String> currentUpstreamMessages;
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
@@ -53,8 +53,8 @@ public class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
-        player1UpstreamMessages = new LinkedList<>();
-        player2UpstreamMessages = new LinkedList<>();
+        player1UpstreamMessages = new ArrayDeque<>();
+        player2UpstreamMessages = new ArrayDeque<>();
         currentUpstreamMessages = player1UpstreamMessages;
         
         this.tileStack = tileStack;
@@ -243,23 +243,17 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
-
     //========== Accessors ==========//
 
     private String getActivePlayer(){
         return activeplayer;
     }
 
-    public Queue<String> getCurrentMessageQueue() {
-        return currentUpstreamMessages;
+    public String getMessageFromCurrentMessageQueue(){return this.currentUpstreamMessages.pop();
     }
 
-    public Queue<String> getPlayer1MessageQueue() {
-        return player1UpstreamMessages;
-    }
-
-    public Queue<String> getPlayer2MessageQueue() {
-        return player2UpstreamMessages;
+    public boolean isCurrentMessageQueueEmpty(){
+        return this.currentUpstreamMessages.isEmpty();
     }
 
     private String getCurrentTurnString(){
@@ -283,7 +277,7 @@ public class IOPort implements PlayerOutAdapter {
 
     // Adds message to both player1 and player2's message queues
     private void broadcast(String message) {
-        player1UpstreamMessages.add(message);
-        player2UpstreamMessages.add(message);
+        player1UpstreamMessages.push(message);
+        player2UpstreamMessages.push(message);
     }
 }

@@ -32,7 +32,6 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         startGames();
-
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
