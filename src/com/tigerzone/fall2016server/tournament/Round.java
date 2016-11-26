@@ -15,8 +15,7 @@ public class Round {
     List<TournamentPlayer> players;
     LinkedList<PlayableTile> tileStack;
     private Challenge challenge;
-    private static int roundID = 0;
-    private int rid;
+    private int roundID;
     private int numOfMatches;
     private int numOfMatchesComplete = 0;
     private int currentRound = 0;
@@ -40,10 +39,10 @@ public class Round {
 
     public void playRound() {
         sendMessageToPlayers();
-        for (Match match: matches) {
+        for (Match match : matches) {
             match.playMatch();
         }
-        notifyComplete();
+        //notifyComplete();
     }
 
     public void getChallengeInfo() {
@@ -51,20 +50,21 @@ public class Round {
         this.numOfRounds = challenge.getNumOfRounds();
     }
 
-    private void sendMessageToPlayers(){
-        for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+    private void sendMessageToPlayers() {
+        for (TournamentPlayer tournamentPlayer : players) {
+            tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
     public void notifyComplete() {
-        for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
+        numOfMatchesComplete++;
+        if(numOfMatchesComplete == numOfMatches) {
+            for (TournamentPlayer tournamentPlayer : players) {
+                tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
+            }
+            challenge.notifyComplete();
         }
-        //challenge.notifyComplete();
     }
 
     public void setPlayers(List<TournamentPlayer> players) {
@@ -79,8 +79,8 @@ public class Round {
         this.challenge = challenge;
     }
 
-    public static void setRoundID(int roundID) {
-        Round.roundID = roundID;
+    public void setRoundID(int roundID) {
+        this.roundID = roundID;
     }
 
     public void setNumOfRounds(int numOfRounds) {

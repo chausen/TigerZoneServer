@@ -3,8 +3,6 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.io.PrintWriter;
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,26 +12,27 @@ import java.util.Queue;
  */
 public class Game extends Thread{
     private int gameID;
+    private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
     LinkedList<PlayableTile> tileStack;
-    private Match match;
-    Deque<String> readQueue;
+    //private GamePlayerCommunication gamePlayerCommunication;
     private IOPort ioPort;
+    private static final int WAITING_FOR_MOVE = 3;
+    private static final int SENDING_MOVE = 3;
+
+
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
-        readQueue = new ArrayDeque<>();
+
         this.gameID = gameID;
         this.player1 = player1;
         this.player2 = player2;
         this.tileStack = tileStack;
         this.match = match;
-    }
-
-    public Deque<String> getReadQueue(){
-        return this.readQueue;
+        //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
     }
 
     @Override
@@ -41,10 +40,21 @@ public class Game extends Thread{
         playGame();
     }
 
+    public void readMessageFromTournamemtPlayer(){
+
+    }
+
+    public void writeMessageToTournamentPlayer(){
+
+    }
+
     void playGame() {
         ioPort.initialize();
         Queue<String> player1Messages = ioPort.getPlayer1MessageQueue();
         Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
+        System.out.println("Trying to play a game within Game");
+
+
 
         // get input from socket and pass it to this method
         while(!ioPort.isGameOver()) {
@@ -52,24 +62,34 @@ public class Game extends Thread{
                 sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
+        }
+
+            if(!player1Messages.isEmpty()){
+                String message = player1Messages.remove();
+                System.out.println("GOT A MESSAGE IN message queue " + message);
+                match.giveMessage(message,gameID);
+
             }
 
-            PrintWriter printWriter1 = player1.connection.getOut();
-            if(!player1Messages.isEmpty()){
-                printWriter1.println(player1Messages.remove());
+            if(!player2Messages.isEmpty()) {
+                String message = player2Messages.remove();
+                System.out.println("Got a messsage in message queue " + message);
+                match.giveMessage(message,gameID);
             }
-            PrintWriter printWriter2 = player2.connection.getOut();
-            if(!player1Messages.isEmpty()) {
-                printWriter2.println(player2Messages.remove());
-            }
-            if (!readQueue.isEmpty()) {
-                String messageFromServer = readQueue.pop();
-                ioPort.receiveTurn(messageFromServer);
-            }
+
+//            if (!player1ReadQueue.isEmpty()) {
+//                String messageFromServer = player1ReadQueue.pop();
+//                ioPort.receiveTurn(messageFromServer);
+//            }
         }
 
         notifyComplete();
 
+    }
+
+    private void receiveMove(TournamentPlayer player) {
+        String move = player.readPlayerMessage();
+        ioPort.receiveTurn(move);
     }
 
     private void notifyComplete(){
@@ -99,4 +119,8 @@ public class Game extends Thread{
     public int getPlayer2FinalScore(){
         return ioPort.getFinalScore(player2.getUsername());
     }
+
+//    public Deque<String> getPlayer1ReadQueue(){
+//        return this.player1ReadQueue;
+//    }
 }

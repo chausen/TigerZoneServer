@@ -20,8 +20,10 @@ public class Challenge {
     private static int challengeID = 0;
     private int cid;
     private int numOfRounds;
-    private int numOfRoundsComplete;
+    private int numOfRoundsComplete = 0;
     List<Round> rounds;
+    //Queue<Round> rounds;
+
 
     private int currentRound = 0;
 
@@ -31,7 +33,7 @@ public class Challenge {
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
         this.tiles = TileStackGenerator.generateTiles(seed);
-        if(players.size()/2 % 2 == 0){
+        if(players.size() % 2 == 0){
             numOfRounds = players.size() - 1;
         }
         else {
@@ -52,15 +54,13 @@ public class Challenge {
     }
 
     private void sendMessageToPlayers(){
-        System.out.println("CID " + cid);
-        System.out.println("num round " + numOfRounds);
         for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
+            String message = "NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCH");
+                tournamentPlayer.sendMessageToPlayer(message + " MATCH");
             }
             else {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCHES");
+                tournamentPlayer.sendMessageToPlayer(message + " MATCHES");
             }
         }
     }
@@ -77,14 +77,27 @@ public class Challenge {
         return rounds;
     }
 
+    //erik generateRounds
+    public Queue<Round> generateRounds2(){
+        Queue<Round> rounds = new LinkedList<>();
+        Round round;
+        for (int roundNumber = 1; roundNumber <= numOfRounds; roundNumber++) {
+            round = new Round(this, RoundRobin.listMatches(players, roundNumber, tiles));
+            round.setRoundID(roundNumber);
+            rounds.add(round);
+        }
+        return rounds;
+    }
+
     public void notifyComplete(){
-            for(TournamentPlayer tournamentPlayer: players){
-                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-                printWriter.println("END OF CHALLENGES");
+        numOfRoundsComplete++;
+        if(numOfRoundsComplete == numOfRounds) {
+            for (TournamentPlayer tournamentPlayer : players) {
+                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
             }
             tournamentServer.notifyChallengeComplete();
         }
-
+    }
 
     public int getChallengeID() {
         return challengeID;

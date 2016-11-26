@@ -3,8 +3,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -20,6 +19,9 @@ public class Match {
     private boolean game1complete = false;
     private boolean game2complete = false;
     private final int setUpTime = 10;
+    private Map<Integer, String> playerMessages = new HashMap<>();
+    private int numOfActiveGames = 2;
+
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -31,10 +33,13 @@ public class Match {
 
     public void playMatch() {
         sendMessageToPlayers();
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         startGames();
-        notifyEndGameToPlayers();
-        //notifyComplete(game1.getGameID());
-        //notifyComplete(game2.getGameID());
+
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -49,24 +54,22 @@ public class Match {
         return stringBuilder.toString();
     }
 
-    private void sendStartMessage(PrintWriter printWriter, String userName){
-        printWriter.println("YOUR OPPONENT IS PLAYER " + userName);
-        printWriter.println("STARTING TILE IS TLTJ- AT 0 0 0");
-        printWriter.println("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
-        printWriter.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
+    private void sendStartMessage(TournamentPlayer player, String opponentUserName){
+        player.sendMessageToPlayer("YOUR OPPONENT IS PLAYER " + opponentUserName);
+        player.sendMessageToPlayer("STARTING TILE IS TLTJ- AT 0 0 0");
+        player.sendMessageToPlayer("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
+        player.sendMessageToPlayer("MATCH BEGINS IN " + setUpTime + " SECONDS");
 
 
-        System.out.println("YOUR OPPONENT IS PLAYER" + userName);
+        System.out.println("YOUR OPPONENT IS PLAYER" + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
         System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
     }
 
     private void sendMessageToPlayers(){
-        PrintWriter printWriter1 = player1.connection.getOut();
-        PrintWriter printWriter2 = player2.connection.getOut();
-        sendStartMessage(printWriter1, player2.getUsername());
-        sendStartMessage(printWriter2, player1.getUsername());
+        sendStartMessage(player1, player2.getUsername());
+        sendStartMessage(player2, player1.getUsername());
     }
 
     public void startGames() {
@@ -77,11 +80,9 @@ public class Match {
     private void sendEndMessage(Game game){
         TournamentPlayer p1 = game.getPlayer1();
         TournamentPlayer p2 = game.getPlayer2();
-        PrintWriter printWriter1 = p1.getConnection().getOut();
-        PrintWriter printWriter2 = p2.getConnection().getOut();
-        printWriter1.println("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        printWriter2.println("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
     }
 
@@ -97,6 +98,40 @@ public class Match {
             notifyEndGameToPlayers();
             round.notifyComplete();
         }
+    }
+
+    public void sendPlayerMoveMessages() {
+
+
+    }
+
+    public void sendGameMessage(String playerMessage){
+        player1.sendMessageToPlayer(playerMessage);
+        player2.sendMessageToPlayer(playerMessage);
+    }
+
+    public void giveMessage(String playerMessage, int gid){
+        playerMessages.put(gid, playerMessage);
+        if(playerMessages.size() == numOfActiveGames){
+            Set<Integer> keyset = playerMessages.keySet();
+            Iterator<Integer> iterator = keyset.iterator();
+            while(iterator.hasNext()){
+                Integer removeMessage = iterator.next();
+                sendGameMessage(playerMessages.get(removeMessage));
+                playerMessages.remove(removeMessage);
+            }
+            checkForForfeit(playerMessage);
+        }
+    }
+
+    public void checkForForfeit(String playerMessage){
+        if(playerMessage.contains("FORFEITED")){
+            decreaseNumOfActiveGames();
+        }
+    }
+
+    public void decreaseNumOfActiveGames(){
+        numOfActiveGames--;
     }
 
     public Round getRound() {
