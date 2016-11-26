@@ -37,6 +37,7 @@ public class Game extends Thread{
         this.tileStack = tileStack;
         this.match = match;
         //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
+
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
     }

@@ -71,15 +71,10 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void promptForTurn(PlayableTile currentTile) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MAKE YOUR MOVE IN GAME ");
-        sb.append(gid);
-        sb.append(" WITHIN ");
-        sb.append(turnTime);
-        String secondOrSeconds = (turnTime == 1) ? " SECOND" : " SECONDS";
-        sb.append(secondOrSeconds + ": ");
-        sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
-        currentUpstreamMessages.add(sb.toString());
+        String messageToActivePlayer =
+                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
+                        this.turnCount, currentTile.getTileString());
+        currentUpstreamMessages.add(messageToActivePlayer);
     }
 
     @Override
