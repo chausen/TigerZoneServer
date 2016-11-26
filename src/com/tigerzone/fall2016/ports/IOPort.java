@@ -100,6 +100,7 @@ public class IOPort implements PlayerOutAdapter {
         switch(determiner)
         {
             case "PLACE":
+                System.out.println("GOT PLACE WITHIN IOPORT");
                 receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
                 break;
 

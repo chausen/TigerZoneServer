@@ -45,6 +45,7 @@ public class Game extends Thread{
         ioPort.initialize();
         Queue<String> player1Messages = ioPort.getPlayer1MessageQueue();
         Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
+        System.out.println("Trying to play a game within Game");
 
         // get input from socket and pass it to this method
         while(!ioPort.isGameOver()) {
