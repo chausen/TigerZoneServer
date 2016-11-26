@@ -69,7 +69,7 @@ public class Client {
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.startsWith("MATCH BEGINS")) {
+                if (fromServer.startsWith("MAKE")) {
                     break;
                 }
                 if (fromServer.equals("NOPE GOOD BYE")) {

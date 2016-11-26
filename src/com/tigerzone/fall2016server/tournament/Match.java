@@ -32,7 +32,7 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         startGames();
-        notifyEndGameToPlayers();
+        //notifyEndGameToPlayers();
         //notifyComplete(game1.getGameID());
         //notifyComplete(game2.getGameID());
     }
