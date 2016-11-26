@@ -21,6 +21,7 @@ public class Match {
     private boolean game2complete = false;
     private final int setUpTime = 10;
 
+
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
         this.player1 = player1;
@@ -97,6 +98,12 @@ public class Match {
             round.notifyComplete();
         }
     }
+
+    public void sendPlayerMoveMessages() {
+
+
+    }
+
 
     public Round getRound() {
         return round;

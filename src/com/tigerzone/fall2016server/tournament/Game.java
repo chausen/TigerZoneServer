@@ -18,6 +18,10 @@ public class Game extends Thread{
     LinkedList<PlayableTile> tileStack;
     //private GamePlayerCommunication gamePlayerCommunication;
     private IOPort ioPort;
+    private static final int WAITING_FOR_MOVE = 3;
+    private static final int SENDING_MOVE = 3;
+
+
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
@@ -50,6 +54,8 @@ public class Game extends Thread{
         Queue<String> player2Messages = ioPort.getPlayer2MessageQueue();
         System.out.println("Trying to play a game within Game");
 
+
+
         // get input from socket and pass it to this method
         while(!ioPort.isGameOver()) {
             try {
@@ -58,12 +64,18 @@ public class Game extends Thread{
                 e.printStackTrace();
         }
 
+
+
             if(!player1Messages.isEmpty()){
-                player1.sendMessageToPlayer(player1Messages.remove());
+                String message = player1Messages.remove();
+                System.out.println("GOT A MESSAGE IN message queue " + message);
+                player1.sendMessageToPlayer(message);
             }
 
-            if(!player1Messages.isEmpty()) {
-                player2.sendMessageToPlayer(player2Messages.remove());
+            if(!player2Messages.isEmpty()) {
+                String message = player2Messages.remove();
+                System.out.println("Got a messsage in message queue " + message);
+                player2.sendMessageToPlayer(message);
             }
 
 //            if (!player1ReadQueue.isEmpty()) {
@@ -74,6 +86,11 @@ public class Game extends Thread{
 
         notifyComplete();
 
+    }
+
+    private void receiveMove(TournamentPlayer player) {
+        String move = player.readPlayerMessage();
+        ioPort.receiveTurn(move);
     }
 
     private void notifyComplete(){
