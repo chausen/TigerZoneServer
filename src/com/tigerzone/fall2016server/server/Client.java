@@ -69,7 +69,7 @@ public class Client {
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.startsWith("MAKE")) {
+                if (fromServer.startsWith("MATCH BEGINS")) {
                     break;
                 }
                 if (fromServer.equals("NOPE GOOD BYE")) {
@@ -91,7 +91,7 @@ public class Client {
     public void playGame() {
         try {
             String fromServer;
-            String userInput=null;
+            String userInput = null;
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);

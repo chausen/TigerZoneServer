@@ -136,9 +136,20 @@ public class TourneyServerSandbox {
     //This class is for testing purposes only
     public void startGame(){
         System.out.println("in game method");
-        TileStackGenerator stackGenerator = new TileStackGenerator();
-        LinkedList<PlayableTile> tileStack = stackGenerator.createTilesFromTextFile(123456789);
+        LinkedList<PlayableTile> tileStack = TileStackGenerator.generateTiles(123456789);
         TournamentPlayer player1 = tournamentPlayers.get(0);
+        Socket clientSocket = null;
+        Socket clientSocket2 = null;
+        try {
+            ServerSocket serverSocket = new ServerSocket(4444);
+            clientSocket = serverSocket.accept();
+            clientSocket2 = serverSocket.accept();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Connection connection1 = new Connection(clientSocket);
+        Connection connection2 = new Connection(clientSocket2);
         Game game = new Game(1, player1,  player1, tileStack, null);
         game.start();
 //        Connection player1Connection = player1.getConnection();

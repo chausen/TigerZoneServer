@@ -79,7 +79,7 @@ public class IOPort implements PlayerOutAdapter {
         sb.append(gid);
         sb.append(" WITHIN ");
         sb.append(turnTime);
-        String secondOrSeconds = (turnTime == 1) ? "SECOND" : "SECONDS";
+        String secondOrSeconds = (turnTime == 1) ? " SECOND" : " SECONDS";
         sb.append(secondOrSeconds + ": ");
         sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
         currentUpstreamMessages.add(sb.toString());
@@ -89,6 +89,7 @@ public class IOPort implements PlayerOutAdapter {
     public void receiveTurn(String s) {
         // Needed to output move is inAdapter finds it successful
         currentTurnString = s;
+        System.out.println("This is the string in receive turn in IOPORT " + s);
         ++turnCount;
 
         Scanner sc = new Scanner(s);
@@ -97,9 +98,11 @@ public class IOPort implements PlayerOutAdapter {
         sc.next();
         //Moving past the GAME and gid
         String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
+        System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
         switch(determiner)
         {
             case "PLACE":
+                System.out.println("GOT PLACE WITHIN IOPORT");
                 receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
                 break;
 
