@@ -25,7 +25,6 @@ public class Game extends Thread{
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
-        ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
         this.gameID = gameID;
 
@@ -37,6 +36,8 @@ public class Game extends Thread{
 
         this.tileStack = tileStack;
         this.match = match;
+        ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
+
     }
 
     @Override
