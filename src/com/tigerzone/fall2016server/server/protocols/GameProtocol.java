@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.server.protocols;
 
 import com.sun.org.apache.regexp.internal.RE;
 

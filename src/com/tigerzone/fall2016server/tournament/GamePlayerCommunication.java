@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 

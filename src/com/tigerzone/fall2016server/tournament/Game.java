@@ -2,6 +2,7 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.LinkedList;
 
@@ -74,6 +75,7 @@ public class Game extends Thread{
     void playGame() {
         this.ioPort.initialize();
         while(!this.ioPort.isGameOver()) {
+            //not sure if this logic is correct
             while(this.ioPort.isCurrentMessageQueueEmpty()){
                 putGameThreadToSleep(20);
             }

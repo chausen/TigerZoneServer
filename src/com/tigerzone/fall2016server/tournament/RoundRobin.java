@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

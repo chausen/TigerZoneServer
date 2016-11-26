@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.tournament;
+package com.tigerzone.fall2016server.tournament.tournamentplayer;
 
 /**
  * Created by lenovo on 11/19/2016.
