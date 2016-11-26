@@ -88,6 +88,33 @@ public class Client {
     }
 
 
+    public void playGame() {
+        try {
+            String fromServer;
+            String userInput=null;
+
+            while ((fromServer = in.readLine()) != null) {
+                System.out.println(fromServer);
+                if (fromServer.startsWith("MAKE")) {
+                    userInput = "GAME 0 PLACE JJJJX AT -1 0 0 NONE";
+                    System.out.println(userInput);
+                    out.println(userInput);
+                }
+                if (fromServer.equals("NOPE GOOD BYE")) {
+                    System.out.println("Server says goodbye");
+                    break;
+                }
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to " + host);
+            System.exit(1);
+        }
+
+    }
+
 
     public void defaultLogin() throws Exception {
         String fromServer;
