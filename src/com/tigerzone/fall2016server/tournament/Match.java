@@ -115,18 +115,26 @@ public class Match {
         if(playerMessages.size() == numOfActiveGames){
             Set<Integer> keyset = playerMessages.keySet();
             Iterator<Integer> iterator = keyset.iterator();
+            List<Integer> removeList = new ArrayList<>();
             while(iterator.hasNext()){
                 Integer removeMessage = iterator.next();
                 sendGameMessage(playerMessages.get(removeMessage));
-                playerMessages.remove(removeMessage);
+                removeList.add(removeMessage);
             }
             checkForForfeit(playerMessage);
+            removeAll(removeList);
         }
     }
 
     public void checkForForfeit(String playerMessage){
         if(playerMessage.contains("FORFEITED")){
             decreaseNumOfActiveGames();
+        }
+    }
+
+    public void removeAll(List<Integer> removeList){
+        for(Integer integer: removeList){
+            playerMessages.remove(integer);
         }
     }
 

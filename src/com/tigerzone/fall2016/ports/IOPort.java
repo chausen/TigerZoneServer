@@ -79,7 +79,7 @@ public class IOPort implements PlayerOutAdapter {
         sb.append(gid);
         sb.append(" WITHIN ");
         sb.append(turnTime);
-        String secondOrSeconds = (turnTime == 1) ? "SECOND" : "SECONDS";
+        String secondOrSeconds = (turnTime == 1) ? " SECOND" : " SECONDS";
         sb.append(secondOrSeconds + ": ");
         sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
         currentUpstreamMessages.add(sb.toString());
