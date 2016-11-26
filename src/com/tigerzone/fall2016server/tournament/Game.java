@@ -72,14 +72,16 @@ public class Game extends Thread{
             if(!player1Messages.isEmpty()){
                 String message = player1Messages.remove();
                 System.out.println("GOT A MESSAGE IN message queue " + message);
-                match.giveMessage(message,gameID);
+                //match.giveMessage(message,gameID);
+                player1.sendMessageToPlayer(message);
 
             }
 
             if(!player2Messages.isEmpty()) {
                 String message = player2Messages.remove();
                 System.out.println("Got a messsage in message queue " + message);
-                match.giveMessage(message,gameID);
+                //match.giveMessage(message,gameID);
+                player2.sendMessageToPlayer(message);
             }
 
             receiveMove(activePlayer);

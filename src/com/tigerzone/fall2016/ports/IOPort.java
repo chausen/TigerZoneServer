@@ -90,7 +90,6 @@ public class IOPort implements PlayerOutAdapter {
         // Needed to output move is inAdapter finds it successful
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
-        ++turnCount;
 
         Scanner sc = new Scanner(s);
 
@@ -195,6 +194,7 @@ public class IOPort implements PlayerOutAdapter {
     public void successfulTurn() {
         String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
         broadcast(prefix + " " + currentTurnString);
+        turnCount++;
         switchActivePlayer();
     }
 
