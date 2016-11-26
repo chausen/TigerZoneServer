@@ -14,6 +14,9 @@ public class ClientMain {
         Client client = new Client("localhost", 4444);
         try {
             client.login();
+            client.waitForGame();
+            client.playGame();
+            //client.defaultLogin();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -32,9 +32,7 @@ public class Match {
     public void playMatch() {
         sendMessageToPlayers();
         startGames();
-        notifyEndGameToPlayers();
-        //notifyComplete(game1.getGameID());
-        //notifyComplete(game2.getGameID());
+
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
