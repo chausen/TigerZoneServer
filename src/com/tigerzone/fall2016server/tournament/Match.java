@@ -109,6 +109,13 @@ public class Match {
                 sendGameMessage(playerMessages.get(removeMessage));
                 playerMessages.remove(removeMessage);
             }
+            checkForForfeit(playerMessage);
+        }
+    }
+
+    public void checkForForfeit(String playerMessage){
+        if(playerMessage.contains("FORFEITED")){
+            decreaseNumOfActiveGames();
         }
     }
 
