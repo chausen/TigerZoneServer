@@ -1,17 +1,14 @@
 package com.tigerzone.fall2016server.tournament;
 
-import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Aidan on 11/20/2016.

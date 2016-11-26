@@ -1,13 +1,9 @@
 package com.tigerzone.fall2016server.tournament;
 
-import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.TournamentServer;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
