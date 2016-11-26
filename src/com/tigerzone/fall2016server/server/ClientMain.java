@@ -15,6 +15,7 @@ public class ClientMain {
         try {
             client.login();
             client.waitForGame();
+            client.playGame();
             //client.defaultLogin();
         } catch (Exception e) {
             e.printStackTrace();
