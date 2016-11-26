@@ -88,13 +88,23 @@ public class Connection {
         return serverSocket;
     }
 
+    //would like to remove this method
     public BufferedReader getIn() {
         return in;
     }
+//
+//    public PrintWriter getOut() {
+//        return out;
+//    }
 
-    public PrintWriter getOut() {
-        return out;
+    public void writeMessageToPlayer(String message){
+        this.out.println(message);
     }
+
+    public String receiveMessageFromPlayer(){
+        return "";
+    }
+
 
     public Queue<String> getMessageQueue() {
         return messageQueue;

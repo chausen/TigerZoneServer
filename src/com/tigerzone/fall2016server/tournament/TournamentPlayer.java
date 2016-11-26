@@ -2,8 +2,7 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016server.server.Connection;
 
-import java.io.IOException;
-import java.net.Socket;
+import java.util.Deque;
 
 /**
  * Created by lenovo on 11/19/2016.
@@ -11,7 +10,8 @@ import java.net.Socket;
 public class TournamentPlayer {
     private String username;
     private PlayerStats stats;
-    Connection connection;
+    private Connection connection;
+    private PlayerGameCommunication tournamentPlayerGameConnection;
 
     public TournamentPlayer(String username) {
         this.username = username;
@@ -20,6 +20,7 @@ public class TournamentPlayer {
     public TournamentPlayer(String username, Connection connection) {
         this.username = username;
         this.connection = connection;
+        this.tournamentPlayerGameConnection = new PlayerGameCommunication(this.connection);
     }
 
     public String getUsername() {
@@ -38,7 +39,18 @@ public class TournamentPlayer {
         this.stats = stats;
     }
 
-    public Connection getConnection(){
-        return this.connection;
+    public void setUpGameConnection (Deque<String> playerReadQueue, Deque<String> playerWriteQueue){
+        this.tournamentPlayerGameConnection.setPlayerReadQueue(playerReadQueue);
+        this.tournamentPlayerGameConnection.setPlayerWriteQueue(playerWriteQueue);
+    }
+
+    //public void closeConnection()
+
+    public void sendMessageToPlayer(String message){
+        this.connection.writeMessageToPlayer(message);
+    }
+
+    public String readPlayerMessage(){
+        return this.connection.receiveMessageFromPlayer();
     }
 }

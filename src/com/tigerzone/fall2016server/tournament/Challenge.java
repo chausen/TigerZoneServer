@@ -54,13 +54,13 @@ public class Challenge {
     private void sendMessageToPlayers(){
         System.out.println("CID " + cid);
         System.out.println("num round " + numOfRounds);
+        String message = "NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds;
         for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
             if(numOfRounds == 1) {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCH");
+                tournamentPlayer.sendMessageToPlayer(message + " MATCH");
             }
             else {
-                printWriter.println("NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds + " MATCHES");
+                tournamentPlayer.sendMessageToPlayer(message +  " MATCHES");
             }
         }
     }
@@ -79,12 +79,10 @@ public class Challenge {
 
     public void notifyComplete(){
             for(TournamentPlayer tournamentPlayer: players){
-                PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-                printWriter.println("END OF CHALLENGES");
+                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
             }
             tournamentServer.notifyChallengeComplete();
-        }
-
+    }
 
     public int getChallengeID() {
         return challengeID;

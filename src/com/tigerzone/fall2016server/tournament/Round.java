@@ -53,16 +53,14 @@ public class Round {
 
     private void sendMessageToPlayers(){
         for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+            tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
     public void notifyComplete() {
         for(TournamentPlayer tournamentPlayer: players){
-            PrintWriter printWriter = tournamentPlayer.getConnection().getOut();
-            printWriter.println("END OF ROUND " + roundID + " OF " + numOfRounds);
+            tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
         }
         //challenge.notifyComplete();
     }
