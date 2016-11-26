@@ -17,5 +17,6 @@ public interface PlayerInAdapter
     public void tigerPlace(int x, int y);
     public void truncateTS(int x);//ONLY USED FOR TESTING PURPOSES
     public Player getPlayer(String playerID);
+    public int getPlayerScore(Player p);
     public void forfeit(); // used by the outAdapter in the case where an illegal message is received
 }

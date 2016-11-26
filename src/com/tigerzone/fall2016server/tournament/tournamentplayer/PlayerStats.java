@@ -11,17 +11,15 @@ public class PlayerStats {
     private int ties;
     private int wins;
     private int losses;
-
+    private int winsByForfeit;
+    private int totalPoints;
+    private int opponentTotalPoints;
+    private int largestpointdifference;
+    private double largestpointdifferencerelative;
+    private double avgrelperf;
     public PlayerStats() {
-    }
-
-    public PlayerStats(int gamesCompleted, int gamesPlayed, int forfeits, int ties, int wins, int losses) {
-        this.gamesCompleted = gamesCompleted;
-        this.gamesPlayed = gamesPlayed;
-        this.forfeits = forfeits;
-        this.ties = ties;
-        this.wins = wins;
-        this.losses = losses;
+        gamesCompleted = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
+        largestpointdifferencerelative = avgrelperf = 0.0;
     }
 
     public int getGamesCompleted() {
@@ -70,5 +68,49 @@ public class PlayerStats {
 
     public void setLosses(int losses) {
         this.losses = losses;
+    }
+
+    public int getWinsByForfeit(){
+        return winsByForfeit;
+    }
+
+    public void setWinsByForfeit(int winsByForfeit){
+        this.winsByForfeit = winsByForfeit;
+    }
+
+    public void setLargestpointdifference(int mypoints, int opponentpoints){
+        if((mypoints - opponentpoints) < largestpointdifference) {
+            largestpointdifference = (mypoints - opponentpoints);
+            setLargestpointdifferencerelative(mypoints, opponentpoints);
+        }
+    }
+
+    public int getLargestpointdifference(){
+        return largestpointdifference;
+    }
+
+    private void setLargestpointdifferencerelative(int mypoints, int opponentpoints){
+        largestpointdifferencerelative = ((double) mypoints / (double)opponentpoints);
+    }
+
+    public double getLargestpointdifferencerelative(){
+        return largestpointdifferencerelative;
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public int getOpponentTotalPoints(){
+        return opponentTotalPoints;
+    }
+    public void setOpponentTotalPoints(int opponentTotalPoints){
+        this.opponentTotalPoints = opponentTotalPoints;
+    }
+
+    public double getAvgRelPerf(){
+        if((gamesPlayed - getWinsByForfeit()) == 0)
+            return 0.0;
+        else return ((totalPoints/opponentTotalPoints)/((double)gamesPlayed-(double)getWinsByForfeit()));
     }
 }

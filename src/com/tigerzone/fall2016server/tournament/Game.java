@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016server.tournament;
 
+import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
@@ -132,6 +133,10 @@ public class Game extends Thread{
 
     public int getGameID() {
         return gameID;
+    }
+
+    public int getPlayerScore(Player player){
+        return ioPort.getInAdapter().getPlayerScore(player);
     }
 
     public TournamentPlayer getPlayer1() {
