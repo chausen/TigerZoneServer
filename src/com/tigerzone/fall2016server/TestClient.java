@@ -12,13 +12,16 @@ import java.net.UnknownHostException;
  */
 public class TestClient {
     public static void main(String args[]) {
-        String host = "localhost";
-        int port = 4444;
+        String host = "localhost"; // default value
+        int port = 4444; // default value
+        String loginName = "PLAYER1"; // default value
+        String password = "PASSWORD1"; // default value
+        int move = 0;
+
+        // Used for determining which moveset to use
         String player1Login = "PLAYER1";
         String player2Login = "PLAYER2";
-        String loginName = "";
-        String password = "";
-        int move = 0;
+
         BufferedReader in;
         PrintWriter out;
         Socket clientSocket;
@@ -50,26 +53,37 @@ public class TestClient {
                 "PLACE JLLJ- AT 2 1 180 CROCODILE"
         };
 
-        if (args.length != 4) {
-            System.err.println("Usage: TestClient <host> <port>");
-        } else {
+        if (args.length == 1) {
+            host = args[0];
+        } else if (args.length == 2) {
+            host = args[0];
+            port = Integer.parseInt(args[1]);
+        } else if (args.length == 3) {
+            host = args[0];
+            port = Integer.parseInt(args[1]);
+            loginName = args[2];
+        } else if (args.length == 4) {
             host = args[0];
             port = Integer.parseInt(args[1]);
             loginName = args[2];
             password = args[3];
         }
 
-
         try {
             clientSocket = new Socket(host,port);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             while ((response = in.readLine()) != null) {
-                if (response.equals("JOIN")) {
-                    out.println("TIGERZONE");
-                } else if (response.equals("I AM")) {
 
-                    out.println(loginName + " " + password);
+                System.out.println("From Server: " + response);
+
+                if (response.equals("THIS IS SPARTA!")) {
+
+                    out.println("JOIN TIGERZONE");
+
+                } else if (response.equals("HELLO!")) {
+
+                    out.println("I AM " + loginName);
 
                 } else if (response.startsWith("MAKE YOUR MOVE", 0)) {
 
