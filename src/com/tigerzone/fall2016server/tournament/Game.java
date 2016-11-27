@@ -38,7 +38,13 @@ public class Game {
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
     }
+    public boolean didForfeit(){
+        return ioPort.isDidForfeit();
+    }
 
+    public String getForfeitedPlayer(){
+        return ioPort.getForfeitedPlayer();
+    }
 
     public void initializeIOport(){
         ioPort.initialize();
