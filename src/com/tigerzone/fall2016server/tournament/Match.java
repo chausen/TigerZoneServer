@@ -95,7 +95,7 @@ public class Match {
         game2complete = gID == game2.getGameID() ? true : game2complete;
         if(game1complete && game2complete){
             notifyEndGameToPlayers();
-            round.notifyComplete();
+            round.notifyComplete(); // TODO: 11/26/2016 this is problematic because the round is never set in match
         }
     }
 
@@ -151,5 +151,9 @@ public class Match {
 
     public void setMatchID(int matchID) {
         this.matchID = matchID;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
     }
 }

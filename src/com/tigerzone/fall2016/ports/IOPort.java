@@ -84,7 +84,7 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
 
-        if (!s.contains("PLACE") || !s.contains("TILE") || !s.contains("QUIT")) {
+        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
             receiveIllegalMessage();
             return;
         }

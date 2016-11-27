@@ -88,23 +88,29 @@ public class Game extends Thread{
                 String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
                 this.activePlayer.sendMessageToPlayer(gameMessage);
 
+                try {
+                    receiveMove(activePlayer);
+                } catch (IOException e) {
+                    System.out.println("Trying to receive a move in game");
+                }
+
                 long startTime = System.nanoTime();
                 long activePlayerDecisionTime = startTime;
 
                 TournamentPlayer previousActivePlayer = this.activePlayer;
-                while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
-                    putGameThreadToSleep(200);
-
-                    String activePlayerMessage = this.activePlayer.readPlayerMessage();
-                    //send active player's move to game
-                    if (activePlayerMessage != null) {
-                        this.ioPort.receiveTurn(activePlayerMessage);
-                        //swap resting player to be active player
-                        swapActivePlayer();
-                    } else {
-                        activePlayerDecisionTime = System.nanoTime() - startTime;
-                    }
-                }
+//                while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
+//                    putGameThreadToSleep(200);
+//
+//                    String activePlayerMessage = this.activePlayer.readPlayerMessage();
+//                    //send active player's move to game
+//                    if (activePlayerMessage != null) {
+//                        this.ioPort.receiveTurn(activePlayerMessage);
+//                        //swap resting player to be active player
+//                        swapActivePlayer();
+//                    } else {
+//                        activePlayerDecisionTime = System.nanoTime() - startTime;
+//                    }
+//                }
 
                 //decide if active player should forfeit due to (TimeOut)
                 if (didActivePlayerTimeOut(previousActivePlayer)) {
@@ -119,7 +125,6 @@ public class Game extends Thread{
         String move = "";
         move = player.playerInput();
         ioPort.receiveTurn(move);
-        notifyComplete();
     }
 
     private void notifyComplete(){
