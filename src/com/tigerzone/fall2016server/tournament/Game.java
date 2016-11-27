@@ -11,7 +11,7 @@ import java.util.LinkedList;
 /**
  * Created by lenovo on 11/17/2016.
  */
-public class Game extends Thread{
+public class Game {
     private int gameID;
     private Match match;
     TournamentPlayer player1;
@@ -43,23 +43,18 @@ public class Game extends Thread{
 
     }
 
-    @Override
-    public void run(){
-        playGame();
-    }
-
     /**
      * Method that puts current game thread to sleep
      * for specified amount of milliseconds
      * @param milliseconds
      */
-    private void putGameThreadToSleep(int milliseconds){
-        try {
-            sleep(milliseconds);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void putGameThreadToSleep(int milliseconds){
+//        try {
+//            sleep(milliseconds);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * This method swaps active player between
@@ -76,49 +71,42 @@ public class Game extends Thread{
         return this.activePlayer == previousActivePlayer;
     }
 
-    void playGame() {
-        this.ioPort.initialize();
-        while (!this.ioPort.isGameOver()) {
-            //not sure if this logic is correct
-            while (this.ioPort.isCurrentMessageQueueEmpty()) {
-                putGameThreadToSleep(20);
-            }
-            //send active player message from Game System
-            String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
-            this.activePlayer.sendMessageToPlayer(gameMessage);
-
-            long startTime = System.nanoTime();
-            long activePlayerDecisionTime = startTime;
-
-            TournamentPlayer previousActivePlayer = this.activePlayer;
-            while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
-                putGameThreadToSleep(200);
-
-                String activePlayerMessage = this.activePlayer.readPlayerMessage();
-                //send active player's move to game
-                if (activePlayerMessage != null) {
-                    this.ioPort.receiveTurn(activePlayerMessage);
-                    //swap resting player to be active player
-                    swapActivePlayer();
-                } else {
-                    activePlayerDecisionTime = System.nanoTime() - startTime;
-                }
-            }
-
-            //decide if active player should forfeit due to (TimeOut)
-            if (didActivePlayerTimeOut(previousActivePlayer)) {
-                //active player should forfeit
-            }
-        }
-        notifyComplete();
-    }
-
-    private void receiveMove(TournamentPlayer player) throws IOException {
-        String move = "";
-        move = player.playerInput();
-        ioPort.receiveTurn(move);
-        notifyComplete();
-    }
+//    void playGame() {
+//        this.ioPort.initialize();
+//        while (!this.ioPort.isGameOver()) {
+//            //not sure if this logic is correct
+//            while (this.ioPort.isCurrentMessageQueueEmpty()) {
+//                putGameThreadToSleep(20);
+//            }
+//            //send active player message from Game System
+//            String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
+//            this.activePlayer.sendMessageToPlayer(gameMessage);
+//
+//            long startTime = System.nanoTime();
+//            long activePlayerDecisionTime = startTime;
+//
+//            TournamentPlayer previousActivePlayer = this.activePlayer;
+//            while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
+//                putGameThreadToSleep(200);
+//
+//                String activePlayerMessage = this.activePlayer.readPlayerMessage();
+//                //send active player's move to game
+//                if (activePlayerMessage != null) {
+//                    this.ioPort.receiveTurn(activePlayerMessage);
+//                    //swap resting player to be active player
+//                    swapActivePlayer();
+//                } else {
+//                    activePlayerDecisionTime = System.nanoTime() - startTime;
+//                }
+//            }
+//
+//            //decide if active player should forfeit due to (TimeOut)
+//            if (didActivePlayerTimeOut(previousActivePlayer)) {
+//                //active player should forfeit
+//            }
+//        }
+//        notifyComplete();
+//    }
 
     public void initializeIOport(){
         ioPort.initialize();
@@ -138,10 +126,6 @@ public class Game extends Thread{
 
     public String getResponse(){
         return ioPort.getResponse();
-    }
-
-    private void notifyComplete(){
-        match.notifyComplete(gameID);
     }
 
     public Match getMatch() {
