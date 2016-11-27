@@ -10,7 +10,7 @@ public class TournamentServerMain {
     public static void main(String[] args) throws IOException {
 
         TournamentServer tournamentServer = new TournamentServer();
-//        Logger.initializeLogger(0);
+        Logger.initializeLogger(0);
         Logger.loggerTest();
         tournamentServer.runTournament();
         //tournamentServer.authenticationExecutor();

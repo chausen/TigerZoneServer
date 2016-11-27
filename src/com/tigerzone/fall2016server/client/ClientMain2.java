@@ -10,7 +10,7 @@ public class ClientMain2 {
         try {
             client.defaultLogin2();
             client.waitForGame();
-            client.playGame();
+            client.playGame2();
         } catch (Exception e) {
             e.printStackTrace();
         }

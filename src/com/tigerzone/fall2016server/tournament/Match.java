@@ -65,6 +65,7 @@ public class Match extends Thread{
         game1.initializeIOport();
         game2.initializeIOport();
         while(!game1.isOver() || !game2.isOver()){
+            //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
             //Send each player their own prompt message
             if(!game1.isOver()){
@@ -82,11 +83,11 @@ public class Match extends Thread{
 
             }
 
+            //A single game will be doing the following in each line of the if statement...
             //Get each player's response after 1 second
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
-
             if(!game1.isOver()){
                 String game1playerResponse = game1player.readPlayerMessage();
                 game1.receiveTurn(game1playerResponse);

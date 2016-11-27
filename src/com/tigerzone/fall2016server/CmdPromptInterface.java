@@ -36,15 +36,16 @@ public class CmdPromptInterface {
         gamePort.initialize();
 
         // Send initial game messages
-        outputDownstreamMessages();
+       // outputDownstreamMessages();
 
         // Continue to prompt for moves and return results until end of game
         while ( !gamePort.isGameOver() ) {
             System.out.print("> ");
             turn = scanner.nextLine();
             gamePort.receiveTurn(turn);
+            
+            //outputDownstreamMessages();
 
-//            outputDownstreamMessages();
         }
     }
 
