@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016server.server.protocols;
 
-import com.tigerzone.fall2016server.FileReader;
+import com.tigerzone.fall2016server.files.FileReader;
 
 import java.util.HashMap;
 

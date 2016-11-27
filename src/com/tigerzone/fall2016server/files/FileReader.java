@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server;
+package com.tigerzone.fall2016server.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
