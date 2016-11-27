@@ -68,7 +68,6 @@ public class Match extends Thread{
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
-        
 
         while(!game1.isOver() || !game2.isOver()){
 
@@ -108,6 +107,13 @@ public class Match extends Thread{
                     gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                 }
             }
+            //A single game will be doing the following in each line of the if statement...
+            //Get each player's response after 1 second
+            //Send each player's response to the respective gamePort
+            //Get the ioPort's response
+            //Send the ioPort's response to both players. Note that each player gets the same message
+
+
 
             if(!game1.isOver()) {
                 if(game1Timeout){
@@ -165,7 +171,7 @@ public class Match extends Thread{
         player.sendMessageToPlayer("MATCH BEGINS IN " + setUpTime + " SECONDS");
 
 
-        System.out.println("YOUR OPPONENT IS PLAYER" + opponentUserName);
+        System.out.println("YOUR OPPONENT IS PLAYER " + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
         System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
@@ -184,7 +190,7 @@ public class Match extends Thread{
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        updatePlayerStatistics(game, p1, p2);
+        // updatePlayerStatistics(game, p1, p2);
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2){
