@@ -19,6 +19,7 @@ public abstract class Area implements SetAddable{
     private Set<TerrainNode> terrainNodes;
     private List<Tiger> tigerList;
 
+
     /**
      * This constructor is for testing purposes for now
      */
