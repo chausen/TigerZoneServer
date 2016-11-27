@@ -200,6 +200,11 @@ public class GameSystem implements PlayerInAdapter {
     }
 
     @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
     public int getPlayerScore(Player p){
         return scorer.getScore(p);
     }
