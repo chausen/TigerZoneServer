@@ -10,8 +10,8 @@ public class ClientMain2 {
         try {
             client.defaultLogin2();
             client.waitForGame();
-            //client.playGame2();
-            client.livePlay();
+            client.playGame2();
+            //client.livePlay();
         } catch (Exception e) {
             e.printStackTrace();
         }
