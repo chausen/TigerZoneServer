@@ -44,7 +44,8 @@ public class IOPort implements PlayerOutAdapter {
     private String currentTurnString;
     private boolean gameOver = false;
     private String response;
-
+    private boolean didForfeit = false;
+    private String forfeitedPlayer = "";
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -203,14 +204,18 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
+        forfeit(activeplayer);
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
+
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
+        didForfeit = true;
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
+
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
@@ -259,17 +264,29 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
+        forfeit(activeplayer);
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
+        forfeit(activeplayer);
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
+        forfeit(activeplayer);
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT "));
+    }
+
+    private void forfeit(String currentPlayer){
+        didForfeit = true;
+        forfeitedPlayer = currentPlayer;
+    }
+
+    public String getForfeitedPlayer(){
+        return forfeitedPlayer;
     }
 
 //    @Override
@@ -330,5 +347,9 @@ public class IOPort implements PlayerOutAdapter {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    public boolean isDidForfeit(){
+        return didForfeit;
     }
 }

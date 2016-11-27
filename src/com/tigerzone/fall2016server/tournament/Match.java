@@ -169,6 +169,7 @@ public class Match extends Thread{
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2){
+        HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -190,6 +191,14 @@ public class Match extends Thread{
             p2stats.setWins(p2stats.getWins()+1);
             p1stats.setLosses(p1stats.getLosses()+1);
             p1stats.setLargestpointdifference(game.getPlayer1FinalScore(),game.getPlayer2FinalScore());
+        }
+
+        if(game.didForfeit()){
+            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats();
+            ps.setForfeits(ps.getForfeits()+1);
+            if(ps == p1stats)
+                p2stats.setWinsByForfeit(p2stats.getWinsByForfeit()+1);//If our ps is the same as p1stats, it means P1 forfeited.
+            else p1stats.setWinsByForfeit(p1stats.getWinsByForfeit()+1);//Else, ps is player 2, P2 forfeited.
         }
 
         p1stats.setTotalPoints(p1stats.getTotalPoints()+game.getPlayer1FinalScore());
