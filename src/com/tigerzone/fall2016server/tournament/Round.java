@@ -49,7 +49,8 @@ public class Round {
     public void playRound() {
         sendMessageToPlayers();
         for (Match match : matches) {
-            match.playMatch();
+            match.start();
+            //match.playMatch();
         }
         //notifyComplete();
     }

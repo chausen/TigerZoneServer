@@ -1,6 +1,8 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.TournamentServer;
+import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.*;
@@ -8,9 +10,11 @@ import java.util.*;
 /**
  * Created by lenovo on 11/17/2016.
  */
-public class Match {
+public class Match extends Thread{
     private TournamentPlayer player1;
     private TournamentPlayer player2;
+    private TournamentPlayer game1player;
+    private TournamentPlayer game2player;
     private LinkedList<PlayableTile> tileStack;
     private Round round;
     private int matchID;
@@ -29,16 +33,81 @@ public class Match {
         this.player2 = player2;
         game1 = new Game(1, player1, player2, tileStack, this);
         game2 = new Game(2, player2, player1, tileStack, this);
+        this.game1player = player1;
+        this.game2player = player2;
     }
 
-    public void playMatch() {
+    private void swapPlayers(){
+        TournamentPlayer placeHolder = this.game1player;
+        this.game1player = this.game2player;
+        this.game2player = placeHolder;
+    }
+
+    public void run(){
+        startMatch();
+        playMatch();
+    }
+
+    private void startMatch() {
         sendMessageToPlayers();
         try {
             Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        startGames();
+        //startGames();
+    }
+
+    private void playMatch(){
+        int moveNumber = 1;
+        game1.initializeIOport();
+        game2.initializeIOport();
+        while(!game1.isOver() || !game2.isOver()){
+            //Create prompt message for both players
+            //Send each player their own prompt message
+            if(!game1.isOver()){
+                String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
+                game1player.sendMessageToPlayer(game1playerPrompt);
+            }
+            if(!game2.isOver()) {
+                String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
+                game2player.sendMessageToPlayer(game2playerPrompt);
+            }
+
+            //Wait one second
+            long start = System.currentTimeMillis();
+            while(System.currentTimeMillis() - start < 1000) {
+
+            }
+
+            //Get each player's response after 1 second
+            //Send each player's response to the respective gamePort
+            //Get the ioPort's response
+            //Send the ioPort's response to both players. Note that each player gets the same message
+
+            if(!game1.isOver()){
+                String game1playerResponse = game1player.readPlayerMessage();
+                game1.receiveTurn(game1playerResponse);
+                String game1Response = game1.getResponse();
+                sendGameMessage(game1Response);
+            }
+
+            if(!game2.isOver()) {
+                String game2playerResponse = game2player.readPlayerMessage();
+                game2.receiveTurn(game2playerResponse);
+                String game2Response = game2.getResponse();
+                sendGameMessage(game2Response);
+
+            }
+
+            //swap who is the active player in each game
+            swapPlayers();
+
+            //Increment move count
+            moveNumber++;
+        }
+        notifyEndGameToPlayers();
+        round.notifyComplete();
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -71,10 +140,10 @@ public class Match {
         sendStartMessage(player2, player1.getUsername());
     }
 
-    public void startGames() {
-        game1.start();
-        game2.start();
-    }
+//    public void startGames() {
+//        game1.start();
+//        game2.start();
+//    }
 
     private void sendEndMessage(Game game){
         TournamentPlayer p1 = game.getPlayer1();
@@ -104,37 +173,18 @@ public class Match {
 
     }
 
+//    public void notifyComplete(int gID){
+//        game1complete = gID == game1.getGameID() ? true : game1complete;
+//        game2complete = gID == game2.getGameID() ? true : game2complete;
+//        if(game1complete && game2complete){
+//            notifyEndGameToPlayers();
+//            round.notifyComplete();
+//        }
+//    }
+
     public void sendGameMessage(String playerMessage){
         player1.sendMessageToPlayer(playerMessage);
         player2.sendMessageToPlayer(playerMessage);
-    }
-
-    public void giveMessage(String playerMessage, int gid){
-        playerMessages.put(gid, playerMessage);
-        if(playerMessages.size() == numOfActiveGames){
-            Set<Integer> keyset = playerMessages.keySet();
-            Iterator<Integer> iterator = keyset.iterator();
-            List<Integer> removeList = new ArrayList<>();
-            while(iterator.hasNext()){
-                Integer removeMessage = iterator.next();
-                sendGameMessage(playerMessages.get(removeMessage));
-                removeList.add(removeMessage);
-            }
-            checkForForfeit(playerMessage);
-            removeAll(removeList);
-        }
-    }
-
-    public void checkForForfeit(String playerMessage){
-        if(playerMessage.contains("FORFEITED")){
-            decreaseNumOfActiveGames();
-        }
-    }
-
-    public void removeAll(List<Integer> removeList){
-        for(Integer integer: removeList){
-            playerMessages.remove(integer);
-        }
     }
 
     public void decreaseNumOfActiveGames(){
