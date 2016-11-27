@@ -96,7 +96,7 @@ public class Client {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
                 if (fromServer.startsWith("MAKE")) {
-                    userInput = "GAME 1 PLACE JJJJX AT -1 0 0 NONE";
+                    userInput = "GAME 1 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
                     System.out.println(userInput);
                     out.println(userInput);
                 }
@@ -123,7 +123,7 @@ public class Client {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
                 if (fromServer.startsWith("MAKE")) {
-                    userInput = "GAME 2 PLACE JJJJX AT -1 0 0 NONE";
+                    userInput = "GAME 2 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
                     System.out.println(userInput);
                     out.println(userInput);
                 }

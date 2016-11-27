@@ -88,7 +88,7 @@ public class Match extends Thread{
 
             //Wait one second
             long start = System.currentTimeMillis();
-            while(System.currentTimeMillis() - start < 20000) {
+            while(System.currentTimeMillis() - start < 1000) {
 
             }
 
