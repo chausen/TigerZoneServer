@@ -113,4 +113,8 @@ public class PlayerStats {
             return 0.0;
         else return ((totalPoints/opponentTotalPoints)/((double)gamesPlayed-(double)getWinsByForfeit()));
     }
+
+    public void setTotalPoints(int totalpoints) {
+        totalPoints = totalpoints;
+    }
 }

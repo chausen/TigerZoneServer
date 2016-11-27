@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016server.server.protocols;
 
+import com.tigerzone.fall2016server.files.FileReader;
+
 import java.util.HashMap;
 
 /**
@@ -24,6 +26,10 @@ public class LoginProtocol {
     public LoginProtocol() {
         credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials
         credentials.put("PLAYER2", "PASSWORD2"); //dummy credentials
+    }
+
+    public LoginProtocol(String credentialsFilename) {
+        credentials = FileReader.getCredentials(credentialsFilename);
     }
 
     public LoginProtocol(HashMap<String, String> credentials) {

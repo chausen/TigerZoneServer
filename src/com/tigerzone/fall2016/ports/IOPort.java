@@ -35,6 +35,7 @@ public class IOPort implements PlayerOutAdapter {
     private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
+    private String response;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -69,13 +70,13 @@ public class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
-    @Override
-    public void promptForTurn(PlayableTile currentTile) {
-        String messageToActivePlayer =
-                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
-                        this.turnCount, currentTile.getTileString());
-        currentUpstreamMessages.add(messageToActivePlayer);
-    }
+//    @Override
+//    public void promptForTurn(PlayableTile currentTile) {
+//        String messageToActivePlayer =
+//                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
+//                        this.turnCount, currentTile.getTileString());
+//        currentUpstreamMessages.add(messageToActivePlayer);
+//    }
 
     @Override
     public void receiveTurn(String s) {
@@ -84,10 +85,11 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
 
-        if (!s.contains("PLACE") || !s.contains("TILE") || !s.contains("QUIT")) {
-            receiveIllegalMessage();
-            return;
-        }
+        //TODO: Use the ProtocolStates to see if it is a properly formatted message
+//        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
+//            receiveIllegalMessage();
+//            return;
+//        }
 
         Scanner sc = new Scanner(s);
 
@@ -183,14 +185,14 @@ public class IOPort implements PlayerOutAdapter {
     public void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
         //broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
-        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
@@ -199,8 +201,7 @@ public class IOPort implements PlayerOutAdapter {
 //        String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
 //        broadcast(prefix + " " + currentTurnString);
 //        turnCount++;
-        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
-        switchActivePlayer();
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
     }
 
     @Override
@@ -211,31 +212,37 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        broadcast(stringBuilder.toString());
+        setResponse(stringBuilder.toString());
     }
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
-        broadcast(forfeitMessage);
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
-        broadcast(forfeitMessage);
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT ");
-        broadcast(forfeitMessage);
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT "));
     }
 
+//    @Override
+//    public void notifyEndGame(Map<Player, Integer> playerScores) {
+//        Set<Player> players = playerScores.keySet();
+//
+//        player1FinalScore = playerScores.get(loginName1);
+//        player2FinalScore = playerScores.get(loginName2);
+//        gameOver = true;
+//    }
+
     @Override
-    public void notifyEndGame(Map<Player, Integer> playerScores) {
-        player1FinalScore = playerScores.get(loginName1);
-        player2FinalScore = playerScores.get(loginName2);
+    public void notifyEndGame(int player1Score, int player2Score) {
+        player1FinalScore = player1Score;
+        player2FinalScore = player2Score;
         gameOver = true;
     }
 
@@ -257,16 +264,6 @@ public class IOPort implements PlayerOutAdapter {
 
     //========== Accessors ==========//
 
-    private String getActivePlayer(){
-        return activeplayer;
-    }
-
-    public String getMessageFromCurrentMessageQueue(){return this.currentUpstreamMessages.pop();
-    }
-
-    public boolean isCurrentMessageQueueEmpty(){
-        return this.currentUpstreamMessages.isEmpty();
-    }
 
     private String getCurrentTurnString(){
         return currentTurnString;
@@ -280,16 +277,16 @@ public class IOPort implements PlayerOutAdapter {
         return this.inAdapter;
     }
 
-    //========== Helper Methods ==========//
-    // Helps alternate between player1 and player2
-    private void switchActivePlayer() {
-        activeplayer = (activeplayer == loginName1) ? loginName2 : loginName1;
-        currentUpstreamMessages = (currentUpstreamMessages.equals(player1UpstreamMessages)) ? player2UpstreamMessages : player1UpstreamMessages;
+
+    public String getCurrentTile(){
+        return inAdapter.getCurrentTile();
     }
 
-    // Adds message to both player1 and player2's message queues
-    private void broadcast(String message) {
-        player1UpstreamMessages.push(message);
-        player2UpstreamMessages.push(message);
+    public String getResponse(){
+        return this.response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

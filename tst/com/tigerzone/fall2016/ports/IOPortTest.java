@@ -92,6 +92,11 @@ public class IOPortTest {
             public void forfeit() {
 
             }
+
+            @Override
+            public String getCurrentTile() {
+                return null;
+            }
         };
 
         cmdp.initialize(mockGameSystem);
@@ -144,14 +149,14 @@ public class IOPortTest {
         cmdp.initialize();
         cmdp.getInAdapter().truncateTS(20);//Make the tile set only 20
 
-        while (!cmdp.isCurrentMessageQueueEmpty()) {
-            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
-        }
-
-        while (!cmdp.isCurrentMessageQueueEmpty() && (!cmdp.isGameOver() && sc.hasNext())) {
-            String line = sc.nextLine();
-            cmdp.receiveTurn(line);
-            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
-        }
+//        while (!cmdp.isCurrentMessageQueueEmpty()) {
+//            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
+//        }
+//
+//        while (!cmdp.isCurrentMessageQueueEmpty() && (!cmdp.isGameOver() && sc.hasNext())) {
+//            String line = sc.nextLine();
+//            cmdp.receiveTurn(line);
+//            System.out.println(cmdp.getMessageFromCurrentMessageQueue());
+//        }
     }
 }

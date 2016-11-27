@@ -1,9 +1,8 @@
 package com.tigerzone.fall2016server.client;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import com.tigerzone.fall2016server.files.FileReader;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Iterator;
@@ -102,16 +101,15 @@ public class ParameterizedClient {
                     determiningMessage = true;
                 }
                 if (determiningMessage && (fromServer = in.readLine()) != null) {
-                    MoveReader moveReader = new MoveReader();
                     if (fromServer.startsWith("MAKE YOUR MOVE")) {
-                        moves = moveReader.getMoves(player1MovesFilename);
+                        moves = FileReader.getMoves(player1MovesFilename);
                         System.out.println("I'm Player 1");
                         moveIterator = moves.iterator();
                         String firstMove = moveIterator.next();
                         System.out.println(firstMove);
                         out.println(firstMove);
                     } else {
-                        moves = moveReader.getMoves(player2MovesFilename);
+                        moves = FileReader.getMoves(player2MovesFilename);
                         System.out.println("I'm Player 2");
                         moveIterator = moves.iterator();
                     }
