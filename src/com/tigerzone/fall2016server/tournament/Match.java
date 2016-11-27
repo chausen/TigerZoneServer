@@ -67,12 +67,12 @@ public class Match extends Thread{
         game1.initializeIOport();
         game2.initializeIOport();
 
-//        try {
-//            player1.setCommunicationTimeout(15000);
-//            player2.setCommunicationTimeout(15000);
-//        } catch (SocketException e) {
-//            System.out.println("Sokcet timeout exception???");
-//        }
+        try {
+            player1.setCommunicationTimeout(15000);
+            player2.setCommunicationTimeout(15000);
+        } catch (SocketException e) {
+            System.out.println("Sokcet timeout exception???");
+        }
 
         while(!game1.isOver() || !game2.isOver()){
             //A single game will be doing the following in each line of the if statement...
