@@ -108,14 +108,13 @@ public class PlayerStats {
         this.opponentTotalPoints = opponentTotalPoints;
     }
 
-    public double getAvgRelPerf(){
-        if((double) gamesPlayed - (double) getWinsByForfeit() == 0) {
+    public double getAvgRelPerf() {
+        if ((double) gamesPlayed - (double) getWinsByForfeit() == 0) {
             return 0.0;
         }
-        else {
-            return ((totalPoints / opponentTotalPoints) / ((double) gamesPlayed - (double) getWinsByForfeit()));
+        else if ((opponentTotalPoints) == 0) return 0.0;
+            else return ((totalPoints / opponentTotalPoints) / ((double) gamesPlayed - (double) getWinsByForfeit()));
         }
-    }
 
     public void setTotalPoints(int totalpoints) {
         totalPoints = totalpoints;

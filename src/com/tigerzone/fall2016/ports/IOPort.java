@@ -5,6 +5,10 @@ import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.area.DenArea;
+import com.tigerzone.fall2016.area.JungleArea;
+import com.tigerzone.fall2016.area.LakeArea;
+import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
@@ -12,6 +16,7 @@ import com.tigerzone.fall2016.parsing.Context;
 import com.tigerzone.fall2016.parsing.GameContext;
 import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 
 import java.awt.*;
@@ -217,7 +222,6 @@ public class IOPort implements PlayerOutAdapter {
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
     }
 
-    @Override
     public void reportScoringEvent(Map<Player,Integer> playerScores) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("GAME " + gid + " ");
@@ -226,6 +230,31 @@ public class IOPort implements PlayerOutAdapter {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
         setResponse(stringBuilder.toString());
+    }
+
+
+    @Override
+    public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,ja);
+    }
+
+    @Override
+    public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,da);
+    }
+
+    @Override
+    public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,la);
+    }
+
+    @Override
+    public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,ta);
     }
 
     @Override
