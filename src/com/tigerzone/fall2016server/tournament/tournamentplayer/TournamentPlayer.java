@@ -54,7 +54,7 @@ public class TournamentPlayer {
         this.connection.writeMessageToPlayer(message);
     }
 
-    public String readPlayerMessage(){
+    public String readPlayerMessage() throws IOException{
         return this.connection.receiveMessageFromPlayer();
     }
 

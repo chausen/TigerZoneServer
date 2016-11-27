@@ -244,7 +244,7 @@ public class GameSystem implements PlayerInAdapter {
     @Override
     public String getCurrentTile() {
         this.currentTile = ts.peek();
-        return currentTile.toString();
+        return currentTile.getTileString();
     }
 
     //========== Helper Methods ===========//

@@ -2,6 +2,7 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -38,11 +39,11 @@ public class GamePlayerCommunication {
         this.player2.sendMessageToPlayer(gameMessage);
     }
 
-    public String receivePlayer1Message(){
+    public String receivePlayer1Message() throws IOException {
         return this.player1.readPlayerMessage();
     }
 
-    public String receivePlayer2Message(){
+    public String receivePlayer2Message() throws IOException{
         return this.player2.readPlayerMessage();
     }
 }
