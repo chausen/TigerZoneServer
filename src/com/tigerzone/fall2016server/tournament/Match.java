@@ -26,7 +26,7 @@ public class Match extends Thread{
     private Game game2;
     private boolean game1complete = false;
     private boolean game2complete = false;
-    private final int setUpTime = 10;
+    private final int setUpTime = 1;
     private Map<Integer, String> playerMessages = new HashMap<>();
     private int numOfActiveGames = 2;
 
@@ -55,7 +55,7 @@ public class Match extends Thread{
     private void startMatch() {
         sendMessageToPlayers();
         try {
-            Thread.sleep(6000);
+            Thread.sleep(setUpTime * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -167,10 +167,6 @@ public class Match extends Thread{
         sendStartMessage(player2, player1.getUsername());
     }
 
-//    public void startGames() {
-//        game1.start();
-//        game2.start();
-//    }
 
     private void sendEndMessage(Game game){
         TournamentPlayer p1 = game.getPlayer1();
@@ -218,15 +214,6 @@ public class Match extends Thread{
     private void notifyEndGameToPlayers(){
         sendEndMessage(game1);
         sendEndMessage(game2);
-    }
-
-    public void notifyComplete(int gID){
-        game1complete = gID == game1.getGameID() ? true : game1complete;
-        game2complete = gID == game2.getGameID() ? true : game2complete;
-        if(game1complete && game2complete){
-            notifyEndGameToPlayers();
-            round.notifyComplete(); // TODO: 11/26/2016 this is problematic because the round is never set in match
-        }
     }
 
     public void sendPlayerMoveMessages() {

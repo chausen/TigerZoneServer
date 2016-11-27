@@ -31,7 +31,7 @@ public class TournamentServer {
         authentication();
         //authenticationExecutor();
         startChallenge(tournamentPlayers);
-        notifyChallengeComplete();
+        //notifyChallengeComplete();
     }
 
 
@@ -65,6 +65,7 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
+        System.exit(1);
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
