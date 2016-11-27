@@ -74,7 +74,7 @@ public class Round {
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
             }
-            challenge.notifyComplete();
+            challenge.roundComplete();
         }
     }
 

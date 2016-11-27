@@ -18,10 +18,9 @@ public class Challenge {
     private int numOfRounds;
     private int numOfRoundsComplete = 0;
     List<Round> rounds;
+    Round currentRound;
+    int currentRoundNumber;
     //Queue<Round> rounds;
-
-
-    private int currentRound = 0;
 
 
     public Challenge(TournamentServer tournamentServers, long seed, List<TournamentPlayer> players) {
@@ -39,14 +38,20 @@ public class Challenge {
     }
 
     public void beginChallenge() {
+        currentRoundNumber=1;
         sendMessageToPlayers();
         rounds = generateRounds();
-        for (Round round: rounds) {
-            round.playRound();
-            numOfRoundsComplete++;
-            currentRound++;
+        rounds.get(currentRoundNumber-1).playRound();
+    }
+
+    public void roundComplete() {
+        currentRoundNumber++;
+        if (currentRoundNumber==numOfRounds) {
+            tournamentServer.notifyChallengeComplete();
+        } else {
+            currentRound = rounds.get(currentRoundNumber-1);
+            currentRound.playRound();
         }
-        notifyComplete();
     }
 
     private void sendMessageToPlayers(){
@@ -93,6 +98,8 @@ public class Challenge {
             tournamentServer.notifyChallengeComplete();
         }
     }
+
+
 
     public int getChallengeID() {
         return challengeID;
