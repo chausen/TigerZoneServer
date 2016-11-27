@@ -42,6 +42,7 @@ public class Round {
         this.roundID = roundID;
         getChallengeInfo();
         matches = RoundRobin.listMatches(players, this.roundID, tiles);
+        this.numOfMatches = matches.size();
         for (Match match: matches) {
             match.setRound(this);
         }
