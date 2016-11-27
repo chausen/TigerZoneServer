@@ -42,6 +42,11 @@ public class IOPortTest {
             }
 
             @Override
+            public Player getCurrentPlayer() {
+                return null;
+            }
+
+            @Override
             public int getPlayerScore(Player p) {
                 return 0;
             }
