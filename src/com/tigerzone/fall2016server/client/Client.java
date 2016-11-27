@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -132,8 +132,8 @@ public class Client {
                 break;
             }
 
-            }
         }
+    }
 
     public void defaultLogin2() throws Exception {
         String fromServer;
@@ -154,5 +154,5 @@ public class Client {
         }
     }
 
-    }
+}
 

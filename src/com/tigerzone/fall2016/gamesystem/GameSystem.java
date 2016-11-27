@@ -198,6 +198,11 @@ public class GameSystem implements PlayerInAdapter {
         return player;
     }
 
+    @Override
+    public int getPlayerScore(Player p){
+        return scorer.getScore(p);
+    }
+
     // If the current tile can be placed but they are taking one of the actions
     // for when the tile is unplaceable: invalid move; forfeit
     private void tileUnplaceableCheck(){

@@ -24,6 +24,7 @@ public class TournamentPlayer {
         this.username = username;
         this.connection = connection;
         this.tournamentPlayerGameConnection = new PlayerGameCommunication(this.connection);
+        this.stats = new PlayerStats();
     }
 
     public String getUsername() {
