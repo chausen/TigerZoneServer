@@ -111,6 +111,7 @@ public class PlayerStats {
     public double getAvgRelPerf(){
         if((gamesPlayed - getWinsByForfeit()) == 0)
             return 0.0;
+        else if((opponentTotalPoints) == 0) return 0.0;
         else return ((totalPoints/opponentTotalPoints)/((double)gamesPlayed-(double)getWinsByForfeit()));
     }
 
