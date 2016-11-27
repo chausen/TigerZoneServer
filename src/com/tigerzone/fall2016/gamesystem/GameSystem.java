@@ -65,6 +65,7 @@ public class GameSystem implements PlayerInAdapter {
         //TODO: Remove this and just use the LinkedList?
         //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
+        ts.truncateTS(20);
         //originTile = ts.pop();
 
         currentTile = ts.peek();
@@ -196,6 +197,11 @@ public class GameSystem implements PlayerInAdapter {
             player = null;
         }
         return player;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     @Override
