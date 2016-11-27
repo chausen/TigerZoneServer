@@ -142,6 +142,35 @@ public class Client {
 
     }
 
+    public void livePlay() {
+        try {
+            String fromServer;
+            String userInput = null;
+
+            while ((fromServer = in.readLine()) != null) {
+                System.out.println(fromServer);
+
+                if (fromServer.equals("NOPE GOOD BYE")) {
+                    System.out.println("Server says goodbye");
+                    break;
+                }
+
+                userInput = stdIn.readLine();
+                if (userInput != null) {
+                    out.println(userInput);
+                }
+
+            }
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host " + host);
+//            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("In client: Couldn't get I/O for the connection to " + host);
+            //System.exit(1);
+        }
+
+    }
+
 
     public void defaultLogin() throws Exception {
         String fromServer;

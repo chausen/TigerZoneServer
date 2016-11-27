@@ -152,17 +152,17 @@ public class ParameterizedClient {
                     gid = getGid(fromServer);
 
                     if (gidToMoveset.get(gid).equals(game1MoveIterator)) {
-                        ++game1MoveNumber; // account for other players move
+                        String[] split = fromServer.split(" ");
+                        int moveNumber = Integer.parseInt(split[10]);
                         userInput = game1MoveIterator.next();
-                        System.out.println("Client sending move: GAME " + gid + " MOVE " + game1MoveNumber + " " + userInput);
-                        out.println("GAME " + gid + " MOVE " + game1MoveNumber + " " + userInput);
-                        ++game1MoveNumber; // account for your move
+                        System.out.println("Client sending move: GAME " + gid + " MOVE " + moveNumber + " " + userInput);
+                        out.println("GAME " + gid + " MOVE " + moveNumber + " " + userInput);
                     } else if (gidToMoveset.get(gid).equals(game2MoveIterator)) {
-                        ++game2MoveNumber; // account for other players move
+                        String[] split = fromServer.split(" ");
+                        int moveNumber = Integer.parseInt(split[10]);
                         userInput = game2MoveIterator.next();
-                        System.out.println("Client sending move: GAME " + gid + " MOVE " + game2MoveNumber + " " + userInput);
-                        out.println("GAME " + gid + " MOVE " + game2MoveNumber + " " + userInput);
-                        ++game2MoveNumber; // account for your move
+                        System.out.println("Client sending move: GAME " + gid + " MOVE " + moveNumber + " " + userInput);
+                        out.println("GAME " + gid + " MOVE " + moveNumber + " " + userInput);
                         }
                     }
                     if (fromServer.equals("NOPE GOOD BYE")) {

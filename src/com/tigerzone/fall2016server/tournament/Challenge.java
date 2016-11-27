@@ -47,12 +47,20 @@ public class Challenge {
     }
 
     public void roundComplete() {
-        currentRoundNumber++;
         if (currentRoundNumber==numOfRounds) {
+            sendEndMessage();
             tournamentServer.notifyChallengeComplete();
         } else {
             currentRound = rounds.get(currentRoundNumber-1);
             currentRound.playRound();
+            currentRoundNumber++;
+        }
+    }
+
+    private void sendEndMessage(){
+        Logger.endChallenge(getTournamentID(),challengeID);
+        for(TournamentPlayer tournamentPlayer: players){
+            tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
         }
     }
 
