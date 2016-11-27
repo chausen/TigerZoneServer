@@ -21,6 +21,7 @@ public class Game {
     //private GamePlayerCommunication gamePlayerCommunication;
     private TournamentPlayer activePlayer;
     private TournamentPlayer restingPlayer;
+    private boolean isOver = false;
 
     LinkedList<PlayableTile> tileStack;
     private IOPort ioPort;
@@ -115,7 +116,11 @@ public class Game {
     }
 
     public boolean isOver(){
-        return ioPort.isGameOver();
+        return ioPort.isGameOver() == true ? true : isOver;
+    }
+
+    public void endGame(){
+        isOver = true;
     }
 
     public String getCurrentTile(){

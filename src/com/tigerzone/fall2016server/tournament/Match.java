@@ -7,6 +7,7 @@ import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatte
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -60,7 +61,7 @@ public class Match extends Thread{
         //startGames();
     }
 
-    private void playMatch(){
+    private void playMatch() {
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
@@ -89,18 +90,33 @@ public class Match extends Thread{
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
             if(!game1.isOver()){
-                String game1playerResponse = game1player.readPlayerMessage();
-                game1.receiveTurn(game1playerResponse);
-                String game1Response = game1.getResponse();
+                String game1playerResponse = null;
+                String game1Response = null;
+                try {
+                    game1playerResponse = game1player.readPlayerMessage();
+                    game1.receiveTurn(game1playerResponse);
+                    game1Response = game1.getResponse();
+                }
+                catch (IOException e){
+                    game1Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                    game1.endGame();
+                }
                 sendGameMessage(game1Response);
             }
 
             if(!game2.isOver()) {
-                String game2playerResponse = game2player.readPlayerMessage();
-                game2.receiveTurn(game2playerResponse);
-                String game2Response = game2.getResponse();
+                String game2playerResponse = null;
+                String game2Response = null;
+                try {
+                    game2playerResponse = game1player.readPlayerMessage();
+                    game1.receiveTurn(game2playerResponse);
+                    game2Response = game1.getResponse();
+                }
+                catch (IOException e){
+                    game2Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                    game1.endGame();
+                }
                 sendGameMessage(game2Response);
-
             }
 
             //swap who is the active player in each game
