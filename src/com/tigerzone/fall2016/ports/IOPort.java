@@ -123,7 +123,6 @@ public class IOPort implements PlayerOutAdapter {
                     break;
             }
         }
-        turnCount++;
         //return received;
     }
 
@@ -330,6 +329,7 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     public String getResponse(){
+        //this.turnCount++;
         return this.response;
     }
 
