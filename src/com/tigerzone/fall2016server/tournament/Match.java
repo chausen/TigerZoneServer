@@ -108,13 +108,13 @@ public class Match extends Thread{
                 String game2playerResponse = null;
                 String game2Response = null;
                 try {
-                    game2playerResponse = game1player.readPlayerMessage();
-                    game1.receiveTurn(game2playerResponse);
-                    game2Response = game1.getResponse();
+                    game2playerResponse = game2player.readPlayerMessage();
+                    game2.receiveTurn(game2playerResponse);
+                    game2Response = game2.getResponse();
                 }
                 catch (IOException e){
-                    game2Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
-                    game1.endGame();
+                    game2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                    game2.endGame();
                 }
                 sendGameMessage(game2Response);
             }
