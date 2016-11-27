@@ -183,12 +183,12 @@ public class Match extends Thread{
         p2stats.setGamesPlayed(p2stats.getGamesPlayed()+1);
         if(game.getPlayer1FinalScore() > game.getPlayer2FinalScore()){
             p1stats.setWins(p1stats.getWins()+1);
-            p2stats.setLosses(p1stats.getLosses()+1);
+            p2stats.setLosses(p2stats.getLosses()+1);
             p2stats.setLargestpointdifference(game.getPlayer2FinalScore(),game.getPlayer1FinalScore());
         }
         else if(game.getPlayer1FinalScore() == game.getPlayer2FinalScore()){
             p1stats.setTies(p1stats.getTies()+1);
-            p2stats.setTies(p1stats.getTies()+1);
+            p2stats.setTies(p2stats.getTies()+1);
         }
         else {
             p2stats.setWins(p2stats.getWins()+1);
@@ -197,10 +197,10 @@ public class Match extends Thread{
         }
 
         p1stats.setTotalPoints(p1stats.getTotalPoints()+game.getPlayer1FinalScore());
-        p1stats.setTotalPoints(p2stats.getTotalPoints()+game.getPlayer2FinalScore());
+        p2stats.setTotalPoints(p2stats.getTotalPoints()+game.getPlayer2FinalScore());
 
         p1stats.setOpponentTotalPoints(p1stats.getOpponentTotalPoints()+game.getPlayer2FinalScore());
-        p2stats.setOpponentTotalPoints(p1stats.getOpponentTotalPoints()+game.getPlayer1FinalScore());
+        p2stats.setOpponentTotalPoints(p2stats.getOpponentTotalPoints()+game.getPlayer1FinalScore());
 
         Logger.endGame(c.getTournamentID(),c.getChallengeID(),r.getRoundID(),m.getMatchID(),game.getGameID(),p1,p2);
     }
