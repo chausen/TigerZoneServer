@@ -222,7 +222,7 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        setResponse(stringBuilder.toString());
+        // setResponse(stringBuilder.toString());
     }
 
 
@@ -241,13 +241,13 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,la);
+//        Logger.addFeatureScored(gid,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,ta);
+//        Logger.addFeatureScored(gid,ta);
     }
 
     @Override
