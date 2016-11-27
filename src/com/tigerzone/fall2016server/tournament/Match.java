@@ -215,6 +215,14 @@ public class Match extends Thread{
         sendEndMessage(game2);
     }
 
+    public TournamentPlayer getPlayer1(){
+        return player1;
+    }
+    public TournamentPlayer getPlayer2(){
+        return player2;
+    }
+
+
     public void sendPlayerMoveMessages() {
 
 
