@@ -8,4 +8,19 @@ import com.tigerzone.fall2016.area.Area;
 public class Deer extends Prey {
     @Override
     public void addToArea(Area area){ area.addAnimal(this);}
+
+    @Override
+    public boolean isDeer(Deer deer) {
+        return true;
+    }
+
+    @Override
+    public boolean isBoar(Boar boar) {
+        return false;
+    }
+
+    @Override
+    public boolean isBuffalo(Buffalo buffalo) {
+        return false;
+    }
 }

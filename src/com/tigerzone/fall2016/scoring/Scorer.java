@@ -168,6 +168,11 @@ public class Scorer {
                 List<Player> owners = lake.getOwner();
 
                 updatePlayersScore(owners, points);
+
+//                //// TODO: 11/27/2016 added this, maybe need to remove
+//                Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
+//                outAdapter.reportScoringEvent(scoringEvent, lake);
+
             }
         }
     }

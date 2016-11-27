@@ -27,14 +27,9 @@ public class ParameterizedClient {
 
     private Iterator<String> game1MoveIterator;
     private Iterator<String> game2MoveIterator;
-    private Iterator<String> currentGameMoveIterator;
-
-    private int game1MoveNumber = 1;
-    private int game2MoveNumber = 1;
-    private int currentGameMoveNumber;
 
     private int gid;
-    private HashMap<Integer, Iterator> gidToMoveset = new HashMap<>();
+    private HashMap<Integer, Iterator> gidToMoveset = new HashMap<>(); // Used to map a moveset to a gid for a match
 
 
     public ParameterizedClient(String host, int port, String player1MovesFilename, String player2MovesFilename) {
@@ -56,8 +51,6 @@ public class ParameterizedClient {
         sb.append("/src/com/tigerzone/fall2016server/files/");
         player1Moves = FileReader.getMoves(sb.toString() + player1MovesFilename);
         player2Moves = FileReader.getMoves(sb.toString() + player2MovesFilename);
-        game1MoveIterator = player1Moves.iterator();
-        game2MoveIterator = player2Moves.iterator();
     }
 
     public void login(String loginName, String password) throws Exception {
@@ -73,7 +66,7 @@ public class ParameterizedClient {
                 out.println("I AM " + loginName + " " + password);
             } else if (fromServer.startsWith("WELCOME")) {
                 System.out.println("ACCEPTED TO THE TOURNEY");
-                break;
+                waitForGame();
             }
 
         }
@@ -87,10 +80,14 @@ public class ParameterizedClient {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("From Server: " + fromServer);
                 if (fromServer.startsWith("MATCH BEGINS")) {
+                    determineMoveSet();
                     break;
                 }
                 if (fromServer.equals("NOPE GOOD BYE")) {
                     System.out.println("Server says goodbye");
+                    break;
+                }
+                if (fromServer.equals("END OF CHALLENGES")) {
                     break;
                 }
             }
@@ -113,25 +110,44 @@ public class ParameterizedClient {
         try {
 
             String fromServer;
+            game1MoveIterator = player1Moves.iterator();
+            game2MoveIterator = player2Moves.iterator();
+
+            System.out.println("Iterator hash code: " + game1MoveIterator.hashCode());
+            System.out.println("Iterator hash code: " + game2MoveIterator.hashCode());
+
+            int numberOfGamesDetermined = 0;
 
             while ( (fromServer = in.readLine()) != null ) {
                 System.out.println("From Server: " + fromServer);
                 if (fromServer.startsWith("MAKE")) {
+
+                    // parse the move number and gid
                     String[] split = fromServer.split(" ");
                     int moveNumber = Integer.parseInt(split[10]);
                     int gid = Integer.parseInt(split[5]);
+
+                    // Make the first move depending on if you are first or second
                     if (moveNumber % 2 == 0) {
                         String firstMove = game2MoveIterator.next();
                         System.out.println("Client Sending move: GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
                         out.println("GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
                         gidToMoveset.put(gid, game2MoveIterator);
+                        ++numberOfGamesDetermined;
                     } else {
                         String firstMove = game1MoveIterator.next();
                         System.out.println("Client Sending move: GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
                         out.println("GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
                         gidToMoveset.put(gid, game1MoveIterator);
+                        ++numberOfGamesDetermined;
+                    }
+
+                    if (numberOfGamesDetermined == 2) {
+                        playGame();
+                        break;
                     }
                 }
+
             }
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
@@ -164,6 +180,10 @@ public class ParameterizedClient {
                         System.out.println("Client sending move: GAME " + gid + " MOVE " + moveNumber + " " + userInput);
                         out.println("GAME " + gid + " MOVE " + moveNumber + " " + userInput);
                         }
+                    }
+                    if (fromServer.startsWith("END OF ROUND")) {
+                        waitForGame();
+                        break;
                     }
                     if (fromServer.equals("NOPE GOOD BYE")) {
                         System.out.println("Server says goodbye");

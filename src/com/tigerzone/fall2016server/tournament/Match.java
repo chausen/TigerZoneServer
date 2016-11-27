@@ -27,7 +27,7 @@ public class Match extends Thread{
     private Game game2;
     private boolean game1complete = false;
     private boolean game2complete = false;
-    private final int setUpTime = 1;
+    private final int setUpTime = 10;
     private Map<Integer, String> playerMessages = new HashMap<>();
     private int numOfActiveGames = 2;
 
