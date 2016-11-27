@@ -115,7 +115,7 @@ public class ParameterizedClient {
             String fromServer;
 
             while ( (fromServer = in.readLine()) != null ) {
-
+                System.out.println("From Server: " + fromServer);
                 if (fromServer.startsWith("MAKE")) {
                     String[] split = fromServer.split(" ");
                     int moveNumber = Integer.parseInt(split[10]);
@@ -146,7 +146,7 @@ public class ParameterizedClient {
             String userInput = null;
 
             while ((fromServer = in.readLine()) != null) {
-                System.out.println(fromServer);
+                System.out.println("From Server: " + fromServer);
                 if (fromServer.startsWith("MAKE")) {
 
                     gid = getGid(fromServer);
