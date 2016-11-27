@@ -58,6 +58,7 @@ public class Challenge {
     }
 
     private void sendEndMessage(){
+        Logger.endChallenge(getTournamentID(),challengeID);
         for(TournamentPlayer tournamentPlayer: players){
             tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
         }

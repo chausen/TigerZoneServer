@@ -46,6 +46,12 @@ public class Game {
 
     }
 
+    public boolean didForfeit(){
+        return ioPort.isDidForfeit();
+    }
+    public String getForfeitedPlayer(){
+        return ioPort.getForfeitedPlayer();
+    }
     /**
      * Method that puts current game thread to sleep
      * for specified amount of milliseconds
