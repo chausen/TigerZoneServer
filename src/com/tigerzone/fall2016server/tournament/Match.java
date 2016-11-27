@@ -125,7 +125,7 @@ public class Match extends Thread{
                     game2.endGame();
                 }
                 else {
-                    turnIO(game2, gamePlayer1Response);
+                    turnIO(game2, gamePlayer2Response);
                 }
             }
 
@@ -185,7 +185,7 @@ public class Match extends Thread{
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        updatePlayerStatistics(game, p1, p2);
+//        updatePlayerStatistics(game, p1, p2);
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2){

@@ -11,8 +11,8 @@ public class ClientMain {
             //client.login();
             client.defaultLogin();
             client.waitForGame();
-            //client.playGame();
-            client.livePlay();
+            client.playGame();
+            //client.livePlay();
         } catch (Exception e) {
             e.printStackTrace();
         }
