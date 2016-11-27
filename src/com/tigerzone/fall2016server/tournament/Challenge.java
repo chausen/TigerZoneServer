@@ -84,15 +84,15 @@ public class Challenge {
         return rounds;
     }
 
-    public void notifyComplete(){
-        numOfRoundsComplete++;
-        if(numOfRoundsComplete == numOfRounds) {
-            for (TournamentPlayer tournamentPlayer : players) {
-                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
-            }
-            tournamentServer.notifyChallengeComplete();
-        }
-    }
+//    public void notifyComplete(){
+//        numOfRoundsComplete++;
+//        if(numOfRoundsComplete == numOfRounds) {
+//            for (TournamentPlayer tournamentPlayer : players) {
+//                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
+//            }
+//            tournamentServer.notifyChallengeComplete();
+//        }
+//    }
 
     public int getChallengeID() {
         return challengeID;

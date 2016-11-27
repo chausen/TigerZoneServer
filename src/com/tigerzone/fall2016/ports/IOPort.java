@@ -84,10 +84,11 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
 
-        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
-            receiveIllegalMessage();
-            return;
-        }
+        //TODO: Use the ProtocolStates to see if it is a properly formatted message
+//        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
+//            receiveIllegalMessage();
+//            return;
+//        }
 
         Scanner sc = new Scanner(s);
 
