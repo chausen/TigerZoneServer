@@ -1,6 +1,12 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.area.DenArea;
+import com.tigerzone.fall2016.area.JungleArea;
+import com.tigerzone.fall2016.area.LakeArea;
+import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
@@ -9,6 +15,8 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by lenovo on 11/21/2016.
@@ -16,6 +24,7 @@ import java.util.Calendar;
 public class Logger {
     private static PrintWriter pw = null;
     private static ArrayList<String> logs = new ArrayList<>();
+    private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
 
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
@@ -63,6 +72,7 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2ID);
         addLogToLogger(sb.toString());
+        gameLookup.put(gameID,new Integer[]{tournamentID, challengeID, roundID, matchID});
     }
 
     private static void end(int tournamentID){
@@ -179,9 +189,73 @@ public class Logger {
 
 
     //TODO: Add logic to score features when they're triggered
-    public static void addFeatureScored(int tournamentID, int challengeID, int roundID, int matchID, int gameID){
+    public static void addFeatureScored(int gameID, JungleArea ja){
+        Integer[] ids = gameLookup.get(gameID);
+        int tournamentID = ids[0];
+        int challengeID = ids[1];
+        int roundID = ids[2];
+        int matchID = ids[3];
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
+        sb.append("JUNGLE\r\n");
+        sb.append("COMPLETED ");
+        sb.append(ja.isComplete());
+        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+        /*        for(BoardTile b : ja.getBoardTiles()){
+            b.
+        }*/
+
+
     }
+
+    public static void addFeatureScored(int gameID, DenArea da){
+        Integer[] ids = gameLookup.get(gameID);
+        int tournamentID = ids[0];
+        int challengeID = ids[1];
+        int roundID = ids[2];
+        int matchID = ids[3];
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
+        sb.append("DEN\r\n");
+        sb.append("COMPLETED ");
+        sb.append(da.isComplete());
+        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+        List<Tiger> tigerlist = da.getTigerList();
+        tigerlist.get(0).getOwner().getPlayerId();
+    }
+
+
+
+    public static void addFeatureScored(int gameID, LakeArea la){
+        Integer[] ids = gameLookup.get(gameID);
+        int tournamentID = ids[0];
+        int challengeID = ids[1];
+        int roundID = ids[2];
+        int matchID = ids[3];
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
+        sb.append("LAKE\r\n");
+        sb.append("COMPLETED ");
+        sb.append(la.isComplete());
+        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+
+    }
+
+    public static void addFeatureScored(int gameID, TrailArea ta){
+        Integer[] ids = gameLookup.get(gameID);
+        int tournamentID = ids[0];
+        int challengeID = ids[1];
+        int roundID = ids[2];
+        int matchID = ids[3];
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
+        sb.append("TRAIL\r\n");
+        sb.append("COMPLETED ");
+        sb.append(ta.isComplete());
+        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+
+    }
+
 
     /**
      * Gets a TimeStamp of the current time (set on the computer) to prefix to any log added.
