@@ -166,7 +166,7 @@ public class Match extends Thread{
         player.sendMessageToPlayer("MATCH BEGINS IN " + setUpTime + " SECONDS");
 
 
-        System.out.println("YOUR OPPONENT IS PLAYER" + opponentUserName);
+        System.out.println("YOUR OPPONENT IS PLAYER " + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
         System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");

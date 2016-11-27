@@ -26,7 +26,7 @@ public class GameToClientMessageFormatter {
         stringBuffer.append(" WITHIN ");
         stringBuffer.append(maxTime);
         stringBuffer.append(secondOrSeconds);
-        stringBuffer.append(":MOVE ");
+        stringBuffer.append(": MOVE ");
         stringBuffer.append(moveNum);
         stringBuffer.append(" PLACE ");
         stringBuffer.append(tile);
