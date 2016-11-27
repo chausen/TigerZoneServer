@@ -19,8 +19,6 @@ public class Game {
     TournamentPlayer player1;
     TournamentPlayer player2;
     //private GamePlayerCommunication gamePlayerCommunication;
-    private TournamentPlayer activePlayer;
-    private TournamentPlayer restingPlayer;
     private boolean isOver = false;
 
     LinkedList<PlayableTile> tileStack;
@@ -31,13 +29,8 @@ public class Game {
                 LinkedList<PlayableTile> tileStack, Match match) {
 
         this.gameID = gameID;
-
         this.player1 = player1;
-        this.activePlayer = this.player1;
-
         this.player2 = player2;
-        this.restingPlayer = this.player2;
-
         this.tileStack = tileStack;
         this.match = match;
         //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
@@ -45,77 +38,13 @@ public class Game {
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
     }
-
     public boolean didForfeit(){
         return ioPort.isDidForfeit();
     }
+
     public String getForfeitedPlayer(){
         return ioPort.getForfeitedPlayer();
     }
-    /**
-     * Method that puts current game thread to sleep
-     * for specified amount of milliseconds
-     * @param milliseconds
-     */
-//    private void putGameThreadToSleep(int milliseconds){
-//        try {
-//            sleep(milliseconds);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /**
-     * This method swaps active player between
-     * player1 and player2 and vice-versa.
-     *
-     */
-    private void swapActivePlayer(){
-        TournamentPlayer placeHolder = this.activePlayer;
-        this.activePlayer = this.restingPlayer;
-        this.restingPlayer = placeHolder;
-    }
-
-    private boolean didActivePlayerTimeOut(TournamentPlayer previousActivePlayer){
-        return this.activePlayer == previousActivePlayer;
-    }
-
-//    void playGame() {
-//        this.ioPort.initialize();
-//        while (!this.ioPort.isGameOver()) {
-//            //not sure if this logic is correct
-//            while (this.ioPort.isCurrentMessageQueueEmpty()) {
-//                putGameThreadToSleep(20);
-//            }
-//            //send active player message from Game System
-//            String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
-//            this.activePlayer.sendMessageToPlayer(gameMessage);
-//
-//            long startTime = System.nanoTime();
-//            long activePlayerDecisionTime = startTime;
-//
-//            TournamentPlayer previousActivePlayer = this.activePlayer;
-//            while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
-//                putGameThreadToSleep(200);
-//
-//                String activePlayerMessage = this.activePlayer.readPlayerMessage();
-//                //send active player's move to game
-//                if (activePlayerMessage != null) {
-//                    this.ioPort.receiveTurn(activePlayerMessage);
-//                    //swap resting player to be active player
-//                    swapActivePlayer();
-//                } else {
-//                    activePlayerDecisionTime = System.nanoTime() - startTime;
-//                }
-//            }
-//
-//            //decide if active player should forfeit due to (TimeOut)
-//            if (didActivePlayerTimeOut(previousActivePlayer)) {
-//                //active player should forfeit
-//            }
-//        }
-//        notifyComplete();
-//    }
 
     public void initializeIOport(){
         ioPort.initialize();
@@ -134,13 +63,13 @@ public class Game {
     }
 
     public void receiveTurn(String message){
-        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),message);
-        Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(activePlayer.getUsername()));//TODO: Check to make sure that this is the correct player to call.
+        //Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),message);
+        //Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(activePlayer.getUsername()));//TODO: Check to make sure that this is the correct player to call.
         ioPort.receiveTurn(message);
     }
 
     public String getResponse(){
-        Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),ioPort.getResponse());
+       // Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),ioPort.getResponse());
         return ioPort.getResponse();
     }
 
