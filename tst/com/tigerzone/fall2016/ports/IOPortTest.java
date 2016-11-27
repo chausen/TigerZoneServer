@@ -42,6 +42,11 @@ public class IOPortTest {
             }
 
             @Override
+            public int getPlayerScore(Player p) {
+                return 0;
+            }
+
+            @Override
             public void setOutAdapter(PlayerOutAdapter outAdapter) {
             }
 
