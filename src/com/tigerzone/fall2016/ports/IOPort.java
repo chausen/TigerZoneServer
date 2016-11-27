@@ -228,26 +228,26 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
-        reportScoringEvent(playerScores);
+        //reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,ja);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
-        reportScoringEvent(playerScores);
+       // reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,da);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
-        reportScoringEvent(playerScores);
+       // reportScoringEvent(playerScores);
 //        Logger.addFeatureScored(gid,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
-        reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,ta);
+       // reportScoringEvent(playerScores);
+//        Logger.addFeatureScored(gid,ta);
     }
 
     @Override
