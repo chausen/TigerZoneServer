@@ -68,22 +68,11 @@ public class Match extends Thread{
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
-
-//        try {
-//            player1.setCommunicationTimeout(1000);
-//            player2.setCommunicationTimeout(1000);
-//        } catch (SocketException e) {
-//            System.out.println("Sokcet timeout exception???");
-//        }
+        
 
         while(!game1.isOver() || !game2.isOver()){
 
-//            try {
-//                player1.setCommunicationTimeout(3000);
-//                player2.setCommunicationTimeout(3000);
-//            } catch (SocketException e) {
-//                System.out.println("Sokcet timeout exception???");
-//            }
+
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
             //Send each player their own prompt message
@@ -138,7 +127,6 @@ public class Match extends Thread{
                     turnIO(game2, gamePlayer1Response);
                 }
             }
-
 
             //swap who is the active player in each game
             swapPlayers();
@@ -225,7 +213,7 @@ public class Match extends Thread{
         }
 
         if(game.didForfeit()){
-            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats();
+            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats(); // TODO: 11/27/2016 this gives an error, never added anything to hashmap 
             ps.setForfeits(ps.getForfeits()+1);
             if(ps == p1stats)
                 p2stats.setWinsByForfeit(p2stats.getWinsByForfeit()+1);//If our ps is the same as p1stats, it means P1 forfeited.

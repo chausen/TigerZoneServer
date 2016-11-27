@@ -31,6 +31,7 @@ public class TournamentServer {
         authentication();
         //authenticationExecutor();
         startChallenge(tournamentPlayers);
+        notifyChallengeComplete();
 
     }
 
@@ -65,6 +66,9 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
+        while (true) {
+
+        }
         //System.exit(1);
     }
 
