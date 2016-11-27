@@ -68,13 +68,6 @@ public class Match extends Thread{
         game1.initializeIOport();
         game2.initializeIOport();
 
-        try {
-            player1.setCommunicationTimeout(1000);
-            player2.setCommunicationTimeout(1000);
-        } catch (SocketException e) {
-            System.out.println("Sokcet timeout exception???");
-        }
-
         while(!game1.isOver() || !game2.isOver()){
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
@@ -109,6 +102,13 @@ public class Match extends Thread{
                     gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                 }
             }
+            //A single game will be doing the following in each line of the if statement...
+            //Get each player's response after 1 second
+            //Send each player's response to the respective gamePort
+            //Get the ioPort's response
+            //Send the ioPort's response to both players. Note that each player gets the same message
+
+
 
             if(!game1.isOver()) {
                 if(game1Timeout){
@@ -128,15 +128,6 @@ public class Match extends Thread{
                     turnIO(game2, gamePlayer1Response);
                 }
             }
-
-
-
-
-            //A single game will be doing the following in each line of the if statement...
-            //Get each player's response after 1 second
-            //Send each player's response to the respective gamePort
-            //Get the ioPort's response
-            //Send the ioPort's response to both players. Note that each player gets the same message
 
             //swap who is the active player in each game
             swapPlayers();
