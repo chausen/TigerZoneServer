@@ -212,6 +212,7 @@ public class IOPort implements PlayerOutAdapter {
 //        broadcast(prefix + " " + currentTurnString);
 //        turnCount++;
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
+        ++turnCount;
     }
 
     public void reportScoringEvent(Map<Player,Integer> playerScores) {

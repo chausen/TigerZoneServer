@@ -63,6 +63,7 @@ public class GameSystem implements PlayerInAdapter {
         gameBoard = am.getGameBoard();
 
         //TODO: Remove this and just use the LinkedList?
+        //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
         //originTile = ts.pop();
 
