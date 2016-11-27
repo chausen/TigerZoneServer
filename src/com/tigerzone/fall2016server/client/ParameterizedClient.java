@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016server.client;
 
-import com.tigerzone.fall2016server.FileReader;
+import com.tigerzone.fall2016server.files.FileReader;
 
 import java.io.*;
 import java.net.Socket;
