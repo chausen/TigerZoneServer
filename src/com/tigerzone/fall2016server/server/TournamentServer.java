@@ -30,8 +30,14 @@ public class TournamentServer {
     public void runTournament() {
         authentication();
         //authenticationExecutor();
-        startChallenge(tournamentPlayers);
-        //notifyChallengeComplete();
+        if(tournamentPlayers.size()>1) {
+            startChallenge(tournamentPlayers);
+            notifyChallengeComplete();
+        } else{
+            System.out.println("Not enough players for a tournament");
+            System.exit(1);
+        }
+
     }
 
 
@@ -65,7 +71,11 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
-        System.exit(1);
+
+        while(true){
+
+        }
+        //System.exit(1);
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {

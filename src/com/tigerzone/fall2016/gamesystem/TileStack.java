@@ -18,7 +18,10 @@ public class TileStack
 }
 
     public TileStack(LinkedList<PlayableTile> ll) {
-        this.ll = ll;
+        this.ll = new LinkedList<>();
+        for (PlayableTile playableTile: ll) {
+            this.ll.add(playableTile);
+        }
     }
 
     /**
@@ -36,6 +39,7 @@ public class TileStack
     }*/
 
     public PlayableTile pop() {
+        System.out.println("This is pop being called in tilestack" + ll.getFirst().getTileString());
         return ll.removeFirst();
     }
 

@@ -63,7 +63,9 @@ public class GameSystem implements PlayerInAdapter {
         gameBoard = am.getGameBoard();
 
         //TODO: Remove this and just use the LinkedList?
+        //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
+        ts.truncateTS(20);
         //originTile = ts.pop();
 
         currentTile = ts.peek();
@@ -198,6 +200,11 @@ public class GameSystem implements PlayerInAdapter {
     }
 
     @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
     public int getPlayerScore(Player p){
         return scorer.getScore(p);
     }
@@ -216,7 +223,6 @@ public class GameSystem implements PlayerInAdapter {
     private void prepareNextTurn() {
         ts.pop();
         this.currentTile = ts.peek();
-        //outAdapter.promptForTurn(this.currentTile);
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
             //scores incomplete areas
@@ -243,8 +249,7 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public String getCurrentTile() {
-        this.currentTile = ts.peek();
-        return currentTile.getTileString();
+        return ts.peek().getTileString();
     }
 
     //========== Helper Methods ===========//

@@ -23,6 +23,19 @@ public class GameContext implements Context {
         this.gid = gid;
     }
 
+
+    public GameContext(int gid) {
+        this.currentState = START;
+        this.previousState = null;
+        this.validMove = false;
+        this.gid = gid;
+    }
+
+
+    public void setScanner(Scanner scanner){
+        this.scanner = scanner;
+    }
+
     @Override
     public Scanner getScanner() {
         return this.scanner;
@@ -67,7 +80,7 @@ public class GameContext implements Context {
     @Override
     public boolean compareMoveNum(int moveNumber) {
         if(moveNumber == this.moveNumber){
-            moveNumber++;
+            this.moveNumber++;
             return true;
         }
         return false;

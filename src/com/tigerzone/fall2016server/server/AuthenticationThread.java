@@ -51,6 +51,7 @@ public class AuthenticationThread extends Thread {
 //            sb.append(currentDirectory);
 //            sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials1.txt");
 //            LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
+
             output = loginProtocol.login(null);
 
             out.println(output);
@@ -65,6 +66,7 @@ public class AuthenticationThread extends Thread {
                 }
                 if (output.startsWith("WELCOME")) {
                     TournamentPlayer tournamentPlayer = new TournamentPlayer(loginProtocol.getUser(), new Connection(clientSocket));
+                    tournamentPlayer.setCommunicationTimeout(60000);
                     tournamentPlayers = TournamentServer.getTournamentPlayers();
                     tournamentPlayers.add(tournamentPlayer);
                     playerThreads = TournamentServer.getPlayerThreads(); //might not need this
@@ -74,11 +76,13 @@ public class AuthenticationThread extends Thread {
             }
         } catch (IOException e) {
             try {
+                System.out.println("Caught exxception in authentication thread");
                 out.close();
                 in.close();
                 clientSocket.close();
             } catch (IOException e2) {
                 e2.printStackTrace();
+
             }
         }
     }

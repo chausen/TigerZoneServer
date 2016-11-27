@@ -43,6 +43,7 @@ public class IOPort implements PlayerOutAdapter {
     private String response;
     private boolean didForfeit = false;
     private String forfeitedPlayer = "";
+    private GameContext gameContext;
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -64,7 +65,7 @@ public class IOPort implements PlayerOutAdapter {
         this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
         inAdapter.initializeGame(loginName1, loginName2, tileStack);
-
+        this.gameContext = new GameContext(this.gid);
     }
 
     public void initialize(PlayerInAdapter inAdapter) {
@@ -85,19 +86,12 @@ public class IOPort implements PlayerOutAdapter {
         // Needed to output move is inAdapter finds it successful
         //boolean received = false;
         currentTurnString = s;
-        System.out.println("This is the string in receive turn in IOPORT " + s);
-
-        //TODO: Use the ProtocolStates to see if it is a properly formatted message
-//        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
-//            receiveIllegalMessage();
-//            return;
-//        }
 
         Scanner parserScanner = new Scanner(s);
-        Context parserContext = new GameContext(parserScanner, this.gid);
+        gameContext.setScanner(parserScanner);
         ProtocolStateMachine psm = new ProtocolStateMachine();
-        psm.parse(parserContext);
-        if (!parserContext.wasMoveValid()) {
+        psm.parse(gameContext);
+        if (!gameContext.wasMoveValid()) {
             receiveIllegalMessage();
         } else {
 
@@ -146,7 +140,7 @@ public class IOPort implements PlayerOutAdapter {
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
         int zone = 0;
         // The zone of the tile where the predator will be placed
-        Player activePlayer = inAdapter.getPlayer(activeplayer); // get the TournamentPlayer object associated with the loginID
+        Player activePlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
         if (predatorStr.equals("TIGER")) {
 
             predator = new Tiger(activePlayer);
@@ -218,6 +212,7 @@ public class IOPort implements PlayerOutAdapter {
 //        broadcast(prefix + " " + currentTurnString);
 //        turnCount++;
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
+        ++turnCount;
     }
 
     public void reportScoringEvent(Map<Player,Integer> playerScores) {
@@ -227,32 +222,32 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        setResponse(stringBuilder.toString());
+        // setResponse(stringBuilder.toString());
     }
 
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
-        reportScoringEvent(playerScores);
+        //reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,ja);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
-        reportScoringEvent(playerScores);
+       // reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,da);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
-        reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,la);
+       // reportScoringEvent(playerScores);
+//        Logger.addFeatureScored(gid,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
-        reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,ta);
+       // reportScoringEvent(playerScores);
+//        Logger.addFeatureScored(gid,ta);
     }
 
     @Override
@@ -335,6 +330,7 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     public String getResponse(){
+        //this.turnCount++;
         return this.response;
     }
 
