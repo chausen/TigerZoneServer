@@ -198,15 +198,22 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("JUNGLE\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(ja.isComplete());
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(inAdapter.getTileRepresentationString(ja.getBoardTiles()));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("BOAR 0\r\n");
+        sb.append(getGameTabs());
         sb.append("BUFFALO 0\r\n");
+        sb.append(getGameTabs());
         sb.append("DEER 0\r\n");
+        sb.append(getGameTabs());
         sb.append("CROCS 0\r\n");
+        sb.append(getGameTabs());
         int player1tigercount = 0;
         int player2tigercount = 0;
         int player1croccount = 0;
@@ -224,7 +231,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
         sb.append("\r\n");
-
+        sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
         sb.append(player2tigercount);
         sb.append(" CROCS ");
@@ -232,6 +239,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         addLogToLogger(sb.toString());
     }
 
@@ -244,15 +252,22 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("DEN\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(da.isComplete());
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(inAdapter.getTileRepresentationString(da.getBoardTiles()));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("BOAR 0\r\n");
+        sb.append(getGameTabs());
         sb.append("BUFFALO 0\r\n");
+        sb.append(getGameTabs());
         sb.append("DEER 0\r\n");
+        sb.append(getGameTabs());
         sb.append("CROCS 0\r\n");
+        sb.append(getGameTabs());
         int player1tigercount = 0;
         int player2tigercount = 0;
         int player1croccount = 0;
@@ -270,7 +285,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
         sb.append("\r\n");
-
+        sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
         sb.append(player2tigercount);
         sb.append(" CROCS ");
@@ -278,6 +293,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         addLogToLogger(sb.toString());
     }
 
@@ -292,9 +308,11 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("LAKE\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(la.isComplete());
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(inAdapter.getTileRepresentationString(la.getBoardTiles()));
         //TODO: Add logic to get boar, buffalo, and deer from LAKES
         int boarcount = 0;
@@ -303,19 +321,24 @@ public class Logger {
         if(la.containsBoar()) boarcount++;
         if(la.containsDeer()) deercount++;
         if(la.containsBuffalo()) buffalocount++;
+        sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("BOAR ");
         sb.append(boarcount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("BUFFALO ");
         sb.append(buffalocount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("DEER ");
         sb.append(deercount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("CROCS ");
         sb.append(la.getCrocodileList().size());
         sb.append("\r\n");
-
+        sb.append(getGameTabs());
         int player1tigercount = 0;
         int player2tigercount = 0;
         int player1croccount = 0;
@@ -345,6 +368,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
         sb.append(player2tigercount);
         sb.append(" CROCS ");
@@ -352,6 +376,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         addLogToLogger(sb.toString());
 
     }
@@ -365,45 +390,53 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("TRAIL\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(ta.isComplete());
         //TODO: Add in Logic for getting the X and Y coord of all Tiles.
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(inAdapter.getTileRepresentationString(ta.getBoardTiles()));
+        sb.append("\r\n");
+        sb.append(getGameTabs());
         //TODO: Add logic to get boar, buffalo, and deer from LAKES
         int boarcount = 0;
         int deercount = 0;
         int buffalocount = 0;
         for(Prey pr : ta.getPreyList())
         {
-            pr.
+            if(pr.isBoar()) boarcount++;
+            if(pr.isDeer()) deercount++;
+            if(pr.isBuffalo()) buffalocount++;
         }
-
         sb.append("BOAR ");
         sb.append(boarcount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("BUFFALO ");
         sb.append(buffalocount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("DEER ");
         sb.append(deercount);
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append("CROCS ");
-        sb.append(la.getCrocodileList().size());
+        sb.append(ta.getCrocodileList().size());
         sb.append("\r\n");
-
+        sb.append(getGameTabs());
         int player1tigercount = 0;
         int player2tigercount = 0;
         int player1croccount = 0;
         int player2croccount = 0;
-        for(Tiger t : la.getTigerList()){
+        for(Tiger t : ta.getTigerList()){
             String s = t.getOwner().getPlayerId();
             if(s.equals(loginName1))
                 player1tigercount++;
             else player2tigercount++;
         }
 
-        for(Crocodile c : la.getCrocodileList()) {
+        for(Crocodile c : ta.getCrocodileList()) {
 
             Player p = c.getOwner();
             if(p != null){
@@ -421,6 +454,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
         sb.append(player2tigercount);
         sb.append(" CROCS ");
@@ -428,6 +462,7 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
         sb.append("\r\n");
+        sb.append(getGameTabs());
         addLogToLogger(sb.toString());
 
     }

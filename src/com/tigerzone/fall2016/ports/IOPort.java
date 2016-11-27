@@ -222,7 +222,7 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        // setResponse(stringBuilder.toString());
+        //setResponse(stringBuilder.toString());
     }
 
 
