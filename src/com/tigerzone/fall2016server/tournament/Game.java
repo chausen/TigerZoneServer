@@ -63,13 +63,13 @@ public class Game {
     }
 
     public void receiveTurn(String message){
-        //Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),message);
-        //Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(activePlayer.getUsername()));//TODO: Check to make sure that this is the correct player to call.
+        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,getMatch().getPlayer1().getUsername(),message);
+        Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(getMatch().getPlayer1().getUsername()));//TODO: Check to make sure that this is the correct player to call.
         ioPort.receiveTurn(message);
     }
 
     public String getResponse(){
-       // Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),ioPort.getResponse());
+        Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,getMatch().getPlayer1().getUsername(),ioPort.getResponse());
         return ioPort.getResponse();
     }
 

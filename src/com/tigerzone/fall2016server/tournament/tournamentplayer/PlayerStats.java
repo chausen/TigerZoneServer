@@ -16,10 +16,10 @@ public class PlayerStats {
     private int opponentTotalPoints;
     private int largestpointdifference;
     private double largestpointdifferencerelative;
-    private double avgrelperf;
+
     public PlayerStats() {
         gamesCompleted = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
-        largestpointdifferencerelative = avgrelperf = 0.0;
+        largestpointdifferencerelative = 0.0;
     }
 
     public int getGamesCompleted() {

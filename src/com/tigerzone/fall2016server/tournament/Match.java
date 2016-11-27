@@ -190,11 +190,13 @@ public class Match extends Thread{
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-//        updatePlayerStatistics(game, p1, p2);
+        updatePlayerStatistics(game, p1, p2);
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2){
         HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
+        playerLookup.put(p1.getUsername(),p1);
+        playerLookup.put(p2.getUsername(),p2);
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -219,7 +221,7 @@ public class Match extends Thread{
         }
 
         if(game.didForfeit()){
-            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats(); // TODO: 11/27/2016 this gives an error, never added anything to hashmap 
+            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats();
             ps.setForfeits(ps.getForfeits()+1);
             if(ps == p1stats)
                 p2stats.setWinsByForfeit(p2stats.getWinsByForfeit()+1);//If our ps is the same as p1stats, it means P1 forfeited.
@@ -239,6 +241,14 @@ public class Match extends Thread{
         sendEndMessage(game1);
         sendEndMessage(game2);
     }
+
+    public TournamentPlayer getPlayer1(){
+        return player1;
+    }
+    public TournamentPlayer getPlayer2(){
+        return player2;
+    }
+
 
     public void sendPlayerMoveMessages() {
 
