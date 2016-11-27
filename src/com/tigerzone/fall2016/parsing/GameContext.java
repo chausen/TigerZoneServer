@@ -80,7 +80,7 @@ public class GameContext implements Context {
     @Override
     public boolean compareMoveNum(int moveNumber) {
         if(moveNumber == this.moveNumber){
-            moveNumber++;
+            this.moveNumber++;
             return true;
         }
         return false;

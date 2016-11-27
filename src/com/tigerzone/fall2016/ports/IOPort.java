@@ -123,6 +123,7 @@ public class IOPort implements PlayerOutAdapter {
                     break;
             }
         }
+        turnCount++;
         //return received;
     }
 

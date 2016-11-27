@@ -216,7 +216,6 @@ public class GameSystem implements PlayerInAdapter {
     private void prepareNextTurn() {
         ts.pop();
         this.currentTile = ts.peek();
-        //outAdapter.promptForTurn(this.currentTile);
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
             //scores incomplete areas
