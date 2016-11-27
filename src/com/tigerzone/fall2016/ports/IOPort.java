@@ -27,9 +27,6 @@ import java.util.*;
  */
 public class IOPort implements PlayerOutAdapter {
     private PlayerInAdapter inAdapter;
-    private Deque<String> player1UpstreamMessages;
-    private Deque<String> player2UpstreamMessages;
-    private Deque<String> currentUpstreamMessages;
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
@@ -60,10 +57,6 @@ public class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
-        player1UpstreamMessages = new ArrayDeque<>();
-        player2UpstreamMessages = new ArrayDeque<>();
-        currentUpstreamMessages = player1UpstreamMessages;
-        
         this.tileStack = tileStack;
     }
 
