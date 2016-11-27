@@ -89,35 +89,8 @@ public class Match extends Thread{
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
-            if(!game1.isOver()){
-                String game1playerResponse = null;
-                String game1Response = null;
-                try {
-                    game1playerResponse = game1player.readPlayerMessage();
-                    game1.receiveTurn(game1playerResponse);
-                    game1Response = game1.getResponse();
-                }
-                catch (IOException e){
-                    game1Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
-                    game1.endGame();
-                }
-                sendGameMessage(game1Response);
-            }
-
-            if(!game2.isOver()) {
-                String game2playerResponse = null;
-                String game2Response = null;
-                try {
-                    game2playerResponse = game2player.readPlayerMessage();
-                    game2.receiveTurn(game2playerResponse);
-                    game2Response = game2.getResponse();
-                }
-                catch (IOException e){
-                    game2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-                    game2.endGame();
-                }
-                sendGameMessage(game2Response);
-            }
+            turnIO(game1, game1player);
+            turnIO(game2, game2player);
 
             //swap who is the active player in each game
             swapPlayers();
@@ -127,6 +100,23 @@ public class Match extends Thread{
         }
         notifyEndGameToPlayers();
         round.notifyComplete();
+    }
+
+    private void turnIO(Game game, TournamentPlayer player) {
+        if(!game.isOver()){
+            String gamePlayerResponse = null;
+            String gameResponse = null;
+            try {
+                gamePlayerResponse = player.readPlayerMessage();
+                game.receiveTurn(gamePlayerResponse);
+                gameResponse = game.getResponse();
+            }
+            catch (IOException e){
+                gameResponse = "GAME " + game.getGameID() + " PLAYER " + player.getUsername() + " FORFEITED: TIMEOUT";
+                game.endGame();
+            }
+            sendGameMessage(gameResponse);
+        }
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
