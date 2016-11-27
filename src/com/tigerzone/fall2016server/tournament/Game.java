@@ -18,12 +18,10 @@ public class Game {
     private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
-    //private GamePlayerCommunication gamePlayerCommunication;
     private boolean isOver = false;
 
     LinkedList<PlayableTile> tileStack;
     private IOPort ioPort;
-    private static long MAX_PLAYER_DECISION_TIME = 1000;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
@@ -33,7 +31,6 @@ public class Game {
         this.player2 = player2;
         this.tileStack = tileStack;
         this.match = match;
-        //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
 
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 

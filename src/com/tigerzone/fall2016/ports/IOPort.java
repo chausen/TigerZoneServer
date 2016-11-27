@@ -208,9 +208,6 @@ public class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-//        String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
-//        broadcast(prefix + " " + currentTurnString);
-//        turnCount++;
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
         ++turnCount;
     }
@@ -228,13 +225,11 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
-        //reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,ja);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
-       // reportScoringEvent(playerScores);
         Logger.addFeatureScored(gid,da);
     }
 
@@ -259,7 +254,7 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED INVALID MEEPLE PLACEMENT"));
     }
 
     @Override
@@ -276,15 +271,6 @@ public class IOPort implements PlayerOutAdapter {
     public String getForfeitedPlayer(){
         return forfeitedPlayer;
     }
-
-//    @Override
-//    public void notifyEndGame(Map<Player, Integer> playerScores) {
-//        Set<Player> players = playerScores.keySet();
-//
-//        player1FinalScore = playerScores.get(loginName1);
-//        player2FinalScore = playerScores.get(loginName2);
-//        gameOver = true;
-//    }
 
     @Override
     public void notifyEndGame(int player1Score, int player2Score) {

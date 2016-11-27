@@ -263,8 +263,6 @@ public class GameSystem implements PlayerInAdapter {
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
     }
-
-
 }
 
 
