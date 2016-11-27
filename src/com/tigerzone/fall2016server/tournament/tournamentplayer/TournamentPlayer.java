@@ -58,11 +58,6 @@ public class TournamentPlayer {
         return this.connection.receiveMessageFromPlayer();
     }
 
-    public String playerInput() throws IOException {
-        String input = connection.playerInput();
-        return input;
-    }
-
     public void playerOutput(String message) {
         connection.playerOutput(message);
     }

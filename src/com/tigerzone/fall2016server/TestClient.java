@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
+ * A test client to be used with the tournament server. Hardcoded to login and
+ * place the moves for the 20 tile game using seed 123456789.
+ *
+ * Usage: java TestClient <host> <port> <loginName> <password>
+ *
  * Created by clayhausen on 11/22/16.
  */
 public class TestClient {

@@ -66,7 +66,6 @@ public class Connection {
         }
     }
 
-
     public void setupIO() {
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -97,10 +96,6 @@ public class Connection {
     public BufferedReader getIn() {
         return in;
     }
-//
-//    public PrintWriter getOut() {
-//        return out;
-//    }
 
     public void writeMessageToPlayer(String message){
         this.out.println(message);
@@ -113,19 +108,8 @@ public class Connection {
         }
         return input;    }
 
-    public String playerInput() throws IOException {
-        String input;
-        while ((input = this.in.readLine()) != null) {
-            return input;
-        }
-        return input;
-    }
-
     public void playerOutput(String message) {
         this.out.println(message);
     }
 
-    public Queue<String> getMessageQueue() {
-        return messageQueue;
-    }
 }

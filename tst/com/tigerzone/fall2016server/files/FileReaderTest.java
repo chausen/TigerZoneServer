@@ -36,7 +36,7 @@ public class FileReaderTest {
     public void getCredentials() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(currentDirectory);
-        sb.append("/src/com/tigerzone/fall2016server/files/Credentials.txt");
+        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials0.txt");
         HashMap<String,String> credentials = FileReader.getCredentials(sb.toString());
         // Check to make sure the first credential exists and it's password was added correctly
         assertEquals(credentials.get("Red"), "Obiwan77");
