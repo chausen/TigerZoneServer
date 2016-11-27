@@ -103,10 +103,12 @@ public class Connection {
 
     public String receiveMessageFromPlayer() throws IOException{
         String input;
-        while ((input = this.in.readLine()) != null) {
-            return input;
+        input = this.in.readLine();
+        if(input == null){
+            throw new IOException();
         }
-        return input;    }
+        return input;
+    }
 
     public void playerOutput(String message) {
         this.out.println(message);

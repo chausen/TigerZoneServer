@@ -50,6 +50,7 @@ public class Match extends Thread{
     public void run(){
         startMatch();
         playMatch();
+
     }
 
     private void startMatch() {
@@ -68,8 +69,8 @@ public class Match extends Thread{
         game2.initializeIOport();
 
         try {
-            player1.setCommunicationTimeout(15000);
-            player2.setCommunicationTimeout(15000);
+            player1.setCommunicationTimeout(1000);
+            player2.setCommunicationTimeout(1000);
         } catch (SocketException e) {
             System.out.println("Sokcet timeout exception???");
         }
@@ -78,28 +79,64 @@ public class Match extends Thread{
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
             //Send each player their own prompt message
+            boolean game1Timeout = false;
+            String gamePlayer1Response = null;
             if(!game1.isOver()){
                 String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
                 game1player.sendMessageToPlayer(game1playerPrompt);
+                //timeout to start
+                try {
+                    gamePlayer1Response = game1player.readPlayerMessage();
+                }
+                catch (IOException e){
+                    game1Timeout = true;
+                    gamePlayer1Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                }
+
             }
-            if(!game2.isOver()) {
+
+            boolean game2Timeout = false;
+            String gamePlayer2Response = null;
+            if(!game2.isOver()){
                 String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
                 game2player.sendMessageToPlayer(game2playerPrompt);
+                //timeout to start
+                try {
+                    gamePlayer2Response = game2player.readPlayerMessage();
+                }
+                catch (IOException e){
+                    game2Timeout = true;
+                    gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                }
             }
 
-            //Wait one second
-            long start = System.currentTimeMillis();
-            while(System.currentTimeMillis() - start < 1000) {
-
+            if(!game1.isOver()) {
+                if(game1Timeout){
+                    sendGameMessage(gamePlayer1Response);
+                    game1.endGame();
+                }
+                else {
+                    turnIO(game1, gamePlayer1Response);
+                }
             }
+            if(!game2.isOver()) {
+                if(game2Timeout){
+                    sendGameMessage(gamePlayer2Response);
+                    game2.endGame();
+                }
+                else {
+                    turnIO(game2, gamePlayer1Response);
+                }
+            }
+
+
+
 
             //A single game will be doing the following in each line of the if statement...
             //Get each player's response after 1 second
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
-            turnIO(game1, game1player);
-            turnIO(game2, game2player);
 
             //swap who is the active player in each game
             swapPlayers();
@@ -111,19 +148,10 @@ public class Match extends Thread{
         round.notifyComplete();
     }
 
-    private void turnIO(Game game, TournamentPlayer player) {
+    private void turnIO(Game game, String gamePlayerResponse) {
         if(!game.isOver()){
-            String gamePlayerResponse = null;
-            String gameResponse = null;
-            try {
-                gamePlayerResponse = player.readPlayerMessage();
-                game.receiveTurn(gamePlayerResponse);
-                gameResponse = game.getResponse();
-            }
-            catch (IOException e){
-                gameResponse = "GAME " + game.getGameID() + " PLAYER " + player.getUsername() + " FORFEITED: TIMEOUT";
-                game.endGame();
-            }
+            game.receiveTurn(gamePlayerResponse);
+            String gameResponse = game.getResponse();
             sendGameMessage(gameResponse);
         }
     }
