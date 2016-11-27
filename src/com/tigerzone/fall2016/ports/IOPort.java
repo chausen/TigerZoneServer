@@ -85,13 +85,6 @@ public class IOPort implements PlayerOutAdapter {
         // Needed to output move is inAdapter finds it successful
         //boolean received = false;
         currentTurnString = s;
-        System.out.println("This is the string in receive turn in IOPORT " + s);
-
-        //TODO: Use the ProtocolStates to see if it is a properly formatted message
-//        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
-//            receiveIllegalMessage();
-//            return;
-//        }
 
         Scanner parserScanner = new Scanner(s);
         Context parserContext = new GameContext(parserScanner, this.gid);

@@ -38,7 +38,7 @@ public class Game {
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
     }
-    
+
 
     public void initializeIOport(){
         ioPort.initialize();
