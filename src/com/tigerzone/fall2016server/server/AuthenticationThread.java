@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class AuthenticationThread extends Thread {
         try {
             String input, output;
             LoginProtocol loginProtocol = new LoginProtocol();
+//            String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(currentDirectory);
+//            sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials1.txt");
+//            LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
             output = loginProtocol.login(null);
 
             out.println(output);
