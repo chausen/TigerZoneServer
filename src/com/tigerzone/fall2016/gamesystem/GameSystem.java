@@ -63,7 +63,7 @@ public class GameSystem implements PlayerInAdapter {
         gameBoard = am.getGameBoard();
 
         //TODO: Remove this and just use the LinkedList?
-        ts = new TileStack(tileStack);
+        ts = new TileStack((LinkedList) tileStack.clone());
         //originTile = ts.pop();
 
         currentTile = ts.peek();
@@ -243,8 +243,7 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public String getCurrentTile() {
-        this.currentTile = ts.peek();
-        return currentTile.getTileString();
+        return ts.peek().getTileString();
     }
 
     //========== Helper Methods ===========//
