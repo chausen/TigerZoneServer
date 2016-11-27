@@ -296,11 +296,12 @@ public class Logger {
 
     private static void writeLineToTextFile(String s)  {
         pw.println(s);
+        pw.flush();
     }
 
     public static void loggerTest(){
         beginGame(6,5,4,3,2,1,0);
-        endChallenge(6,5);
+        //endChallenge(6,5);
     }
 
     public static String getGameTabs() {
