@@ -33,18 +33,21 @@ public class Logger {
 
     private static void begin(int tournamentID) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID));
+        appendPlayerID("---",sb);
         sb.append("BEGIN TOURNAMENT");
         addLogToLogger(sb.toString());
     }
 
     public static void beginChallenge(int tournamentID, int challengeID) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID));
+        appendPlayerID("---",sb);
         sb.append("BEGIN CHALLENGE");
         addLogToLogger(sb.toString());
     }
 
     public static void beginRound(int tournamentID, int challengeID, int roundID, int numOfRounds) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID));
+        appendPlayerID("---",sb);
         sb.append("BEGIN ROUND ");
         sb.append(roundID);
         sb.append(" of ");
@@ -54,6 +57,7 @@ public class Logger {
 
     public static void beginGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, int player1ID, int player2ID) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
         sb.append("BEGIN GAME PLAYER1 ");
         sb.append(player1ID);
         sb.append(" PLAYER2 ");
@@ -63,6 +67,7 @@ public class Logger {
 
     private static void end(int tournamentID){
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID));
+        appendPlayerID("---",sb);
         sb.append("END TOURNAMENT");
         addLogToLogger(sb.toString());
         pw.flush();
@@ -71,6 +76,7 @@ public class Logger {
 
     public static void endChallenge(int tournamentID, int challengeID){
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID,challengeID));
+        appendPlayerID("---",sb);
         sb.append("END CHALLENGE");
         addLogToLogger(sb.toString());
         end(tournamentID);
@@ -78,6 +84,7 @@ public class Logger {
 
     public static void endRound(int tournamentID, int challengeID, int roundID, int numOfRounds) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID));
+        appendPlayerID("---",sb);
         sb.append("END ROUND ");
         sb.append(roundID);
         sb.append(" of ");
@@ -87,6 +94,7 @@ public class Logger {
 
     public static void endGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, TournamentPlayer player1, TournamentPlayer player2) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
         sb.append("END GAME PLAYER1 ");
         sb.append(player1.getUsername());
         sb.append(" PLAYER2 ");
@@ -96,16 +104,22 @@ public class Logger {
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }
 
-    public static void messageReceived(int tournamentID, int challengeID, int roundID, int matchID, int gameID, int playerID, String message){
-        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID, playerID));
+    public static void messageReceived(int tournamentID, int challengeID, int roundID, int matchID, int gameID, String playerID, String message){
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID(playerID, sb);
         sb.append("RECEIVED "+message);
         addLogToLogger(sb.toString());
     }
 
-    public static void messageSent(int tournamentID, int challengeID, int roundID, int matchID, int gameID, int playerID, String message){
-        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID, playerID));
+    public static void messageSent(int tournamentID, int challengeID, int roundID, int matchID, int gameID, String playerID, String message){
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID(playerID,sb);
         sb.append("SENT "+message);
         addLogToLogger(sb.toString());
+    }
+
+    private static void appendPlayerID(String playerID, StringBuilder sb) {
+        sb.append(playerID+'\t');
     }
 
     public static void playerStatus(Game game, Player p){
@@ -113,9 +127,11 @@ public class Logger {
         int matchID = game.getMatch().getMatchID();
         int roundID = game.getMatch().getRound().getRoundID();
         int challengeID = game.getMatch().getRound().getChallenge().getChallengeID();
-
-        StringBuilder sb = new StringBuilder(getPrefix(0,challengeID,roundID,matchID,gameID));
-        sb.append("SCORE ");
+        int tournamentID = game.getMatch().getRound().getChallenge().getTournamentID();
+        StringBuilder sb = new StringBuilder(getPrefix(tournamentID,challengeID,roundID,matchID,gameID));
+        appendPlayerID(p.getPlayerId(),sb);
+        sb.append("STATUS ");
+        sb.append(" SCORE ");
         sb.append(game.getPlayerScore(p));
         sb.append(" TIGERS ");
         sb.append(p.getGoodSupply());
@@ -126,6 +142,7 @@ public class Logger {
 
     private static void addStats(int tournamentID, int challengeID, int roundID, int matchID, int gameID, TournamentPlayer player){
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
+        appendPlayerID("---",sb);
         sb.append("END GAME PLAYER ");
         sb.append(player.getUsername());
         sb.append(" STATS \r\n");
@@ -182,7 +199,7 @@ public class Logger {
      */
     private static String getPrefix(int tournamentID, int... IDs){
         StringBuilder sb = new StringBuilder();
-        int dashcount = 5;
+        int dashcount = 4;
         sb.append(getTimeStamp()+'\t');//Affix timestamp at the very beginning.
         sb.append(tournamentID);
         sb.append('\t');

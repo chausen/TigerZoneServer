@@ -4,6 +4,7 @@ package com.tigerzone.fall2016server.tournament;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -127,6 +128,7 @@ public class Game {
     }
 
     public void receiveTurn(String message){
+        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,activePlayer.getUsername(),message);
         ioPort.receiveTurn(message);
     }
 
