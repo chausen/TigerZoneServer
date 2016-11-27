@@ -12,6 +12,9 @@ import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.parsing.Context;
+import com.tigerzone.fall2016.parsing.GameContext;
+import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
@@ -96,30 +99,39 @@ public class IOPort implements PlayerOutAdapter {
 //            return;
 //        }
 
-        Scanner sc = new Scanner(s);
+        Scanner parserScanner = new Scanner(s);
+        Context parserContext = new GameContext(parserScanner, this.gid);
+        ProtocolStateMachine psm = new ProtocolStateMachine();
+        psm.parse(parserContext);
+        if (!parserContext.wasMoveValid()) {
+            receiveIllegalMessage();
+        } else {
 
-        sc.next();
-        sc.next();
-        //Moving past the GAME and gid
-        String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
-        System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
-        switch(determiner)
-        {
-            case "PLACE":
-                System.out.println("GOT PLACE WITHIN IOPORT");
-                receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
-                //received = true;
-                break;
+            Scanner sc = new Scanner(s);
 
-            case "TILE":
-                receiveTurnTile(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
-                //received = true;
-                break;
+            sc.next();
+            sc.next();
 
-            case "QUIT":
-                receiveTurnQuit();
-                //received = true;
-                break;
+            //Moving past the GAME and gid
+            String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
+            System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
+            switch (determiner) {
+                case "PLACE":
+                    System.out.println("GOT PLACE WITHIN IOPORT");
+                    receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                    //received = true;
+                    break;
+
+                case "TILE":
+                    receiveTurnTile(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                    //received = true;
+                    break;
+
+                case "QUIT":
+                    receiveTurnQuit();
+                    //received = true;
+                    break;
+            }
         }
         //return received;
     }
@@ -189,7 +201,6 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
-        //broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
     }
