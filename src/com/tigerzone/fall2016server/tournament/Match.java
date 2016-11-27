@@ -38,7 +38,7 @@ public class Match extends Thread{
         this.player2 = player2;
         game1 = new Game(1, player1, player2, tileStack, this);
         game2 = new Game(2, player2, player1, tileStack, this);
-        this.game1player = player1;
+       this.game1player = player1;
         this.game2player = player2;
     }
 
@@ -165,6 +165,7 @@ public class Match extends Thread{
     }
 
     private void sendStartMessage(TournamentPlayer player, String opponentUserName){
+
         player.sendMessageToPlayer("YOUR OPPONENT IS PLAYER " + opponentUserName);
         player.sendMessageToPlayer("STARTING TILE IS TLTJ- AT 0 0 0");
         player.sendMessageToPlayer("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
@@ -288,4 +289,12 @@ public class Match extends Thread{
     public void setRound(Round round) {
         this.round = round;
     }
+
+    public Game getGame1(){
+        return game1;
+    }
+    public Game getGame2(){
+        return game2;
+    }
+
 }

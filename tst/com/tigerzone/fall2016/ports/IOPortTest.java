@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import com.tigerzone.fall2016server.tournament.TileStackGenerator;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Created by Jeff on 2016/11/16.
@@ -49,6 +51,11 @@ public class IOPortTest {
             @Override
             public int getPlayerScore(Player p) {
                 return 0;
+            }
+
+            @Override
+            public String getTileRepresentationString(Set<BoardTile> tiles) {
+                return null;
             }
 
             @Override

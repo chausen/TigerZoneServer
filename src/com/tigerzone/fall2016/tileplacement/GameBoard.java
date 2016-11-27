@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by lenovo on 11/12/2016.
@@ -27,6 +28,22 @@ public class GameBoard { //make GameBoard a singleton?
         return board.get(boardPosition);
     }
 
+    public String getPointRepresentation(Set<BoardTile> boardtiles){
+        StringBuilder sb = new StringBuilder("TILES [");
+        for(Point p : board.keySet()){
+            for(BoardTile t : boardtiles) {
+                if (board.get(p) == t) {
+                    sb.append("(");
+                    sb.append(p.getX());
+                    sb.append(",");
+                    sb.append(p.getY());
+                    sb.append(")");
+                }
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
     public BoardTile getRightAdjacentTile(Point boardPosition) {
         Point adjacentTilePosition = new Point((int)boardPosition.getX() + 1, (int)boardPosition.getY());
         return getTile(adjacentTilePosition);

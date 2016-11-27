@@ -72,6 +72,10 @@ public class GameSystem implements PlayerInAdapter {
         //outAdapter.promptForTurn(currentTile);
     }
 
+    public String getTileRepresentationString(Set<BoardTile> boardtiles){
+        return gameBoard.getPointRepresentation(boardtiles);
+    }
+
     public void setOutAdapter(PlayerOutAdapter outAdapter){
         this.outAdapter = outAdapter;
     }
