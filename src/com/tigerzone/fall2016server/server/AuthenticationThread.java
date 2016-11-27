@@ -66,6 +66,7 @@ public class AuthenticationThread extends Thread {
                 }
                 if (output.startsWith("WELCOME")) {
                     TournamentPlayer tournamentPlayer = new TournamentPlayer(loginProtocol.getUser(), new Connection(clientSocket));
+                    tournamentPlayer.setCommunicationTimeout(60000);
                     tournamentPlayers = TournamentServer.getTournamentPlayers();
                     tournamentPlayers.add(tournamentPlayer);
                     playerThreads = TournamentServer.getPlayerThreads(); //might not need this
