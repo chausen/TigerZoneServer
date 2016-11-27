@@ -92,6 +92,11 @@ public class IOPortTest {
             public void forfeit() {
 
             }
+
+            @Override
+            public String getCurrentTile() {
+                return null;
+            }
         };
 
         cmdp.initialize(mockGameSystem);

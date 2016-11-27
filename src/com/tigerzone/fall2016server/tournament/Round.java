@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.LinkedList;
@@ -64,6 +65,7 @@ public class Round {
     private void sendMessageToPlayers() {
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+            Logger.beginRound(getChallenge().getTournamentID(),getChallenge().getChallengeID(),roundID,numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
@@ -74,6 +76,7 @@ public class Round {
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
             }
+            challenge.roundComplete();
         }
     }
 
