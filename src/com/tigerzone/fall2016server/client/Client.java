@@ -208,7 +208,7 @@ public class Client {
             String userInput = null;
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.startsWith("MAKE MOVE IN GAME 2")) {
+                if (fromServer.startsWith("MAKE YOUR MOVE IN GAME 2")) {
                     String[] split = fromServer.split(" ");
                     int moveNumber = Integer.parseInt(split[10]);
                     switch (moveNumber) {
@@ -264,7 +264,7 @@ public class Client {
                             break;
                     }
 
-                } else if (fromServer.startsWith("MAKE MOVE IN GAME 1")) { //the player calling playGame2() will be player2 in game1
+                } else if (fromServer.startsWith("MAKE YOUR MOVE IN GAME 1")) { //the player calling playGame2() will be player2 in game1
                     String[] split = fromServer.split(" ");
                     int moveNumber = Integer.parseInt(split[10]);
                     switch (moveNumber) {
