@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.server.protocols;
 
 import java.util.HashMap;
 
@@ -90,5 +90,8 @@ public class LoginProtocol {
             return output;
         }
 
+    public int getState() {
+        return state;
     }
+}
 

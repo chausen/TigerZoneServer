@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server.server;
+package com.tigerzone.fall2016server.server.protocols;
 
 /**
  * Created by lenovo on 11/17/2016.

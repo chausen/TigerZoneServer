@@ -1,16 +1,9 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016.ports.TextFilePort;
 import com.tigerzone.fall2016server.tournament.Challenge;
-import com.tigerzone.fall2016server.tournament.TournamentPlayer;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/19/2016.
@@ -19,14 +12,31 @@ public class TournamentServer {
 
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
+    Challenge challenge;
 
     private static int PORT = 4444;
+    private static int seed = 123456789;
+    private static int MAX_CONNECTIONS = 2;
 
     public TournamentServer() {
     }
 
+
+    public void runTournament() {
+        authentication();
+        //authenticationExecutor();
+        startChallenge(tournamentPlayers);
+        notifyChallengeComplete();
+    }
+
+
+    public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
+        challenge = new Challenge(this, seed, tournamentPlayers);
+        challenge.beginChallenge();
+    }
+
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        ConnectionHandler connectionHandler = new ConnectionHandler(24);
+        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS);
         connectionHandler.start();
         try {
             connectionHandler.join();
@@ -38,73 +48,14 @@ public class TournamentServer {
         }
     }
 
-    public void authenticate() { //handles authentication from within this server class
-
-        long startTime = System.currentTimeMillis();
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            serverSocket.setSoTimeout(1000);
-            Connection connection;
-            while (!tournamentReady(startTime)) { //might need to spin a thread for authentication itself so can interrupt?
-                try {
-                    connection = new Connection(serverSocket);
-                    connection.accept(); //the loop holds here until a new connection attempt is made
-                    connection.setupIO();
-                    new AuthenticationThread(connection).start();
-                } catch (SocketTimeoutException ste) {
-                    System.out.println("Waited 1000 millis but no connection made");
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Could not listen on port " + PORT);
-            System.exit(-1);
+    public void authenticationExecutor() {
+        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
+        new Thread(connectionExecutor).start();
+        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
         }
     }
 
-
-    public void mattAuthenticate() {
-
-        long startTime = System.currentTimeMillis();
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            serverSocket.setSoTimeout(1000);
-            Connection connection;
-            boolean running = ((System.currentTimeMillis() - startTime) < 20000);
-            while (!tournamentReady()) {
-                connection = new Connection(serverSocket);
-                connection.accept();
-                connection.setupIO();
-                new AuthenticationThread(connection).start();
-                System.out.println("Created a connection with " + connection.getClientSocket());
-                System.out.println("This is the number of tournament players: " + tournamentPlayers.size());
-            }
-        } catch (IOException e) {
-            System.out.println("Some exception in matt's authenticate");
-        }
-        TextFilePort textFilePort = new TextFilePort();
-        Challenge challenge = new Challenge(this, textFilePort.createStringTiles(), 123456789, tournamentPlayers);
-        challenge.startRound();
-        for (TournamentPlayer tp : tournamentPlayers) {
-            System.out.println("These are the players " + tp.getUsername());
-        }
-    }
-
-
-    public boolean tournamentReady() {
-        boolean ready = false;
-        if (tournamentPlayers.size() >= 2) {
-            ready = true;
-        }
-        return ready;
-    }
-
-    public boolean tournamentReady(long start) {
-        boolean ready = false;
-        long timePassed = System.currentTimeMillis() - start;
-        System.out.println("This is how much time has passed in tournamnet ready " + timePassed);
-        if (tournamentPlayers.size() >= 24 || (timePassed > 40000)) {
-            ready = true;
-        }
-        return ready;
-    }
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down

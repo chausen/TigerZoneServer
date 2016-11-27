@@ -14,9 +14,28 @@ import java.util.Scanner;
  */
 public class TileStackGenerator {
 
+    private static String[] TileStrings = new String[]{"JJJJ-","JJJJX","JJJJX","JJJJX","JJJJX","JJTJX","JJTJX","TTTT-",
+            "TJTJ-","TJTJ-","TJTJ-","TJTJ-","TJTJ-","TJTJ-","TJTJ-","TJTJ-","TJJT-","TJJT-","TJJT-","TJJT-","TJJT-","TJJT-",
+            "TJJT-","TJJT-","TJJT-","TJTT-","TJTT-","TJTT-","TJTT-","LLLL-","JLLL-","JLLL-","JLLL-","JLLL-","LLJJ-","LLJJ-","LLJJ-",
+            "LLJJ-","LLJJ-","JLJL-","JLJL-","JLJL-","LJLJ-","LJLJ-","LJLJ-","LJJJ-","LJJJ-","LJJJ-","LJJJ-",
+            "LJJJ-","JLLJ-","JLLJ-","TLJT-","TLJTP","TLJTP","JLTT-","JLTTB","JLTTB","TLTJ-","TLTJ-",
+            "TLTJD","TLTJD","TLLL-","TLTT-","TLTTP","TLTTP","TLLT-","TLLT-","TLLT-","TLLTB","TLLTB",
+            "LJTJ-","LJTJD","LJTJD","TLLLC","TLLLC"};
+
 
     public TileStackGenerator() { }
 
+
+    public static LinkedList<PlayableTile> generateTiles(long seed) {
+        LinkedList<PlayableTile> tileStack = new LinkedList<>();
+
+        for (int i=0; i<TileStrings.length; i++) {
+            PlayableTile tile = new PlayableTile(TileStrings[i]);
+            tileStack.add(tile);
+        }
+        shuffle(tileStack, seed);
+        return tileStack;
+    }
 
     public static LinkedList<PlayableTile> generateTiles(String[] tiles, long seed) {
         LinkedList<PlayableTile> tileStack = new LinkedList<>();

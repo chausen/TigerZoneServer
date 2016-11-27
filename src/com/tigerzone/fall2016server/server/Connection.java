@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -45,19 +46,38 @@ public class Connection {
     }
 
 
+    public Connection(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        this.messageQueue = new LinkedList<>();
+        setupIO();
+    }
 
     public void accept() throws IOException {
         clientSocket = serverSocket.accept();
     }
 
-
-    public void setupIO() {
+    public void close() {
         try {
-            in = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
-            out = new PrintWriter(getClientSocket().getOutputStream(), true);
+            out.close();
+            in.close();
+            clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void setupIO() {
+        try {
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCommunicationTimeout(int millis) throws SocketException {
+        this.clientSocket.setSoTimeout(millis);
     }
 
     public int getPort() {
@@ -73,12 +93,30 @@ public class Connection {
         return serverSocket;
     }
 
+    //would like to remove this method
     public BufferedReader getIn() {
         return in;
     }
+//
+//    public PrintWriter getOut() {
+//        return out;
+//    }
 
-    public PrintWriter getOut() {
-        return out;
+    public void writeMessageToPlayer(String message){
+        this.out.println(message);
+    }
+
+    public String receiveMessageFromPlayer() {
+       return "";
+    }
+
+    public String playerInput() throws IOException {
+        String message = this.in.readLine();
+        return message;
+    }
+
+    public void playerOutput(String message) {
+        this.out.println(message);
     }
 
     public Queue<String> getMessageQueue() {

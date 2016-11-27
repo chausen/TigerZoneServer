@@ -9,19 +9,19 @@ import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by Jeff on 2016/11/13.
  */
 public class IOPort implements PlayerOutAdapter {
     private PlayerInAdapter inAdapter;
-    private Queue<String> player1UpstreamMessages;
-    private Queue<String> player2UpstreamMessages;
-    private Queue<String> currentUpstreamMessages;
+    private Deque<String> player1UpstreamMessages;
+    private Deque<String> player2UpstreamMessages;
+    private Deque<String> currentUpstreamMessages;
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
@@ -35,9 +35,6 @@ public class IOPort implements PlayerOutAdapter {
     private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
-
-    // Cleans up the outgoing messages starting with "GAME <gid> MOVE <#> PLAYER <pid>"
-    private String messagePrefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
 
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
@@ -53,8 +50,8 @@ public class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
         this.loginName2 = loginName2;
-        player1UpstreamMessages = new LinkedList<>();
-        player2UpstreamMessages = new LinkedList<>();
+        player1UpstreamMessages = new ArrayDeque<>();
+        player2UpstreamMessages = new ArrayDeque<>();
         currentUpstreamMessages = player1UpstreamMessages;
         
         this.tileStack = tileStack;
@@ -74,22 +71,23 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void promptForTurn(PlayableTile currentTile) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("MAKE YOUR MOVE IN GAME ");
-        sb.append(gid);
-        sb.append(" WITHIN ");
-        sb.append(turnTime);
-        String secondOrSeconds = (turnTime == 1) ? "SECOND" : "SECONDS";
-        sb.append(secondOrSeconds + ":");
-        sb.append("MOVE " + turnCount + " PLACE " + currentTile.getTileString());
-        currentUpstreamMessages.add(sb.toString());
+        String messageToActivePlayer =
+                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
+                        this.turnCount, currentTile.getTileString());
+        currentUpstreamMessages.add(messageToActivePlayer);
     }
 
     @Override
     public void receiveTurn(String s) {
         // Needed to output move is inAdapter finds it successful
+        //boolean received = false;
         currentTurnString = s;
-        ++turnCount;
+        System.out.println("This is the string in receive turn in IOPORT " + s);
+
+        if (!s.contains("PLACE") || !s.contains("TILE") || !s.contains("QUIT")) {
+            receiveIllegalMessage();
+            return;
+        }
 
         Scanner sc = new Scanner(s);
 
@@ -97,20 +95,26 @@ public class IOPort implements PlayerOutAdapter {
         sc.next();
         //Moving past the GAME and gid
         String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
+        System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
         switch(determiner)
         {
             case "PLACE":
+                System.out.println("GOT PLACE WITHIN IOPORT");
                 receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                //received = true;
                 break;
 
             case "TILE":
                 receiveTurnTile(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
+                //received = true;
                 break;
 
             case "QUIT":
                 receiveTurnQuit();
+                //received = true;
                 break;
         }
+        //return received;
     }
 
     //========== Helper Methods for Receive Turn ==========//
@@ -177,20 +181,25 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void receiveIllegalMessage() {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
+        //broadcast(messagePrefix + " FORFEITED ILLEGAL MESSAGE RECEIVED " + currentTurnString);
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
-        broadcast(messagePrefix + " FORFEITED QUIT");
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        broadcast(messagePrefix + " " + currentTurnString);
+//        String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
+//        broadcast(prefix + " " + currentTurnString);
+//        turnCount++;
+        broadcast(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
         switchActivePlayer();
     }
 
@@ -207,17 +216,20 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL MEEPLE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
+        broadcast(forfeitMessage);
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED INVALID MEEPLE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT");
+        broadcast(forfeitMessage);
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        broadcast(messagePrefix + " FORFEITED ILLEGAL TILE PLACEMENT " + activeMove);
+        String forfeitMessage = GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT ");
+        broadcast(forfeitMessage);
     }
 
     @Override
@@ -243,23 +255,17 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
-
     //========== Accessors ==========//
 
     private String getActivePlayer(){
         return activeplayer;
     }
 
-    public Queue<String> getCurrentMessageQueue() {
-        return currentUpstreamMessages;
+    public String getMessageFromCurrentMessageQueue(){return this.currentUpstreamMessages.pop();
     }
 
-    public Queue<String> getPlayer1MessageQueue() {
-        return player1UpstreamMessages;
-    }
-
-    public Queue<String> getPlayer2MessageQueue() {
-        return player2UpstreamMessages;
+    public boolean isCurrentMessageQueueEmpty(){
+        return this.currentUpstreamMessages.isEmpty();
     }
 
     private String getCurrentTurnString(){
@@ -283,7 +289,7 @@ public class IOPort implements PlayerOutAdapter {
 
     // Adds message to both player1 and player2's message queues
     private void broadcast(String message) {
-        player1UpstreamMessages.add(message);
-        player2UpstreamMessages.add(message);
+        player1UpstreamMessages.push(message);
+        player2UpstreamMessages.push(message);
     }
 }

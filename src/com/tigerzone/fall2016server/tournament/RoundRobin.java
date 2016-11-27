@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,8 +47,15 @@ public class RoundRobin {
 
         int playerIdx = round % playersSize;
 
+        Match match;
+        int matchNumber = 0;
+
         if(!players.get(playerIdx).equals(dummyPlayer)){
-            matchList.add(new Match(playerList.get(0), players.get(playerIdx), tileStack));
+            match = new Match(playerList.get(0), players.get(playerIdx), tileStack);
+            match.setMatchID(matchNumber);
+//            matchList.add(new Match(playerList.get(0), players.get(playerIdx), tileStack));
+            matchList.add(match);
+            matchNumber++;
         }
 
         for (int idx = 1; idx < halfSize; idx++)
@@ -55,7 +63,10 @@ public class RoundRobin {
             int firstPlayer = (round + idx) % playersSize;
             int secondPlayer = (round  + playersSize - idx) % playersSize;
             if(!players.get(firstPlayer).equals(dummyPlayer) && !players.get(secondPlayer).equals(dummyPlayer)) {
-                matchList.add(new Match(players.get(firstPlayer), players.get(secondPlayer), tileStack));
+                //matchList.add(new Match(players.get(firstPlayer), players.get(secondPlayer), tileStack));
+                match = new Match(players.get(firstPlayer), players.get(secondPlayer), tileStack);
+                matchList.add(match);
+                matchNumber++;
             }
         }
 
