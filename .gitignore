@@ -2,6 +2,7 @@ out/
 **/*.class
 **/.idea
 TigerZone.iml
+logger.txt
 **/*.iml
 /bin
 .DS_Store
