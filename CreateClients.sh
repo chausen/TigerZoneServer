@@ -1,8 +1,8 @@
 #!/bin/bash
 java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER1  PASSWORD1 Player1Moves.txt Player2Moves.txt localhost 4444 &
-java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER2  PASSWORD2 Player1Moves.txt Player2Moves.txt localhost 4444
-#java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER3  PASSWORD3 Player1Moves.txt Player2Moves.txt localhost 4444 &
-#java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER4  PASSWORD4 Player1Moves.txt Player2Moves.txt localhost 4444 &
+java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER2  PASSWORD2 Player1Moves.txt Player2Moves.txt localhost 4444 &
+java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER3  PASSWORD3 Player1Moves.txt Player2Moves.txt localhost 4444 &
+java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER4  PASSWORD4 Player1Moves.txt Player2Moves.txt localhost 4444
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER5  PASSWORD5 Player1Moves.txt Player2Moves.txt localhost 4444 &
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER6  PASSWORD6 Player1Moves.txt Player2Moves.txt localhost 4444 &
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER7  PASSWORD7 Player1Moves.txt Player2Moves.txt localhost 4444 &
@@ -22,6 +22,6 @@ java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.Par
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER21  PASSWORD21 Player1Moves.txt Player2Moves.txt localhost 4444 &
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER22  PASSWORD22 Player1Moves.txt Player2Moves.txt localhost 4444 &
 #java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER23  PASSWORD23 Player1Moves.txt Player2Moves.txt localhost 4444 &
-#java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER24  PASSWORD24 Player1Moves.txt Player2Moves.txt localhost 4444 &
+#java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER24  PASSWORD24 Player1Moves.txt Player2Moves.txt localhost 4444
 
 

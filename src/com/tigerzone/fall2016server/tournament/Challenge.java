@@ -51,9 +51,9 @@ public class Challenge {
             sendEndMessage();
             tournamentServer.notifyChallengeComplete();
         } else {
+            currentRoundNumber++;
             currentRound = rounds.get(currentRoundNumber-1);
             currentRound.playRound();
-            currentRoundNumber++;
         }
     }
 
