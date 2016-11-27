@@ -5,8 +5,8 @@ import com.tigerzone.fall2016server.files.FileReader;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Iterator;
-import java.util.List;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -21,8 +21,20 @@ public class ParameterizedClient {
 
     private String player1MovesFilename;
     private String player2MovesFilename;
-    private List<String> moves;
-    private Iterator<String> moveIterator;
+
+    private List<String> player1Moves;
+    private List<String> player2Moves;
+
+    private Iterator<String> game1MoveIterator;
+    private Iterator<String> game2MoveIterator;
+    private Iterator<String> currentGameMoveIterator;
+
+    private int game1MoveNumber = 1;
+    private int game2MoveNumber = 1;
+    private int currentGameMoveNumber;
+
+    private int gid;
+    private HashMap<Integer, Iterator> gidToMoveset = new HashMap<>();
 
 
     public ParameterizedClient(String host, int port, String player1MovesFilename, String player2MovesFilename) {
@@ -37,6 +49,15 @@ public class ParameterizedClient {
         } catch (IOException e) {
             System.out.println("Some ioexception");
         }
+
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/");
+        player1Moves = FileReader.getMoves(sb.toString() + player1MovesFilename);
+        player2Moves = FileReader.getMoves(sb.toString() + player2MovesFilename);
+        game1MoveIterator = player1Moves.iterator();
+        game2MoveIterator = player2Moves.iterator();
     }
 
     public void login(String loginName, String password) throws Exception {
@@ -64,7 +85,7 @@ public class ParameterizedClient {
             String fromServer;
 
             while ((fromServer = in.readLine()) != null) {
-                System.out.println(fromServer);
+                System.out.println("From Server: " + fromServer);
                 if (fromServer.startsWith("MATCH BEGINS")) {
                     break;
                 }
@@ -84,36 +105,32 @@ public class ParameterizedClient {
     }
 
     /**
-     * Determines if this client is Player1 or Player2 (in this game) and gets the appropriate moveset
+     * Determines if this client is Player1 or Player2 (in this game)
+     * and maps the appropriate movesets
      */
     public void determineMoveSet() {
-
-        boolean determiningMessage = false;
 
         try {
 
             String fromServer;
 
             while ( (fromServer = in.readLine()) != null ) {
-                if (fromServer.startsWith("MATCH")) {
-                    // if next message starts with "MAKE YOUR MOVE", get player 1 moves
-                    // otherwise, get player 2 moves
-                    determiningMessage = true;
-                }
-                if (determiningMessage && (fromServer = in.readLine()) != null) {
-                    if (fromServer.startsWith("MAKE YOUR MOVE")) {
-                        moves = FileReader.getMoves(player1MovesFilename);
-                        System.out.println("I'm Player 1");
-                        moveIterator = moves.iterator();
-                        String firstMove = moveIterator.next();
-                        System.out.println(firstMove);
-                        out.println(firstMove);
+
+                if (fromServer.startsWith("MAKE")) {
+                    String[] split = fromServer.split(" ");
+                    int moveNumber = Integer.parseInt(split[10]);
+                    int gid = Integer.parseInt(split[5]);
+                    if (moveNumber % 2 == 0) {
+                        String firstMove = game2MoveIterator.next();
+                        System.out.println("Client Sending move: GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
+                        out.println("GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
+                        gidToMoveset.put(gid, game2MoveIterator);
                     } else {
-                        moves = FileReader.getMoves(player2MovesFilename);
-                        System.out.println("I'm Player 2");
-                        moveIterator = moves.iterator();
+                        String firstMove = game1MoveIterator.next();
+                        System.out.println("Client Sending move: GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
+                        out.println("GAME " + gid + " MOVE " + moveNumber + " " + firstMove);
+                        gidToMoveset.put(gid, game1MoveIterator);
                     }
-                    break;
                 }
             }
         } catch (IOException e) {
@@ -131,18 +148,27 @@ public class ParameterizedClient {
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
                 if (fromServer.startsWith("MAKE")) {
-                    if (moveIterator.hasNext()) {
-                        userInput = moveIterator.next();
-                        System.out.println(userInput);
-                        out.println(userInput);
-                    } else {
-                        System.out.println("Client ran out of moves to make");
+
+                    gid = getGid(fromServer);
+
+                    if (gidToMoveset.get(gid).equals(game1MoveIterator)) {
+                        ++game1MoveNumber; // account for other players move
+                        userInput = game1MoveIterator.next();
+                        System.out.println("Client sending move: GAME " + gid + " MOVE " + game1MoveNumber + " " + userInput);
+                        out.println("GAME " + gid + " MOVE " + game1MoveNumber + " " + userInput);
+                        ++game1MoveNumber; // account for your move
+                    } else if (gidToMoveset.get(gid).equals(game2MoveIterator)) {
+                        ++game2MoveNumber; // account for other players move
+                        userInput = game2MoveIterator.next();
+                        System.out.println("Client sending move: GAME " + gid + " MOVE " + game2MoveNumber + " " + userInput);
+                        out.println("GAME " + gid + " MOVE " + game2MoveNumber + " " + userInput);
+                        ++game2MoveNumber; // account for your move
+                        }
                     }
-                }
-                if (fromServer.equals("NOPE GOOD BYE")) {
-                    System.out.println("Server says goodbye");
-                    break;
-                }
+                    if (fromServer.equals("NOPE GOOD BYE")) {
+                        System.out.println("Server says goodbye");
+                        break;
+                    }
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
@@ -152,6 +178,16 @@ public class ParameterizedClient {
             System.exit(1);
         }
 
+    }
+
+    private int getGid(String fromServer) {
+        Scanner scanner = new Scanner(fromServer);
+        while (scanner.hasNext()) {
+            if (scanner.next().equals("GAME")) {
+                return scanner.nextInt();
+            }
+        }
+        return 0;
     }
 }
 
