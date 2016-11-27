@@ -1,8 +1,10 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.*;
@@ -152,6 +154,40 @@ public class Match extends Thread{
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
+        updatePlayerStatistics(game, p1, p2);
+    }
+
+    private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2){
+        Match m = game.getMatch();
+        Round r = m.getRound();
+        Challenge c = r.getChallenge();
+
+        PlayerStats p1stats = p1.getStats();
+        PlayerStats p2stats = p2.getStats();
+        p1stats.setGamesPlayed(p1stats.getGamesPlayed()+1);
+        p2stats.setGamesPlayed(p2stats.getGamesPlayed()+1);
+        if(game.getPlayer1FinalScore() > game.getPlayer2FinalScore()){
+            p1stats.setWins(p1stats.getWins()+1);
+            p2stats.setLosses(p1stats.getLosses()+1);
+            p2stats.setLargestpointdifference(game.getPlayer2FinalScore(),game.getPlayer1FinalScore());
+        }
+        else if(game.getPlayer1FinalScore() == game.getPlayer2FinalScore()){
+            p1stats.setTies(p1stats.getTies()+1);
+            p2stats.setTies(p1stats.getTies()+1);
+        }
+        else {
+            p2stats.setWins(p2stats.getWins()+1);
+            p1stats.setLosses(p1stats.getLosses()+1);
+            p1stats.setLargestpointdifference(game.getPlayer1FinalScore(),game.getPlayer2FinalScore());
+        }
+
+        p1stats.setTotalPoints(p1stats.getTotalPoints()+game.getPlayer1FinalScore());
+        p1stats.setTotalPoints(p2stats.getTotalPoints()+game.getPlayer2FinalScore());
+
+        p1stats.setOpponentTotalPoints(p1stats.getOpponentTotalPoints()+game.getPlayer2FinalScore());
+        p2stats.setOpponentTotalPoints(p1stats.getOpponentTotalPoints()+game.getPlayer1FinalScore());
+
+        Logger.endGame(c.getTournamentID(),c.getChallengeID(),r.getRoundID(),m.getMatchID(),game.getGameID(),p1,p2);
     }
 
     private void notifyEndGameToPlayers(){

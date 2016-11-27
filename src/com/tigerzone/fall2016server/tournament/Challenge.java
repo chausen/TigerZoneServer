@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
@@ -40,6 +41,7 @@ public class Challenge {
     public void beginChallenge() {
         currentRoundNumber=1;
         sendMessageToPlayers();
+        Logger.beginChallenge(1,challengeID);
         rounds = generateRounds();
         rounds.get(currentRoundNumber-1).playRound();
     }
@@ -115,5 +117,9 @@ public class Challenge {
 
     public int getNumOfRounds() {
         return numOfRounds;
+    }
+
+    public int getTournamentID() {
+        return tournamentServer.getTournamentID();
     }
 }
