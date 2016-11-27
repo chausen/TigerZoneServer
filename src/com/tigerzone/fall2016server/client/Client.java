@@ -103,10 +103,12 @@ public class Client {
                         case 1:
                             userInput = "GAME 1 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 3:
                             userInput = "GAME 1 MOVE 3 PLACE LLLL- AT 1 0 0 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 5:
                             userInput = "GAME 1 MOVE 5 PLACE TJTJ- AT -1 1 90 NONE";
@@ -115,30 +117,37 @@ public class Client {
                         case 7:
                             userInput = "GAME 1 MOVE 7 PLACE LJLJ- AT 2 0 90 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 9:
                             userInput = "GAME 1 MOVE 9 PLACE TLLLC AT -3 0 270 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 11:
                             userInput = "GAME 1 MOVE 11 PLACE TJJT- AT 0 -1 0 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 13:
                             userInput = "GAME 1 MOVE 13 PLACE LJJJ- AT 3 0 90 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 15:
                             userInput = "GAME 1 MOVE 15 PLACE TLTTP AT 4 -1 90 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 17:
                             userInput = "GAME 1 MOVE 17 PLACE TLTJ- AT -2 -1 90 TIGER 2";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 19:
                             userInput = "GAME 1 MOVE 19 PLACE JLTTB AT 3 -2 270 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                     }
                 } else if (fromServer.startsWith("MAKE YOUR MOVE IN GAME 2")) {
@@ -148,26 +157,31 @@ public class Client {
                         case 2:
                             userInput = "GAME 2 MOVE 2 PLACE JLTT- AT -2 0 270 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 4:
                             userInput = "GAME 2 MOVE 4 PLACE TJJT- AT 0 1 90 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 6:
                             userInput = "GAME 2 MOVE 6 PLACE LLJJ- AT 1 -1 0 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 8:
                             userInput = "GAME 2 MOVE 8 PLACE LLJJ- AT 1 1 270 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 10:
-                            userInput = "GAME 2 MOVE 10 PPLACE TLLTB AT -2 1 180 NONE";
+                            userInput = "GAME 2 MOVE 10 PLACE TLLTB AT -2 1 180 NONE";
                             out.println(userInput);
                             break;
                         case 12:
                             userInput = "GAME 2 MOVE 12 PLACE JLLL- AT 2 -1 0 NONE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 14:
                             userInput = "GAME 2 MOVE 14 PLACE TLJT- AT 3 -1 180 NONE";
@@ -176,14 +190,17 @@ public class Client {
                         case 16:
                             userInput = "GAME 2 MOVE 16 PLACE TJTJ- AT -1 -1 90 TIGER 4";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 18:
                             userInput = "GAME 2 MOVE 18 PLACE LJJJ- AT 4 0 180 TIGER 8";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                         case 20:
                             userInput = "GAME 2 MOVE 20 PLACE JLLJ- AT 2 1 180 CROCODILE";
                             out.println(userInput);
+                            System.out.println(userInput);
                             break;
                      }
                 }
