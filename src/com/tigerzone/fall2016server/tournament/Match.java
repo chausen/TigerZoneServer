@@ -8,6 +8,7 @@ import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.*;
 
 /**
@@ -65,6 +66,13 @@ public class Match extends Thread{
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
+
+//        try {
+//            player1.setCommunicationTimeout(30000);
+//        } catch (SocketException e) {
+//            System.out.println("Sokcet timeout exception???");
+//        }
+
         while(!game1.isOver() || !game2.isOver()){
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players

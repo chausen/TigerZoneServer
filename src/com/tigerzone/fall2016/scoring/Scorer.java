@@ -85,7 +85,7 @@ public class Scorer {
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(den.getTigerList());
 
-        outAdapter.reportScoringEvent(scoringEvent);
+        outAdapter.reportScoringEvent(scoringEvent, den);
     }
 
     /**
@@ -102,7 +102,7 @@ public class Scorer {
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(lake.getTigerList());
 
-        outAdapter.reportScoringEvent(scoringEvent);
+        outAdapter.reportScoringEvent(scoringEvent, lake);
     }
 
     /**
@@ -121,7 +121,7 @@ public class Scorer {
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(trail.getTigerList());
 
-        outAdapter.reportScoringEvent(scoringEvent);
+        outAdapter.reportScoringEvent(scoringEvent,trail);
     }
 
 
@@ -199,7 +199,7 @@ public class Scorer {
                         + (completedDenValue * jungle.countCompletedDens());
 
                 scoringEvent = updatePlayersScore(owners, points);
-                outAdapter.reportScoringEvent(scoringEvent);
+                outAdapter.reportScoringEvent(scoringEvent, jungle);
             }
         }
     }
