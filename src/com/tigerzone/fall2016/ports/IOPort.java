@@ -69,13 +69,13 @@ public class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
-    @Override
-    public void promptForTurn(PlayableTile currentTile) {
-        String messageToActivePlayer =
-                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
-                        this.turnCount, currentTile.getTileString());
-        currentUpstreamMessages.add(messageToActivePlayer);
-    }
+//    @Override
+//    public void promptForTurn(PlayableTile currentTile) {
+//        String messageToActivePlayer =
+//                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
+//                        this.turnCount, currentTile.getTileString());
+//        currentUpstreamMessages.add(messageToActivePlayer);
+//    }
 
     @Override
     public void receiveTurn(String s) {
@@ -292,4 +292,13 @@ public class IOPort implements PlayerOutAdapter {
         player1UpstreamMessages.push(message);
         player2UpstreamMessages.push(message);
     }
+
+    public String getCurrentTile(){
+        return inAdapter.getCurrentTile();
+    }
+
+    public String getResponse(){
+        return null;
+    }
+
 }

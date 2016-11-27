@@ -18,4 +18,5 @@ public interface PlayerInAdapter
     public void truncateTS(int x);//ONLY USED FOR TESTING PURPOSES
     public Player getPlayer(String playerID);
     public void forfeit(); // used by the outAdapter in the case where an illegal message is received
+    public String getCurrentTile();
 }

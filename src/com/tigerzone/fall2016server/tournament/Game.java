@@ -76,50 +76,67 @@ public class Game extends Thread{
     }
 
     void playGame() {
+        this.ioPort.initialize();
+        while (!this.ioPort.isGameOver()) {
+            //not sure if this logic is correct
+            while (this.ioPort.isCurrentMessageQueueEmpty()) {
+                putGameThreadToSleep(20);
+            }
+            //send active player message from Game System
+            String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
+            this.activePlayer.sendMessageToPlayer(gameMessage);
 
+            long startTime = System.nanoTime();
+            long activePlayerDecisionTime = startTime;
 
-            this.ioPort.initialize();
-            while (!this.ioPort.isGameOver()) {
-                //not sure if this logic is correct
-                while (this.ioPort.isCurrentMessageQueueEmpty()) {
-                    putGameThreadToSleep(20);
-                }
-                //send active player message from Game System
-                String gameMessage = this.ioPort.getMessageFromCurrentMessageQueue();
-                this.activePlayer.sendMessageToPlayer(gameMessage);
+            TournamentPlayer previousActivePlayer = this.activePlayer;
+            while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
+                putGameThreadToSleep(200);
 
-                long startTime = System.nanoTime();
-                long activePlayerDecisionTime = startTime;
-
-                TournamentPlayer previousActivePlayer = this.activePlayer;
-                while (activePlayerDecisionTime - startTime > MAX_PLAYER_DECISION_TIME) {
-                    putGameThreadToSleep(200);
-
-                    String activePlayerMessage = this.activePlayer.readPlayerMessage();
-                    //send active player's move to game
-                    if (activePlayerMessage != null) {
-                        this.ioPort.receiveTurn(activePlayerMessage);
-                        //swap resting player to be active player
-                        swapActivePlayer();
-                    } else {
-                        activePlayerDecisionTime = System.nanoTime() - startTime;
-                    }
-                }
-
-                //decide if active player should forfeit due to (TimeOut)
-                if (didActivePlayerTimeOut(previousActivePlayer)) {
-                    //active player should forfeit
+                String activePlayerMessage = this.activePlayer.readPlayerMessage();
+                //send active player's move to game
+                if (activePlayerMessage != null) {
+                    this.ioPort.receiveTurn(activePlayerMessage);
+                    //swap resting player to be active player
+                    swapActivePlayer();
+                } else {
+                    activePlayerDecisionTime = System.nanoTime() - startTime;
                 }
             }
 
-            notifyComplete();
+            //decide if active player should forfeit due to (TimeOut)
+            if (didActivePlayerTimeOut(previousActivePlayer)) {
+                //active player should forfeit
+            }
         }
+        notifyComplete();
+    }
 
     private void receiveMove(TournamentPlayer player) throws IOException {
         String move = "";
         move = player.playerInput();
         ioPort.receiveTurn(move);
         notifyComplete();
+    }
+
+    public void initializeIOport(){
+        ioPort.initialize();
+    }
+
+    public boolean isOver(){
+        return ioPort.isGameOver();
+    }
+
+    public String getCurrentTile(){
+        return ioPort.getCurrentTile();
+    }
+
+    public void receiveTurn(String message){
+        ioPort.receiveTurn(message);
+    }
+
+    public String getResponse(){
+        return ioPort.getResponse();
     }
 
     private void notifyComplete(){

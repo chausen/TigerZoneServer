@@ -68,7 +68,7 @@ public class GameSystem implements PlayerInAdapter {
         //originTile = ts.pop();
 
         currentTile = ts.peek();
-        outAdapter.promptForTurn(currentTile);
+        //outAdapter.promptForTurn(currentTile);
     }
 
     public void setOutAdapter(PlayerOutAdapter outAdapter){
@@ -212,7 +212,7 @@ public class GameSystem implements PlayerInAdapter {
     private void prepareNextTurn() {
         ts.pop();
         this.currentTile = ts.peek();
-        outAdapter.promptForTurn(this.currentTile);
+        //outAdapter.promptForTurn(this.currentTile);
         // If there are no tiles remaining, end the game
         if (this.currentTile == null) {
             //scores incomplete areas
@@ -234,6 +234,12 @@ public class GameSystem implements PlayerInAdapter {
     @Override
     public void forfeit() {
         endOfGame();
+    }
+
+    @Override
+    public String getCurrentTile() {
+        this.currentTile = ts.peek();
+        return currentTile.toString();
     }
 
     //========== Helper Methods ===========//

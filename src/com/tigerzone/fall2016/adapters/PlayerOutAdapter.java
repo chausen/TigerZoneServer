@@ -9,7 +9,7 @@ import java.util.Queue;
 
 public interface PlayerOutAdapter
 {
-    public void promptForTurn(PlayableTile currentTile);
+    //public void promptForTurn(PlayableTile currentTile);
     public void receiveTurn(String s);
     public void receiveIllegalMessage();
     public void successfulTurn();
