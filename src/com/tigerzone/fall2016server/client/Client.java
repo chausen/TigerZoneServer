@@ -155,6 +155,8 @@ public class Client {
                     break;
                 }
 
+                clientSocket.setSoTimeout(1000);
+
                 userInput = stdIn.readLine();
                 if (userInput != null) {
                     out.println(userInput);

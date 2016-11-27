@@ -9,6 +9,7 @@ import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.*;
 
 /**
@@ -67,17 +68,20 @@ public class Match extends Thread{
         game1.initializeIOport();
         game2.initializeIOport();
 
-        try {
-            player1.setCommunicationTimeout(15000);
-            player2.setCommunicationTimeout(15000);
-        } catch (SocketException e) {
-            System.out.println("Sokcet timeout exception???");
-        }
+
 
         while(!game1.isOver() || !game2.isOver()){
+
+//            try {
+//                player1.setCommunicationTimeout(3000);
+//                player2.setCommunicationTimeout(3000);
+//            } catch (SocketException e) {
+//                System.out.println("Sokcet timeout exception???");
+//            }
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
             //Send each player their own prompt message
+
             if(!game1.isOver()){
                 String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
                 game1player.sendMessageToPlayer(game1playerPrompt);
@@ -98,6 +102,7 @@ public class Match extends Thread{
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
+
             turnIO(game1, game1player);
             turnIO(game2, game2player);
 
