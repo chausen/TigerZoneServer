@@ -69,13 +69,13 @@ public class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
     }
 
-    @Override
-    public void promptForTurn(PlayableTile currentTile) {
-        String messageToActivePlayer =
-                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
-                        this.turnCount, currentTile.getTileString());
-        currentUpstreamMessages.add(messageToActivePlayer);
-    }
+//    @Override
+//    public void promptForTurn(PlayableTile currentTile) {
+//        String messageToActivePlayer =
+//                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
+//                        this.turnCount, currentTile.getTileString());
+//        currentUpstreamMessages.add(messageToActivePlayer);
+//    }
 
     @Override
     public void receiveTurn(String s) {
@@ -84,7 +84,7 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         System.out.println("This is the string in receive turn in IOPORT " + s);
 
-        if (!s.contains("PLACE") || !s.contains("TILE") || !s.contains("QUIT")) {
+        if (!s.contains("PLACE") && !s.contains("TILE") && !s.contains("QUIT")) {
             receiveIllegalMessage();
             return;
         }
@@ -232,10 +232,19 @@ public class IOPort implements PlayerOutAdapter {
         broadcast(forfeitMessage);
     }
 
+//    @Override
+//    public void notifyEndGame(Map<Player, Integer> playerScores) {
+//        Set<Player> players = playerScores.keySet();
+//
+//        player1FinalScore = playerScores.get(loginName1);
+//        player2FinalScore = playerScores.get(loginName2);
+//        gameOver = true;
+//    }
+
     @Override
-    public void notifyEndGame(Map<Player, Integer> playerScores) {
-        player1FinalScore = playerScores.get(loginName1);
-        player2FinalScore = playerScores.get(loginName2);
+    public void notifyEndGame(int player1Score, int player2Score) {
+        player1FinalScore = player1Score;
+        player2FinalScore = player2Score;
         gameOver = true;
     }
 
@@ -292,4 +301,13 @@ public class IOPort implements PlayerOutAdapter {
         player1UpstreamMessages.push(message);
         player2UpstreamMessages.push(message);
     }
+
+    public String getCurrentTile(){
+        return inAdapter.getCurrentTile();
+    }
+
+    public String getResponse(){
+        return null;
+    }
+
 }

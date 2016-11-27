@@ -19,4 +19,5 @@ public interface PlayerInAdapter
     public Player getPlayer(String playerID);
     public int getPlayerScore(Player p);
     public void forfeit(); // used by the outAdapter in the case where an illegal message is received
+    public String getCurrentTile();
 }

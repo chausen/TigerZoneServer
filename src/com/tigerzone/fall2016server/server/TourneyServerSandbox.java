@@ -155,7 +155,7 @@ public class TourneyServerSandbox {
         Connection connection1 = new Connection(clientSocket);
         Connection connection2 = new Connection(clientSocket2);
         Game game = new Game(1, player1,  player1, tileStack, null);
-        game.start();
+//        game.start();
 //        Connection player1Connection = player1.getConnection();
 //
 //        Deque<String> writeQueue = game.getPlayer1ReadQueue();

@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.util.LinkedList;
@@ -11,13 +12,14 @@ import java.util.List;
  */
 public class Round {
     List<TournamentPlayer> players;
-    LinkedList<PlayableTile> tileStack;
+    LinkedList<PlayableTile> tiles;
     private Challenge challenge;
     private int roundID;
     private int numOfMatches;
     private int numOfMatchesComplete = 0;
     private int currentRound = 0;
     private int numOfRounds;
+    private RoundRobin roundRobin;
 
     List<Match> matches;
 
@@ -35,10 +37,21 @@ public class Round {
         getChallengeInfo();
     }
 
+    public Round(Challenge challenge, int roundID) {
+        this.challenge = challenge;
+        this.roundID = roundID;
+        getChallengeInfo();
+        matches = RoundRobin.listMatches(players, this.roundID, tiles);
+        for (Match match: matches) {
+            match.setRound(this);
+        }
+    }
+
     public void playRound() {
         sendMessageToPlayers();
         for (Match match : matches) {
-            match.playMatch();
+            match.start();
+            //match.playMatch();
         }
         //notifyComplete();
     }
@@ -46,11 +59,13 @@ public class Round {
     public void getChallengeInfo() {
         this.players = challenge.getPlayers();
         this.numOfRounds = challenge.getNumOfRounds();
+        this.tiles = challenge.getTiles();
     }
 
     private void sendMessageToPlayers() {
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
+            Logger.beginRound(getChallenge().getTournamentID(),getChallenge().getChallengeID(),roundID,numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
