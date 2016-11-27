@@ -43,6 +43,7 @@ public class IOPort implements PlayerOutAdapter {
     private String response;
     private boolean didForfeit = false;
     private String forfeitedPlayer = "";
+    private GameContext gameContext;
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -64,7 +65,7 @@ public class IOPort implements PlayerOutAdapter {
         this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
         inAdapter.initializeGame(loginName1, loginName2, tileStack);
-
+        this.gameContext = new GameContext(this.gid);
     }
 
     public void initialize(PlayerInAdapter inAdapter) {
@@ -87,10 +88,10 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
 
         Scanner parserScanner = new Scanner(s);
-        Context parserContext = new GameContext(parserScanner, this.gid);
+        gameContext.setScanner(parserScanner);
         ProtocolStateMachine psm = new ProtocolStateMachine();
-        psm.parse(parserContext);
-        if (!parserContext.wasMoveValid()) {
+        psm.parse(gameContext);
+        if (!gameContext.wasMoveValid()) {
             receiveIllegalMessage();
         } else {
 
