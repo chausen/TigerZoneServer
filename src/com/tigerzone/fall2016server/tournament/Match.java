@@ -68,7 +68,8 @@ public class Match extends Thread{
         game2.initializeIOport();
 
 //        try {
-//            player1.setCommunicationTimeout(30000);
+//            player1.setCommunicationTimeout(15000);
+//            player2.setCommunicationTimeout(15000);
 //        } catch (SocketException e) {
 //            System.out.println("Sokcet timeout exception???");
 //        }

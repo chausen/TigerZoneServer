@@ -31,7 +31,7 @@ public class TournamentServer {
         authentication();
         //authenticationExecutor();
         startChallenge(tournamentPlayers);
-        notifyChallengeComplete();
+
     }
 
 
