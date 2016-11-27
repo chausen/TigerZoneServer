@@ -9,11 +9,10 @@ import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.List;
 
 public class GameSystem implements PlayerInAdapter {
@@ -259,6 +258,7 @@ public class GameSystem implements PlayerInAdapter {
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
     }
+
 
 }
 
