@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InterfaceAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -95,7 +96,63 @@ public class Client {
 
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.startsWith("MAKE")) {
+                if (fromServer.startsWith("MAKE YOUR MOVE IN GAME 1")) {
+                    String[] split = fromServer.split(" ");
+                    int moveNumber = Integer.parseInt(split[10]);
+                    switch (moveNumber) {
+                        case 1:
+                            userInput = "GAME 1 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
+                            out.println(userInput);
+                            break;
+                        case 3:
+                            userInput = "GAME 1 MOVE 3 PLACE LLLL- AT 1 0 0 NONE";
+                            out.println(userInput);
+                            break;
+                        case 5:
+                            userInput = "GAME 1 MOVE 5 PLACE TJTJ- AT -1 1 90 NONE";
+                            out.println(userInput);
+                            break;
+                        case 7:
+                            userInput = "GAME 1 MOVE 7 PLACE LJLJ- AT 2 0 90 NONE";
+                            out.println(userInput);
+                            break;
+                        case 9:
+                            userInput = "GAME 1 MOVE 9 PLACE TLLLC AT -3 0 270 NONE";
+                            out.println(userInput);
+                            break;
+                        case 11:
+                            userInput = "GAME 1 MOVE 11 PLACE TJJT- AT 0 -1 0 NONE";
+                            out.println(userInput);
+                            break;
+                        case 13:
+                            userInput = "GAME 1 MOVE 13 PLACE LJJJ- AT 3 0 90 NONE";
+                            out.println(userInput);
+                            break;
+                        case 15:
+                            userInput = "GAME 1 MOVE 15 PLACE TLTTP AT 4 -1 90 NONE";
+                            out.println(userInput);
+                            break;
+                        case 17:
+                            userInput = "GAME 1 MOVE 17 PLACE TLTJ- AT -2 -1 90 TIGER 2";
+                            out.println(userInput);
+                            break;
+                        case 19:
+                            userInput = "GAME 1 MOVE 19 PLACE JLTTB AT 3 -2 270 NONE";
+                            out.println(userInput);
+                            break;
+                    }
+                } else if (fromServer.startsWith("MAKE YOUR MOVE IN GAME 2")) {
+                    String[] split = fromServer.split(" ");
+                    int moveNumber = Integer.parseInt(split[10]);
+                    switch (moveNumber) {
+                        case 1:
+                            userInput = "GAME 2 MOVE 2 PLACE JLTT- AT -2 0 270 NONE";
+                            out.println(userInput);
+                            break;
+                        case 2:
+
+                }
+
                     userInput = "GAME 1 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
                     System.out.println(userInput);
                     out.println(userInput);
