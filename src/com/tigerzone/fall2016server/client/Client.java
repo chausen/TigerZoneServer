@@ -119,13 +119,119 @@ public class Client {
         try {
             String fromServer;
             String userInput = null;
-
             while ((fromServer = in.readLine()) != null) {
                 System.out.println(fromServer);
-                if (fromServer.startsWith("MAKE")) {
-                    userInput = "GAME 2 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
-                    System.out.println(userInput);
-                    out.println(userInput);
+                if (fromServer.startsWith("MAKE MOVE IN GAME 2")) {
+                    String[] split = fromServer.split(" ");
+                    int moveNumber = Integer.parseInt(split[10]);
+                    switch (moveNumber) {
+                        case 1:
+                            userInput = "GAME 2 MOVE 1 PLACE JJJJX AT -1 0 0 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 3:
+                            userInput = "GAME 2 MOVE 3 PLACE LLLL- AT 1 0 0 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 5:
+                            userInput = "GAME 2 MOVE 5 PLACE TJTJ- AT -1 1 90 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 7:
+                            userInput = "PLACE LJLJ- AT 2 0 90 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 9:
+                            userInput = "PLACE TLLLC AT -3 0 270 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 11:
+                            userInput = "PLACE TJJT- AT 0 -1 0 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 13:
+                            userInput = "PLACE LJJJ- AT 3 0 90 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 15:
+                            userInput = "PLACE TLTTP AT 4 -1 90 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 17:
+                            userInput = "PLACE TLTJ- AT -2 -1 90 TIGER 2";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 19:
+                            userInput = "PLACE JLTTB AT 3 -2 270 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                    }
+
+                } else if (fromServer.startsWith("MAKE MOVE IN GAME 1")) { //the player calling playGame2() will be player2 in game1
+                    String[] split = fromServer.split(" ");
+                    int moveNumber = Integer.parseInt(split[10]);
+                    switch (moveNumber) {
+                        case 2:
+                            userInput = "PLACE JLTT- AT -2 0 270 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 4:
+                            userInput = "PLACE TJJT- AT 0 1 90 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 6:
+                            userInput = "PLACE LLJJ- AT 1 -1 0 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 8:
+                            userInput = "PLACE LLJJ- AT 1 1 270 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 10:
+                            userInput = "PLACE TLLTB AT -2 1 180 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 12:
+                            userInput = "PLACE JLLL- AT 2 -1 0 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 14:
+                            userInput = "PLACE TLJT- AT 3 -1 180 NONE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 16:
+                            userInput = "PLACE TJTJ- AT -1 -1 90 TIGER 4";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 18:
+                            userInput = "PLACE LJJJ- AT 4 0 180 TIGER 8";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                        case 20:
+                            userInput = "PLACE JLLJ- AT 2 1 180 CROCODILE";
+                            System.out.println(userInput);
+                            out.println(userInput);
+                            break;
+                    }
                 }
                 if (fromServer.equals("NOPE GOOD BYE")) {
                     System.out.println("Server says goodbye");
