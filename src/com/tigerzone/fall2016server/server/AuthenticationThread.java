@@ -41,7 +41,11 @@ public class AuthenticationThread extends Thread {
     public void authenticate() {
         try {
             String input, output;
+
+            // For 2 clients
             LoginProtocol loginProtocol = new LoginProtocol();
+
+            // For 24 clients
 //            String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
 //            StringBuilder sb = new StringBuilder();
 //            sb.append(currentDirectory);
