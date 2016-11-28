@@ -65,7 +65,7 @@ public class Round {
     }
 
     private void sendMessageToPlayers() {
-        Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);s
+        Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
@@ -73,33 +73,17 @@ public class Round {
     }
 
     public void notifyComplete() {
-<<<<<<< HEAD
-        String roundCompleteMessage = new StringBuffer()
-                .append("END OF ROUND ")
-                .append(roundID)
-                .append(" OF ")
-                .append(numOfRounds).toString();
-        Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
-=======
-
->>>>>>> e1ab9cd0760516f1ccdddd3181db6830382c6f3c
-        numOfMatchesComplete++;
+       numOfMatchesComplete++;
         if (numOfMatchesComplete == numOfMatches) {
             String roundCompleteMessage = new StringBuffer()
                     .append("END OF ROUND ")
                     .append(roundID)
                     .append(" OF ")
                     .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
-
+            Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
-<<<<<<< HEAD
-                challenge.roundComplete();
-            } else {
-                tournamentPlayer.sendMessageToPlayer(roundCompleteMessage + "  PLEASE WAIT FOR THE NEXT MATCH");
-=======
-                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
->>>>>>> e1ab9cd0760516f1ccdddd3181db6830382c6f3c
+                  challenge.roundComplete();
             }
             challenge.roundComplete();
         }
