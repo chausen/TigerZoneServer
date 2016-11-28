@@ -38,7 +38,7 @@ public class ConnectionHandler extends Thread {
 
         long startTime = System.currentTimeMillis();
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            serverSocket.setSoTimeout(1000);
+            serverSocket.setSoTimeout(300);
             Socket clientSocket = null;
             while (!tournamentReady(startTime)) { //might need to spin a thread for authentication itself so can interrupt?
                 try {

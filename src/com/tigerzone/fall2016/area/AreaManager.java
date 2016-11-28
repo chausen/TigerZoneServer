@@ -123,6 +123,8 @@ public class AreaManager {
                 predatorPlaceable = false;
             } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
                 predatorPlaceable = false;
+            } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
+                predatorPlaceable = false;
             } else {
                 predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
                 predatorPlaceable = true;
@@ -159,6 +161,16 @@ public class AreaManager {
         else {
             return predatorPlaceable;
         }
+    }
+
+    public boolean invalidMeeplePlacement(PlayableTile playableTile, int predatorPlacementZone , int degrees){
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
+        if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+            return true;
+        }
+        return false;
     }
 
     private void updateDenArea(){

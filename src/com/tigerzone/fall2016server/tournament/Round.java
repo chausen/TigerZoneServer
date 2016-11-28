@@ -75,12 +75,24 @@ public class Round {
     public void notifyComplete() {
        numOfMatchesComplete++;
         if (numOfMatchesComplete == numOfMatches) {
-            String roundCompleteMessage = new StringBuffer()
-                    .append("END OF ROUND ")
-                    .append(roundID)
-                    .append(" OF ")
-                    .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
-            Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+            String roundCompleteMessage;
+            if(challenge.getCurrentRoundNumber() == challenge.getNumOfRounds()) {
+                roundCompleteMessage = new StringBuffer()
+                        .append("END OF ROUND ")
+                        .append(roundID)
+                        .append(" OF ")
+                        .append(numOfRounds).toString();
+                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+            }
+            else{
+                roundCompleteMessage = new StringBuffer()
+                        .append("END OF ROUND ")
+                        .append(roundID)
+                        .append(" OF ")
+                        .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
+                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+            }
+
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
                   challenge.roundComplete();

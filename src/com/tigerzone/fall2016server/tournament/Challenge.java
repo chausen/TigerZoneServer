@@ -27,7 +27,7 @@ public class Challenge {
         this.tournamentServer = tournamentServers;
         this.tiles = TileStackGenerator.generateTiles(seed);
 
-//        this.tiles = TileStackGenerator.generateTiles(1); // TODO: 11/27/2016 Edit the seed to test different tile sets
+        this.tiles = TileStackGenerator.generateTiles(3); // TODO: 11/27/2016 Edit the seed to test different tile sets
         
         if(players.size() % 2 == 0){
             numOfRounds = players.size() - 1;
@@ -49,7 +49,7 @@ public class Challenge {
     public void roundComplete() {
         if (currentRoundNumber==numOfRounds) {
             sendEndMessage();
-            //tournamentServer.notifyChallengeComplete();
+            tournamentServer.notifyChallengeComplete();
         } else {
             currentRoundNumber++;
             currentRound = rounds.get(currentRoundNumber-1);
@@ -61,7 +61,7 @@ public class Challenge {
         Logger.endChallenge(getTournamentID(),challengeID);
         for(TournamentPlayer tournamentPlayer: players){
             tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
-            tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
+            //tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
         }
     }
 
@@ -101,6 +101,10 @@ public class Challenge {
 
     public int getNumOfRounds() {
         return numOfRounds;
+    }
+
+    public int getCurrentRoundNumber() {
+        return currentRoundNumber;
     }
 
     public int getTournamentID() {

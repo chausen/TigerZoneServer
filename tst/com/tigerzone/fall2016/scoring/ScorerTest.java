@@ -105,6 +105,7 @@ public class ScorerTest {
         scorer.getScore(player1);
     }
 
+
     @org.junit.Test
     public void scoreDen() throws Exception {
         // Create a DenArea of size 3 whose owner is Clay

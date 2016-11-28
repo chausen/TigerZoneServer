@@ -4,6 +4,8 @@ import com.tigerzone.fall2016.gamesystem.TileStack;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 
 /**
@@ -14,7 +16,7 @@ public class TileMain {
     public static void main(String[] args) {
 
 
-        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(1);
+        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(3);
         TileStack tileStack = new TileStack(tiles);
 
         tileStack.truncateTS(12);
@@ -30,6 +32,8 @@ public class TileMain {
             System.out.println(i + " " + tile.getTileString());
             i++;
         }
+
+        InetAddress ip = null;
 
     }
 

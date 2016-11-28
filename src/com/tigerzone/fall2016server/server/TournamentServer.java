@@ -17,7 +17,7 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
-    private static int MAX_CONNECTIONS = 4;
+    private static int MAX_CONNECTIONS = 2;
     private static int tournamentID = 1;
 
     public TournamentServer() {
@@ -31,12 +31,10 @@ public class TournamentServer {
         authentication();
         if(tournamentPlayers.size()>1) {
             startChallenge(tournamentPlayers);
-            notifyChallengeComplete();
         } else{
             System.out.println("Not enough players for a tournament");
             System.exit(1);
         }
-
     }
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
@@ -68,20 +66,17 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
-//        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
-//            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
-//            try {
-//                tournamentPlayer.closeConnection();
-//            } catch (IOException e) {
-//                System.out.println("Couldn't close player connection");
-//                continue;
-//            }
-//        }
-//        System.exit(1);
-
-        while(true) {
-
+        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
+            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
+            try {
+                tournamentPlayer.closeConnection();
+            } catch (IOException e) {
+                System.out.println("Couldn't close player connection");
+                continue;
+            }
         }
+        System.exit(1);
+
 
     }
 

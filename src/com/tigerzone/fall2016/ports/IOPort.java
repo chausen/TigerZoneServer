@@ -93,10 +93,8 @@ public class IOPort implements PlayerOutAdapter {
 
             //Moving past the GAME and gid
             String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
-            System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
             switch (determiner) {
                 case "PLACE":
-                    System.out.println("GOT PLACE WITHIN IOPORT");
                     receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
                     //received = true;
                     break;
