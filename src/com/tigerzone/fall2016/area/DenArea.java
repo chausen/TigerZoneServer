@@ -15,6 +15,7 @@ import java.util.Set;
 public class DenArea extends Area {
     private Point center;
     Set<JungleTerrainNode> jungleTerrainNodes;
+    private boolean denScored = false;
 
     public  DenArea(){}
 
@@ -46,6 +47,7 @@ public class DenArea extends Area {
     @Override
     public void acceptScorer(Scorer scorer) {
         scorer.score(this);
+        denScored = true;
     }
 
     public  DenArea(Point center){
@@ -59,7 +61,7 @@ public class DenArea extends Area {
 
     @Override
     public boolean isComplete() {
-        return this.getBoardTiles().size() == 8;
+        return this.getBoardTiles().size() == 9;
     }
 
 
@@ -67,8 +69,17 @@ public class DenArea extends Area {
         return center;
     }
 
+    public void setCenter(Point point){
+        this.center = point;
+    }
+
+    public boolean isDenScored() {
+        return denScored;
+    }
+
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
+
 
     }
 }

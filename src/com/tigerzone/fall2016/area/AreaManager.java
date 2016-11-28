@@ -97,7 +97,7 @@ public class AreaManager {
         }
         updateDenArea();
         for(DenArea denArea: denAreas){
-            if(denArea.isComplete() && denArea.hasOwner()){
+            if(denArea.isComplete() && denArea.hasOwner() && !denArea.isDenScored()){
                 denArea.acceptScorer(scorer);
             }
         }
@@ -144,14 +144,16 @@ public class AreaManager {
         }
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
-            Area denArea = new DenArea(position);
+            //Area denArea = new DenArea(position);
+            DenArea denArea = (DenArea)denTerrainNode.getArea();
+            denArea.setCenter(position);
             denArea.addBoardTile(boardTile);
-            denTerrainNode.setArea(denArea);
-            denAreas.add((DenArea)denArea);
+            //denTerrainNode.setArea(denArea);
+            denAreas.add(denArea);
         }
         updateDenArea();
         for(DenArea denArea: denAreas){
-            if(denArea.isComplete() && denArea.hasOwner()){
+            if(denArea.isComplete() && denArea.hasOwner() && !denArea.isDenScored()){
                 denArea.acceptScorer(scorer);
             }
         }
