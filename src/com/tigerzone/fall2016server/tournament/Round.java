@@ -65,9 +65,9 @@ public class Round {
     }
 
     private void sendMessageToPlayers() {
+        Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);s
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
-            Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
@@ -78,12 +78,11 @@ public class Round {
                 .append(roundID)
                 .append(" OF ")
                 .append(numOfRounds).toString();
-
+        Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
         numOfMatchesComplete++;
         for (TournamentPlayer tournamentPlayer : players) {
             if (numOfMatchesComplete == numOfMatches) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
-                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
                 challenge.roundComplete();
             } else {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage + "  PLEASE WAIT FOR THE NEXT MATCH");
