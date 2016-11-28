@@ -1,0 +1,9 @@
+.root {
+    -fx-background-image: url("background.jpg");
+}
+
+HBox {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10%;
+    -fx-font-size: 1.5em;
+}
