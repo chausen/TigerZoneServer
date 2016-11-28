@@ -12,6 +12,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
 import java.awt.*;
+import java.net.SocketPermission;
 import java.util.*;
 import java.util.List;
 

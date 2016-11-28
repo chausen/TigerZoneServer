@@ -1,31 +1,66 @@
 package com.tigerzone.fall2016server.scoreboard;
 
+import com.tigerzone.fall2016server.files.FileReader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Scoreboard extends Application {
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    private int challengeId;
-
-    public Scoreboard(int challengeId) {
-        this.challengeId = challengeId;
-    }
+public class Scoreboard extends Application implements Runnable {
+    TilePane root;
+    HashMap<String,PlayerInfoBox> playerInfoBoxHashMap = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("Scoreboard.fxml"));
-        primaryStage.setTitle("TigerZone | Challenge " + challengeId);
-        Scene scene = new Scene(root, 800, 600);
+        this.root = new TilePane();
+        primaryStage.setTitle("TigerZone | Challenge " + 1);
+        initializePlayers(this.playerInfoBoxHashMap);
+        root.setTileAlignment(Pos.TOP_LEFT);
+        Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(Scoreboard.class.getResource("Scoreboard.css").toExternalForm());
         primaryStage.show();
     }
 
+    @Override
+    public void run() {
+        launch();
+    }
 
-    public static void main(String[] args) {
-        launch(args);
+    private void addPlayerInfoBox(PlayerInfoBox playerInfoBox){
+        if(this.root == null){
+            this.root = new TilePane();
+        }
+        this.root.getChildren().add(playerInfoBox.getvBox());
+    }
+
+    /**
+     *
+     * @param playerBoxControllerMap
+     */
+    public void initializePlayers(Map<String, PlayerInfoBox> playerBoxControllerMap) {
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
+        String fullFileName = sb.toString();
+        List<String> players = FileReader.getLoginNames(fullFileName);
+        players.forEach((player)-> {
+            System.out.println(player);
+            PlayerInfoBox playerInfoBox = new PlayerInfoBox(player);
+            playerBoxControllerMap.put(player, playerInfoBox);
+            addPlayerInfoBox(playerInfoBox);
+        });
+    }
+
+    public HashMap<String, PlayerInfoBox> getPlayerInfoBoxHashMap() {
+        return this.playerInfoBoxHashMap;
     }
 }
