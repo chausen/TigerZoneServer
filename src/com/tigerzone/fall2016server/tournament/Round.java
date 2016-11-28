@@ -52,12 +52,10 @@ public class Round {
     }
 
     private void logMatchEvents(Match m) {
-
         Logger.beginGame(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, m.getMatchID(),
                 m.getGame1().getGameID(), m.getPlayer1().getUsername(), m.getPlayer2().getUsername());
         Logger.beginGame(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, m.getMatchID(),
                 m.getGame2().getGameID(), m.getPlayer2().getUsername(), m.getPlayer1().getUsername());
-
     }
 
     public void getChallengeInfo() {

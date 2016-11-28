@@ -40,7 +40,7 @@ public class Challenge {
 
     public void beginChallenge() {
         currentRoundNumber=1;
-        sendMessageToPlayers();
+        sendNewChallengeMessageToPlayers();
         Logger.beginChallenge(1,challengeID);
         rounds = generateRounds();
         rounds.get(currentRoundNumber-1).playRound();
@@ -64,7 +64,7 @@ public class Challenge {
         }
     }
 
-    private void sendMessageToPlayers(){
+    private void sendNewChallengeMessageToPlayers(){
         for(TournamentPlayer tournamentPlayer: players){
             String message = "NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
@@ -98,18 +98,6 @@ public class Challenge {
         }
         return rounds;
     }
-
-//    public void notifyComplete(){
-//        numOfRoundsComplete++;
-//        if(numOfRoundsComplete == numOfRounds) {
-//            for (TournamentPlayer tournamentPlayer : players) {
-//                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
-//            }
-//            tournamentServer.notifyChallengeComplete();
-//        }
-//    }
-
-
 
     public int getChallengeID() {
         return challengeID;
