@@ -13,10 +13,14 @@ public class Scoreboard extends Application implements Runnable {
     public void start(Stage primaryStage) throws Exception{
         Parent root = new TilePane();
         primaryStage.setTitle("TigerZone | Challenge " + 1);
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(Scoreboard.class.getResource("Scoreboard.css").toExternalForm());
         primaryStage.show();
+    }
+
+    public static void main(String args) {
+        launch();
     }
 
     @Override
