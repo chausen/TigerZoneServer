@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public abstract class CrocodileFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
 
 
-    public CrocodileFriendlyArea(){
+    public CrocodileFriendlyArea() {
         this.crocodileList = new ArrayList<>();
     }
 
@@ -22,42 +23,45 @@ public abstract class CrocodileFriendlyArea extends Area {
     }
 
 
-
     /**
      * Returns true if list is not empty
+     *
      * @return
      */
-    private boolean hasCrocodileInArea(){
+    private boolean hasCrocodileInArea() {
         return !(this.crocodileList.isEmpty());
     }
 
     /**
      * this method should be called when user is placing a Crocodile
+     *
      * @param crocodile
      */
     @Override
-    public void placePredator(Crocodile crocodile){
-        if(!hasCrocodileInArea()){
+    public void placePredator(Crocodile crocodile) {
+        if (!hasCrocodileInArea()) {
             this.addAnimal(crocodile);
-            if(crocodile.getOwner() != null){
-                //crocodile.getOwner().decrementBadSupply();
-            }
-        }else{
-            //throw forfeit!! // TODO: 11/17/2016 add logic here 
+        } else if (!crocodile.hasOwner()) {
+            this.addAnimal(crocodile);
+        } else {
+            //throw forfeit!! // TODO: 11/17/2016 add logic here
+
         }
     }
 
     /**
      * this method should be called when a Crocodile is added from an AreaTile
+     *
      * @param crocodile
      */
     @Override
-    public void addAnimal(Crocodile crocodile){
+    public void addAnimal(Crocodile crocodile) {
         this.crocodileList.add(crocodile);
     }
 
     /**
      * Returns the number of Crocodiles in this area
+     *
      * @return
      */
     public int getNumOfCrocodiles() {

@@ -93,10 +93,8 @@ public class IOPort implements PlayerOutAdapter {
 
             //Moving past the GAME and gid
             String determiner = sc.next();//This gives us one of three things as guaranteed by the Server: PLACE, TILE, or QUIT
-            System.out.println("THIS IS THE DETERMINER STRING IN IOPORT " + determiner);
             switch (determiner) {
                 case "PLACE":
-                    System.out.println("GOT PLACE WITHIN IOPORT");
                     receiveTurnPlace(sc.nextLine().substring(1));//Gets rid of the space and sends the remainder of the line.
                     //received = true;
                     break;
@@ -216,27 +214,27 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
+       // Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
 
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
+       // Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
 
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
        reportScoringEvent(playerScores);
-       Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
+       //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
+       // Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
     }
 
     @Override

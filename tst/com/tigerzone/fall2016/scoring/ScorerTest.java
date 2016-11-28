@@ -63,7 +63,7 @@ public class ScorerTest {
 
     @org.junit.Test
     public void sampleGame1() throws Exception {
-        areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), 0);
+        areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), new Tiger(player1), 5,  0);
         areaManager.addTile(new Point(-2, 0), new PlayableTile("JLTT-"), 270);
         areaManager.addTile(new Point(1, 0), new PlayableTile("LLLL-"), 0);
         areaManager.addTile(new Point(0, 1), new PlayableTile("TJJT-"), 90);
@@ -104,6 +104,7 @@ public class ScorerTest {
         scorer.endGameScoring(areaManager);
         scorer.getScore(player1);
     }
+
 
     @org.junit.Test
     public void scoreDen() throws Exception {

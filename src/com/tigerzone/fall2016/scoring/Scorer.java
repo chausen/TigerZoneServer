@@ -45,7 +45,14 @@ public class Scorer {
      * Returns tigers back to owners after scoring completed areas!
      * @param tigerList
      */
-    private void returnTigerToOwnerAfterScoring(List<Tiger> tigerList){
+//    private void returnTigerToOwnerAfterScoring(List<Tiger> tigerList){
+//        for(Tiger tiger : tigerList){
+//            Player tigerOwner = tiger.getOwner();
+//            tigerOwner.incrementGoodSupply();
+//        }
+//    }
+
+    private void returnTigerToOwnerAfterScoring(Set<Tiger> tigerList){
         for(Tiger tiger : tigerList){
             Player tigerOwner = tiger.getOwner();
             tigerOwner.incrementGoodSupply();

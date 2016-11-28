@@ -65,7 +65,7 @@ public class GameSystem implements PlayerInAdapter {
         //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
        ts.truncateTS(20); // TODO: 11/27/2016 Change this truncation value for different tests
-//        ts.truncateTS(12);
+
         //originTile = ts.pop();
 
         currentTile = ts.peek();
@@ -116,16 +116,24 @@ public class GameSystem implements PlayerInAdapter {
             if ( turn.placingPredator() ) {
                 if (am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(),
                         turn.getPredatorPlacementZone(), turn.getRotationDegrees())) {
-                } else {
+                    outAdapter.successfulTurn();
+                    // notify outAdapter with results
+                    prepareNextTurn();
+                }
+                else if(am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
+                    outAdapter.forfeitInvalidMeeple(getCurrentPlayerID());
+                    endOfGame();
+                }
+                else {
                     outAdapter.forfeitIllegalMeeple(getCurrentPlayerID());
                     endOfGame();
                 }
             } else if ( !turn.placingPredator() ) {
                 am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees());
+                outAdapter.successfulTurn();
+                // notify outAdapter with results
+                prepareNextTurn();
             }
-            outAdapter.successfulTurn();
-            // notify outAdapter with results
-            prepareNextTurn();
         }
     }
 
@@ -266,6 +274,15 @@ public class GameSystem implements PlayerInAdapter {
         int player1Score = scorer.getScore(player1);
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
+    }
+
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }
 

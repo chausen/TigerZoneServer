@@ -39,7 +39,6 @@ public class TileStack
     }*/
 
     public PlayableTile pop() {
-        System.out.println("This is pop being called in tilestack" + ll.getFirst().getTileString());
         return ll.removeFirst();
     }
 

@@ -97,7 +97,7 @@ public class AreaManager {
         }
         updateDenArea();
         for(DenArea denArea: denAreas){
-            if(denArea.isComplete() && denArea.hasOwner()){
+            if(denArea.isComplete() && denArea.hasOwner() && !denArea.isDenScored()){
                 denArea.acceptScorer(scorer);
             }
         }
@@ -123,6 +123,8 @@ public class AreaManager {
                 predatorPlaceable = false;
             } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
                 predatorPlaceable = false;
+            } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
+                predatorPlaceable = false;
             } else {
                 predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
                 predatorPlaceable = true;
@@ -142,14 +144,16 @@ public class AreaManager {
         }
         if(playableTile.getTileString().contains("X")){
             TerrainNode denTerrainNode = boardTile.getTerrainNode(5);
-            Area denArea = new DenArea(position);
+            //Area denArea = new DenArea(position);
+            DenArea denArea = (DenArea)denTerrainNode.getArea();
+            denArea.setCenter(position);
             denArea.addBoardTile(boardTile);
-            denTerrainNode.setArea(denArea);
-            denAreas.add((DenArea)denArea);
+            //denTerrainNode.setArea(denArea);
+            denAreas.add(denArea);
         }
         updateDenArea();
         for(DenArea denArea: denAreas){
-            if(denArea.isComplete() && denArea.hasOwner()){
+            if(denArea.isComplete() && denArea.hasOwner() && !denArea.isDenScored()){
                 denArea.acceptScorer(scorer);
             }
         }
@@ -159,6 +163,16 @@ public class AreaManager {
         else {
             return predatorPlaceable;
         }
+    }
+
+    public boolean invalidMeeplePlacement(PlayableTile playableTile, int predatorPlacementZone , int degrees){
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
+        if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+            return true;
+        }
+        return false;
     }
 
     private void updateDenArea(){
