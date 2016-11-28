@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.animals.Crocodile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by matthewdiaz on 11/13/16.
@@ -45,7 +46,7 @@ public abstract class CrocodileFriendlyArea extends Area {
             this.addAnimal(crocodile);
         } else {
             //throw forfeit!! // TODO: 11/17/2016 add logic here
-
+            System.out.println("ILLEGAL CROCODILE PLACEMENT");
         }
     }
 
