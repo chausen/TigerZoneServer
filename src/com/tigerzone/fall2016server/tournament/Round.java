@@ -76,11 +76,21 @@ public class Round {
 
         numOfMatchesComplete++;
         if (numOfMatchesComplete == numOfMatches) {
-            String roundCompleteMessage = new StringBuffer()
-                    .append("END OF ROUND ")
-                    .append(roundID)
-                    .append(" OF ")
-                    .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
+            String roundCompleteMessage;
+            if(challenge.getCurrentRoundNumber() == challenge.getNumOfRounds()) {
+                roundCompleteMessage = new StringBuffer()
+                        .append("END OF ROUND ")
+                        .append(roundID)
+                        .append(" OF ")
+                        .append(numOfRounds).toString();
+            }
+            else{
+                roundCompleteMessage = new StringBuffer()
+                        .append("END OF ROUND ")
+                        .append(roundID)
+                        .append(" OF ")
+                        .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
+            }
 
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
