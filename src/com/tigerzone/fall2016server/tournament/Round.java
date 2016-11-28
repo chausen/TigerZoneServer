@@ -95,7 +95,6 @@ public class Round {
 
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
-                  challenge.roundComplete();
             }
             challenge.roundComplete();
         }
