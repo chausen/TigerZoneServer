@@ -14,7 +14,7 @@ public class TileMain {
     public static void main(String[] args) {
 
 
-        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(2);
+        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(1);
         TileStack tileStack = new TileStack(tiles);
 
         tileStack.truncateTS(12);
