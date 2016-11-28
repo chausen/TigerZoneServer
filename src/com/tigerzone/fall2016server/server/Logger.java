@@ -9,7 +9,6 @@ import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
@@ -229,7 +228,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player1croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
@@ -237,7 +238,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player2croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         addLogToLogger(sb.toString());
@@ -283,7 +286,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player1croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
@@ -291,7 +296,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player2croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         addLogToLogger(sb.toString());
@@ -366,7 +373,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player1croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
@@ -374,7 +383,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player2croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         addLogToLogger(sb.toString());
@@ -452,7 +463,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player1croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         sb.append(loginName2+" TIGERS ");
@@ -460,7 +473,9 @@ public class Logger {
         sb.append(" CROCS ");
         sb.append(player2croccount);
         sb.append(" SCORE ");
-        sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
         sb.append("\r\n");
         sb.append(getGameTabs());
         addLogToLogger(sb.toString());
