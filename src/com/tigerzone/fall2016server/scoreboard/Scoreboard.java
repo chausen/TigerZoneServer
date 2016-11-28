@@ -1,7 +1,6 @@
 package com.tigerzone.fall2016server.scoreboard;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.TilePane;
@@ -27,4 +26,5 @@ public class Scoreboard extends Application implements Runnable {
     public void run() {
         launch();
     }
+
 }
