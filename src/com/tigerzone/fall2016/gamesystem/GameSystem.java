@@ -119,7 +119,12 @@ public class GameSystem implements PlayerInAdapter {
                     outAdapter.successfulTurn();
                     // notify outAdapter with results
                     prepareNextTurn();
-                } else {
+                }
+                else if(am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
+                    outAdapter.forfeitInvalidMeeple(getCurrentPlayerID());
+                    endOfGame();
+                }
+                else {
                     outAdapter.forfeitIllegalMeeple(getCurrentPlayerID());
                     endOfGame();
                 }

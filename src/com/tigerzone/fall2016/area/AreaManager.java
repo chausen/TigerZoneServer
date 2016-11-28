@@ -163,6 +163,16 @@ public class AreaManager {
         }
     }
 
+    public boolean invalidMeeplePlacement(PlayableTile playableTile, int predatorPlacementZone , int degrees){
+        BoardTile boardTile = convertToBoardTile(playableTile);
+        boardTile.rotateCCW(degrees);
+        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
+        if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+            return true;
+        }
+        return false;
+    }
+
     private void updateDenArea(){
         for(DenArea denArea: denAreas){
             Point denAreaCenter = denArea.getCenter();
