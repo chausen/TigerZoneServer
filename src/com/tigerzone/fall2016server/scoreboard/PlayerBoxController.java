@@ -1,44 +1,48 @@
 package com.tigerzone.fall2016server.scoreboard;
 
+import com.tigerzone.fall2016server.files.FileReader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by clayhausen on 11/27/16.
  */
 public class PlayerBoxController {
-    @FXML
-    private Label loginName;
+    private Map<String, PlayerInfoBox> playerInfoBoxMap;
 
-    @FXML
-    private Label gamesPlayed;
-
-    @FXML
-    private Label outrightWins;
-
-    @FXML
-    private Label winsByForfeit;
-
-    @FXML
-    private Label ties;
-
-    @FXML
-    private Label losses;
-
-    @FXML
-    private Label totalPoints;
-
-    @FXML
-    private Label averageRelativePerformance;
-
-    @FXML
-    private Label largestLossPointDifferential;
-
-    @FXML
-    private Label largestLossRelative;
-
-    public void setLoginName(String loginName) {
-        this.loginName = new Label(loginName);
+    public PlayerBoxController(){
+        playerInfoBoxMap = new HashMap<>();
     }
 
+    /**
+     * Method creates a new HBox for Tournament Player added
+     * @param userID
+     */
+    public void generatePlayerInfoBox(String userID){
+        PlayerInfoBox playerInfoBox = new PlayerInfoBox(userID);
+        playerInfoBoxMap.put(userID, playerInfoBox);
+    }
+
+    public void initializePlayers() {
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
+        String fullFileName = sb.toString();
+        List<String> players = FileReader.getLoginNames(fullFileName);
+    }
+
+    public void initializePlayers(String fileName) {
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/" + fileName);
+        String fullFileName = sb.toString();
+        List<String> players = FileReader.getLoginNames(fullFileName);
+    }
 }

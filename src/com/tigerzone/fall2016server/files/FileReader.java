@@ -60,4 +60,33 @@ public class FileReader {
         }
         return credentials;
     }
+
+    /**
+     * Given a file containing a credential on each line, where a credential is a login name and a password separated by a
+     * space, will return the login names as a list
+     *
+     * @param filename filename of the file containing the credentials
+     * @return List of login names
+     */
+    public static List<String> getLoginNames(String filename) {
+        List<String> loginNames = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new File(filename));
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                Scanner lineScanner = new Scanner(line);
+                String loginName = "";
+                if (lineScanner.hasNext()) {
+                    loginName = lineScanner.next();
+                }
+                if (lineScanner.hasNext()) {
+                    lineScanner.next(); // do nothing with this token
+                }
+                loginNames.add(loginName);
+            }
+        } catch (FileNotFoundException exc) {
+            System.out.println("FATAL: " + filename + " not found.");
+        }
+        return loginNames;
+    }
 }

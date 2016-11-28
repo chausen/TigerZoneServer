@@ -27,7 +27,6 @@ public class CmdPromptInterface {
     }
 
     public void startGame(LinkedList<PlayableTile> tileStack) {
-
         login();
 
         gamePort = new IOPort(gid, loginName1, loginName2, tileStack);

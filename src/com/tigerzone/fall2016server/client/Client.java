@@ -116,7 +116,7 @@ public class Client {
                             out.println(userInput);
                             break;
                         case 7:
-                            userInput = "GAME 1 MOVE 7 PLACE LJLJ- AT 2 0 90 NONE";
+                            userInput = "GAME 1 MOVE 7 PLACE LJLJ- AT 2 0 90 TIGER 1";
                             System.out.println(userInput);
                             out.println(userInput);
                             break;
@@ -248,7 +248,7 @@ public class Client {
                             out.println(userInput);
                             break;
                         case 7:
-                            userInput = "GAME 2 MOVE 7 PLACE LJLJ- AT 2 0 90 NONE";
+                            userInput = "GAME 2 MOVE 7 PLACE LJLJ- AT 2 0 90 TIGER 1";
                             System.out.println(userInput);
                             out.println(userInput);
                             break;
@@ -382,7 +382,7 @@ public class Client {
                             out.println(userInput);
                             break;
                         case 7:
-                            userInput = "GAME 2 MOVE 7 PLACE LJLJ- AT 2 0 90 NONE";
+                            userInput = "GAME 2 MOVE 7 PLACE LJLJ- AT 2 0 90 TIGER 1";
                             System.out.println(userInput);
                             out.println(userInput);
                             break;

@@ -65,26 +65,25 @@ public class Round {
     }
 
     private void sendMessageToPlayers() {
+        Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
-            Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
     public void notifyComplete() {
-
-        numOfMatchesComplete++;
+       numOfMatchesComplete++;
         if (numOfMatchesComplete == numOfMatches) {
             String roundCompleteMessage = new StringBuffer()
                     .append("END OF ROUND ")
                     .append(roundID)
                     .append(" OF ")
                     .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
-
+            Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             for (TournamentPlayer tournamentPlayer : players) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
-                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+                  challenge.roundComplete();
             }
             challenge.roundComplete();
         }

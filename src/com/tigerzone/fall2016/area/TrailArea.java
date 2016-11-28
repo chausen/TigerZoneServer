@@ -96,6 +96,7 @@ public class TrailArea extends CrocodileFriendlyArea {
     public void acceptAnimals(TrailArea area) {
         area.getPreyList().addAll(this.getPreyList());
         area.getTigerList().addAll(this.getTigerList());
+        area.getCrocodileList().addAll(this.getCrocodileList());
     }
     @Override
     public void acceptAnimals(DenArea area) {

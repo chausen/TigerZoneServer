@@ -32,6 +32,7 @@ public class LakeArea extends CrocodileFriendlyArea {
 
     @Override
     public void acceptAnimals(LakeArea area) {
+        area.getTigerList().addAll(this.getTigerList());
         area.getCrocodileList().addAll(this.getCrocodileList());
         if(area.containsBoar() || this.containsBoar()){
             area.setContainsBoarToTrue();
