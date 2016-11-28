@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
@@ -48,6 +49,11 @@ public class DenArea extends Area {
     public void acceptScorer(Scorer scorer) {
         scorer.score(this);
         denScored = true;
+    }
+
+    @Override
+    public boolean placePredator(Crocodile crocodile) {
+        return false;
     }
 
     public  DenArea(Point center){

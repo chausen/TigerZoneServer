@@ -64,7 +64,7 @@ public class GameSystem implements PlayerInAdapter {
         //TODO: Remove this and just use the LinkedList?
         //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
-       ts.truncateTS(14); // TODO: 11/27/2016 Change this truncation value for different tests
+       ts.truncateTS(20); // TODO: 11/27/2016 Change this truncation value for different tests
 
         //originTile = ts.pop();
 
@@ -120,7 +120,7 @@ public class GameSystem implements PlayerInAdapter {
                     // notify outAdapter with results
                     prepareNextTurn();
                 }
-                else if(am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
+                else if( turn.getPredatorPlacementZone()!=0 && am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
                     outAdapter.forfeitInvalidMeeple(getCurrentPlayerID());
                     endOfGame();
                 }
