@@ -16,20 +16,10 @@ public class PlayerBoxController{
     private Scoreboard scoreBoard;
 
     public PlayerBoxController(){
-        playerInfoBoxMap = new HashMap<>();
+        this.playerInfoBoxMap = new HashMap<>();
         scoreBoard = new Scoreboard();
         new Thread(scoreBoard).start();
-        initializePlayers();
-    }
-
-    /**
-     * Method creates a new HBox for Tournament Player added
-     * @param userID
-     */
-    private void createPlayerInfoBox(String userID){
-        PlayerInfoBox playerInfoBox = new PlayerInfoBox(userID);
-        playerInfoBoxMap.put(userID, playerInfoBox);
-        scoreBoard.addPlayerInfoBox(playerInfoBox);
+        scoreBoard.initializePlayers(this.playerInfoBoxMap);
     }
 
     /**
@@ -51,15 +41,5 @@ public class PlayerBoxController{
             userInfoBox.setTotalPoints(playerStats.getTotalPoints());
             userInfoBox.setOutrightWins(playerStats.getWins());
         }
-    }
-
-    private void initializePlayers() {
-        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
-        StringBuilder sb = new StringBuilder();
-        sb.append(currentDirectory);
-        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
-        String fullFileName = sb.toString();
-        List<String> players = FileReader.getLoginNames(fullFileName);
-        players.forEach((player)-> createPlayerInfoBox(player));
     }
 }
