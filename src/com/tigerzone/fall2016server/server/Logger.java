@@ -10,6 +10,7 @@ import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016server.scoreboard.PlayerBoxController;
+import com.tigerzone.fall2016server.scoreboard.Scoreboard;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
@@ -25,6 +26,7 @@ public class Logger {
     private static PrintWriter pw = null;
     private static ArrayList<String> logs = new ArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
+    private static Scoreboard scoreboard;
     private static PlayerBoxController pbc;
 
     /**
@@ -37,7 +39,10 @@ public class Logger {
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-        pbc = new PlayerBoxController();
+//        pbc = new PlayerBoxController();
+        scoreboard = new Scoreboard();
+        new Thread(scoreboard).start();
+        pbc = scoreboard.getPlayerBoxController();
         begin(tournamentID);
     }
 
