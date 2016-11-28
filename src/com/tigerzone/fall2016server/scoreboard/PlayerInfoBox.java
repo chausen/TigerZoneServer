@@ -59,7 +59,8 @@ public class PlayerInfoBox {
     }
 
     public void setLargestLossRelative(double largestLossRelative) {
-        this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE + largestLossRelative);
+        this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE +
+                roundDoubleToNearestHundredth(largestLossRelative));
         updateBox();
     }
 
@@ -89,13 +90,19 @@ public class PlayerInfoBox {
     }
 
     public void setAverageRelativePerformance(double averageRelativePerformance) {
-        this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE + averageRelativePerformance);
+        this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE +
+                roundDoubleToNearestHundredth(averageRelativePerformance));
         updateBox();
     }
 
     public void setLargestLossPointDifferential(int largestLossPointDifferential) {
         this.largestLossPointDifferential = new Label(LARGEST_LOSS_POINT_DIFF + largestLossPointDifferential);
         updateBox();
+    }
+
+    private double roundDoubleToNearestHundredth(double value){
+        value = Math.round(value * 100);
+        return value/100;
     }
 
     private void updateBox() {
