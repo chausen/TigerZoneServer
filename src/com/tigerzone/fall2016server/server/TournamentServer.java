@@ -27,10 +27,8 @@ public class TournamentServer {
         return tournamentID;
     }
 
-
     public void runTournament() {
         authentication();
-        //authenticationExecutor();
         if(tournamentPlayers.size()>1) {
             startChallenge(tournamentPlayers);
             notifyChallengeComplete();
@@ -40,7 +38,6 @@ public class TournamentServer {
         }
 
     }
-
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
@@ -69,7 +66,6 @@ public class TournamentServer {
         }
     }
 
-
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
         for(TournamentPlayer tournamentPlayer: tournamentPlayers){
@@ -82,9 +78,6 @@ public class TournamentServer {
             }
         }
         System.exit(1);
-//        while(true){
-//
-//        }
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
