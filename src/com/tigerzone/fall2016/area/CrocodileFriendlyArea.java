@@ -38,14 +38,16 @@ public abstract class CrocodileFriendlyArea extends Area {
      * @param crocodile
      */
     @Override
-    public void placePredator(Crocodile crocodile) {
+    public boolean placePredator(Crocodile crocodile) {
         if (!hasCrocodileInArea()) {
             this.addAnimal(crocodile);
+            return true;
         } else if (!crocodile.hasOwner()) {
             this.addAnimal(crocodile);
+            return true;
         } else {
             //throw forfeit!! // TODO: 11/17/2016 add logic here
-
+            return false;
         }
     }
 

@@ -63,7 +63,7 @@ public class ScorerTest {
 
     @org.junit.Test
     public void sampleGame1() throws Exception {
-        areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), new Tiger(player1), 5,  0);
+        areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), 0);
         areaManager.addTile(new Point(-2, 0), new PlayableTile("JLTT-"), 270);
         areaManager.addTile(new Point(1, 0), new PlayableTile("LLLL-"), 0);
         areaManager.addTile(new Point(0, 1), new PlayableTile("TJJT-"), 90);
@@ -101,6 +101,18 @@ public class ScorerTest {
         areaManager.addTile(new Point(-1, -2), new PlayableTile("TJTT-"), new Tiger(player2), 2, 270);
         areaManager.addTile(new Point(-2, -2), new PlayableTile("TLTTP"), new Tiger(player1), 4, 180);
         areaManager.addTile(new Point(-2, -3), new PlayableTile("TLLLC"), new Tiger(player2), 4, 0);
+        scorer.endGameScoring(areaManager);
+        scorer.getScore(player1);
+    }
+
+    @org.junit.Test
+    public void sampleGame3() throws Exception {
+        areaManager.addTile(new Point(-1, 0), new PlayableTile("JJJJX"), new Tiger(player1), 5,  0);
+        areaManager.addTile(new Point(-2, 0), new PlayableTile("JLTT-"), 270);
+        areaManager.addTile(new Point(1, 0), new PlayableTile("LLLL-"), 0);
+        areaManager.addTile(new Point(0, 1), new PlayableTile("TJJT-"), 90);
+        areaManager.addTile(new Point(-1, 1), new PlayableTile("TJTJ-"), 90);
+        areaManager.addTile(new Point(1, -1), new PlayableTile("LLJJ-"), 0);
         scorer.endGameScoring(areaManager);
         scorer.getScore(player1);
     }

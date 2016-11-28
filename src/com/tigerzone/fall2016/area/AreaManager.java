@@ -135,6 +135,9 @@ public class AreaManager {
                     terrainNode.getArea().placePredator(predator);
                     crocPlaced = true;
                 }
+                else{
+                    crocPlaced = false;
+                }
             }
         }
         for(Area area : updatedAreas){

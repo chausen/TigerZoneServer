@@ -133,9 +133,7 @@ public abstract class Area implements SetAddable{
      * This method is used when a player tries to place a crocodile to this Area
      * @param crocodile
      */
-    public void placePredator(Crocodile crocodile){
-
-    }
+    public abstract boolean placePredator(Crocodile crocodile);
 
     /**
      * Returns true if the predator is placable in the specific Area Type
