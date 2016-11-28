@@ -1,12 +1,12 @@
 .root {
-    -fx-background-image: url("background.jpg");
+    -fx-background-image: url("background0.jpg");
     -fx-margin: auto;
 }
 
 VBox {
     -fx-background-color: #ffffff;
-    -fx-padding: 10%;
-    -fx-font-size: 1vw;
+    -fx-padding: 20%;
+    -fx-font-size: 0.5vw;
     -fx-border-style: solid;
     -fx-border-color: #ff0000 #0000ff;
     -fx-opacity: 0.8;

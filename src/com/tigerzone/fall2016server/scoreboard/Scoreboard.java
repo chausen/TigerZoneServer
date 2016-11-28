@@ -23,6 +23,8 @@ public class Scoreboard extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        root.setPrefColumns(6);
+        root.setHgap(2);
         primaryStage.setTitle("TigerZone | Challenge " + 1);
         Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
