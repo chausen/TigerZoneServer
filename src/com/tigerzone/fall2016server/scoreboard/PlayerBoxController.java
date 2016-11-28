@@ -19,7 +19,10 @@ public class PlayerBoxController{
         this.playerInfoBoxMap = new HashMap<>();
         scoreBoard = new Scoreboard();
         new Thread(scoreBoard).start();
-        scoreBoard.initializePlayers(this.playerInfoBoxMap);
+//        scoreBoard.initializePlayers(this.playerInfoBoxMap);
+//        while (playerInfoBoxMap != null) {
+//            playerInfoBoxMap = scoreBoard.getPlayerInfoBoxHashMap();
+//        }
     }
 
     /**
@@ -28,7 +31,11 @@ public class PlayerBoxController{
      * @param playerStats
      */
     public void updatePlayerInfoBox(String userID, PlayerStats playerStats){
+        if (playerInfoBoxMap != null) {
+            scoreBoard.getPlayerInfoBoxHashMap();
+        }
         if(this.playerInfoBoxMap.containsKey(userID)){
+            System.out.println("IN HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             PlayerInfoBox userInfoBox = this.playerInfoBoxMap.get(userID);
 
             userInfoBox.setAverageRelativePerformance(playerStats.getAvgRelPerf());

@@ -2,21 +2,27 @@ package com.tigerzone.fall2016server.scoreboard;
 
 import com.tigerzone.fall2016server.files.FileReader;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Scoreboard extends Application implements Runnable {
     TilePane root;
+    HashMap<String,PlayerInfoBox> playerInfoBoxHashMap = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.root = new TilePane();
         primaryStage.setTitle("TigerZone | Challenge " + 1);
+        initializePlayers(this.playerInfoBoxHashMap);
+        root.setTileAlignment(Pos.TOP_LEFT);
         Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(Scoreboard.class.getResource("Scoreboard.css").toExternalForm());
@@ -32,8 +38,7 @@ public class Scoreboard extends Application implements Runnable {
         if(this.root == null){
             this.root = new TilePane();
         }
-        this.root.getChildren().add(playerInfoBox);
-
+        this.root.getChildren().add(playerInfoBox.getvBox());
     }
 
     /**
@@ -53,5 +58,9 @@ public class Scoreboard extends Application implements Runnable {
             playerBoxControllerMap.put(player, playerInfoBox);
             addPlayerInfoBox(playerInfoBox);
         });
+    }
+
+    public HashMap<String, PlayerInfoBox> getPlayerInfoBoxHashMap() {
+        return this.playerInfoBoxHashMap;
     }
 }
