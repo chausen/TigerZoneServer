@@ -37,7 +37,6 @@ public class GameSystem implements PlayerInAdapter {
     // Set in prepareNextTurn()
     // NOTE: First tile always placeable based on Origin Tile.
     private boolean currentTileCannotBePlaced = false;
-
     public GameSystem() {}
 
     /**
@@ -70,6 +69,10 @@ public class GameSystem implements PlayerInAdapter {
 
         currentTile = ts.peek();
         //outAdapter.promptForTurn(currentTile);
+    }
+
+    public String getTileRepresentationString(Set<BoardTile> boardtiles){
+        return gameBoard.getPointRepresentation(boardtiles);
     }
 
     public void setOutAdapter(PlayerOutAdapter outAdapter){
@@ -165,7 +168,7 @@ public class GameSystem implements PlayerInAdapter {
 
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if (!(currentPlayerSupply == 0)) {
-            currentPlayer.decrementGoodSupply();
+            //currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer);
             boardTile.placeTiger(tiger);
         } else {
@@ -263,8 +266,6 @@ public class GameSystem implements PlayerInAdapter {
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
     }
-
-
 }
 
 

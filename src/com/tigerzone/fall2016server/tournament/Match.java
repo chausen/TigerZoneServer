@@ -25,12 +25,7 @@ public class Match extends Thread{
     private int matchID;
     private Game game1;
     private Game game2;
-    private boolean game1complete = false;
-    private boolean game2complete = false;
     private final int setUpTime = 10;
-    private Map<Integer, String> playerMessages = new HashMap<>();
-    private int numOfActiveGames = 2;
-
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -38,7 +33,7 @@ public class Match extends Thread{
         this.player2 = player2;
         game1 = new Game(1, player1, player2, tileStack, this);
         game2 = new Game(2, player2, player1, tileStack, this);
-        this.game1player = player1;
+       this.game1player = player1;
         this.game2player = player2;
     }
 
@@ -51,7 +46,6 @@ public class Match extends Thread{
     public void run(){
         startMatch();
         playMatch();
-
     }
 
     private void startMatch() {
@@ -61,7 +55,6 @@ public class Match extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //startGames();
     }
 
     private void playMatch() {
@@ -112,7 +105,6 @@ public class Match extends Thread{
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
-
 
 
             if(!game1.isOver()) {
@@ -249,28 +241,9 @@ public class Match extends Thread{
         return player2;
     }
 
-
-    public void sendPlayerMoveMessages() {
-
-
-    }
-
-//    public void notifyComplete(int gID){
-//        game1complete = gID == game1.getGameID() ? true : game1complete;
-//        game2complete = gID == game2.getGameID() ? true : game2complete;
-//        if(game1complete && game2complete){
-//            notifyEndGameToPlayers();
-//            round.notifyComplete();
-//        }
-//    }
-
     public void sendGameMessage(String playerMessage){
         player1.sendMessageToPlayer(playerMessage);
         player2.sendMessageToPlayer(playerMessage);
-    }
-
-    public void decreaseNumOfActiveGames(){
-        numOfActiveGames--;
     }
 
     public Round getRound() {
@@ -288,4 +261,12 @@ public class Match extends Thread{
     public void setRound(Round round) {
         this.round = round;
     }
+
+    public Game getGame1(){
+        return game1;
+    }
+    public Game getGame2(){
+        return game2;
+    }
+
 }

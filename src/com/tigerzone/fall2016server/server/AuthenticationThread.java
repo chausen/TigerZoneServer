@@ -45,7 +45,7 @@ public class AuthenticationThread extends Thread {
             // For 2 clients
             LoginProtocol loginProtocol = new LoginProtocol();
 
-            // For 24 clients
+            // For multiple clients
 //            String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
 //            StringBuilder sb = new StringBuilder();
 //            sb.append(currentDirectory);

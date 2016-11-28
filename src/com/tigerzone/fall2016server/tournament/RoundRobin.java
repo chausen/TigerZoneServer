@@ -57,7 +57,7 @@ public class RoundRobin {
         int playerIdx = round % playersSize;
 
         Match match;
-        int matchNumber = 0;
+        int matchNumber = 1;
 
         if(!players.get(playerIdx).equals(dummyPlayer)){
             match = new Match(playerList.get(0), players.get(playerIdx), tileStack);

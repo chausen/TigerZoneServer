@@ -142,12 +142,13 @@ public class IOPort implements PlayerOutAdapter {
         // The zone of the tile where the predator will be placed
         Player activePlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
         if (predatorStr.equals("TIGER")) {
-
+            activePlayer.decrementGoodSupply();
             predator = new Tiger(activePlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
             }
         } else if (predatorStr.equals("CROCODILE")) {
+            activePlayer.decrementBadSupply();
             predator = new Crocodile(activePlayer);
         } else if (predatorStr.equals("NONE")) {
             predator = null;
@@ -208,9 +209,6 @@ public class IOPort implements PlayerOutAdapter {
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-//        String prefix = "GAME " + gid + " MOVE " + turnCount + " PLAYER " + activeplayer;
-//        broadcast(prefix + " " + currentTurnString);
-//        turnCount++;
         setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
         ++turnCount;
     }
@@ -222,32 +220,34 @@ public class IOPort implements PlayerOutAdapter {
         for (Player player: players) {
             stringBuilder.append("PLAYER " + player.getPlayerId() + " SCORED " + playerScores.get(player) + " POINTS ");
         }
-        // setResponse(stringBuilder.toString());
+        //setResponse(stringBuilder.toString());
     }
 
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
-        //reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,ja);
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
+
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
-       // reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,da);
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
+
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
-       // reportScoringEvent(playerScores);
-//        Logger.addFeatureScored(gid,la);
+       reportScoringEvent(playerScores);
+       Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
-       // reportScoringEvent(playerScores);
-//        Logger.addFeatureScored(gid,ta);
+        reportScoringEvent(playerScores);
+        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
     }
 
     @Override
@@ -259,7 +259,7 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
+        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED INVALID MEEPLE PLACEMENT"));
     }
 
     @Override
@@ -276,15 +276,6 @@ public class IOPort implements PlayerOutAdapter {
     public String getForfeitedPlayer(){
         return forfeitedPlayer;
     }
-
-//    @Override
-//    public void notifyEndGame(Map<Player, Integer> playerScores) {
-//        Set<Player> players = playerScores.keySet();
-//
-//        player1FinalScore = playerScores.get(loginName1);
-//        player2FinalScore = playerScores.get(loginName2);
-//        gameOver = true;
-//    }
 
     @Override
     public void notifyEndGame(int player1Score, int player2Score) {

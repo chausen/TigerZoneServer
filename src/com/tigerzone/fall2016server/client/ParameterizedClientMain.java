@@ -32,9 +32,6 @@ public class ParameterizedClientMain {
         ParameterizedClient client = new ParameterizedClient(hostname, port, player1MovesFilename, player2MovesFilename);
         try {
             client.login(loginName, password);
-            client.waitForGame();
-            client.determineMoveSet();
-            client.playGame();
         } catch (Exception e) {
             e.printStackTrace();
         }
