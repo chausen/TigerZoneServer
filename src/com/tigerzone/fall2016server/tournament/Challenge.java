@@ -25,7 +25,7 @@ public class Challenge {
 
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
-        //this.tiles = TileStackGenerator.generateTiles(seed);
+
 
         this.tiles = TileStackGenerator.generateTiles(3); // TODO: 11/27/2016 Edit the seed to test different tile sets
         
