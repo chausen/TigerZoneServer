@@ -134,6 +134,7 @@ public class AreaManager {
                 if (terrainNode.getArea().isPredatorPlaceable(predator)) {
                     terrainNode.getArea().placePredator(predator);
                     crocPlaced = true;
+                    break;
                 }
                 else{
                     crocPlaced = false;
