@@ -223,14 +223,10 @@ public class Logger {
         int player2croccount = 0;
         for(Tiger t : ja.getTigerList()){
             String s = t.getOwner().getPlayerId();
-            System.out.println("Tiger " + t + " Owner: " + t.getOwner().getPlayerId());
             if(s.equals(loginName1))
                 player1tigercount++;
             else player2tigercount++;
         }
-        System.out.println("P1 Tiger count " + player1tigercount + " " + loginName1);
-        System.out.println("P2 Tiger count " + player2tigercount + " " + loginName2);
-        System.out.println("------------- END FOR LOOP ---------");
         sb.append(loginName1+" TIGERS ");
         sb.append(player1tigercount);
         sb.append(" CROCS ");

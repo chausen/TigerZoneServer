@@ -137,6 +137,7 @@ public class IOPort implements PlayerOutAdapter {
         } else if (predatorStr.equals("CROCODILE")) {
             activePlayer.decrementBadSupply();
             predator = new Crocodile(activePlayer);
+
         } else if (predatorStr.equals("NONE")) {
             predator = null;
         }
