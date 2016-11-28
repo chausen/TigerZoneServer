@@ -180,7 +180,7 @@ public class Logger {
         sb.append(getGameTabs()+"LARGEST_LOSS_POINT_DIFF ");
         sb.append(player.getStats().getLargestpointdifference());
         sb.append("\r\n");
-        sb.append(getGameTabs()+"AVERAGE_RELATIVE_PERFORMANCE ");
+        sb.append(getGameTabs()+"LARGEST_LOSS_RELATIVE ");
         sb.append(player.getStats().getLargestpointdifferencerelative());
         sb.append("\r\n");
         addLogToLogger(sb.toString());
