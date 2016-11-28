@@ -40,7 +40,7 @@ public abstract class CrocodileFriendlyArea extends Area {
         if(!hasCrocodileInArea()){
             this.addAnimal(crocodile);
             if(crocodile.getOwner() != null){
-                crocodile.getOwner().decrementBadSupply();
+                //crocodile.getOwner().decrementBadSupply();
             }
         }else{
             //throw forfeit!! // TODO: 11/17/2016 add logic here 

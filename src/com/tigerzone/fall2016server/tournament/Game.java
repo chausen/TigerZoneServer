@@ -60,14 +60,16 @@ public class Game {
     }
 
     public void receiveTurn(String message){
-        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),message);
-        Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(player1.getUsername()));//TODO: Check to make sure that this is the correct player to call.
         ioPort.receiveTurn(message);
+        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),message);
+
     }
 
     public String getResponse(){
+        String s = ioPort.getResponse();
         Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),ioPort.getResponse());
-        return ioPort.getResponse();
+        Logger.playerStatus(this,ioPort.getInAdapter().getCurrentPlayer(),ioPort.getInAdapter().getCurrentPlayer().getGoodSupply(), ioPort.getInAdapter().getCurrentPlayer().getBadSupply());//TODO: Check to make sure that this is the correct player to call.
+        return s;
     }
 
     public Match getMatch() {

@@ -37,7 +37,6 @@ public class GameSystem implements PlayerInAdapter {
     // Set in prepareNextTurn()
     // NOTE: First tile always placeable based on Origin Tile.
     private boolean currentTileCannotBePlaced = false;
-
     public GameSystem() {}
 
     /**
@@ -169,7 +168,7 @@ public class GameSystem implements PlayerInAdapter {
 
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if (!(currentPlayerSupply == 0)) {
-            currentPlayer.decrementGoodSupply();
+            //currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer);
             boardTile.placeTiger(tiger);
         } else {

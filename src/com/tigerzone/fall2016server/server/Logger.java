@@ -131,7 +131,7 @@ public class Logger {
         sb.append(playerID+'\t');
     }
 
-    public static void playerStatus(Game game, Player p){
+    public static void playerStatus(Game game, Player p, int good, int bad){
         int gameID = game.getGameID();
         int matchID = game.getMatch().getMatchID();
         int roundID = game.getMatch().getRound().getRoundID();
@@ -143,9 +143,9 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(game.getPlayerScore(p));
         sb.append(" TIGERS ");
-        sb.append(p.getGoodSupply());
+        sb.append(good);
         sb.append(" CROCS ");
-        sb.append(p.getBadSupply());
+        sb.append(bad);
         addLogToLogger(sb.toString());
     }
 

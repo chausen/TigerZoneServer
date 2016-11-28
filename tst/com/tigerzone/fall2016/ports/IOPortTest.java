@@ -109,6 +109,7 @@ public class IOPortTest {
             public String getCurrentTile() {
                 return null;
             }
+
         };
 
         cmdp.initialize(mockGameSystem);
