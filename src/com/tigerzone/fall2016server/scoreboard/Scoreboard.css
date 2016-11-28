@@ -4,9 +4,11 @@
 }
 
 VBox {
-    -fx-background-color: #ffffff;
-    -fx-padding: 20%;
-    -fx-font-size: 0.9em;
+    -fx-background-color: #f1ffea;
+    -fx-font-family: serif;
+    -fx-font-weight: 400;
+    -fx-padding: 5px;
+    -fx-font-size: 1em;
     -fx-border-style: solid;
     -fx-border-width: 5px;
     -fx-border-radius: 5px;
