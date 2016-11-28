@@ -3,42 +3,25 @@ package com.tigerzone.fall2016server.scoreboard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by clayhausen on 11/27/16.
  */
 public class PlayerBoxController {
-    @FXML
-    private Label loginName;
+    private Map<String, PlayerInfoBox> playerInfoBoxMap;
 
-    @FXML
-    private Label gamesPlayed;
-
-    @FXML
-    private Label outrightWins;
-
-    @FXML
-    private Label winsByForfeit;
-
-    @FXML
-    private Label ties;
-
-    @FXML
-    private Label losses;
-
-    @FXML
-    private Label totalPoints;
-
-    @FXML
-    private Label averageRelativePerformance;
-
-    @FXML
-    private Label largestLossPointDifferential;
-
-    @FXML
-    private Label largestLossRelative;
-
-    public void setLoginName(String loginName) {
-        this.loginName = new Label(loginName);
+    public PlayerBoxController(){
+        playerInfoBoxMap = new HashMap<>();
     }
 
+    /**
+     * Method creates a new HBox for Tournament Player added
+     * @param userID
+     */
+    public void generatePlayerInfoBox(String userID){
+        PlayerInfoBox playerInfoBox = new PlayerInfoBox(userID);
+        playerInfoBoxMap.put(userID, playerInfoBox);
+    }
 }
