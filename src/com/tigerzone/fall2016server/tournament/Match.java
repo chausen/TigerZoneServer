@@ -26,6 +26,7 @@ public class Match extends Thread{
     private Game game1;
     private Game game2;
     private final int setUpTime = 2;
+    private HashMap<Game, TournamentPlayer> forfeitGameMap = new HashMap<>();
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -82,6 +83,7 @@ public class Match extends Thread{
                 catch (IOException e){
                     game1Timeout = true;
                     gamePlayer1Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                    forfeitGameMap.put(game1, game1player);
                 }
 
             }
@@ -98,6 +100,7 @@ public class Match extends Thread{
                 catch (IOException e){
                     game2Timeout = true;
                     gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                    forfeitGameMap.put(game2, game2player);
                 }
             }
             //A single game will be doing the following in each line of the if statement...
@@ -113,7 +116,12 @@ public class Match extends Thread{
                     game1.endGame();
                 }
                 else {
-                    turnIO(game1, gamePlayer1Response);
+                    game1.receiveTurn(gamePlayer1Response);
+                    String gameResponse = game1.getResponse();
+                    if(gameResponse.contains("FORFEITED")){
+                        forfeitGameMap.put(game1, game1player);
+                    }
+                    sendGameMessage(gameResponse);
                 }
             }
             if(!game2.isOver()) {
@@ -122,7 +130,12 @@ public class Match extends Thread{
                     game2.endGame();
                 }
                 else {
-                    turnIO(game2, gamePlayer2Response);
+                    game2.receiveTurn(gamePlayer2Response);
+                    String gameResponse = game2.getResponse();
+                    if(gameResponse.contains("FORFEITED")){
+                        forfeitGameMap.put(game2, game2player);
+                    }
+                    sendGameMessage(gameResponse);
                 }
             }
 
@@ -134,14 +147,6 @@ public class Match extends Thread{
         }
         notifyEndGameToPlayers();
         round.notifyComplete();
-    }
-
-    private void turnIO(Game game, String gamePlayerResponse) {
-        if(!game.isOver()){
-            game.receiveTurn(gamePlayerResponse);
-            String gameResponse = game.getResponse();
-            sendGameMessage(gameResponse);
-        }
     }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack){
@@ -174,6 +179,20 @@ public class Match extends Thread{
         sendStartMessage(player2, player1.getUsername());
     }
 
+    private void notifyEndGameToPlayers(){
+        if(forfeitGameMap.get(game1) == null) {
+            sendEndMessage(game1);
+        }
+        else{
+            sendForfeitMessage(game1);
+        }
+        if(forfeitGameMap.get(game2) == null) {
+            sendEndMessage(game2);
+        }
+        else{
+            sendForfeitMessage(game2);
+        }
+    }
 
     private void sendEndMessage(Game game){
         TournamentPlayer p1 = game.getPlayer1();
@@ -182,6 +201,18 @@ public class Match extends Thread{
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
+        updatePlayerStatistics(game, p1, p2);
+    }
+
+    private void sendForfeitMessage(Game game){
+        TournamentPlayer p1 = game.getPlayer1();
+        TournamentPlayer p2 = game.getPlayer2();
+        String player1score = forfeitGameMap.get(game) != p1 ? "WIN" : "FORFEITED";
+        String player2score = forfeitGameMap.get(game) != p2 ? "WIN" : "FORFEITED";
+        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
+        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
         updatePlayerStatistics(game, p1, p2);
     }
 
@@ -227,11 +258,6 @@ public class Match extends Thread{
         p2stats.setOpponentTotalPoints(p2stats.getOpponentTotalPoints()+game.getPlayer1FinalScore());
 
         Logger.endGame(c.getTournamentID(),c.getChallengeID(),r.getRoundID(),m.getMatchID(),game.getGameID(),p1,p2);
-    }
-
-    private void notifyEndGameToPlayers(){
-        sendEndMessage(game1);
-        sendEndMessage(game2);
     }
 
     public TournamentPlayer getPlayer1(){
