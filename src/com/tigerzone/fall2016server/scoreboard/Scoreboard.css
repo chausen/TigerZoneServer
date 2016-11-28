@@ -1,11 +1,15 @@
 .root {
     -fx-background-image: url("background.jpg");
+    -fx-margin: auto;
 }
 
-HBox {
+VBox {
     -fx-background-color: #ffffff;
     -fx-padding: 10%;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 1vw;
+    -fx-border-style: solid;
+    -fx-border-color: #ff0000 #0000ff;
+    -fx-opacity: 0.8;
 }
 
 Rectangle{
