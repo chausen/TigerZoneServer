@@ -123,6 +123,8 @@ public class AreaManager {
                 predatorPlaceable = false;
             } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
                 predatorPlaceable = false;
+            } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
+                predatorPlaceable = false;
             } else {
                 predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
                 predatorPlaceable = true;

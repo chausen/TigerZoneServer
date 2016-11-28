@@ -25,7 +25,7 @@ public class Match extends Thread{
     private int matchID;
     private Game game1;
     private Game game2;
-    private final int setUpTime = 10;
+    private final int setUpTime = 2;
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
