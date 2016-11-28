@@ -2,11 +2,12 @@ package com.tigerzone.fall2016server.scoreboard;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Created by matthewdiaz on 11/27/16.
  */
-public class PlayerInfoBox{
+public class PlayerInfoBox extends Rectangle{
     private HBox hBox;
     private static final String LOGIN_NAME = "LOGIN NAME: ";
     private static final String GAMES_PLAYED = "GAMES PLAYED: ";
@@ -44,7 +45,11 @@ public class PlayerInfoBox{
         this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE + 0);
     }
 
-    public void setLargestLossRelative(int largestLossRelative) {
+    public void setOutrightWins(int outrightWins){
+        this.outrightWins = new Label(OUTRIGHT_WINS + outrightWins);
+    }
+
+    public void setLargestLossRelative(double largestLossRelative) {
         this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE + largestLossRelative);
     }
 
@@ -68,7 +73,7 @@ public class PlayerInfoBox{
         this.totalPoints = new Label(TOTAL_POINTS + totalPoints);
     }
 
-    public void setAverageRelativePerformance(int averageRelativePerformance) {
+    public void setAverageRelativePerformance(double averageRelativePerformance) {
         this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE + averageRelativePerformance);
     }
 

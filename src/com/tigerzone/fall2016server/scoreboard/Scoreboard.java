@@ -7,10 +7,11 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class Scoreboard extends Application implements Runnable {
+    TilePane root;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = new TilePane();
+        root = new TilePane();
         primaryStage.setTitle("TigerZone | Challenge " + 1);
         Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
@@ -27,4 +28,7 @@ public class Scoreboard extends Application implements Runnable {
         launch();
     }
 
+    public void addPlayerInfoBox(PlayerInfoBox playerInfoBox){
+        root.getChildren().add(playerInfoBox);
+    }
 }

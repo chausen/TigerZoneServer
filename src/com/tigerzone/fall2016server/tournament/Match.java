@@ -241,7 +241,7 @@ public class Match extends Thread{
         return player2;
     }
 
-    public void sendGameMessage(String playerMessage){
+    private void sendGameMessage(String playerMessage){
         player1.sendMessageToPlayer(playerMessage);
         player2.sendMessageToPlayer(playerMessage);
     }

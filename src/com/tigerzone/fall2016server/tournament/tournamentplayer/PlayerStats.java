@@ -4,7 +4,6 @@ package com.tigerzone.fall2016server.tournament.tournamentplayer;
  * Created by lenovo on 11/19/2016.
  */
 public class PlayerStats {
-
     private int gamesCompleted;
     private int gamesPlayed;
     private int forfeits;
