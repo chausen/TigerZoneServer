@@ -68,16 +68,21 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
-        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
-            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
-            try {
-                tournamentPlayer.closeConnection();
-            } catch (IOException e) {
-                System.out.println("Couldn't close player connection");
-                continue;
-            }
+//        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
+//            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
+//            try {
+//                tournamentPlayer.closeConnection();
+//            } catch (IOException e) {
+//                System.out.println("Couldn't close player connection");
+//                continue;
+//            }
+//        }
+//        System.exit(1);
+
+        while(true) {
+
         }
-        System.exit(1);
+
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {

@@ -46,7 +46,7 @@ public class Challenge {
     public void roundComplete() {
         if (currentRoundNumber==numOfRounds) {
             sendEndMessage();
-            tournamentServer.notifyChallengeComplete();
+            //tournamentServer.notifyChallengeComplete();
         } else {
             currentRoundNumber++;
             currentRound = rounds.get(currentRoundNumber-1);
