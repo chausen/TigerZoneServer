@@ -17,21 +17,24 @@ public abstract class Area implements SetAddable{
 
     private Set<BoardTile> boardTiles;
     private Set<TerrainNode> terrainNodes;
-    private List<Tiger> tigerList;
+    //private List<Tiger> tigerList;
+    private Set<Tiger> tigerList;
 
 
     /**
      * This constructor is for testing purposes for now
      */
     public Area(){
-        this.tigerList = new ArrayList<>();
+        //this.tigerList = new ArrayList<>();
+        this.tigerList = new HashSet<>();
         this.boardTiles = new HashSet<>();
         this.terrainNodes = new HashSet<>();
     }
 
-    public List<Tiger> getTigerList() {
-        return tigerList;
-    }
+//    public List<Tiger> getTigerList() {
+//        return tigerList;
+//    }
+    public Set<Tiger> getTigerList() {return tigerList;}
 
     public void removeTiger(Tiger tiger) {
         tigerList.remove(tiger);
@@ -44,6 +47,7 @@ public abstract class Area implements SetAddable{
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
        // this.tigerList.addAll(area.getTigerList());
+        System.out.println("Merging areas ");
         mergeAnimals(area);
     }
 

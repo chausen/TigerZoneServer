@@ -180,7 +180,8 @@ enum ProtocolStates implements ProtocolState {
             if (scanner.hasNextInt()) {
                 int orientation = scanner.nextInt();
                 if (orientation == 0 || orientation == 90 || orientation == 180 || orientation == 270) {
-                    String token = scanner.next();
+                    if (scanner.hasNext()) {
+                        String token = scanner.next();
                     if (token.equals("NONE") || token.equals("CROCODILE")) {
                         context.validMove();
                         context.changeState(START, this);
@@ -190,6 +191,7 @@ enum ProtocolStates implements ProtocolState {
                         return true;
                     }
                     return true;
+                }
                 }
             }
             context.illegalMove();

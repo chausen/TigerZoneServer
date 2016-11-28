@@ -19,7 +19,7 @@ public class TileMain {
         LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(3);
         TileStack tileStack = new TileStack(tiles);
 
-        tileStack.truncateTS(12);
+        tileStack.truncateTS(14);
         LinkedList<PlayableTile> trimmedStack = tileStack.getTileList();
 
 //        for (PlayableTile tile: tiles) {
@@ -33,7 +33,7 @@ public class TileMain {
             i++;
         }
 
-        InetAddress ip = null;
+
 
     }
 

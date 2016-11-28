@@ -46,4 +46,13 @@ public class Crocodile extends Predator {
     public Player getOwner(){
         return this.owner;
     }
+
+    public boolean hasOwner() {
+        if(this.owner!=null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

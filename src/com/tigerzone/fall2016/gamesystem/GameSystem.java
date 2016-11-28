@@ -65,7 +65,8 @@ public class GameSystem implements PlayerInAdapter {
         //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
        ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
-//        ts.truncateTS(12);
+//        ts.truncateTS(20);
+
         //originTile = ts.pop();
 
         currentTile = ts.peek();
@@ -274,6 +275,15 @@ public class GameSystem implements PlayerInAdapter {
         int player1Score = scorer.getScore(player1);
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
+    }
+
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }
 
