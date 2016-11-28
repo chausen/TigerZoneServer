@@ -24,7 +24,6 @@ public class ParameterizedClient {
 
     private List<String> player1Moves;
     private List<String> player2Moves;
-
     private Iterator<String> game1MoveIterator;
     private Iterator<String> game2MoveIterator;
 
@@ -44,15 +43,16 @@ public class ParameterizedClient {
         } catch (IOException e) {
             System.out.println("Some ioexception");
         }
-
-        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
-        StringBuilder sb = new StringBuilder();
-        sb.append(currentDirectory);
-        sb.append("/src/com/tigerzone/fall2016server/files/");
-        player1Moves = FileReader.getMoves(sb.toString() + player1MovesFilename);
-        player2Moves = FileReader.getMoves(sb.toString() + player2MovesFilename);
+        player1Moves = FileReader.getMoves(fullDirectoryPath(player1MovesFilename));
+        player2Moves = FileReader.getMoves(fullDirectoryPath(player2MovesFilename));
     }
 
+    /** Logs in to the server, then calls waitForGame()
+     *
+     * @param loginName
+     * @param password
+     * @throws Exception
+     */
     public void login(String loginName, String password) throws Exception {
         String fromServer;
         while ((fromServer = in.readLine()) != null) {
@@ -73,6 +73,10 @@ public class ParameterizedClient {
     }
 
 
+    /**
+     * Waits during the time before a match begins, then calls determineMoveSet().
+     * If the Challenge is over, it will break out of the recursive round loop.
+     */
     public void waitForGame() {
         try {
             String fromServer;
@@ -103,7 +107,7 @@ public class ParameterizedClient {
 
     /**
      * Determines if this client is Player1 or Player2 (in this game)
-     * and maps the appropriate movesets
+     * and maps the appropriate movesets, then calls playGame()
      */
     public void determineMoveSet() {
 
@@ -112,9 +116,6 @@ public class ParameterizedClient {
             String fromServer;
             game1MoveIterator = player1Moves.iterator();
             game2MoveIterator = player2Moves.iterator();
-
-            System.out.println("Iterator hash code: " + game1MoveIterator.hashCode());
-            System.out.println("Iterator hash code: " + game2MoveIterator.hashCode());
 
             int numberOfGamesDetermined = 0;
 
@@ -155,7 +156,10 @@ public class ParameterizedClient {
         }
     }
 
-
+    /**
+     * Uses runs through the moveset for a particular Round when prompted.
+     * Then calls waitForGame() at the end of the Round
+     */
     public void playGame() {
         try {
             String fromServer;
@@ -200,6 +204,7 @@ public class ParameterizedClient {
 
     }
 
+    // ========== Helper Methods ========== //
     private int getGid(String fromServer) {
         Scanner scanner = new Scanner(fromServer);
         while (scanner.hasNext()) {
@@ -208,6 +213,16 @@ public class ParameterizedClient {
             }
         }
         return 0;
+    }
+
+    // Given a fileName, prepends it with the directory path for the files package
+    private String fullDirectoryPath(String filename) {
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/");
+        sb.append(filename);
+        return sb.toString();
     }
 }
 

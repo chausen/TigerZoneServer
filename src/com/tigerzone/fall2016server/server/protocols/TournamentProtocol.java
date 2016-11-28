@@ -102,7 +102,4 @@ public class TournamentProtocol {
         }
         return output;
     }
-
-
-
 }

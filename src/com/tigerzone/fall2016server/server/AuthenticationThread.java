@@ -43,14 +43,14 @@ public class AuthenticationThread extends Thread {
             String input, output;
 
             // For 2 clients
-            LoginProtocol loginProtocol = new LoginProtocol();
+//            LoginProtocol loginProtocol = new LoginProtocol();
 
             // For multiple clients
-//            String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(currentDirectory);
-//            sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials1.txt");
-//            LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
+            String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+            StringBuilder sb = new StringBuilder();
+            sb.append(currentDirectory);
+            sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
+            LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
 
             output = loginProtocol.login(null);
 
@@ -76,7 +76,7 @@ public class AuthenticationThread extends Thread {
             }
         } catch (IOException e) {
             try {
-                System.out.println("Caught exxception in authentication thread");
+                System.out.println("Caught exception in authentication thread");
                 out.close();
                 in.close();
                 clientSocket.close();

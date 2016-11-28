@@ -30,14 +30,12 @@ public class IOPort implements PlayerOutAdapter {
     private LinkedList<PlayableTile> tileStack;
     
     private int gid;
-    private int turnTime; // time allotted to place a turn
     private int turnCount; // used to track the current turn #
     private String loginName1;
     private String loginName2;
     private int player1FinalScore;
     private int player2FinalScore;
     private String activeplayer;
-    private String activeMove;
     private String currentTurnString;
     private boolean gameOver = false;
     private String response;
@@ -53,7 +51,6 @@ public class IOPort implements PlayerOutAdapter {
      */
     public IOPort(int gid, String loginName1, String loginName2, LinkedList<PlayableTile> tileStack) {
         this.gid = gid;
-        this.turnTime = 1;
         this.turnCount = 1;
         this.loginName1 = loginName1;
         this.activeplayer = loginName1;
@@ -72,14 +69,6 @@ public class IOPort implements PlayerOutAdapter {
         this.inAdapter = inAdapter;
         inAdapter.setOutAdapter(this);
     }
-
-//    @Override
-//    public void promptForTurn(PlayableTile currentTile) {
-//        String messageToActivePlayer =
-//                GameToClientMessageFormatter.generateMessageToActivePlayer(this.gid, this.turnTime,
-//                        this.turnCount, currentTile.getTileString());
-//        currentUpstreamMessages.add(messageToActivePlayer);
-//    }
 
     @Override
     public void receiveTurn(String s) {
@@ -321,7 +310,6 @@ public class IOPort implements PlayerOutAdapter {
     }
 
     public String getResponse(){
-        //this.turnCount++;
         return this.response;
     }
 
