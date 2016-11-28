@@ -1,10 +1,11 @@
 package com.tigerzone.fall2016.adapters;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
+import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Set;
 
 
 public interface PlayerInAdapter
@@ -19,6 +20,7 @@ public interface PlayerInAdapter
     public Player getPlayer(String playerID);
     public Player getCurrentPlayer();
     public int getPlayerScore(Player p);
+    public String getTileRepresentationString(Set<BoardTile> tiles);
     public void forfeit(); // used by the outAdapter in the case where an illegal message is received
     public String getCurrentTile();
 }

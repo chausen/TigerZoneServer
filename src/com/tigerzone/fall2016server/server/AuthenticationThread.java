@@ -76,7 +76,7 @@ public class AuthenticationThread extends Thread {
             }
         } catch (IOException e) {
             try {
-                System.out.println("Caught exxception in authentication thread");
+                System.out.println("Caught exception in authentication thread");
                 out.close();
                 in.close();
                 clientSocket.close();

@@ -1,22 +1,21 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016.adapters.PlayerInAdapter;
+import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Prey;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.DenArea;
 import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/21/2016.
@@ -64,7 +63,7 @@ public class Logger {
         addLogToLogger(sb.toString());
     }
 
-    public static void beginGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, int player1ID, int player2ID) {
+    public static void beginGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, String player1ID, String player2ID) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("BEGIN GAME PLAYER1 ");
@@ -132,7 +131,7 @@ public class Logger {
         sb.append(playerID+'\t');
     }
 
-    public static void playerStatus(Game game, Player p){
+    public static void playerStatus(Game game, Player p, int good, int bad){
         int gameID = game.getGameID();
         int matchID = game.getMatch().getMatchID();
         int roundID = game.getMatch().getRound().getRoundID();
@@ -144,9 +143,9 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(game.getPlayerScore(p));
         sb.append(" TIGERS ");
-        sb.append(p.getGoodSupply());
+        sb.append(good);
         sb.append(" CROCS ");
-        sb.append(p.getBadSupply());
+        sb.append(bad);
         addLogToLogger(sb.toString());
     }
 
@@ -181,7 +180,7 @@ public class Logger {
         sb.append(getGameTabs()+"LARGEST_LOSS_POINT_DIFF ");
         sb.append(player.getStats().getLargestpointdifference());
         sb.append("\r\n");
-        sb.append(getGameTabs()+"AVERAGE_RELATIVE_PERFORMANCE ");
+        sb.append(getGameTabs()+"LARGEST_LOSS_RELATIVE ");
         sb.append(player.getStats().getLargestpointdifferencerelative());
         sb.append("\r\n");
         addLogToLogger(sb.toString());
@@ -189,7 +188,7 @@ public class Logger {
 
 
     //TODO: Add logic to score features when they're triggered
-    public static void addFeatureScored(int gameID, JungleArea ja){
+    public static void addFeatureScored(int gameID, PlayerInAdapter inAdapter, String loginName1, String loginName2, Map<Player, Integer> playerScores, JungleArea ja){
         Integer[] ids = gameLookup.get(gameID);
         int tournamentID = ids[0];
         int challengeID = ids[1];
@@ -198,17 +197,56 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("JUNGLE\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(ja.isComplete());
-        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
-        /*        for(BoardTile b : ja.getBoardTiles()){
-            b.
-        }*/
-
-
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(inAdapter.getTileRepresentationString(ja.getBoardTiles()));
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("BOAR 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("BUFFALO 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("DEER 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("CROCS 0\r\n");
+        sb.append(getGameTabs());
+        int player1tigercount = 0;
+        int player2tigercount = 0;
+        int player1croccount = 0;
+        int player2croccount = 0;
+        for(Tiger t : ja.getTigerList()){
+            String s = t.getOwner().getPlayerId();
+            if(s.equals(loginName1))
+                player1tigercount++;
+            else player2tigercount++;
+        }
+        sb.append(loginName1+" TIGERS ");
+        sb.append(player1tigercount);
+        sb.append(" CROCS ");
+        sb.append(player1croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(loginName2+" TIGERS ");
+        sb.append(player2tigercount);
+        sb.append(" CROCS ");
+        sb.append(player2croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        addLogToLogger(sb.toString());
     }
 
-    public static void addFeatureScored(int gameID, DenArea da){
+    public static void addFeatureScored(int gameID, PlayerInAdapter inAdapter, String loginName1, String loginName2, Map<Player, Integer> playerScores, DenArea da){
         Integer[] ids = gameLookup.get(gameID);
         int tournamentID = ids[0];
         int challengeID = ids[1];
@@ -217,16 +255,58 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("DEN\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(da.isComplete());
-        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
-        List<Tiger> tigerlist = da.getTigerList();
-        tigerlist.get(0).getOwner().getPlayerId();
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(inAdapter.getTileRepresentationString(da.getBoardTiles()));
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("BOAR 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("BUFFALO 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("DEER 0\r\n");
+        sb.append(getGameTabs());
+        sb.append("CROCS 0\r\n");
+        sb.append(getGameTabs());
+        int player1tigercount = 0;
+        int player2tigercount = 0;
+        int player1croccount = 0;
+        int player2croccount = 0;
+        for(Tiger t : da.getTigerList()){
+            String s = t.getOwner().getPlayerId();
+            if(s.equals(loginName1))
+                player1tigercount++;
+            else player2tigercount++;
+        }
+        sb.append(loginName1+" TIGERS ");
+        sb.append(player1tigercount);
+        sb.append(" CROCS ");
+        sb.append(player1croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(loginName2+" TIGERS ");
+        sb.append(player2tigercount);
+        sb.append(" CROCS ");
+        sb.append(player2croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        addLogToLogger(sb.toString());
     }
 
 
 
-    public static void addFeatureScored(int gameID, LakeArea la){
+    public static void addFeatureScored(int gameID, PlayerInAdapter inAdapter, String loginName1, String loginName2, Map<Player, Integer> playerScores, LakeArea la){
         Integer[] ids = gameLookup.get(gameID);
         int tournamentID = ids[0];
         int challengeID = ids[1];
@@ -235,13 +315,84 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("LAKE\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(la.isComplete());
-        //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(inAdapter.getTileRepresentationString(la.getBoardTiles()));
+        //TODO: Add logic to get boar, buffalo, and deer from LAKES
+        int boarcount = 0;
+        int deercount = 0;
+        int buffalocount = 0;
+        if(la.containsBoar()) boarcount++;
+        if(la.containsDeer()) deercount++;
+        if(la.containsBuffalo()) buffalocount++;
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("BOAR ");
+        sb.append(boarcount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("BUFFALO ");
+        sb.append(buffalocount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("DEER ");
+        sb.append(deercount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("CROCS ");
+        sb.append(la.getCrocodileList().size());
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        int player1tigercount = 0;
+        int player2tigercount = 0;
+        int player1croccount = 0;
+        int player2croccount = 0;
+        for(Tiger t : la.getTigerList()){
+            String s = t.getOwner().getPlayerId();
+            if(s.equals(loginName1))
+                player1tigercount++;
+            else player2tigercount++;
+        }
+
+        for(Crocodile c : la.getCrocodileList()) {
+
+            Player p = c.getOwner();
+            if(p != null){
+                if(p.getPlayerId().equals(loginName1)){
+                    player1croccount++;
+                }
+                else player2croccount++;
+            }
+
+        }
+        sb.append(loginName1+" TIGERS ");
+        sb.append(player1tigercount);
+        sb.append(" CROCS ");
+        sb.append(player1croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(loginName2+" TIGERS ");
+        sb.append(player2tigercount);
+        sb.append(" CROCS ");
+        sb.append(player2croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        addLogToLogger(sb.toString());
 
     }
 
-    public static void addFeatureScored(int gameID, TrailArea ta){
+    public static void addFeatureScored(int gameID, PlayerInAdapter inAdapter, String loginName1, String loginName2, Map<Player, Integer> playerScores, TrailArea ta){
         Integer[] ids = gameLookup.get(gameID);
         int tournamentID = ids[0];
         int challengeID = ids[1];
@@ -250,9 +401,84 @@ public class Logger {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID, roundID, matchID, gameID));
         appendPlayerID("---",sb);
         sb.append("TRAIL\r\n");
+        sb.append(getGameTabs());
         sb.append("COMPLETED ");
         sb.append(ta.isComplete());
         //TODO: Add in Logic for getting the X and Y coord of all Tiles.
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(inAdapter.getTileRepresentationString(ta.getBoardTiles()));
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        //TODO: Add logic to get boar, buffalo, and deer from LAKES
+        int boarcount = 0;
+        int deercount = 0;
+        int buffalocount = 0;
+        for(Prey pr : ta.getPreyList())
+        {
+            if(pr.isBoar()) boarcount++;
+            if(pr.isDeer()) deercount++;
+            if(pr.isBuffalo()) buffalocount++;
+        }
+        sb.append("BOAR ");
+        sb.append(boarcount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("BUFFALO ");
+        sb.append(buffalocount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("DEER ");
+        sb.append(deercount);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append("CROCS ");
+        sb.append(ta.getCrocodileList().size());
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        int player1tigercount = 0;
+        int player2tigercount = 0;
+        int player1croccount = 0;
+        int player2croccount = 0;
+        for(Tiger t : ta.getTigerList()){
+            String s = t.getOwner().getPlayerId();
+            if(s.equals(loginName1))
+                player1tigercount++;
+            else player2tigercount++;
+        }
+
+        for(Crocodile c : ta.getCrocodileList()) {
+
+            Player p = c.getOwner();
+            if(p != null){
+                if(p.getPlayerId().equals(loginName1)){
+                    player1croccount++;
+                }
+                else player2croccount++;
+            }
+
+        }
+        sb.append(loginName1+" TIGERS ");
+        sb.append(player1tigercount);
+        sb.append(" CROCS ");
+        sb.append(player1croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName1))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName1)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        sb.append(loginName2+" TIGERS ");
+        sb.append(player2tigercount);
+        sb.append(" CROCS ");
+        sb.append(player2croccount);
+        sb.append(" SCORE ");
+        if(playerScores.get(inAdapter.getPlayer(loginName2))!= null)
+            sb.append(playerScores.get(inAdapter.getPlayer(loginName2)));
+        else sb.append(0);
+        sb.append("\r\n");
+        sb.append(getGameTabs());
+        addLogToLogger(sb.toString());
 
     }
 
@@ -300,7 +526,7 @@ public class Logger {
     }
 
     public static void loggerTest(){
-        beginGame(6,5,4,3,2,1,0);
+        beginGame(6,5,4,3,2,"1","0");
         //endChallenge(6,5);
     }
 

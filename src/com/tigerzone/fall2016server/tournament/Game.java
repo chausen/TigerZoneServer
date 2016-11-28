@@ -18,12 +18,10 @@ public class Game {
     private Match match;
     TournamentPlayer player1;
     TournamentPlayer player2;
-    //private GamePlayerCommunication gamePlayerCommunication;
     private boolean isOver = false;
 
     LinkedList<PlayableTile> tileStack;
     private IOPort ioPort;
-    private static long MAX_PLAYER_DECISION_TIME = 1000;
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
@@ -33,7 +31,6 @@ public class Game {
         this.player2 = player2;
         this.tileStack = tileStack;
         this.match = match;
-        //this.gamePlayerCommunication = new GamePlayerCommunication(player1, player2);
 
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
 
@@ -63,14 +60,16 @@ public class Game {
     }
 
     public void receiveTurn(String message){
-        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,getMatch().getPlayer1().getUsername(),message);
-        Logger.playerStatus(this,ioPort.getInAdapter().getPlayer(getMatch().getPlayer1().getUsername()));//TODO: Check to make sure that this is the correct player to call.
         ioPort.receiveTurn(message);
+        Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),message);
+
     }
 
     public String getResponse(){
-        Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,getMatch().getPlayer1().getUsername(),ioPort.getResponse());
-        return ioPort.getResponse();
+        String s = ioPort.getResponse();
+        Logger.messageSent(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),ioPort.getResponse());
+        Logger.playerStatus(this,ioPort.getInAdapter().getCurrentPlayer(),ioPort.getInAdapter().getCurrentPlayer().getGoodSupply(), ioPort.getInAdapter().getCurrentPlayer().getBadSupply());//TODO: Check to make sure that this is the correct player to call.
+        return s;
     }
 
     public Match getMatch() {

@@ -14,7 +14,7 @@ public class TileMain {
     public static void main(String[] args) {
 
 
-        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(1);
+        LinkedList<PlayableTile> tiles = TileStackGenerator.generateTiles(2);
         TileStack tileStack = new TileStack(tiles);
 
         tileStack.truncateTS(12);
@@ -25,8 +25,10 @@ public class TileMain {
 //
 //        }
 
+        int i = 1;
         for (PlayableTile tile: trimmedStack) {
-            System.out.println(tile.getTileString());
+            System.out.println(i + " " + tile.getTileString());
+            i++;
         }
 
     }

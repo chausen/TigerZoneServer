@@ -10,17 +10,17 @@ public class Deer extends Prey {
     public void addToArea(Area area){ area.addAnimal(this);}
 
     @Override
-    public boolean isDeer(Deer deer) {
+    public boolean isDeer() {
         return true;
     }
 
     @Override
-    public boolean isBoar(Boar boar) {
+    public boolean isBoar() {
         return false;
     }
 
     @Override
-    public boolean isBuffalo(Buffalo buffalo) {
+    public boolean isBuffalo() {
         return false;
     }
 }
