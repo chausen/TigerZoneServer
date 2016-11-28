@@ -83,7 +83,7 @@ public class ScorerTest {
         areaManager.addTile(new Point(3, -2), new PlayableTile("JLTTB"), 270);
         areaManager.addTile(new Point(2, 1), new PlayableTile("JLLJ-"), new Crocodile(player2), 0, 180);
         scorer.endGameScoring(areaManager);
-
+        scorer.getScore(player1);
     }
 
     @org.junit.Test
