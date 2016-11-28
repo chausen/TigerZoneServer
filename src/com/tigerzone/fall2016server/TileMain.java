@@ -25,8 +25,10 @@ public class TileMain {
 //
 //        }
 
+        int i = 1;
         for (PlayableTile tile: trimmedStack) {
-            System.out.println(tile.getTileString());
+            System.out.println(i + " " + tile.getTileString());
+            i++;
         }
 
     }

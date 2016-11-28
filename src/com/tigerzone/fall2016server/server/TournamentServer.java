@@ -3,6 +3,7 @@ package com.tigerzone.fall2016server.server;
 import com.tigerzone.fall2016server.tournament.Challenge;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -71,11 +72,19 @@ public class TournamentServer {
 
     public void notifyChallengeComplete(){
         //TODO: end of tournament shut down
-
-        while(true){
-
+        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
+            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
+            try {
+                tournamentPlayer.closeConnection();
+            } catch (IOException e) {
+                System.out.println("Couldn't close player connection");
+                continue;
+            }
         }
-        //System.exit(1);
+        System.exit(1);
+//        while(true){
+//
+//        }
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {

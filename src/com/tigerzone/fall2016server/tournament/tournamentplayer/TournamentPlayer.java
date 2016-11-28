@@ -70,4 +70,8 @@ public class TournamentPlayer {
         connection.setCommunicationTimeout(millis);
     }
 
+    public void closeConnection() throws IOException {
+        connection.close();
+    }
+
 }

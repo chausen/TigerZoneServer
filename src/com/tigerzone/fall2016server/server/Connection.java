@@ -56,15 +56,6 @@ public class Connection {
         clientSocket = serverSocket.accept();
     }
 
-    public void close() {
-        try {
-            out.close();
-            in.close();
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setupIO() {
         try {
@@ -107,6 +98,12 @@ public class Connection {
 
     public void playerOutput(String message) {
         this.out.println(message);
+    }
+
+    public void close() throws IOException {
+        out.close();
+        in.close();
+        clientSocket.close();
     }
 
 }

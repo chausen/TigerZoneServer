@@ -61,6 +61,7 @@ public class Challenge {
         Logger.endChallenge(getTournamentID(),challengeID);
         for(TournamentPlayer tournamentPlayer: players){
             tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
+            tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
         }
     }
 
@@ -76,7 +77,6 @@ public class Challenge {
         }
     }
 
-    //erik generateRounds
     public List<Round> generateRounds(){
         List<Round> rounds = new ArrayList<>();
         Round round;
@@ -87,17 +87,6 @@ public class Challenge {
         return rounds;
     }
 
-    //erik generateRounds
-    public Queue<Round> generateRounds2(){
-        Queue<Round> rounds = new LinkedList<>();
-        Round round;
-        for (int roundNumber = 1; roundNumber <= numOfRounds; roundNumber++) {
-            round = new Round(this, RoundRobin.listMatches(players, roundNumber, tiles));
-            round.setRoundID(roundNumber);
-            rounds.add(round);
-        }
-        return rounds;
-    }
 
 //    public void notifyComplete(){
 //        numOfRoundsComplete++;
