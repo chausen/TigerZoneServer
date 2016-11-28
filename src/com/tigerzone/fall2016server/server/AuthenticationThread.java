@@ -50,6 +50,7 @@ public class AuthenticationThread extends Thread {
             StringBuilder sb = new StringBuilder();
             sb.append(currentDirectory);
             sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials1.txt");
+
             LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
 
             output = loginProtocol.login(null);

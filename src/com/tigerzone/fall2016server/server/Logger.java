@@ -137,7 +137,7 @@ public class Logger {
         sb.append(playerID+'\t');
     }
 
-    public static void playerStatus(Game game, Player p, int good, int bad){
+    public static void playerStatus(Game game, Player p){
         int gameID = game.getGameID();
         int matchID = game.getMatch().getMatchID();
         int roundID = game.getMatch().getRound().getRoundID();
@@ -149,9 +149,9 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(game.getPlayerScore(p));
         sb.append(" TIGERS ");
-        sb.append(good);
+        sb.append(p.getGoodSupply());
         sb.append(" CROCS ");
-        sb.append(bad);
+        sb.append(p.getBadSupply());
         addLogToLogger(sb.toString());
     }
 
@@ -225,14 +225,10 @@ public class Logger {
         int player2croccount = 0;
         for(Tiger t : ja.getTigerList()){
             String s = t.getOwner().getPlayerId();
-            System.out.println("Tiger " + t + " Owner: " + t.getOwner().getPlayerId());
             if(s.equals(loginName1))
                 player1tigercount++;
             else player2tigercount++;
         }
-        System.out.println("P1 Tiger count " + player1tigercount + " " + loginName1);
-        System.out.println("P2 Tiger count " + player2tigercount + " " + loginName2);
-        System.out.println("------------- END FOR LOOP ---------");
         sb.append(loginName1+" TIGERS ");
         sb.append(player1tigercount);
         sb.append(" CROCS ");

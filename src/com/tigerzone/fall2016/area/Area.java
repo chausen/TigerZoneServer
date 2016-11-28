@@ -17,7 +17,7 @@ public abstract class Area implements SetAddable{
 
     private Set<BoardTile> boardTiles;
     private Set<TerrainNode> terrainNodes;
-    //private List<Tiger> tigerList;
+//    private List<Tiger> tigerList;
     private Set<Tiger> tigerList;
 
 
@@ -25,7 +25,7 @@ public abstract class Area implements SetAddable{
      * This constructor is for testing purposes for now
      */
     public Area(){
-        //this.tigerList = new ArrayList<>();
+//        this.tigerList = new ArrayList<>();
         this.tigerList = new HashSet<>();
         this.boardTiles = new HashSet<>();
         this.terrainNodes = new HashSet<>();

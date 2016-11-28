@@ -64,7 +64,7 @@ public class TournamentServer {
         }
     }
 
-    public void notifyChallengeComplete(){
+    public void notifyChallengeComplete() {
         //TODO: end of tournament shut down
         for(TournamentPlayer tournamentPlayer: tournamentPlayers){
             tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
@@ -75,6 +75,7 @@ public class TournamentServer {
                 continue;
             }
         }
+        // This is here to prevent the GUI from closing at the end of the tournament
         while (true) {
             if (Thread.activeCount() > 5) {
                 // do nothing
