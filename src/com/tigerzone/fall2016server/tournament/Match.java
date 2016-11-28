@@ -114,7 +114,6 @@ public class Match extends Thread{
             //Send the ioPort's response to both players. Note that each player gets the same message
 
 
-
             if(!game1.isOver()) {
                 if(game1Timeout){
                     sendGameMessage(gamePlayer1Response);
@@ -250,28 +249,9 @@ public class Match extends Thread{
         return player2;
     }
 
-
-    public void sendPlayerMoveMessages() {
-
-
-    }
-
-//    public void notifyComplete(int gID){
-//        game1complete = gID == game1.getGameID() ? true : game1complete;
-//        game2complete = gID == game2.getGameID() ? true : game2complete;
-//        if(game1complete && game2complete){
-//            notifyEndGameToPlayers();
-//            round.notifyComplete();
-//        }
-//    }
-
     public void sendGameMessage(String playerMessage){
         player1.sendMessageToPlayer(playerMessage);
         player2.sendMessageToPlayer(playerMessage);
-    }
-
-    public void decreaseNumOfActiveGames(){
-        numOfActiveGames--;
     }
 
     public Round getRound() {
