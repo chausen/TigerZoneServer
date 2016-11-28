@@ -163,7 +163,7 @@ public class Scorer {
         for (LakeArea lake: lakes) {
             if ( !lake.isComplete() && lake.hasOwner()) {
                 // points = (# of tiles) * (# of unique animals)
-                Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+                Integer points = lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
 
                 List<Player> owners = lake.getOwner();
 
