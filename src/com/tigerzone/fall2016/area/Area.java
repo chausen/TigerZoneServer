@@ -47,7 +47,6 @@ public abstract class Area implements SetAddable{
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
        // this.tigerList.addAll(area.getTigerList());
-        System.out.println("Merging areas ");
         mergeAnimals(area);
     }
 

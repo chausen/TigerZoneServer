@@ -18,7 +18,7 @@ public class PlayerInfoBox {
     private static final String TIES = "TIES: ";
     private static final String LOSSES = "LOSSES: ";
     private static final String TOTAL_POINTS = "TOTAL POINTS: ";
-    private static final String AVERAGE_RELATIVE_PERFORMANCE = "AVERAGE RELATIVE PERFORMANCE: ";
+    private static final String AVERAGE_RELATIVE_PERFORMANCE = "AVG. REL. PERFORMANCE: ";
     private static final String LARGEST_LOSS_POINT_DIFF  = "LARGEST LOSS POINT DIFF: ";
     private static final String LARGEST_LOSS_RELATIVE = "LARGEST LOSS RELATIVE: ";
 

@@ -75,8 +75,13 @@ public class TournamentServer {
                 continue;
             }
         }
-        System.exit(1);
-
+        while (true) {
+            if (Thread.activeCount() > 5) {
+                // do nothing
+            } else {
+                System.exit(0);
+            }
+        }
 
     }
 

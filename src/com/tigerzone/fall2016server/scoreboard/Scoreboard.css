@@ -6,10 +6,16 @@
 VBox {
     -fx-background-color: #ffffff;
     -fx-padding: 20%;
-    -fx-font-size: 0.5vw;
+    -fx-font-size: 0.9em;
     -fx-border-style: solid;
-    -fx-border-color: #ff0000 #0000ff;
+    -fx-border-width: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ee8f1b;
     -fx-opacity: 0.8;
+    -fx-max-height: 181px;
+    -fx-min-height: 181px;
+    -fx-max-width: 220px;
+    -fx-min-width: 220px;
 }
 
 Rectangle{
