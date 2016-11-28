@@ -1,5 +1,7 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016server.scoreboard.Scoreboard;
+
 import java.io.IOException;
 
 /**
@@ -12,6 +14,10 @@ public class TournamentServerMain {
         TournamentServer tournamentServer = new TournamentServer();
         Logger.initializeLogger(tournamentServer.getTournamentID());
         Logger.loggerTest();
+        // TODO add this when the Scoreboard is done
+//        Scoreboard scoreboard = new Scoreboard();
+//        Thread t = new Thread(scoreboard);
+//        t.start();
         tournamentServer.runTournament();
         //tournamentServer.authenticationExecutor();
 //        tournamentServer.authentication();
