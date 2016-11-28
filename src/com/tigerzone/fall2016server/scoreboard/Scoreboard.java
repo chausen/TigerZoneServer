@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class Scoreboard extends Application implements Runnable {
     TilePane root;
-    HashMap<String,PlayerInfoBox> playerInfoBoxHashMap = new HashMap<>();
+    HashMap<String,PlayerInfoBox> playerInfoBoxHashMap;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         this.root = new TilePane();
         primaryStage.setTitle("TigerZone | Challenge " + 1);
-        initializePlayers(this.playerInfoBoxHashMap);
+        initializePlayers();
         root.setTileAlignment(Pos.TOP_LEFT);
         Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
@@ -43,21 +43,22 @@ public class Scoreboard extends Application implements Runnable {
 
     /**
      *
-     * @param playerBoxControllerMap
      */
-    public void initializePlayers(Map<String, PlayerInfoBox> playerBoxControllerMap) {
+    private void initializePlayers() {
         String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
         StringBuilder sb = new StringBuilder();
         sb.append(currentDirectory);
         sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
         String fullFileName = sb.toString();
         List<String> players = FileReader.getLoginNames(fullFileName);
+        this.playerInfoBoxHashMap = new HashMap<>();
         players.forEach((player)-> {
             System.out.println(player);
             PlayerInfoBox playerInfoBox = new PlayerInfoBox(player);
-            playerBoxControllerMap.put(player, playerInfoBox);
+            this.playerInfoBoxHashMap.put(player, playerInfoBox);
             addPlayerInfoBox(playerInfoBox);
         });
+        System.out.println("In Scoreboard: " + this.playerInfoBoxHashMap.size());
     }
 
     public HashMap<String, PlayerInfoBox> getPlayerInfoBoxHashMap() {

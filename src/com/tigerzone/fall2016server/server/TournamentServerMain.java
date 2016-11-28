@@ -12,8 +12,8 @@ public class TournamentServerMain {
     public static void main(String[] args) throws IOException {
 
         TournamentServer tournamentServer = new TournamentServer();
-        Logger.initializeLogger(tournamentServer.getTournamentID());
-        Logger.loggerTest();
+//        Logger.initializeLogger(tournamentServer.getTournamentID());
+//        Logger.loggerTest();
         // TODO add this when the Scoreboard is done
 //        Scoreboard scoreboard = new Scoreboard();
 //        Thread t = new Thread(scoreboard);
