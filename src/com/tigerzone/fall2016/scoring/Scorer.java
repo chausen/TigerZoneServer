@@ -163,14 +163,14 @@ public class Scorer {
         for (LakeArea lake: lakes) {
             if ( !lake.isComplete() && lake.hasOwner()) {
                 // points = (# of tiles) * (# of unique animals)
-                Integer points = lake.getSize() * lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect();
+                Integer points = lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
 
                 List<Player> owners = lake.getOwner();
 
                 updatePlayersScore(owners, points);
 
 //                //// TODO: 11/27/2016 added this, maybe need to remove
-//                Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
+                Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
 //                outAdapter.reportScoringEvent(scoringEvent, lake);
 
             }

@@ -12,6 +12,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
 import java.awt.*;
+import java.net.SocketPermission;
 import java.util.*;
 import java.util.List;
 
@@ -83,7 +84,25 @@ public class ScorerTest {
         areaManager.addTile(new Point(3, -2), new PlayableTile("JLTTB"), 270);
         areaManager.addTile(new Point(2, 1), new PlayableTile("JLLJ-"), new Crocodile(player2), 0, 180);
         scorer.endGameScoring(areaManager);
+        scorer.getScore(player1);
+    }
 
+    @org.junit.Test
+    public void sampleGame2() throws Exception {
+        areaManager.addTile(new Point(0, -1), new PlayableTile("TJJT-"), new Crocodile(player1), 0, 0);
+        areaManager.addTile(new Point(1, 0), new PlayableTile("LLJJ-"), new Tiger(player2), 1, 90);
+        areaManager.addTile(new Point(-1, 0), new PlayableTile("LJLJ-"), new Tiger(player1), 1, 0);
+        areaManager.addTile(new Point(1, 1), new PlayableTile("TLLT-"), new Tiger(player2), 1, 0);
+        areaManager.addTile(new Point(1, -1), new PlayableTile("JLLJ-"), new Tiger(player1), 6, 0);
+        areaManager.addTile(new Point(-1, 1), new PlayableTile("JLJL-"), new Tiger(player2), 2, 90);
+        areaManager.addTile(new Point(1, -2), new PlayableTile("LLLL-"), new Crocodile(player1), 0, 0);
+        areaManager.addTile(new Point(1, 2), new PlayableTile("LJTJD"), new Tiger(player2), 2, 0);
+        areaManager.addTile(new Point(-1, -1), new PlayableTile("TLLTB"), new Tiger(player1), 1, 180);
+        areaManager.addTile(new Point(-1, -2), new PlayableTile("TJTT-"), new Tiger(player2), 2, 270);
+        areaManager.addTile(new Point(-2, -2), new PlayableTile("TLTTP"), new Tiger(player1), 4, 180);
+        areaManager.addTile(new Point(-2, -3), new PlayableTile("TLLLC"), new Tiger(player2), 4, 0);
+        scorer.endGameScoring(areaManager);
+        scorer.getScore(player1);
     }
 
     @org.junit.Test
