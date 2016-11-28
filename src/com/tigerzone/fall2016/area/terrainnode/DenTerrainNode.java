@@ -17,6 +17,7 @@ public class DenTerrainNode extends TerrainNode {
 //        setArea(createArea());
 //    }
     public DenTerrainNode(){
+        setArea(createArea());
         this.setZones(Arrays.asList(5));
     }
 

@@ -26,7 +26,7 @@ public class Match extends Thread{
     private Game game1;
     private Game game2;
     private final int setUpTime = 2;
-    private HashMap<Game, TournamentPlayer> forfeitGameMap = new HashMap<>();
+    private HashMap<Game, TournamentPlayer> forfeitGameMap = new HashMap<>(); //This is used to keep track of which player forfeited for each game
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -69,6 +69,7 @@ public class Match extends Thread{
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
             //Send each player their own prompt message
+            //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
 
             boolean game1Timeout = false;
             String gamePlayer1Response = null;
@@ -108,7 +109,7 @@ public class Match extends Thread{
             //Send each player's response to the respective gamePort
             //Get the ioPort's response
             //Send the ioPort's response to both players. Note that each player gets the same message
-
+            //If there move is not legal put the player in the forfeit map for the game which they were the active player
 
             if(!game1.isOver()) {
                 if(game1Timeout){

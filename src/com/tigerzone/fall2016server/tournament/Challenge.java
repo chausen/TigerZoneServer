@@ -67,7 +67,7 @@ public class Challenge {
 
     private void sendNewChallengeMessageToPlayers(){
         for(TournamentPlayer tournamentPlayer: players){
-            String message = "NEW CHALLENGE " + cid + " YOU WILL PLAY " + numOfRounds;
+            String message = "NEW CHALLENGE " + (cid + 1)  + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
                 tournamentPlayer.sendMessageToPlayer(message + " MATCH");
             }
