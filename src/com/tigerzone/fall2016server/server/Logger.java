@@ -39,10 +39,7 @@ public class Logger {
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-//        pbc = new PlayerBoxController();
-        scoreboard = new Scoreboard();
-        new Thread(scoreboard).start();
-        pbc = scoreboard.getPlayerBoxController();
+        pbc = new PlayerBoxController();
         begin(tournamentID);
     }
 

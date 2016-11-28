@@ -18,18 +18,21 @@ import java.util.Map;
  */
 public class PlayerBoxController{
     private Scoreboard scoreBoard;
-
-    @FXML
-    private Label player1Id = new Label();
+    HashMap<String,PlayerInfoBox> playerInfoBoxHashMap;
 
     public PlayerBoxController(){
-        //this.playerInfoBoxMap = new HashMap<>();
-//        scoreBoard = new Scoreboard();
-//        new Thread(scoreBoard).start();
-//        scoreBoard.initializePlayers(this.playerInfoBoxMap);
-//        while (playerInfoBoxMap != null) {
-//            playerInfoBoxMap = scoreBoard.getPlayerInfoBoxHashMap();
-//        }
+        this.playerInfoBoxHashMap = new HashMap<>();
+
+        new Thread() {
+            @Override
+            public void run() {
+                javafx.application.Application.launch(Scoreboard.class);
+            }
+        }.start();
+
+        scoreBoard = Scoreboard.waitForScoreboard();
+
+        scoreBoard.initializePlayers(this.playerInfoBoxHashMap);
     }
 
     /**
@@ -38,21 +41,18 @@ public class PlayerBoxController{
      * @param playerStats
      */
     public void updatePlayerInfoBox(String userID, PlayerStats playerStats){
-        player1Id.setText("PLAYER1");
-//        scoreBoard.setPlayer(userID);
-//        if(playerInfoBoxHashMap.containsKey(userID)){
-//            System.out.println("IN HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//            PlayerInfoBox userInfoBox = playerInfoBoxHashMap.get(userID);
-//
-//            userInfoBox.setAverageRelativePerformance(playerStats.getAvgRelPerf());
-//            userInfoBox.setGamesPlayed(playerStats.getGamesPlayed());
-//            userInfoBox.setLargestLossPointDifferential(playerStats.getLosses());
-//            userInfoBox.setLargestLossRelative(playerStats.getLargestpointdifferencerelative());
-//            userInfoBox.setLosses(playerStats.getLosses());
-//            userInfoBox.setWinsByForfeit(playerStats.getWinsByForfeit());
-//            userInfoBox.setTies(playerStats.getTies());
-//            userInfoBox.setTotalPoints(playerStats.getTotalPoints());
-//            userInfoBox.setOutrightWins(playerStats.getWins());
-//        }
+        if(playerInfoBoxHashMap.containsKey(userID)){
+            PlayerInfoBox userInfoBox = playerInfoBoxHashMap.get(userID);
+
+            userInfoBox.setAverageRelativePerformance(playerStats.getAvgRelPerf());
+            userInfoBox.setGamesPlayed(playerStats.getGamesPlayed());
+            userInfoBox.setLargestLossPointDifferential(playerStats.getLosses());
+            userInfoBox.setLargestLossRelative(playerStats.getLargestpointdifferencerelative());
+            userInfoBox.setLosses(playerStats.getLosses());
+            userInfoBox.setWinsByForfeit(playerStats.getWinsByForfeit());
+            userInfoBox.setTies(playerStats.getTies());
+            userInfoBox.setTotalPoints(playerStats.getTotalPoints());
+            userInfoBox.setOutrightWins(playerStats.getWins());
+        }
     }
 }

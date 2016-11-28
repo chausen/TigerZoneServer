@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016server.scoreboard;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -98,15 +99,21 @@ public class PlayerInfoBox {
     }
 
     private void updateBox() {
-        vBox.getChildren().add(loginName);
-        vBox.getChildren().add(gamesPlayed);
-        vBox.getChildren().add(outrightWins);
-        vBox.getChildren().add(winsByForfeit);
-        vBox.getChildren().add(ties);
-        vBox.getChildren().add(losses);
-        vBox.getChildren().add(totalPoints);
-        vBox.getChildren().add(averageRelativePerformance);
-        vBox.getChildren().add(largestLossPointDifferential);
-        vBox.getChildren().add(largestLossRelative);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().clear();
+                vBox.getChildren().add(loginName);
+                vBox.getChildren().add(gamesPlayed);
+                vBox.getChildren().add(outrightWins);
+                vBox.getChildren().add(winsByForfeit);
+                vBox.getChildren().add(ties);
+                vBox.getChildren().add(losses);
+                vBox.getChildren().add(totalPoints);
+                vBox.getChildren().add(averageRelativePerformance);
+                vBox.getChildren().add(largestLossPointDifferential);
+                vBox.getChildren().add(largestLossRelative);
+            }
+        });
     }
 }

@@ -14,17 +14,15 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
-public class Scoreboard extends Application implements Runnable {
-    Parent root;
-    private PlayerBoxController playerBoxController;
-    private HashMap<String,PlayerInfoBox> playerInfoBoxHashMap;
+public class Scoreboard extends Application {
+    TilePane root = new TilePane();
+    public static final CountDownLatch latch = new CountDownLatch(1);
+    public static Scoreboard scoreboard = null;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        this.root = fxmlLoader.load(getClass().getResource("Scoreboard.fxml").openStream());
-        this.playerBoxController = (PlayerBoxController) fxmlLoader.getController();
         primaryStage.setTitle("TigerZone | Challenge " + 1);
         Scene scene = new Scene(root, 1024, 768);
         primaryStage.setScene(scene);
@@ -32,46 +30,49 @@ public class Scoreboard extends Application implements Runnable {
         primaryStage.show();
     }
 
-    @Override
-    public void run() {
-        launch();
+    public static void main(String[] args) {
+        Application.launch(args);
     }
 
-//    private void addPlayerInfoBox(PlayerInfoBox playerInfoBox){
-//        if(this.root == null){
-//            this.root = new TilePane();
-//        }
-//        this.root.getChildren().add(playerInfoBox.getvBox());
-//    }
+    private void addPlayerInfoBox(PlayerInfoBox playerInfoBox){
+        this.root.getChildren().add(playerInfoBox.getvBox());
+    }
 
     /**
      *
      */
-//    private void initializePlayers() {
-//        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(currentDirectory);
-//        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
-//        String fullFileName = sb.toString();
-//        List<String> players = FileReader.getLoginNames(fullFileName);
-//        this.playerInfoBoxHashMap = new HashMap<>();
-//        players.forEach((player)-> {
-//            System.out.println(player);
-//            PlayerInfoBox playerInfoBox = new PlayerInfoBox(player);
-//            this.playerInfoBoxHashMap.put(player, playerInfoBox);
-//            addPlayerInfoBox(playerInfoBox);
-//        });
-//    }
+    public void initializePlayers(HashMap<String,PlayerInfoBox> playerInfoBoxHashMap) {
+        String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentDirectory);
+        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials2.txt");
+        String fullFileName = sb.toString();
 
-    public PlayerBoxController getPlayerBoxController() {
-        return this.playerBoxController;
+        List<String> players = FileReader.getLoginNames(fullFileName);
+
+        players.forEach((player)-> {
+            PlayerInfoBox playerInfoBox = new PlayerInfoBox(player);
+            playerInfoBoxHashMap.put(player, playerInfoBox);
+            addPlayerInfoBox(playerInfoBox);
+        });
     }
 
-    public void setPlayer(String playerId) {
 
+    public static Scoreboard waitForScoreboard() {
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return scoreboard;
     }
 
-    public HashMap<String, PlayerInfoBox> getPlayerInfoBoxHashMap() {
-        return this.playerInfoBoxHashMap;
+    public static void setScoreboard(Scoreboard sb) {
+        scoreboard = sb;
+        latch.countDown();
+    }
+
+    public Scoreboard() {
+        setScoreboard(this);
     }
 }
