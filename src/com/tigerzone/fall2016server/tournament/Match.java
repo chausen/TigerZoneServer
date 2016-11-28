@@ -25,12 +25,7 @@ public class Match extends Thread{
     private int matchID;
     private Game game1;
     private Game game2;
-    private boolean game1complete = false;
-    private boolean game2complete = false;
     private final int setUpTime = 10;
-    private Map<Integer, String> playerMessages = new HashMap<>();
-    private int numOfActiveGames = 2;
-
 
     public Match(TournamentPlayer player1,TournamentPlayer player2, LinkedList<PlayableTile> tileStack) {
         this.tileStack = tileStack;
@@ -51,7 +46,6 @@ public class Match extends Thread{
     public void run(){
         startMatch();
         playMatch();
-
     }
 
     private void startMatch() {
@@ -61,7 +55,6 @@ public class Match extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //startGames();
     }
 
     private void playMatch() {
@@ -164,7 +157,6 @@ public class Match extends Thread{
     }
 
     private void sendStartMessage(TournamentPlayer player, String opponentUserName){
-
         player.sendMessageToPlayer("YOUR OPPONENT IS PLAYER " + opponentUserName);
         player.sendMessageToPlayer("STARTING TILE IS TLTJ- AT 0 0 0");
         player.sendMessageToPlayer("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));

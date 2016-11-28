@@ -17,18 +17,13 @@ public class Round {
     private int roundID;
     private int numOfMatches;
     private int numOfMatchesComplete = 0;
-    private int currentRound = 0;
     private int numOfRounds;
-    private RoundRobin roundRobin;
-
     List<Match> matches;
-
 
     public Round(List<Match> matches) {
         this.matches = matches;
         this.numOfMatches = matches.size();
     }
-
 
     public Round(Challenge challenge, List<Match> matches) {
         this.challenge = challenge;
@@ -43,7 +38,7 @@ public class Round {
         getChallengeInfo();
         matches = RoundRobin.listMatches(players, this.roundID, tiles);
         this.numOfMatches = matches.size();
-        for (Match match: matches) {
+        for (Match match : matches) {
             match.setRound(this);
         }
     }
@@ -53,17 +48,15 @@ public class Round {
         for (Match match : matches) {
             match.start();
             logMatchEvents(match);
-            //match.playMatch();
         }
-        //notifyComplete();
     }
 
     private void logMatchEvents(Match m) {
 
-        Logger.beginGame(getChallenge().getTournamentID(),getChallenge().getChallengeID(),roundID,m.getMatchID(),
-                m.getGame1().getGameID(),m.getPlayer1().getUsername(),m.getPlayer2().getUsername());
-        Logger.beginGame(getChallenge().getTournamentID(),getChallenge().getChallengeID(),roundID,m.getMatchID(),
-                m.getGame2().getGameID(),m.getPlayer2().getUsername(),m.getPlayer1().getUsername());
+        Logger.beginGame(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, m.getMatchID(),
+                m.getGame1().getGameID(), m.getPlayer1().getUsername(), m.getPlayer2().getUsername());
+        Logger.beginGame(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, m.getMatchID(),
+                m.getGame2().getGameID(), m.getPlayer2().getUsername(), m.getPlayer1().getUsername());
 
     }
 
@@ -76,19 +69,27 @@ public class Round {
     private void sendMessageToPlayers() {
         for (TournamentPlayer tournamentPlayer : players) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
-            Logger.beginRound(getChallenge().getTournamentID(),getChallenge().getChallengeID(),roundID,numOfRounds);
+            Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
     }
 
     public void notifyComplete() {
+        String roundCompleteMessage = new StringBuffer()
+                .append("END OF ROUND ")
+                .append(roundID)
+                .append(" OF ")
+                .append(numOfRounds).toString();
+
         numOfMatchesComplete++;
-        if(numOfMatchesComplete == numOfMatches) {
-            for (TournamentPlayer tournamentPlayer : players) {
-                tournamentPlayer.sendMessageToPlayer("END OF ROUND " + roundID + " OF " + numOfRounds);
+        for (TournamentPlayer tournamentPlayer : players) {
+            if (numOfMatchesComplete == numOfMatches) {
+                tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
+                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+                challenge.roundComplete();
+            } else {
+                tournamentPlayer.sendMessageToPlayer(roundCompleteMessage + "  PLEASE WAIT FOR THE NEXT MATCH");
             }
-            Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(),roundID,numOfRounds);
-            challenge.roundComplete();
         }
     }
 
