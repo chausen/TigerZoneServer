@@ -35,7 +35,7 @@ public class IOPort implements PlayerOutAdapter {
     private String loginName2;
     private int player1FinalScore;
     private int player2FinalScore;
-    private String activeplayer;
+    private Player currentPlayer;
     private String currentTurnString;
     private boolean gameOver = false;
     private String response;
@@ -53,7 +53,6 @@ public class IOPort implements PlayerOutAdapter {
         this.gid = gid;
         this.turnCount = 1;
         this.loginName1 = loginName1;
-        this.activeplayer = loginName1;
         this.loginName2 = loginName2;
         this.tileStack = tileStack;
     }
@@ -63,11 +62,13 @@ public class IOPort implements PlayerOutAdapter {
         inAdapter.setOutAdapter(this);
         inAdapter.initializeGame(loginName1, loginName2, tileStack);
         this.gameContext = new GameContext(this.gid);
+        this.currentPlayer = inAdapter.getPlayer(loginName1);
     }
 
     public void initialize(PlayerInAdapter inAdapter) {
         this.inAdapter = inAdapter;
         inAdapter.setOutAdapter(this);
+        this.currentPlayer = inAdapter.getPlayer(loginName1);
     }
 
     @Override
@@ -75,14 +76,25 @@ public class IOPort implements PlayerOutAdapter {
         // Needed to output move is inAdapter finds it successful
         //boolean received = false;
         currentTurnString = s;
+        this.currentPlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
 
+        // Run pass String through move protocol to ensure it is of valid form
         Scanner parserScanner = new Scanner(s);
         gameContext.setScanner(parserScanner);
         ProtocolStateMachine psm = new ProtocolStateMachine();
         psm.parse(gameContext);
+
         if (!gameContext.wasMoveValid()) {
+
             receiveIllegalMessage();
+            return;
+
         } else {
+
+            if (s == null) {
+                receiveIllegalMessage();
+                return;
+            }
 
             Scanner sc = new Scanner(s);
 
@@ -125,25 +137,25 @@ public class IOPort implements PlayerOutAdapter {
         int orientation = sc.nextInt(); // This gives us the orientation (rotation degree)
         String predatorStr = sc.next(); // Conditional logic below determines what kind of predator
         Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
-        int zone = 0;
         // The zone of the tile where the predator will be placed
-        Player activePlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
+        int zone = 0;
+
         if (predatorStr.equals("TIGER")) {
-            activePlayer.decrementGoodSupply();
-            predator = new Tiger(activePlayer);
+            this.currentPlayer.decrementGoodSupply();
+            predator = new Tiger(currentPlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
             }
         } else if (predatorStr.equals("CROCODILE")) {
-            activePlayer.decrementBadSupply();
-            predator = new Crocodile(activePlayer);
+            currentPlayer.decrementBadSupply();
+            predator = new Crocodile(currentPlayer);
 
         } else if (predatorStr.equals("NONE")) {
             predator = null;
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
-        Turn t = new Turn(activeplayer, playableTile, new Point(x,y), orientation, predator, zone);
+        Turn t = new Turn(currentPlayer.getPlayerId(), playableTile, new Point(x,y), orientation, predator, zone);
 
         // Send turn downstream
         inAdapter.receiveTurn(t);
@@ -177,27 +189,25 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
-    @Override
-    public void receiveIllegalMessage() {
+    private void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
-        forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL MESSAGE RECEIVED "));
+        forfeit(this.currentPlayer.getPlayerId());
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
-
     }
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
         didForfeit = true;
-        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: QUIT"));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: QUIT"));
 
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        setResponse(GameToClientMessageFormatter.generateConfirmationMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
+        setResponse(GameToClientMessageFormatter.generateConfirmationMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), currentTurnString));
         ++turnCount;
     }
 
@@ -240,20 +250,20 @@ public class IOPort implements PlayerOutAdapter {
 
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
-        forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL MEEPLE PLACEMENT"));
+        forfeit(this.currentPlayer.getPlayerId());
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
-        forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: INVALID MEEPLE PLACEMENT"));
+        forfeit(this.currentPlayer.getPlayerId());
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: INVALID MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
-        forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL TILE PLACEMENT "));
+        forfeit(this.currentPlayer.getPlayerId());
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: ILLEGAL TILE PLACEMENT "));
     }
 
     private void forfeit(String currentPlayer){

@@ -49,7 +49,7 @@ public class Scoreboard extends Application {
         String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
         StringBuilder sb = new StringBuilder();
         sb.append(currentDirectory);
-        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials1.txt");
+        sb.append("/src/com/tigerzone/fall2016server/files/TestCredentialsFourPlayers.txt");
         String fullFileName = sb.toString();
 
         List<String> players = FileReader.getLoginNames(fullFileName);

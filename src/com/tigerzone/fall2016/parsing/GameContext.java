@@ -58,12 +58,12 @@ public class GameContext implements Context {
     }
 
     @Override
-    public void validMove() {
+    public void setValidMove() {
         validMove = true;
     }
 
     @Override
-    public void illegalMove() {
+    public void setIllegalMove() {
         validMove = false;
     }
 
