@@ -17,7 +17,7 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
-    private static int MAX_CONNECTIONS = 2;
+    private static int MAX_CONNECTIONS = 24;
     private static int tournamentID = 1;
 
     public TournamentServer() {
@@ -64,7 +64,7 @@ public class TournamentServer {
         }
     }
 
-    public void notifyChallengeComplete(){
+    public void notifyChallengeComplete() {
         //TODO: end of tournament shut down
         for(TournamentPlayer tournamentPlayer: tournamentPlayers){
             tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING!");
@@ -75,8 +75,14 @@ public class TournamentServer {
                 continue;
             }
         }
-        System.exit(1);
-
+        // This is here to prevent the GUI from closing at the end of the tournament
+        while (true) {
+            if (Thread.activeCount() > 5) {
+                // do nothing
+            } else {
+                System.exit(0);
+            }
+        }
 
     }
 

@@ -1,11 +1,23 @@
 .root {
-    -fx-background-image: url("background.jpg");
+    -fx-background-image: url("background0.jpg");
+    -fx-margin: auto;
 }
 
-HBox {
-    -fx-background-color: #ffffff;
-    -fx-padding: 10%;
-    -fx-font-size: 1.5em;
+VBox {
+    -fx-background-color: #f1ffea;
+    -fx-font-family: serif;
+    -fx-font-weight: 400;
+    -fx-padding: 5px;
+    -fx-font-size: 1em;
+    -fx-border-style: solid;
+    -fx-border-width: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ee8f1b;
+    -fx-opacity: 0.8;
+    -fx-max-height: 181px;
+    -fx-min-height: 181px;
+    -fx-max-width: 220px;
+    -fx-min-width: 220px;
 }
 
 Rectangle{

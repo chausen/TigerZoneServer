@@ -64,7 +64,13 @@ public class GameSystem implements PlayerInAdapter {
         //TODO: Remove this and just use the LinkedList?
         //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
-       ts.truncateTS(14); // TODO: 11/27/2016 Change this truncation value for different tests
+
+        // Tile Unplaceable Test
+//        ts = new TileStack(getUnplaceableTestStack());
+//        ts.truncateTS(4);
+
+//       ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
+        ts.truncateTS(20);
 
         //originTile = ts.pop();
 
@@ -120,7 +126,7 @@ public class GameSystem implements PlayerInAdapter {
                     // notify outAdapter with results
                     prepareNextTurn();
                 }
-                else if(am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
+                else if( turn.getPredatorPlacementZone()!=0 && am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
                     outAdapter.forfeitInvalidMeeple(getCurrentPlayerID());
                     endOfGame();
                 }
@@ -274,6 +280,16 @@ public class GameSystem implements PlayerInAdapter {
         int player1Score = scorer.getScore(player1);
         int player2Score = scorer.getScore(player2);
         outAdapter.notifyEndGame(player1Score, player2Score);
+    }
+
+    private LinkedList<PlayableTile> getUnplaceableTestStack() {
+        LinkedList<PlayableTile> tiles = new LinkedList<>();
+        tiles.add(new PlayableTile("LJJJ-"));
+        tiles.add(new PlayableTile("LLLL-"));
+        tiles.add(new PlayableTile("LLLL-"));
+        tiles.add(new PlayableTile("LLLL-"));
+        tiles.add(new PlayableTile("LLLL-"));
+        return tiles;
     }
 
 

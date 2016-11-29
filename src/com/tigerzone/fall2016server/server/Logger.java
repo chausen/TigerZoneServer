@@ -10,6 +10,7 @@ import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016server.scoreboard.PlayerBoxController;
+import com.tigerzone.fall2016server.scoreboard.Scoreboard;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
@@ -25,7 +26,8 @@ public class Logger {
     private static PrintWriter pw = null;
     private static ArrayList<String> logs = new ArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
-//    private static PlayerBoxController pbc;
+    private static Scoreboard scoreboard;
+    private static PlayerBoxController pbc;
 
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
@@ -37,7 +39,7 @@ public class Logger {
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-//        pbc = new PlayerBoxController();
+        pbc = new PlayerBoxController();
         begin(tournamentID);
     }
 
@@ -111,8 +113,8 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2.getUsername());
         addLogToLogger(sb.toString());
-//        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
-//        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
+        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player1);
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }
@@ -223,14 +225,10 @@ public class Logger {
         int player2croccount = 0;
         for(Tiger t : ja.getTigerList()){
             String s = t.getOwner().getPlayerId();
-            System.out.println("Tiger " + t + " Owner: " + t.getOwner().getPlayerId());
             if(s.equals(loginName1))
                 player1tigercount++;
             else player2tigercount++;
         }
-        System.out.println("P1 Tiger count " + player1tigercount + " " + loginName1);
-        System.out.println("P2 Tiger count " + player2tigercount + " " + loginName2);
-        System.out.println("------------- END FOR LOOP ---------");
         sb.append(loginName1+" TIGERS ");
         sb.append(player1tigercount);
         sb.append(" CROCS ");

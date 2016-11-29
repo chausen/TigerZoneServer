@@ -104,12 +104,12 @@ public class Scorer {
         Integer points = 2 * lake.getSize() * (1 + lake.getNumOfUniquePreyAnimalsAfterCrocodileEffect());
         List<Player> owners = lake.getOwner();
 
-        //Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
+        Map<Player, Integer> scoringEvent = updatePlayersScore(owners, points);
 
         //return tigers back to player after an area is completed
         returnTigerToOwnerAfterScoring(lake.getTigerList());
 
-        //outAdapter.reportScoringEvent(scoringEvent, lake);
+        outAdapter.reportScoringEvent(scoringEvent, lake);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016server.scoreboard;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,7 +18,7 @@ public class PlayerInfoBox {
     private static final String TIES = "TIES: ";
     private static final String LOSSES = "LOSSES: ";
     private static final String TOTAL_POINTS = "TOTAL POINTS: ";
-    private static final String AVERAGE_RELATIVE_PERFORMANCE = "AVERAGE RELATIVE PERFORMANCE: ";
+    private static final String AVERAGE_RELATIVE_PERFORMANCE = "AVG. REL. PERFORMANCE: ";
     private static final String LARGEST_LOSS_POINT_DIFF  = "LARGEST LOSS POINT DIFF: ";
     private static final String LARGEST_LOSS_RELATIVE = "LARGEST LOSS RELATIVE: ";
 
@@ -58,7 +59,8 @@ public class PlayerInfoBox {
     }
 
     public void setLargestLossRelative(double largestLossRelative) {
-        this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE + largestLossRelative);
+        this.largestLossRelative = new Label(LARGEST_LOSS_RELATIVE +
+                roundDoubleToNearestHundredth(largestLossRelative));
         updateBox();
     }
 
@@ -88,7 +90,8 @@ public class PlayerInfoBox {
     }
 
     public void setAverageRelativePerformance(double averageRelativePerformance) {
-        this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE + averageRelativePerformance);
+        this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE +
+                roundDoubleToNearestHundredth(averageRelativePerformance));
         updateBox();
     }
 
@@ -97,16 +100,27 @@ public class PlayerInfoBox {
         updateBox();
     }
 
+    private double roundDoubleToNearestHundredth(double value){
+        value = Math.round(value * 100);
+        return value/100;
+    }
+
     private void updateBox() {
-        vBox.getChildren().add(loginName);
-        vBox.getChildren().add(gamesPlayed);
-        vBox.getChildren().add(outrightWins);
-        vBox.getChildren().add(winsByForfeit);
-        vBox.getChildren().add(ties);
-        vBox.getChildren().add(losses);
-        vBox.getChildren().add(totalPoints);
-        vBox.getChildren().add(averageRelativePerformance);
-        vBox.getChildren().add(largestLossPointDifferential);
-        vBox.getChildren().add(largestLossRelative);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                vBox.getChildren().clear();
+                vBox.getChildren().add(loginName);
+                vBox.getChildren().add(gamesPlayed);
+                vBox.getChildren().add(outrightWins);
+                vBox.getChildren().add(winsByForfeit);
+                vBox.getChildren().add(ties);
+                vBox.getChildren().add(losses);
+                vBox.getChildren().add(totalPoints);
+                vBox.getChildren().add(averageRelativePerformance);
+                vBox.getChildren().add(largestLossPointDifferential);
+                vBox.getChildren().add(largestLossRelative);
+            }
+        });
     }
 }

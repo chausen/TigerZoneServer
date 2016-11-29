@@ -1,6 +1,7 @@
 
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
@@ -128,5 +129,10 @@ public class JungleArea extends Area {
         for(TerrainNode terrainNode: terrainNodes){
             jungleTerrainNodes.add((JungleTerrainNode)terrainNode);
         }
+    }
+
+    @Override
+    public boolean placePredator(Crocodile crocodile) {
+        return false;
     }
 }
