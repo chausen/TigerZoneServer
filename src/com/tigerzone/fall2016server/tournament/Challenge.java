@@ -27,7 +27,7 @@ public class Challenge {
         this.tournamentServer = tournamentServers;
 
 
-        this.tiles = TileStackGenerator.generateTiles(3); // TODO: 11/27/2016 Edit the seed to test different tile sets
+        this.tiles = TileStackGenerator.generateTiles(seed); // TODO: 11/27/2016 Edit the seed to test different tile sets
         
         if(players.size() % 2 == 0){
             numOfRounds = players.size() - 1;
