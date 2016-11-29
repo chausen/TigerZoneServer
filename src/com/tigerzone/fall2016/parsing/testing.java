@@ -10,32 +10,36 @@ public class testing {
         ProtocolStateMachine psm = new ProtocolStateMachine();
 
         String testString1 = "GAME 1 MOVE 1 PLACE TLTTP AT 4 -1 90 NONE";
-        String testString2 = "GAME 2 MOVE 1 PLACE TLLL- AT 4 1 90 NONE";
-        String testString3 = "GAME 1 MOVE 2 TILE LLLL- UNPLACEABLE PASS";
-        String testString4 = "GAME 1 MOVE 2 TILE LLLL- UNPLACEABLE RETRIEVE TIGER AT 1";
+        String testString2 = "GAME 1 MOVE 2 PLACE TLLL- AT 4 1 90 NONE";
+        String testString3 = "GAME 1 MOVE 3 TILE LLLL- UNPLACEABLE PASS";
+        String testString4 = "GAME 1 MOVE 4 TILE LLLL- UNPLACEABLE RETRIEVE TIGER AT 1 1";
+        String testString5 = "GAME 1 MOVE 4 TILE LLLL- UNPLACEABLE ADD ANOTHER TIGER TO 3 3";
 
-        Scanner scanner1 = new Scanner(testString1);
-        Scanner scanner2 = new Scanner(testString2);
-        Scanner scanner3 = new Scanner(testString3);
-        Scanner scanner4 = new Scanner(testString4);
+        Scanner scanner = new Scanner(testString1);
+        Context context = new GameContext(scanner, 1);
 
-        Context context = new GameContext(scanner1, 1);
+        // Test 1
         psm.parse(context);
         System.out.println(testString1 + " is a valid move: " + context.wasMoveValid());
 
-        context = new GameContext(scanner2, 2);
-
+        // Test 2
+        context.setScanner(new Scanner(testString2));
         psm.parse(context);
         System.out.println(testString2 + " is a valid move: " + context.wasMoveValid());
 
-        context = new GameContext(scanner3, 3);
-
+        // Test 3
+        context.setScanner(new Scanner(testString3));
         psm.parse(context);
         System.out.println(testString3 + " is a valid move: " + context.wasMoveValid());
 
-        context = new GameContext(scanner2, 4);
-
+        // Test 4
+        context.setScanner(new Scanner(testString4));
         psm.parse(context);
         System.out.println(testString4 + " is a valid move: " + context.wasMoveValid());
+
+        // Test 5
+        context.setScanner(new Scanner(testString5));
+        psm.parse(context);
+        System.out.println(testString5 + " is a valid move: " + context.wasMoveValid());
     }
 }

@@ -15,7 +15,6 @@ public interface PlayerOutAdapter
 {
     //public void promptForTurn(PlayableTile currentTile);
     public void receiveTurn(String s);
-    public void receiveIllegalMessage();
     public void successfulTurn();
     public void reportScoringEvent(Map<Player,Integer> playerScores, JungleArea ja);
     public void reportScoringEvent(Map<Player,Integer> playerScores, DenArea da);

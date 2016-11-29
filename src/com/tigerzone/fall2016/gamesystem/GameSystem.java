@@ -61,8 +61,6 @@ public class GameSystem implements PlayerInAdapter {
         am = new AreaManager(scorer);
         gameBoard = am.getGameBoard();
 
-        //TODO: Remove this and just use the LinkedList?
-        //ts = new TileStack((LinkedList) tileStack.clone());
         ts = new TileStack(tileStack);
 
         // Tile Unplaceable Test
@@ -72,10 +70,7 @@ public class GameSystem implements PlayerInAdapter {
 //       ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
         ts.truncateTS(20);
 
-        //originTile = ts.pop();
-
         currentTile = ts.peek();
-        //outAdapter.promptForTurn(currentTile);
     }
 
     public String getTileRepresentationString(Set<BoardTile> boardtiles){
