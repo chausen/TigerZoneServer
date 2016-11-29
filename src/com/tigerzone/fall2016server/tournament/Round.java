@@ -89,7 +89,7 @@ public class Round {
                         .append("END OF ROUND ")
                         .append(roundID)
                         .append(" OF ")
-                        .append(numOfRounds).toString() + "  PLEASE WAIT FOR THE NEXT MATCH";
+                        .append(numOfRounds).toString() + " PLEASE WAIT FOR THE NEXT MATCH";
                 Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             }
 
