@@ -17,10 +17,17 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
-    private static int MAX_CONNECTIONS = 24;
+    private static int MAX_CONNECTIONS = 2;
     private static int tournamentID = 1;
 
-    public TournamentServer() {
+    // Default constructor
+    public TournamentServer() {}
+
+    // Constructor used for parameterized main
+    public TournamentServer(int port, int seed, int maxConnections) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
     }
 
     public int getTournamentID() {

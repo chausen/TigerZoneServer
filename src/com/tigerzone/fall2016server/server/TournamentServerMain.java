@@ -10,28 +10,30 @@ import java.io.IOException;
 public class TournamentServerMain {
 
     public static void main(String[] args) throws IOException {
+        TournamentServer tournamentServer;
+        if (args.length == 3) {
+            int port = Integer.parseInt(args[0]);
+            int seed = Integer.parseInt(args[1]);
+            int maxConnections = Integer.parseInt(args[2]);
+            tournamentServer = new TournamentServer(port, seed, maxConnections);
+        } else {
+            tournamentServer = new TournamentServer();
+        }
 
-        TournamentServer tournamentServer = new TournamentServer();
-//        Logger.initializeLogger(tournamentServer.getTournamentID());
-//        Logger.loggerTest();
-        // TODO add this when the Scoreboard is done
-//        Scoreboard scoreboard = new Scoreboard();
-//        Thread t = new Thread(scoreboard);
-//        t.start();
         tournamentServer.runTournament();
-        //tournamentServer.authenticationExecutor();
-//        tournamentServer.authentication();
+
         System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
-
-
-//        ConnectionExecutor connectionExecutor = new ConnectionExecutor(3);
-//        new Thread(connectionExecutor).start();
-
-//        tournamentServer.authenticate();
-       // tournamentServer.authentication();
-
-       // System.out.println("While loop finally executed after 30 secs in main");
 
     }
 
 }
+
+// CODE THAT WAS PREVIOUSLY IN MAIN BUT MOVED HERE TO CLEAN IT UP
+//        System.out.println("While loop finally executed after 30 secs in main");
+//        ConnectionExecutor connectionExecutor = new ConnectionExecutor(3);
+//        new Thread(connectionExecutor).start();
+
+//        tournamentServer.authenticate();
+//        tournamentServer.authentication();
+//        tournamentServer.authenticationExecutor();
+//        tournamentServer.authentication();

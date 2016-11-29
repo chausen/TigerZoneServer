@@ -181,7 +181,7 @@ public class IOPort implements PlayerOutAdapter {
     public void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MESSAGE RECEIVED "));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
 
     }
@@ -190,14 +190,14 @@ public class IOPort implements PlayerOutAdapter {
     // Called in this way to make interface more expressive
     private void receiveTurnQuit(){
         didForfeit = true;
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED QUIT"));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: QUIT"));
 
     }
 
     //========== End of Helper Methods for Receive Turn ==========//
     @Override
     public void successfulTurn() {
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
+        setResponse(GameToClientMessageFormatter.generateConfirmationMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, currentTurnString));
         ++turnCount;
     }
 
@@ -241,19 +241,19 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void forfeitIllegalMeeple(String currentPlayerID) {
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL MEEPLE PLACEMENT"));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitInvalidMeeple(String currentPlayerID) {
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED INVALID MEEPLE PLACEMENT"));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: INVALID MEEPLE PLACEMENT"));
     }
 
     @Override
     public void forfeitIllegalTile(String currentPlayerID) {
         forfeit(activeplayer);
-        setResponse(GameToClientMessageFormatter.generateMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED ILLEGAL TILE PLACEMENT "));
+        setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.activeplayer, "FORFEITED: ILLEGAL TILE PLACEMENT "));
     }
 
     private void forfeit(String currentPlayer){
