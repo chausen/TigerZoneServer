@@ -4,8 +4,10 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -64,9 +66,21 @@ public class Round {
         this.tiles = challenge.getTiles();
     }
 
+
+    private Set<TournamentPlayer> getActivePlayers(){
+        Set<TournamentPlayer> playersInRound = new HashSet<>();
+
+        matches.forEach((match)->{
+            playersInRound.add(match.getPlayer1());
+            playersInRound.add(match.getPlayer2());
+        });
+        return playersInRound;
+    }
+
     private void sendMessageToPlayers() {
         Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
-        for (TournamentPlayer tournamentPlayer : players) {
+
+        for (TournamentPlayer tournamentPlayer : getActivePlayers()) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
         }
@@ -93,7 +107,7 @@ public class Round {
                 Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
             }
 
-            for (TournamentPlayer tournamentPlayer : players) {
+            for (TournamentPlayer tournamentPlayer : getActivePlayers()) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
             }
             challenge.roundComplete();
