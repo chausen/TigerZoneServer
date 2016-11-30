@@ -229,11 +229,13 @@ public class Match extends Thread {
             PlayerStats ps = p1.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p2stats.setWinsByForfeit(p2stats.getWinsByForfeit() + 1);//Else, ps is player 2, P2 forfeited.
+            p1stats.setLosses(p1stats.getLosses() + 1);
         }//p2 forfeited
         else if (forfeitGameMap.get(game) != null && forfeitGameMap.get(game) == p2) {
             PlayerStats ps = p2.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p1stats.setWinsByForfeit(p1stats.getWinsByForfeit() + 1);//If our ps is the same as p1stats, it means P1 forfeited.
+            p2stats.setLosses(p2stats.getLosses() + 1);
         } else {
             if (game.getPlayer1FinalScore() > game.getPlayer2FinalScore()) {
                 p1stats.setWins(p1stats.getWins() + 1);
