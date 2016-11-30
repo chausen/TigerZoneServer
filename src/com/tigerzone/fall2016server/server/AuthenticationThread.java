@@ -81,6 +81,7 @@ public class AuthenticationThread extends Thread {
                         userNames.add(user);
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
+                        System.out.println(tournamentPlayer.getUsername() + " Enetered");
                         //tournamentPlayers = TournamentServer.getTournamentPlayers();
                         tournamentPlayers.add(tournamentPlayer);
                     } else {
