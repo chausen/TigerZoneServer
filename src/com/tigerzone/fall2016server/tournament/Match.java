@@ -82,7 +82,7 @@ public class Match extends Thread {
                     gamePlayer1Response = game1player.readPlayerMessage();
                 } catch (IOException e) {
                     game1Timeout = true;
-                    gamePlayer1Response = "GAME " + game1.getGameID() + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                    gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
                     forfeitGameMap.put(game1, game1player);
                 }
 
@@ -98,7 +98,7 @@ public class Match extends Thread {
                     gamePlayer2Response = game2player.readPlayerMessage();
                 } catch (IOException e) {
                     game2Timeout = true;
-                    gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                    gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                     forfeitGameMap.put(game2, game2player);
                 }
             }
@@ -148,13 +148,13 @@ public class Match extends Thread {
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[ ");
+        stringBuilder.append("[");
         Iterator<PlayableTile> iter = tileStack.iterator();
         while (iter.hasNext()) {
             stringBuilder.append(" ");
             stringBuilder.append(iter.next().getTileString());
         }
-        stringBuilder.append(" ] ");
+        stringBuilder.append(" ]");
         return stringBuilder.toString();
     }
 
@@ -167,7 +167,7 @@ public class Match extends Thread {
 
         System.out.println("YOUR OPPONENT IS PLAYER " + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
-        System.out.println("THE REMAINING 76 TILES ARE" + tileToSTring(tileStack));
+        System.out.println("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
     }
 
@@ -212,9 +212,10 @@ public class Match extends Thread {
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2) {
-        HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
+       /* HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
         playerLookup.put(p1.getUsername(), p1);
         playerLookup.put(p2.getUsername(), p2);
+        */
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -224,13 +225,13 @@ public class Match extends Thread {
         p1stats.setGamesPlayed(p1stats.getGamesPlayed() + 1);
         p2stats.setGamesPlayed(p2stats.getGamesPlayed() + 1);
         //p1 forfeited
-        if (forfeitGameMap.get(game) == p1) {
-            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats();
+        if (forfeitGameMap.get(game) != null && forfeitGameMap.get(game) == p1) {
+            PlayerStats ps = p1.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p2stats.setWinsByForfeit(p2stats.getWinsByForfeit() + 1);//Else, ps is player 2, P2 forfeited.
         }//p2 forfeited
-        else if (forfeitGameMap.get(game) == p2) {
-            PlayerStats ps = playerLookup.get(game.getForfeitedPlayer()).getStats();
+        else if (forfeitGameMap.get(game) != null && forfeitGameMap.get(game) == p2) {
+            PlayerStats ps = p2.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p1stats.setWinsByForfeit(p1stats.getWinsByForfeit() + 1);//If our ps is the same as p1stats, it means P1 forfeited.
         } else {
