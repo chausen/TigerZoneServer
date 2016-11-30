@@ -82,7 +82,7 @@ public class AreaBuilder {
     private void buildNorthFace() {
         if(gameBoard.getAboveAdjacentTile(position) != null) {
             updateTerrainNodes(2, 0);
-            if(!singleEdgeMap.get(0)) {
+            if(singleEdgeMap.get(0) == null) {
                 updateTerrainNodes(1, 0);
                 updateTerrainNodes(3, 0);
             }

@@ -52,6 +52,7 @@ public class AuthenticationThread extends Thread {
             String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
             StringBuilder sb = new StringBuilder();
             sb.append(currentDirectory);
+
             sb.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
 
             //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials0.txt");
@@ -62,7 +63,9 @@ public class AuthenticationThread extends Thread {
             output = loginProtocol.login(null);
 
             out.println(output);
+
             clientSocket.setSoTimeout(15000);
+
 
 
             while ((input = in.readLine()) != null) { //so this will not sotp
@@ -74,7 +77,7 @@ public class AuthenticationThread extends Thread {
                 }
                 if (output.startsWith("WELCOME")) {
                     String user = loginProtocol.getUser();
-                    if (!multipleLogins(user)) {
+                    if (multipleLogins(user)) {
                         userNames.add(user);
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);

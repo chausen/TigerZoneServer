@@ -134,7 +134,7 @@ public class BoardTile {
                 TerrainNode T2terrainNode3 = new TrailTerrainNode(Arrays.asList(4), new ArrayList<>(Arrays.asList(6)));
                 TerrainNode T3terrainNode3 = new TrailTerrainNode(Arrays.asList(2), new ArrayList<>(Arrays.asList(8)));
                 TerrainNode T4terrainNode3 = new TrailTerrainNode(Arrays.asList(6), new ArrayList<>(Arrays.asList(4)));
-                TerrainNode C1terrainNode3 = new CrossRoadsNode(Arrays.asList(5));
+                TerrainNode C1terrainNode3 = new CrossRoadsNode(new ArrayList<>(Arrays.asList(5)));
                 this.terrainNodes = new ArrayList<>(Arrays.asList(C1terrainNode3, J1terrainNode3, J2terrainNode3, J3terrainNode3, J4terrainNode3, T1terrainNode3, T2terrainNode3, T3terrainNode3, T4terrainNode3));
                 setBoardTileInTerrainNodes();
                 break;
