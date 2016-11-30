@@ -52,7 +52,7 @@ public class AreaBuilder {
     private void buildWestFace() {
         if(gameBoard.getLeftAdjacentTile(position) != null) {
             updateTerrainNodes(4, 3);
-            if(!singleEdgeMap.get(3)) {
+            if(singleEdgeMap.get(3) == null) {
                 updateTerrainNodes(1, 3); //3 = west
                 updateTerrainNodes(7, 3);
             }
@@ -62,7 +62,7 @@ public class AreaBuilder {
     private void buildSouthFace() {
         if(gameBoard.getBelowAdjacentTile(position) != null) {
             updateTerrainNodes(8, 2);
-            if(!singleEdgeMap.get(2)) {
+            if(singleEdgeMap.get(2) == null) {
                 updateTerrainNodes(7, 2);
                 updateTerrainNodes(9, 2);
             }
@@ -72,7 +72,7 @@ public class AreaBuilder {
     private void buildEastFace() {
         if (gameBoard.getRightAdjacentTile(position) != null) {
             updateTerrainNodes(6, 1);
-            if(!singleEdgeMap.get(1)) {
+            if(singleEdgeMap.get(1) == null) {
                 updateTerrainNodes(3, 1);
                 updateTerrainNodes(9, 1);
             }
@@ -82,7 +82,7 @@ public class AreaBuilder {
     private void buildNorthFace() {
         if(gameBoard.getAboveAdjacentTile(position) != null) {
             updateTerrainNodes(2, 0);
-            if(!singleEdgeMap.get(0)) {
+            if(singleEdgeMap.get(0) == null) {
                 updateTerrainNodes(1, 0);
                 updateTerrainNodes(3, 0);
             }

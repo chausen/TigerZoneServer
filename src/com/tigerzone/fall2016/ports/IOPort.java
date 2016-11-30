@@ -163,13 +163,13 @@ public class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
+        scanner.next(); //This gives us Tile String
         scanner.next();//This gives us UNPLACEABLE.
         String determiner = scanner.next();//This gives us which one we need.
         switch(determiner){
             case "PASS":
                 inAdapter.receivePass();
                 break;
-
             case "RETRIEVE":
                 scanner.next();//Gives us TIGER
                 scanner.next();//Gives us AT
@@ -177,7 +177,6 @@ public class IOPort implements PlayerOutAdapter {
                 int y = scanner.nextInt();
                 inAdapter.tigerRetrieve(x,y);
                 break;
-
             case "ADD":
                 scanner.next();//Gives us ANOTHER
                 scanner.next();//Gives us TIGER
@@ -186,6 +185,8 @@ public class IOPort implements PlayerOutAdapter {
                 int b = scanner.nextInt();
                 inAdapter.tigerPlace(a,b);
                 break;
+            default:
+                receiveIllegalMessage();
         }
     }
 

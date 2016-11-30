@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.Area;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -14,7 +15,7 @@ public abstract class TerrainNode implements SingleEdgeable{
 
     private Area area;
     private BoardTile boardTile;
-    private List<Integer> canConnectTo;
+    private List<Integer> canConnectTo = new ArrayList<>();
     private List<Integer> zones;
     private Stack<Tiger> tigers = new Stack<>();
 
@@ -31,7 +32,8 @@ public abstract class TerrainNode implements SingleEdgeable{
         this.boardTile = boardTile;
     }
     public List<Integer> getCanConnectTo() {
-        return canConnectTo;
+        ArrayList<Integer> newList = new ArrayList<>(canConnectTo);
+        return  newList;
     }
     public List<Integer> getZones() {
         return zones;
@@ -132,8 +134,6 @@ public abstract class TerrainNode implements SingleEdgeable{
                     case 3: integerList.set(j,1);
                         break;
                     case 4: integerList.set(j,8);
-                        break;
-                    case 5: integerList.set(j,5);
                         break;
                     case 6: integerList.set(j,2);
                         break;

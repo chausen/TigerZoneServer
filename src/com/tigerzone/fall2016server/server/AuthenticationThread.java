@@ -53,16 +53,20 @@ public class AuthenticationThread extends Thread {
             StringBuilder sb = new StringBuilder();
             sb.append(currentDirectory);
 
-
             sb.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
+
+            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials0.txt");
+            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentialsFourPlayers.txt");
 
             LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
 
             output = loginProtocol.login(null);
 
             out.println(output);
+
             clientSocket.setSoTimeout(15000);
 
+            
             while ((input = in.readLine()) != null) { //so this will not sotp
                 output = loginProtocol.login(input);
                 out.println(output);
