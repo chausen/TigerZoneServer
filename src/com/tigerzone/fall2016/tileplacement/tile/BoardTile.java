@@ -130,26 +130,26 @@ public class BoardTile {
                 List<Integer> J4zoneList3 = new ArrayList<>(Arrays.asList(9));
                 List<Integer> J4cc2List3 = new ArrayList<>(Arrays.asList(3, 7));
                 TerrainNode J4terrainNode3 = new JungleTerrainNode(J4cc2List3, J4zoneList3, new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
-                TerrainNode T1terrainNode3 = new TrailTerrainNode(Arrays.asList(8), Arrays.asList(2));
-                TerrainNode T2terrainNode3 = new TrailTerrainNode(Arrays.asList(4), Arrays.asList(6));
-                TerrainNode T3terrainNode3 = new TrailTerrainNode(Arrays.asList(2), Arrays.asList(8));
-                TerrainNode T4terrainNode3 = new TrailTerrainNode(Arrays.asList(6), Arrays.asList(4));
+                TerrainNode T1terrainNode3 = new TrailTerrainNode(Arrays.asList(8), new ArrayList<>(Arrays.asList(2)));
+                TerrainNode T2terrainNode3 = new TrailTerrainNode(Arrays.asList(4), new ArrayList<>(Arrays.asList(6)));
+                TerrainNode T3terrainNode3 = new TrailTerrainNode(Arrays.asList(2), new ArrayList<>(Arrays.asList(8)));
+                TerrainNode T4terrainNode3 = new TrailTerrainNode(Arrays.asList(6), new ArrayList<>(Arrays.asList(4)));
                 TerrainNode C1terrainNode3 = new CrossRoadsNode(Arrays.asList(5));
-                this.terrainNodes = Arrays.asList(C1terrainNode3, J1terrainNode3, J2terrainNode3, J3terrainNode3, J4terrainNode3, T1terrainNode3, T2terrainNode3, T3terrainNode3, T4terrainNode3);
+                this.terrainNodes = new ArrayList<>(Arrays.asList(C1terrainNode3, J1terrainNode3, J2terrainNode3, J3terrainNode3, J4terrainNode3, T1terrainNode3, T2terrainNode3, T3terrainNode3, T4terrainNode3));
                 setBoardTileInTerrainNodes();
                 break;
             case "TJTJ-":
                 TerrainNode J1terrainNode4 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(7,3,6,9,1)), new ArrayList<Integer>(Arrays.asList(1,4,7)), new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 TerrainNode J2terrainNode4 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(9,1,4,7,3)), new ArrayList<Integer>(Arrays.asList(3,6,9)), new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 TerrainNode T1terrainNode4 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(2,8)), new ArrayList<Integer>(Arrays.asList(2,5,8)));
-                this.terrainNodes = Arrays.asList(J1terrainNode4, J2terrainNode4, T1terrainNode4);
+                this.terrainNodes = new ArrayList<>(Arrays.asList(J1terrainNode4, J2terrainNode4, T1terrainNode4));
                 setBoardTileInTerrainNodes();
                 break;
             case "TJJT-":
                 TerrainNode J1terrainNode5 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(7, 3)), new ArrayList<Integer>(Arrays.asList(1)), new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 TerrainNode J2terrainNode5 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(9,1,4,7,3,2,1,9)), new ArrayList<Integer>(Arrays.asList(7,8,9,3,6)), new HashSet<LakeTerrainNode>(), new HashSet<DenTerrainNode>());
                 TerrainNode T1terrainNode5 = new TrailTerrainNode(new ArrayList<Integer>(Arrays.asList(8,6)), new ArrayList<Integer>(Arrays.asList(4,5,2)));
-                this.terrainNodes = Arrays.asList(J1terrainNode5, J2terrainNode5, T1terrainNode5);
+                this.terrainNodes = new ArrayList<>(Arrays.asList(J1terrainNode5, J2terrainNode5, T1terrainNode5));
                 setBoardTileInTerrainNodes();
                 break;
             case "TJTT-":

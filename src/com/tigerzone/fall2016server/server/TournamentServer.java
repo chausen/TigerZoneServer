@@ -83,13 +83,13 @@ public class TournamentServer {
             }
         }
         // This is here to prevent the GUI from closing at the end of the tournament
-        while (true) {
-            if (Thread.activeCount() > 5) {
-                // do nothing
-            } else {
-                System.exit(0);
-            }
-        }
+//        while (true) {
+//            if (Thread.activeCount() > 5) {
+//                // do nothing
+//            } else {
+//                System.exit(0);
+//            }
+//        }
 
     }
 

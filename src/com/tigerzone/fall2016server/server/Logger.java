@@ -35,6 +35,10 @@ public class Logger {
     public static void initializeLogger(int tournamentID) {
 
         try {
+/*            StringBuilder sb = new StringBuilder();
+            sb.append("./");
+            sb.append(getTimeStamp());
+            sb.append(".txt");*/
             pw = new PrintWriter("./logger.txt");
         }catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -79,6 +83,7 @@ public class Logger {
     }
 
     private static void end(int tournamentID){
+        System.out.println("END OF TOURNAMENT");
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID));
         appendPlayerID("---",sb);
         sb.append("END TOURNAMENT");
