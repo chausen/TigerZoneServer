@@ -35,7 +35,6 @@ public class FreeSpaceBoard {
 
     public boolean needToRemove(PlayableTile playableTile) {
         PlayableTile tempTile = playableTile;
-        boolean placeable = false;
         Set<Point> keySet = freeSpaceMap.keySet();
         Iterator<Point> iterator = keySet.iterator();
         while (iterator.hasNext()) {
@@ -46,12 +45,12 @@ public class FreeSpaceBoard {
                         && freeSpaceMap.get(point).getSouthTerrain().accept(tempTile.getSouthFace())
                         && freeSpaceMap.get(point).getWestTerrain().accept(tempTile.getWestFace()))
                 {
-                    return true;
+                    return false;
                 }
                 tempTile.rotateCCW(90);
             }
         }
-        return !placeable;
+        return true;
     }
 
     public boolean isPlaceable(Point position, PlayableTile playableTile){

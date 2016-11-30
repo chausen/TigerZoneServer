@@ -139,10 +139,18 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public void receivePass(){
-        tileUnplaceableCheck();
+        passCheck();
         outAdapter.successfulTurn();
         prepareNextTurn();
     }
+
+    private void passCheck(){
+        if(!currentTileCannotBePlaced) {
+            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
+            endOfGame();
+        }
+    }
+
 
     /**
      * This method retrieves a Tiger from an area and adds it back to the current player's supply
@@ -244,7 +252,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(player1Score, player2Score);
         } else {
             // Check if the next tile is playable
-            currentTileCannotBePlaced = (!fsb.needToRemove(currentTile));//needtoRemove returns TRUE if PLACEABLE
+            currentTileCannotBePlaced = (fsb.needToRemove(currentTile));//needtoRemove returns TRUE if PLACEABLE
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }
