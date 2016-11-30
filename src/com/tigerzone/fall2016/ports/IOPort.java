@@ -78,7 +78,7 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         this.currentPlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
 
-        if (s == null) {
+        if (s == null || s=="") {
             receiveIllegalMessage();
             return;
         }
@@ -155,6 +155,10 @@ public class IOPort implements PlayerOutAdapter {
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
+//        if(zone < 1 || zone > 9){
+//            forfeitInvalidMeeple(currentPlayer.getPlayerId());
+//            return;
+//        }
         Turn t = new Turn(currentPlayer.getPlayerId(), playableTile, new Point(x,y), orientation, predator, zone);
 
         // Send turn downstream
@@ -164,7 +168,9 @@ public class IOPort implements PlayerOutAdapter {
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
         scanner.next();//This gives us UNPLACEABLE.
+        scanner.next();
         String determiner = scanner.next();//This gives us which one we need.
+        System.out.println("DETERMINER STRING for unplaceable tile" + determiner);
         switch(determiner){
             case "PASS":
                 inAdapter.receivePass();

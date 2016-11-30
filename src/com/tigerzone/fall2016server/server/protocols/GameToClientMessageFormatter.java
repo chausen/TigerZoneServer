@@ -12,7 +12,7 @@ public class GameToClientMessageFormatter {
         // Remove GAME <gid> MOVE <#> from the message we received from the player
         message = message.substring(stringBuffer.length());
         // Change PLACE to PLACED, if tile was placeable
-        if (message.contains("PLACE")) {
+        if (message.contains("PLACE ")) {
             StringBuffer insertTheD = new StringBuffer();
             insertTheD.append(message);
             insertTheD.insert(6, 'D');
