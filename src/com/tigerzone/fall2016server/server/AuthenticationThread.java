@@ -61,7 +61,7 @@ public class AuthenticationThread extends Thread {
             output = loginProtocol.login(null);
 
             out.println(output);
-            clientSocket.setSoTimeout(180000);
+            clientSocket.setSoTimeout(15000);
 
             while ((input = in.readLine()) != null) { //so this will not sotp
                 output = loginProtocol.login(input);
@@ -72,17 +72,15 @@ public class AuthenticationThread extends Thread {
                 }
                 if (output.startsWith("WELCOME")) {
                     String user = loginProtocol.getUser();
-                    if (!multipleLogins(user)) {
+                    if (!multipleLoginAttempts(user)) {
                         userNames.add(user);
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
                         //tournamentPlayers = TournamentServer.getTournamentPlayers();
                         tournamentPlayers.add(tournamentPlayer);
                     } else {
-                        in.close();
-                        out.close();
-                        clientSocket.close();
-                        System.out.println("Multiple login attempts received; client socket closed");
+                        System.out.println("Multiple login attempts received");
+                        break;
                     }
                     break;
                 }
@@ -99,7 +97,7 @@ public class AuthenticationThread extends Thread {
         }
     }
 
-    public boolean multipleLogins(String user) {
+    public boolean multipleLoginAttempts(String user) {
         boolean addable = true;
         if (!userNames.isEmpty()) {
             for (String username : userNames) {
@@ -109,7 +107,7 @@ public class AuthenticationThread extends Thread {
                 }
             }
         }
-        return addable;
+        return !addable;
     }
 
 }
