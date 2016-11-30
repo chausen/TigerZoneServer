@@ -78,6 +78,11 @@ public class IOPort implements PlayerOutAdapter {
         currentTurnString = s;
         this.currentPlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
 
+        if (s == null) {
+            receiveIllegalMessage();
+            return;
+        }
+
         // Run pass String through move protocol to ensure it is of valid form
         Scanner parserScanner = new Scanner(s);
         gameContext.setScanner(parserScanner);
@@ -90,11 +95,6 @@ public class IOPort implements PlayerOutAdapter {
             return;
 
         } else {
-
-            if (s == null) {
-                receiveIllegalMessage();
-                return;
-            }
 
             Scanner sc = new Scanner(s);
 
