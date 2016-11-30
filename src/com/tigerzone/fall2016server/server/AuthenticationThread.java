@@ -76,7 +76,6 @@ public class AuthenticationThread extends Thread {
                         userNames.add(user);
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
-                        //tournamentPlayers = TournamentServer.getTournamentPlayers();
                         tournamentPlayers.add(tournamentPlayer);
                     } else {
                         System.out.println("Multiple login attempts received");
@@ -99,14 +98,14 @@ public class AuthenticationThread extends Thread {
 
     public boolean multipleLoginAttempts(String user) {
         boolean addable = true;
-        if (!userNames.isEmpty()) {
+        if (!userNames.isEmpty()) { //check if the list of usernames logged in is empty
             for (String username : userNames) {
                 if (username.equals(user)) {
                     addable = false;
                     break;
                 }
             }
-        }
+        } //if the list of usernames was empty, can just add the player
         return !addable;
     }
 
