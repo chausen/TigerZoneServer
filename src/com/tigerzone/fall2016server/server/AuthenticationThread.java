@@ -27,11 +27,11 @@ public class AuthenticationThread extends Thread {
 
     public AuthenticationThread(Socket socket) {
         this.clientSocket = socket;
+        userNames = TournamentServer.getUserNames();
+        tournamentPlayers = TournamentServer.getTournamentPlayers();
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-            userNames = TournamentServer.getUserNames();
-            tournamentPlayers = TournamentServer.getTournamentPlayers();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,13 +89,12 @@ public class AuthenticationThread extends Thread {
             }
         } catch (IOException e) {
             try {
-                System.out.println("Caught exception in authentication thread");
+                System.out.println("Caught exception in authentication thread; closing client connection");
                 out.close();
                 in.close();
                 clientSocket.close();
             } catch (IOException e2) {
-                e2.printStackTrace();
-
+                System.out.println("Exception when trying to close client connection in Authentication Thread");
             }
         }
     }
