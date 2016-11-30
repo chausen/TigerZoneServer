@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,11 +22,13 @@ public class AuthenticationThread extends Thread {
     private BufferedReader in;
     private PrintWriter out;
 
-    HashMap<TournamentPlayer, AuthenticationThread> playerThreads;
     List<TournamentPlayer> tournamentPlayers;
+    List<String> userNames;
 
     public AuthenticationThread(Socket socket) {
         this.clientSocket = socket;
+        userNames = TournamentServer.getUserNames();
+        tournamentPlayers = TournamentServer.getTournamentPlayers();
         try {
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -61,6 +64,7 @@ public class AuthenticationThread extends Thread {
             out.println(output);
             clientSocket.setSoTimeout(15000);
 
+
             while ((input = in.readLine()) != null) { //so this will not sotp
                 output = loginProtocol.login(input);
                 out.println(output);
@@ -69,26 +73,45 @@ public class AuthenticationThread extends Thread {
                     break;
                 }
                 if (output.startsWith("WELCOME")) {
-                    TournamentPlayer tournamentPlayer = new TournamentPlayer(loginProtocol.getUser(), new Connection(clientSocket));
-                    tournamentPlayer.setCommunicationTimeout(1100);
-                    tournamentPlayers = TournamentServer.getTournamentPlayers();
-                    tournamentPlayers.add(tournamentPlayer);
-                    playerThreads = TournamentServer.getPlayerThreads(); //might not need this
-                    playerThreads.put(tournamentPlayer, this); //might not need this
+                    String user = loginProtocol.getUser();
+                    if (!multipleLogins(user)) {
+                        userNames.add(user);
+                        TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
+                        tournamentPlayer.setCommunicationTimeout(1100);
+                        //tournamentPlayers = TournamentServer.getTournamentPlayers();
+                        tournamentPlayers.add(tournamentPlayer);
+                    } else {
+                        in.close();
+                        out.close();
+                        clientSocket.close();
+                        System.out.println("Multiple login attempts received; client socket closed");
+                    }
                     break;
                 }
             }
         } catch (IOException e) {
             try {
-                System.out.println("Caught exception in authentication thread");
+                System.out.println("Caught exception in authentication thread; closing client connection");
                 out.close();
                 in.close();
                 clientSocket.close();
             } catch (IOException e2) {
-                e2.printStackTrace();
-
+                System.out.println("Exception when trying to close client connection in Authentication Thread");
             }
         }
+    }
+
+    public boolean multipleLogins(String user) {
+        boolean addable = true;
+        if (!userNames.isEmpty()) {
+            for (String username : userNames) {
+                if (username.equals(user)) {
+                    addable = false;
+                    break;
+                }
+            }
+        }
+        return addable;
     }
 
 }

@@ -13,6 +13,8 @@ public class TournamentServer {
 
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
+    private static List<String> userNames = new ArrayList<>();
+
     Challenge challenge;
 
     private static int PORT = 4444;
@@ -99,6 +101,10 @@ public class TournamentServer {
 
     public static List<TournamentPlayer> getTournamentPlayers() {
         return tournamentPlayers;
+    }
+
+    public static List<String> getUserNames() {
+        return userNames;
     }
 }
 

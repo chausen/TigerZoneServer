@@ -68,7 +68,7 @@ public class GameSystem implements PlayerInAdapter {
 //        ts.truncateTS(4);
 
 //       ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
-       // ts.truncateTS(20);
+
 
         currentTile = ts.peek();
     }
