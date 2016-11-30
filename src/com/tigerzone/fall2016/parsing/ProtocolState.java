@@ -5,5 +5,5 @@ package com.tigerzone.fall2016.parsing;
  */
 
 public interface ProtocolState {
-        public boolean parse(Context context);
+        boolean parse(Context context);
 }

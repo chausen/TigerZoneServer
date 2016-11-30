@@ -24,7 +24,7 @@ enum ProtocolStates implements ProtocolState {
                     }
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -44,7 +44,7 @@ enum ProtocolStates implements ProtocolState {
                     }
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -63,7 +63,7 @@ enum ProtocolStates implements ProtocolState {
                     return true;
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -76,7 +76,7 @@ enum ProtocolStates implements ProtocolState {
                 context.changeState(TILECODE, this);
                 return true;
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -86,8 +86,8 @@ enum ProtocolStates implements ProtocolState {
             Scanner scanner = context.getScanner();
             if (scanner.hasNext()) {
                 String token = scanner.next();
-                if (token == "PASS") {
-                    context.validMove();
+                if (token.equals("PASS")) {
+                    context.setValidMove();
                     context.changeState(START, this);
                     return false; // end iteration through state machine due to valid move
                 } else {
@@ -109,7 +109,7 @@ enum ProtocolStates implements ProtocolState {
                 context.changeState(TILECODE, this);
                 return true;
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -120,12 +120,12 @@ enum ProtocolStates implements ProtocolState {
             if (scanner.hasNextInt()) {
                 int zone = scanner.nextInt();
                 if (0 <= zone && zone <= 9) {
-                    context.validMove();
+                    context.setValidMove();
                     context.changeState(START, this);
                     return false;
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -148,7 +148,7 @@ enum ProtocolStates implements ProtocolState {
                     }
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -161,15 +161,16 @@ enum ProtocolStates implements ProtocolState {
                 if (scanner.hasNextInt()) {
                     scanner.nextInt();
                     if (context.getPreviousState() == UNPLACEABLE) {
-                        context.validMove();
+                        context.setValidMove();
                         context.changeState(START, this);
                         return false; // end iteration through state machine due to valid move
+                    } else {
+                        context.changeState(ORIENTATION, this);
+                        return true;
                     }
-                    context.changeState(ORIENTATION, this);
-                    return true;
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     },
@@ -183,7 +184,7 @@ enum ProtocolStates implements ProtocolState {
                     if (scanner.hasNext()) {
                         String token = scanner.next();
                     if (token.equals("NONE") || token.equals("CROCODILE")) {
-                        context.validMove();
+                        context.setValidMove();
                         context.changeState(START, this);
                         return false; // end iteration through state machine due to valie move
                     } else if (token.equals("TIGER")) {
@@ -194,7 +195,7 @@ enum ProtocolStates implements ProtocolState {
                 }
                 }
             }
-            context.illegalMove();
+            context.setIllegalMove();
             return false;
         }
     };
