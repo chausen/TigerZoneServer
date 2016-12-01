@@ -18,7 +18,7 @@ public class TournamentServer {
     Challenge challenge;
 
     private static int PORT = 4444;
-    private static int seed = 1;
+    private static int seed = 3;
     private static int MAX_CONNECTIONS = 24;
     private static int tournamentID = 1;
 
@@ -48,7 +48,7 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
-        challenge = new Challenge(this, 1, tournamentPlayers);
+        challenge = new Challenge(this, seed, tournamentPlayers);
         challenge.beginChallenge();
     }
 

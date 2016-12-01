@@ -81,6 +81,7 @@ public class AuthenticationThread extends Thread {
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
                         tournamentPlayers.add(tournamentPlayer);
+                        System.out.println(user + " joined");
                     } else {
                         System.out.println("Multiple login attempts received");
                         break;

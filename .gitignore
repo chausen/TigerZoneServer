@@ -1,4 +1,4 @@
-/CreateClients.bat
+**/CreateClients.bat
 out/
 **/*.class
 **/.idea
@@ -6,5 +6,7 @@ TigerZone.iml
 logger.txt
 **/logger.txt
 **/*.iml
+**/*.sh
+**/*.bat
 /bin
 .DS_Store
