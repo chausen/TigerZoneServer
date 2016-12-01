@@ -39,7 +39,8 @@ public class Logger {
             sb.append("./");
             sb.append(getTimeStamp());
             sb.append(".txt");*/
-            pw = new PrintWriter("./logger.txt");
+//            pw = new PrintWriter("./logger.txt");
+            pw = new PrintWriter("./logger_" + tournamentID + ".txt");
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }

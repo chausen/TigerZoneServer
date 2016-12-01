@@ -32,6 +32,14 @@ public class TournamentServer {
         this.MAX_CONNECTIONS = maxConnections;
     }
 
+    // Constructor used for parameterized main
+    public TournamentServer(int port, int seed, int maxConnections, int tournamentID) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+    }
+
     public int getTournamentID() {
         return tournamentID;
     }
@@ -83,6 +91,7 @@ public class TournamentServer {
                 System.out.println("Couldn't close player connection");
                 continue;
             }
+
         }
         // This is here to prevent the GUI from closing at the end of the tournament
 //        while (true) {
@@ -92,7 +101,7 @@ public class TournamentServer {
 //                System.exit(0);
 //            }
 //        }
-
+        System.exit(0);
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
