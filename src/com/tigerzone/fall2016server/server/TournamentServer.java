@@ -19,7 +19,7 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
-    private static int MAX_CONNECTIONS = 6;
+    private static int MAX_CONNECTIONS = 2;
     private static int tournamentID = 1;
 
     // Default constructor
@@ -56,7 +56,7 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
-        challenge = new Challenge(this, seed, tournamentPlayers);
+        challenge = new Challenge(this, 1, tournamentPlayers);
         challenge.beginChallenge();
     }
 

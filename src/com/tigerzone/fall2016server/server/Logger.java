@@ -14,6 +14,7 @@ import com.tigerzone.fall2016server.scoreboard.Scoreboard;
 import com.tigerzone.fall2016server.tournament.Game;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -35,12 +36,11 @@ public class Logger {
     public static void initializeLogger(int tournamentID) {
 
         try {
-/*            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.append("./");
             sb.append(getTimeStamp());
-            sb.append(".txt");*/
-//            pw = new PrintWriter("./logger.txt");
-            pw = new PrintWriter("./logger_" + tournamentID + ".txt");
+            sb.append(".txt");
+            pw = new PrintWriter(new File(sb.toString()));
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }

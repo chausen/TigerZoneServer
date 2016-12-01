@@ -66,7 +66,7 @@ public class AuthenticationThread extends Thread {
 
             clientSocket.setSoTimeout(15000);
 
-            
+
             while ((input = in.readLine()) != null) { //so this will not sotp
                 output = loginProtocol.login(input);
                 out.println(output);
