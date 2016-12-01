@@ -87,7 +87,7 @@ public abstract class TerrainNode implements SingleEdgeable{
     }
 
     public Integer getMinimumZoneValue() {
-        Integer minimum = zones.get(0);
+        Integer minimum = 9;
         for (Integer integer: zones) {
             if(integer<minimum) {
                 minimum = integer;
