@@ -56,7 +56,7 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
-        challenge = new Challenge(this, 1, tournamentPlayers);
+        challenge = new Challenge(this, seed, tournamentPlayers);
         challenge.beginChallenge();
     }
 

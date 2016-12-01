@@ -32,8 +32,7 @@ public abstract class TerrainNode implements SingleEdgeable{
         this.boardTile = boardTile;
     }
     public List<Integer> getCanConnectTo() {
-        ArrayList<Integer> newList = new ArrayList<>(canConnectTo);
-        return  newList;
+        return  canConnectTo;
     }
     public List<Integer> getZones() {
         return zones;
@@ -87,7 +86,7 @@ public abstract class TerrainNode implements SingleEdgeable{
     }
 
     public Integer getMinimumZoneValue() {
-        Integer minimum = zones.get(0);
+        Integer minimum = 9;
         for (Integer integer: zones) {
             if(integer<minimum) {
                 minimum = integer;

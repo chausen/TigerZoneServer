@@ -38,7 +38,7 @@ public class Logger {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("./");
-            sb.append(getTimeStamp());
+//            sb.append(getTimeStamp());
             sb.append(".txt");
             pw = new PrintWriter(new File(sb.toString()));
         }catch (FileNotFoundException e) {

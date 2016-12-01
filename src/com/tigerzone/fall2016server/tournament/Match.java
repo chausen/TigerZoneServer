@@ -63,89 +63,97 @@ public class Match extends Thread {
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
+        boolean game1EndNotified = false;
+        boolean game2EndNotified = false;
 
         while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
 
+//            if (game1.isOver() && !game1EndNotified) {
+//                sendEndMessage(game1);
+//            } else if (game2.isOver() && !game2EndNotified) {
+//                sendEndMessage(game2);
+//            } else {
 
-            //A single game will be doing the following in each line of the if statement...
-            //Create prompt message for both players
-            //Send each player their own prompt message
-            //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
+                //A single game will be doing the following in each line of the if statement...
+                //Create prompt message for both players
+                //Send each player their own prompt message
+                //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
 
-            boolean game1Timeout = false;
-            String gamePlayer1Response = null;
+                boolean game1Timeout = false;
+                String gamePlayer1Response = null;
 
-            if (!game1.isOver()) {
-                String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
-                game1player.sendMessageToPlayer(game1playerPrompt);
-                //timeout to start
-                try {
-                    gamePlayer1Response = game1player.readPlayerMessage();
-                } catch (IOException e) {
-                    game1Timeout = true;
-                    gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
-                    forfeitGameMap.put(game1, game1player.getUsername());
-                }
-
-            }
-
-            boolean game2Timeout = false;
-            String gamePlayer2Response = null;
-            if (!game2.isOver()) {
-                String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
-                game2player.sendMessageToPlayer(game2playerPrompt);
-                //timeout to start
-                try {
-                    gamePlayer2Response = game2player.readPlayerMessage();
-                } catch (IOException e) {
-                    game2Timeout = true;
-                    gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-                    forfeitGameMap.put(game2, game2player.getUsername());
-                }
-            }
-            //A single game will be doing the following in each line of the if statement...
-            //Get each player's response after 1 second
-            //Send each player's response to the respective gamePort
-            //Get the ioPort's response
-            //Send the ioPort's response to both players. Note that each player gets the same message
-            //If there move is not legal put the player in the forfeit map for the game which they were the active player
-
-            if (!game1.isOver()) {
-                if (game1Timeout) {
-                    sendGameMessage(gamePlayer1Response);
-                    game1.endGame();
-                } else {
-                    game1.receiveTurn(gamePlayer1Response);
-                    String gameResponse = game1.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
+                if (!game1.isOver()) {
+                    String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
+                    game1player.sendMessageToPlayer(game1playerPrompt);
+                    //timeout to start
+                    try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
+                        gamePlayer1Response = game1player.readPlayerMessage();
+                    } catch (IOException e) {
+                        game1Timeout = true;
+                        gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
                         forfeitGameMap.put(game1, game1player.getUsername());
                     }
-                    sendGameMessage(gameResponse);
                 }
-            }
-            if (!game2.isOver()) {
-                if (game2Timeout) {
-                    sendGameMessage(gamePlayer2Response);
-                    game2.endGame();
-                } else {
-                    game2.receiveTurn(gamePlayer2Response);
-                    String gameResponse = game2.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
+
+                boolean game2Timeout = false;
+                String gamePlayer2Response = null;
+                if (!game2.isOver()) {
+                    String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
+                    game2player.sendMessageToPlayer(game2playerPrompt);
+                    //timeout to start
+                    try {
+                        gamePlayer2Response = game2player.readPlayerMessage();
+                    } catch (IOException e) {
+                        game2Timeout = true;
+                        gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                         forfeitGameMap.put(game2, game2player.getUsername());
                     }
-                    sendGameMessage(gameResponse);
+                }
+                //A single game will be doing the following in each line of the if statement...
+                //Get each player's response after 1 second
+                //Send each player's response to the respective gamePort
+                //Get the ioPort's response
+                //Send the ioPort's response to both players. Note that each player gets the same message
+                //If there move is not legal put the player in the forfeit map for the game which they were the active player
+
+                if (!game1.isOver()) {
+                    if (game1Timeout) {
+                        sendGameMessage(gamePlayer1Response);
+                        game1.endGame();
+                    } else {
+                        game1.receiveTurn(gamePlayer1Response);
+                        String gameResponse = game1.getResponse();
+                        if (gameResponse.contains("FORFEITED")) {
+                            forfeitGameMap.put(game1, game1player.getUsername());
+                        }
+                        sendGameMessage(gameResponse);
+                    }
+                }
+                if (!game2.isOver()) {
+                    if (game2Timeout) {
+                        sendGameMessage(gamePlayer2Response);
+                        game2.endGame();
+                    } else {
+                        game2.receiveTurn(gamePlayer2Response);
+                        String gameResponse = game2.getResponse();
+                        if (gameResponse.contains("FORFEITED")) {
+                            forfeitGameMap.put(game2, game2player.getUsername());
+                        }
+                        sendGameMessage(gameResponse);
+                    }
+
+
+                    //swap who is the active player in each game
+                    swapPlayers();
+
+                    //Increment move count
+                    moveNumber++;
                 }
             }
-
-            //swap who is the active player in each game
-            swapPlayers();
-
-            //Increment move count
-            moveNumber++;
+            notifyEndGameToPlayers();
+            round.notifyComplete();
         }
-        notifyEndGameToPlayers();
-        round.notifyComplete();
-    }
+
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack) {
         StringBuilder stringBuilder = new StringBuilder();

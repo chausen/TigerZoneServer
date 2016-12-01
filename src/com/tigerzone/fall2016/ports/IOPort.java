@@ -166,6 +166,7 @@ public class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
+        scanner.next(); //This gives us Tile String
         scanner.next();//This gives us UNPLACEABLE.
         scanner.next();
         String determiner = scanner.next();//This gives us which one we need.
@@ -174,7 +175,6 @@ public class IOPort implements PlayerOutAdapter {
             case "PASS":
                 inAdapter.receivePass();
                 break;
-
             case "RETRIEVE":
                 scanner.next();//Gives us TIGER
                 scanner.next();//Gives us AT
@@ -182,7 +182,6 @@ public class IOPort implements PlayerOutAdapter {
                 int y = scanner.nextInt();
                 inAdapter.tigerRetrieve(x,y);
                 break;
-
             case "ADD":
                 scanner.next();//Gives us ANOTHER
                 scanner.next();//Gives us TIGER
@@ -191,6 +190,8 @@ public class IOPort implements PlayerOutAdapter {
                 int b = scanner.nextInt();
                 inAdapter.tigerPlace(a,b);
                 break;
+            default:
+                receiveIllegalMessage();
         }
     }
 
@@ -306,10 +307,6 @@ public class IOPort implements PlayerOutAdapter {
     //========== Accessors ==========//
 
 
-    private String getCurrentTurnString(){
-        return currentTurnString;
-    }
-
     public boolean isGameOver() {
         return gameOver;
     }
@@ -317,7 +314,6 @@ public class IOPort implements PlayerOutAdapter {
     public PlayerInAdapter getInAdapter() {
         return this.inAdapter;
     }
-
 
     public String getCurrentTile(){
         return inAdapter.getCurrentTile();
@@ -331,7 +327,4 @@ public class IOPort implements PlayerOutAdapter {
         this.response = response;
     }
 
-    public boolean isDidForfeit(){
-        return didForfeit;
-    }
 }

@@ -142,6 +142,7 @@ enum MoveProtocolStates implements ProtocolState {
             Pattern tileCodePattern = Pattern.compile("[J,L,T]{4}+[-,B,C,D,P,X]");
             if (scanner.hasNext(tileCodePattern)) {
                 scanner.next(tileCodePattern); // move past the tile code after validating
+                //String token = scanner.next();
                 if (context.getPreviousState() == TILE && scanner.hasNext()) {
                     if (scanner.next().equals("UNPLACEABLE")) {
                         context.changeState(UNPLACEABLE, this);
