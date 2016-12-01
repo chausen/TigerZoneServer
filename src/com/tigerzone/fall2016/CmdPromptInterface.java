@@ -1,4 +1,4 @@
-package com.tigerzone.fall2016server;
+package com.tigerzone.fall2016;
 
 import com.tigerzone.fall2016.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;

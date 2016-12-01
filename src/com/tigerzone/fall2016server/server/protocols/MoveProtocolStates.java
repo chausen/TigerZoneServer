@@ -1,12 +1,18 @@
-package com.tigerzone.fall2016.parsing;
+package com.tigerzone.fall2016server.server.protocols;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
  * Created by chausen on 11/19/16.
+ *
+ * Each enum implements a parse method determines whether part of a String follows the Move Protocol.
+ * A Context is passed along to each state and keeps track of the current state of the String traversal.
+ * parse(Context context) will return false if the traversal should end (the current String is done being parsed) or
+ * True otherwise. The boolean does not determine whether or not the Move was valid; the Context keeps track of this.
+ *
  */
-enum ProtocolStates implements ProtocolState {
+enum MoveProtocolStates implements ProtocolState {
 
     START("Entry point") {
         @Override
@@ -202,7 +208,7 @@ enum ProtocolStates implements ProtocolState {
 
     private final String description;
 
-    ProtocolStates(String description) {
+    MoveProtocolStates(String description) {
         this.description = description;
     }
 

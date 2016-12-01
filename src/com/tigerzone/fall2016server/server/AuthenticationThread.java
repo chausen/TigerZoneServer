@@ -55,8 +55,6 @@ public class AuthenticationThread extends Thread {
 
             sb.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
 
-            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials0.txt");
-            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentialsFourPlayers.txt");
 
             LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
 

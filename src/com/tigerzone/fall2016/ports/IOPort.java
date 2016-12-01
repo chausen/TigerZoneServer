@@ -12,9 +12,8 @@ import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.parsing.Context;
-import com.tigerzone.fall2016.parsing.GameContext;
-import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
+import com.tigerzone.fall2016server.server.protocols.MoveProtocolContext;
+import com.tigerzone.fall2016server.server.protocols.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
@@ -41,7 +40,7 @@ public class IOPort implements PlayerOutAdapter {
     private String response;
     private boolean didForfeit = false;
     private String forfeitedPlayer = "";
-    private GameContext gameContext;
+    private MoveProtocolContext moveProtocolContext;
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -61,7 +60,7 @@ public class IOPort implements PlayerOutAdapter {
         this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
         inAdapter.initializeGame(loginName1, loginName2, tileStack);
-        this.gameContext = new GameContext(this.gid);
+        this.moveProtocolContext = new MoveProtocolContext(this.gid);
         this.currentPlayer = inAdapter.getPlayer(loginName1);
     }
 
@@ -85,11 +84,11 @@ public class IOPort implements PlayerOutAdapter {
 
         // Run pass String through move protocol to ensure it is of valid form
         Scanner parserScanner = new Scanner(s);
-        gameContext.setScanner(parserScanner);
+        moveProtocolContext.setScanner(parserScanner);
         ProtocolStateMachine psm = new ProtocolStateMachine();
-        psm.parse(gameContext);
+        psm.parse(moveProtocolContext);
 
-        if (!gameContext.wasMoveValid()) {
+        if (!moveProtocolContext.wasMoveValid()) {
 
             receiveIllegalMessage();
             return;

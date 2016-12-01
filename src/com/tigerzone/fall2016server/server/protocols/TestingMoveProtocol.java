@@ -1,11 +1,11 @@
-package com.tigerzone.fall2016.parsing;
+package com.tigerzone.fall2016server.server.protocols;
 
 import java.util.Scanner;
 
 /**
  * Created by clayhausen on 11/19/16.
  */
-public class testing {
+public class TestingMoveProtocol {
     public static void main(String[] args) {
         ProtocolStateMachine psm = new ProtocolStateMachine();
 
@@ -16,7 +16,7 @@ public class testing {
         String testString5 = "GAME 1 MOVE 4 TILE LLLL- UNPLACEABLE ADD ANOTHER TIGER TO 3 3";
 
         Scanner scanner = new Scanner(testString1);
-        Context context = new GameContext(scanner, 1);
+        Context context = new MoveProtocolContext(scanner, 1);
 
         // Test 1
         psm.parse(context);
