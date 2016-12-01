@@ -68,11 +68,11 @@ public class Match extends Thread {
 
         while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
 
-            if (game1.isOver() && !game1EndNotified) {
-                sendEndMessage(game1);
-            } else if (game2.isOver() && !game2EndNotified) {
-                sendEndMessage(game2);
-            } else {
+//            if (game1.isOver() && !game1EndNotified) {
+//                sendEndMessage(game1);
+//            } else if (game2.isOver() && !game2EndNotified) {
+//                sendEndMessage(game2);
+//            } else {
 
                 //A single game will be doing the following in each line of the if statement...
                 //Create prompt message for both players
@@ -86,7 +86,7 @@ public class Match extends Thread {
                     String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
                     game1player.sendMessageToPlayer(game1playerPrompt);
                     //timeout to start
-                    try {
+                    try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
                         gamePlayer1Response = game1player.readPlayerMessage();
                     } catch (IOException e) {
                         game1Timeout = true;
@@ -153,7 +153,6 @@ public class Match extends Thread {
             notifyEndGameToPlayers();
             round.notifyComplete();
         }
-    }
 
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack) {

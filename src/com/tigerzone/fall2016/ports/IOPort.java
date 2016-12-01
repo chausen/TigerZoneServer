@@ -308,10 +308,6 @@ public class IOPort implements PlayerOutAdapter {
     //========== Accessors ==========//
 
 
-    private String getCurrentTurnString(){
-        return currentTurnString;
-    }
-
     public boolean isGameOver() {
         return gameOver;
     }
@@ -319,7 +315,6 @@ public class IOPort implements PlayerOutAdapter {
     public PlayerInAdapter getInAdapter() {
         return this.inAdapter;
     }
-
 
     public String getCurrentTile(){
         return inAdapter.getCurrentTile();
@@ -333,7 +328,4 @@ public class IOPort implements PlayerOutAdapter {
         this.response = response;
     }
 
-    public boolean isDidForfeit(){
-        return didForfeit;
-    }
 }

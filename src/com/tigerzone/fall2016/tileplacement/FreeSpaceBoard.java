@@ -53,6 +53,26 @@ public class FreeSpaceBoard {
         return true;
     }
 
+//    public boolean needToRemove(PlayableTile playableTile) {
+//        PlayableTile tempTile = playableTile;
+//        Set<Point> keySet = freeSpaceMap.keySet();
+//        Iterator<Point> iterator = keySet.iterator();
+//        while (iterator.hasNext()) {
+//            Point point = iterator.next();
+//            for(int i = 0; i < 3; i++) {
+//                if (freeSpaceMap.get(point).getNorthTerrain().accept(tempTile.getNorthFace())
+//                        && freeSpaceMap.get(point).getEastTerrain().accept(tempTile.getEastFace())
+//                        && freeSpaceMap.get(point).getSouthTerrain().accept(tempTile.getSouthFace())
+//                        && freeSpaceMap.get(point).getWestTerrain().accept(tempTile.getWestFace()))
+//                {
+//                    return false;
+//                }
+//                tempTile.rotateCCW(90);
+//            }
+//        }
+//        return true;
+//    }
+
     public boolean isPlaceable(Point position, PlayableTile playableTile){
         FreeSpace freeSpace = freeSpaceMap.get(position);
         if(freeSpace == null){
