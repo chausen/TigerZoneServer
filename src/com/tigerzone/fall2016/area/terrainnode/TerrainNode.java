@@ -32,8 +32,7 @@ public abstract class TerrainNode implements SingleEdgeable{
         this.boardTile = boardTile;
     }
     public List<Integer> getCanConnectTo() {
-        ArrayList<Integer> newList = new ArrayList<>(canConnectTo);
-        return  newList;
+        return  canConnectTo;
     }
     public List<Integer> getZones() {
         return zones;
