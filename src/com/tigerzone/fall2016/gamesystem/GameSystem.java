@@ -161,7 +161,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerRetrieve(int x, int y){
-        //tileUnplaceableCheck();
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
         if(passCheck() && boardTile.removeTiger(this.currentPlayer.getPlayerId())){
@@ -180,7 +179,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerPlace(int x, int y){
-        //tileUnplaceableCheck();
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if (passCheck() && currentPlayerSupply > 0) {
             Point position = new Point(x,y);
