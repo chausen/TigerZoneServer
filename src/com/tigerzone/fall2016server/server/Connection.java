@@ -92,8 +92,13 @@ public class Connection {
         this.out.println(message);
     }
 
-    public String receiveMessageFromPlayer() throws IOException, SocketTimeoutException{
-        return this.in.readLine();
+    public String receiveMessageFromPlayer() throws IOException{
+        try {
+            return this.in.readLine();
+        }
+        catch (SocketException e){
+            return null;
+        }
     }
 
     public void playerOutput(String message) {

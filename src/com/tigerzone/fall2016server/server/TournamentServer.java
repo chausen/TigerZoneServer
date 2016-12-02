@@ -18,10 +18,10 @@ public class TournamentServer {
     Challenge challenge;
 
     private static int PORT = 4444;
-    private static int seed = 3;
+    private static int seed = 12341;
     private static int MAX_CONNECTIONS = 6;
     private static int tournamentID = 1;
-    private final int numOfChallenges = 0; //the number of challenges is actually this plus 1
+    private final int numOfChallenges = 2; //the number of challenges is actually this plus 1
 
     public int getNumOfChallengesComplete() {
         return numOfChallengesComplete;
@@ -118,7 +118,7 @@ public class TournamentServer {
             System.exit(0);
         }
         else{
-            challenge = new Challenge(this, seed, tournamentPlayers);
+            challenge = new Challenge(this, seed++, tournamentPlayers);
             challenge.beginChallenge();
         }
     }
