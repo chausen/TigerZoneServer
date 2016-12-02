@@ -165,15 +165,14 @@ public class GameSystem implements PlayerInAdapter {
         tileUnplaceableCheck();
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
-
         if(boardTile.removeTiger(this.currentPlayer.getPlayerId())){
             this.currentPlayer.incrementGoodSupply();
-        }else{
+            outAdapter.successfulTurn();
+            prepareNextTurn();
+        } else {
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
             endOfGame();
         }
-        outAdapter.successfulTurn();
-        prepareNextTurn();
     }
 
     /**
@@ -187,17 +186,20 @@ public class GameSystem implements PlayerInAdapter {
         BoardTile boardTile = gameBoard.getTile(position);
 
         int currentPlayerSupply = currentPlayer.getGoodSupply();
-        if (!(currentPlayerSupply == 0)) {
-            //currentPlayer.decrementGoodSupply();
+        if (currentPlayerSupply > 0) {
+            currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer);
-            boardTile.placeTiger(tiger);
+            if (boardTile.placeTiger(tiger)) {
+                outAdapter.successfulTurn();
+                prepareNextTurn();
+            } else {
+                outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
+                endOfGame();
+            }
         } else {
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
             endOfGame();
-
         }
-        outAdapter.successfulTurn();
-        prepareNextTurn();
     }
 
     public void truncateTS(int x) {
