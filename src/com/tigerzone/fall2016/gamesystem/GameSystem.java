@@ -66,6 +66,8 @@ public class GameSystem implements PlayerInAdapter {
         // Tile Unplaceable Test
         //ts = new TileStack(getUnplaceableTestStack());
 
+        // Tile Unplaceable Pass Test
+        // ts = new TileStack(getUnplaceablePassTestStack());
 
         currentTile = ts.peek();
     }
@@ -162,7 +164,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerRetrieve(int x, int y){
-        //tileUnplaceableCheck();
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
         if(passCheck() && boardTile.removeTiger(this.currentPlayer.getPlayerId())){
@@ -181,7 +182,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerPlace(int x, int y){
-        //tileUnplaceableCheck();
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if (passCheck() && currentPlayerSupply > 0) {
             Point position = new Point(x,y);
@@ -295,6 +295,13 @@ public class GameSystem implements PlayerInAdapter {
         tiles.add(new PlayableTile("LLLL-"));
         tiles.add(new PlayableTile("LLLL-"));
         tiles.add(new PlayableTile("LLLL-"));
+        return tiles;
+    }
+
+    private LinkedList<PlayableTile> getUnplaceablePassTestStack() {
+        LinkedList<PlayableTile> tiles = new LinkedList<>();
+        tiles.add(new PlayableTile("LJJJ-"));
+        tiles.add(new PlayableTile("TJTJ-"));
         return tiles;
     }
 

@@ -20,3 +20,7 @@ This moveset is for testing all of the different Unplaceable cases.
 
 moveset5
 Contains 10 moves and can be used by either player. Has several malformed moves in it and can be used to test forfeiting.
+
+moveset6
+A 2 move moveset that requires a custom made TileStack. use getUnplaceablePassTestStack() in GameSystem.
+This moveset is for testing the case where Unplaceable Pass is called where the tile is not unplaceable.
