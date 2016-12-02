@@ -19,7 +19,7 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123;
-    private static int MAX_CONNECTIONS = 24;
+    private static int MAX_CONNECTIONS = 6;
     private static int tournamentID = 1;
     private final int numOfChallenges = 2; //the number of challenges is actually this plus 1
 

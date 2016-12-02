@@ -81,6 +81,7 @@ public class AreaManager {
         Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
         Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
         addNewAreas(newAreas);
+      // updatedAreas.removeAll(deletedAreas);
         deleteAreas(deletedAreas);
         addUpdatedAreas(updatedAreas);
         for(Area area : updatedAreas){
@@ -112,8 +113,10 @@ public class AreaManager {
         Set<Area> newAreas = areaBuilder.buildNewAreas();
         Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
         Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
+        //updatedAreas.removeAll(deletedAreas);
         addNewAreas(newAreas);
         deleteAreas(deletedAreas);
+        updatedAreas.removeAll(deletedAreas);
         addUpdatedAreas(updatedAreas);
         boolean predatorPlaceable = false;
         boolean crocPlaced = false;

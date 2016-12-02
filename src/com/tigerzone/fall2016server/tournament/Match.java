@@ -91,6 +91,7 @@ public class Match extends Thread {
                 } catch (SocketTimeoutException e) {
                     game1Timeout = true;
                     gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
+                    System.out.println("Timeout in game 1: " + game1player.getUsername());
                     forfeitGameMap.put(game1, game1player.getUsername());
                 } catch (IOException e) {
                     System.out.println("Caught IOException in match besides timeout (Player 1)");
@@ -110,6 +111,7 @@ public class Match extends Thread {
                 } catch (SocketTimeoutException e) {
                     game2Timeout = true;
                     gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                    System.out.println("Timeout in game 2: " + game2player.getUsername());
                     forfeitGameMap.put(game2, game2player.getUsername());
                 } catch (IOException e) {
                     System.out.println("Caught IOException in match besides timeout (Player 2)");
