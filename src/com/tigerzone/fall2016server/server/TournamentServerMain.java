@@ -1,7 +1,5 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016server.scoreboard.Scoreboard;
-
 import java.io.IOException;
 
 /**
@@ -10,20 +8,29 @@ import java.io.IOException;
 public class TournamentServerMain {
 
     public static void main(String[] args) throws IOException {
+
         TournamentServer tournamentServer;
+
         if (args.length == 3) {
+
             int port = Integer.parseInt(args[0]);
             int seed = Integer.parseInt(args[1]);
             int maxConnections = Integer.parseInt(args[2]);
             tournamentServer = new TournamentServer(port, seed, maxConnections);
+
         } else if (args.length == 4) {
+
             int port = Integer.parseInt(args[0]);
             int seed = Integer.parseInt(args[1]);
             int maxConnections = Integer.parseInt(args[2]);
             int tournamentID = Integer.parseInt(args[3]);
             tournamentServer = new TournamentServer(port, seed, maxConnections, tournamentID);
+
+
         } else {
+
             tournamentServer = new TournamentServer();
+
         }
 
         tournamentServer.runTournament();

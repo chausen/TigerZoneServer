@@ -65,9 +65,7 @@ public class GameSystem implements PlayerInAdapter {
 
         // Tile Unplaceable Test
         ts = new TileStack(getUnplaceableTestStack());
-//        ts.truncateTS(4);
 
-       //ts.truncateTS(14); // TODO: 11/27/2016 Change this truncation value for different tests
 
         currentTile = ts.peek();
     }
