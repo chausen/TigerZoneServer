@@ -22,6 +22,7 @@ public class Connection {
     PrintWriter out;
     Queue<String> messageQueue;
     int port;
+    boolean timedOut;
 
 
     public Connection(int port) throws IOException {
@@ -111,4 +112,11 @@ public class Connection {
         clientSocket.close();
     }
 
+    public boolean isTimedOut() {
+        return timedOut;
+    }
+
+    public void setTimedOut(boolean timedOut) {
+        this.timedOut = timedOut;
+    }
 }
