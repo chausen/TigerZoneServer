@@ -66,6 +66,8 @@ public class GameSystem implements PlayerInAdapter {
         // Tile Unplaceable Test
         //ts = new TileStack(getUnplaceableTestStack());
 
+        // Tile Unplaceable Pass Test
+        // ts = new TileStack(getUnplaceablePassTestStack());
 
         currentTile = ts.peek();
     }
@@ -284,6 +286,13 @@ public class GameSystem implements PlayerInAdapter {
         tiles.add(new PlayableTile("LLLL-"));
         tiles.add(new PlayableTile("LLLL-"));
         tiles.add(new PlayableTile("LLLL-"));
+        return tiles;
+    }
+
+    private LinkedList<PlayableTile> getUnplaceablePassTestStack() {
+        LinkedList<PlayableTile> tiles = new LinkedList<>();
+        tiles.add(new PlayableTile("LJJJ-"));
+        tiles.add(new PlayableTile("TJTJ-"));
         return tiles;
     }
 

@@ -117,6 +117,7 @@ public class Match extends Thread {
                         e.printStackTrace();
                     }
                 }
+
                 //A single game will be doing the following in each line of the if statement...
                 //Get each player's response after 1 second
                 //Send each player's response to the respective gamePort

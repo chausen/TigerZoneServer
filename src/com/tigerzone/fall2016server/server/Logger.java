@@ -19,13 +19,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by lenovo on 11/21/2016.
  */
 public class Logger {
     private static PrintWriter pw = null;
-    private static ArrayList<String> logs = new ArrayList<>();
+    private static CopyOnWriteArrayList<String> logs = new CopyOnWriteArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
     private static Scoreboard scoreboard;
     private static PlayerBoxController pbc;
@@ -43,7 +44,7 @@ public class Logger {
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-        pbc = new PlayerBoxController();
+//        pbc = new PlayerBoxController();
         begin(tournamentID);
     }
 
@@ -118,8 +119,8 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2.getUsername());
         addLogToLogger(sb.toString());
-        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
-        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+//        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
+//        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player1);
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }
