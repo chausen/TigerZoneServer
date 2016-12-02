@@ -86,16 +86,6 @@ public class Match extends Thread {
                 String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
                 game1player.sendMessageToPlayer(game1playerPrompt);
                 //timeout to start
-                if (game1player.timedOutLastMove()) {
-                    try {
-                        game1player.resetTimeOut();
-                        String lastResponse = game1player.readPlayerMessage();
-                        System.out.println("Player: " + game1player.getUsername() + " timed out last move in game1");
-                        System.out.println("This was their last message after timeout in game1: " + lastResponse);
-                    } catch (IOException e) {
-                        System.out.println("Couldn't read player's last move after a timeout in game1 (in Match)");
-                    }
-                }
                 try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
                     gamePlayer1Response = game1player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
@@ -115,16 +105,6 @@ public class Match extends Thread {
                 String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
                 game2player.sendMessageToPlayer(game2playerPrompt);
                 //timeout to start
-                if (game2player.timedOutLastMove()) {
-                    try {
-                        game2player.resetTimeOut();
-                        String lastResponse = game2player.readPlayerMessage();
-                        System.out.println("Player: " + game2player.getUsername() + " timed out last move in game2");
-                        System.out.println("This was their last message after timeout in game2: " + lastResponse);
-                    } catch (IOException e) {
-                        System.out.println("Couldn't read player's last move after a timeout in game2 (in Match)");
-                    }
-                }
                 try {
                     gamePlayer2Response = game2player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
