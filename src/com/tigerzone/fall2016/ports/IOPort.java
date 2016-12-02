@@ -169,7 +169,6 @@ public class IOPort implements PlayerOutAdapter {
         Scanner scanner = new Scanner(s);
         scanner.next(); //This gives us Tile String
         scanner.next();//This gives us UNPLACEABLE.
-        scanner.next();
         String determiner = scanner.next();//This gives us which one we need.
         System.out.println("DETERMINER STRING for unplaceable tile" + determiner);
         switch(determiner){

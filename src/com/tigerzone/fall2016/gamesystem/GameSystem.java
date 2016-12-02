@@ -61,13 +61,13 @@ public class GameSystem implements PlayerInAdapter {
         am = new AreaManager(scorer);
         gameBoard = am.getGameBoard();
 
-        ts = new TileStack(tileStack);
+        //ts = new TileStack(tileStack);
 
         // Tile Unplaceable Test
-//        ts = new TileStack(getUnplaceableTestStack());
+        ts = new TileStack(getUnplaceableTestStack());
 //        ts.truncateTS(4);
 
-       //ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
+       //ts.truncateTS(14); // TODO: 11/27/2016 Change this truncation value for different tests
 
         currentTile = ts.peek();
     }
