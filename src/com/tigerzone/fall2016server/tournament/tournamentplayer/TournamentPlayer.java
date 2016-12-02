@@ -54,7 +54,16 @@ public class TournamentPlayer {
         this.connection.writeMessageToPlayer(message);
     }
 
-    public String readPlayerMessage() throws IOException{
+    public String readPlayerMessage() throws IOException {
+        if (this.timedOutLastMove()) {
+            try {
+                String lastResponse = this.connection.receiveMessageFromPlayer();
+                System.out.println("This is the last move from player " + this.getUsername() + " after timeout: " + lastResponse);
+                resetTimeOut();
+            } catch (IOException e) {
+                System.out.println("Couldn't read the player's last response after timeout within TournamentPlayer readplayermessage");
+            }
+        }
         return this.connection.receiveMessageFromPlayer();
     }
 
