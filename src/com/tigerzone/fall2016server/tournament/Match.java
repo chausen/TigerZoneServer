@@ -109,7 +109,7 @@ public class Match extends Thread {
                         gamePlayer2Response = game2player.readPlayerMessage();
                     }catch (SocketTimeoutException e) {
                         game2Timeout = true;
-                        gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                        gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                         forfeitGameMap.put(game2, game2player.getUsername());
                     } catch (IOException e) {
                         System.out.println("Caught IOException in match besides timeout (Player 2)");
