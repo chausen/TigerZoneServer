@@ -78,6 +78,7 @@ public class IOPort implements PlayerOutAdapter {
         this.currentPlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
 
         if (s == null || s=="") {
+            System.out.println("Received null message in ReceiveTurn in IOPort from " + currentPlayer.getPlayerId());
             receiveIllegalMessage();
             return;
         }
@@ -89,7 +90,7 @@ public class IOPort implements PlayerOutAdapter {
         psm.parse(moveProtocolContext);
 
         if (!moveProtocolContext.wasMoveValid()) {
-
+            System.out.println("Receiving something that didn't pass the moveprotocolcontext in ioport from "  + currentPlayer.getPlayerId());
             receiveIllegalMessage();
             return;
 
@@ -233,7 +234,6 @@ public class IOPort implements PlayerOutAdapter {
         if (gid != 0) {
             Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
         }
-
     }
 
     @Override
@@ -247,6 +247,7 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
        reportScoringEvent(playerScores);
+
         if (gid != 0) {
             Logger.addFeatureScored(gid, inAdapter, loginName1, loginName2, playerScores, la);
         }

@@ -169,8 +169,8 @@ public class BoardTile {
                 setBoardTileInTerrainNodes();
                 break;
             case "JLLL-":
-                LakeTerrainNode L1terrainNode8 = new LakeTerrainNode(new ArrayList<>(Arrays.asList(4,6,8)),new ArrayList<>(Arrays.asList(4,5,6,7,8,9)));
-                TerrainNode J1terrainNode8 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(7,8,9)),new ArrayList<Integer>(Arrays.asList(1,2,3)), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode8)), new HashSet<DenTerrainNode>());
+                LakeTerrainNode L1terrainNode8 = new LakeTerrainNode(new ArrayList<>(Arrays.asList(4,6,8)),new ArrayList<>(Arrays.asList(4,6,7,8,9)));
+                TerrainNode J1terrainNode8 = new JungleTerrainNode(new ArrayList<Integer>(Arrays.asList(7,8,9)),new ArrayList<Integer>(Arrays.asList(1,2,3,5)), new HashSet<LakeTerrainNode>(Arrays.asList(L1terrainNode8)), new HashSet<DenTerrainNode>());
                 this.terrainNodes = Arrays.asList(L1terrainNode8, J1terrainNode8);
                 setBoardTileInTerrainNodes();
                 break;
@@ -547,6 +547,7 @@ public class BoardTile {
                 break;
         }
     }
+
 
 
 }

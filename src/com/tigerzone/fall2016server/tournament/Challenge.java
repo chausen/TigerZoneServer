@@ -60,7 +60,14 @@ public class Challenge {
     private void sendEndMessage(){
         Logger.endChallenge(getTournamentID(),challengeID);
         for(TournamentPlayer tournamentPlayer: players){
-            tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
+            if(tournamentServer.getNumOfChallenges() == tournamentServer.getNumOfChallengesComplete()){
+                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
+                System.out.println("end of challenges");
+            }
+            else {
+                tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
+                System.out.println("still more challenges");
+            }
             //tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
         }
     }

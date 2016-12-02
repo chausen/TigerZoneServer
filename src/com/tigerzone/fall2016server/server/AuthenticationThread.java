@@ -76,6 +76,7 @@ public class AuthenticationThread extends Thread {
                     String user = loginProtocol.getUser();
                     if (!multipleLoginAttempts(user)) {
                         userNames.add(user);
+                        System.out.println(user + " HAS ENTERED THE TIGERZONE!");
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
                         tournamentPlayers.add(tournamentPlayer);
