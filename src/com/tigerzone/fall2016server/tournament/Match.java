@@ -149,11 +149,8 @@ public class Match extends Thread {
                         }
                         sendGameMessage(gameResponse);
                     }
-
-
                     //swap who is the active player in each game
                     swapPlayers();
-
                     //Increment move count
                     moveNumber++;
                 }
