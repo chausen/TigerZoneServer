@@ -137,16 +137,21 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public void receivePass(){
-        passCheck();
-        outAdapter.successfulTurn();
-        prepareNextTurn();
-    }
-
-    private void passCheck(){
-        if(!currentTileCannotBePlaced) {
+        if (passCheck()) {
+            outAdapter.successfulTurn();
+            prepareNextTurn();
+        } else {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
             endOfGame();
         }
+    }
+
+    private boolean passCheck(){
+        boolean passed = true;
+        if(!currentTileCannotBePlaced) {
+            passed = false;
+        }
+        return passed;
     }
 
 
