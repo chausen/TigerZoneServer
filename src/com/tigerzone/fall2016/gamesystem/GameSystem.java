@@ -162,7 +162,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerRetrieve(int x, int y){
-        //tileUnplaceableCheck();
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
         if(passCheck() && boardTile.removeTiger(this.currentPlayer.getPlayerId())){
@@ -181,7 +180,6 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerPlace(int x, int y){
-        //tileUnplaceableCheck();
         int currentPlayerSupply = currentPlayer.getGoodSupply();
         if (passCheck() && currentPlayerSupply > 0) {
             Point position = new Point(x,y);
@@ -199,7 +197,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
             endOfGame();
         }
-    }
+    } 
 
     public void truncateTS(int x) {
         ts.truncateTS(x);
@@ -231,15 +229,6 @@ public class GameSystem implements PlayerInAdapter {
     @Override
     public int getPlayerScore(Player p){
         return scorer.getScore(p);
-    }
-
-    // If the current tile can be placed but they are taking one of the actions
-    // for when the tile is unplaceable: invalid move; forfeit
-    private void tileUnplaceableCheck(){
-        if(!currentTileCannotBePlaced) {
-            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            endOfGame();
-        }
     }
 
     // Gets the next tile and checks if any remain / if the tile can be placed
