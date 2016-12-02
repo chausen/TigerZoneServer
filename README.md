@@ -1,4 +1,4 @@
-![alt tag](https://raw.githubusercontent.com/chausen/TigerZoneServer/master/img/tigerzone.png)
+# TigerZoneServer
 A server for playing the two-player-tile-placement game inspired by Klaus-Jurgen Wrede's Carcassonne boardgame series - TigerZone.
 
 ## Compilation
