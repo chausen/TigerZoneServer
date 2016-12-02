@@ -99,24 +99,25 @@ public class Match extends Thread {
                     }
                 }
 
-            boolean game2Timeout = false;
-            String gamePlayer2Response = null;
-            if (!game2.isOver()) {
-                String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
-                game2player.sendMessageToPlayer(game2playerPrompt);
-                //timeout to start
-                try {
-                    gamePlayer2Response = game2player.readPlayerMessage();
-                }catch (SocketTimeoutException e) {
-                    game2Timeout = true;
-                    gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-                    forfeitGameMap.put(game2, game2player.getUsername());
-                } catch (IOException e) {
-                    System.out.println("Caught IOException in match besides timeout (Player 2)");
-                    System.out.println("This is their input " + gamePlayer2Response);
-                    e.printStackTrace();
+                boolean game2Timeout = false;
+                String gamePlayer2Response = null;
+                if (!game2.isOver()) {
+                    String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
+                    game2player.sendMessageToPlayer(game2playerPrompt);
+                    //timeout to start
+                    try {
+                        gamePlayer2Response = game2player.readPlayerMessage();
+                    }catch (SocketTimeoutException e) {
+                        game2Timeout = true;
+                        gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
+                        forfeitGameMap.put(game2, game2player.getUsername());
+                    } catch (IOException e) {
+                        System.out.println("Caught IOException in match besides timeout (Player 2)");
+                        System.out.println("This is their input " + gamePlayer2Response);
+                        e.printStackTrace();
+                    }
                 }
-            }
+            
                 //A single game will be doing the following in each line of the if statement...
                 //Get each player's response after 1 second
                 //Send each player's response to the respective gamePort
@@ -149,11 +150,8 @@ public class Match extends Thread {
                         }
                         sendGameMessage(gameResponse);
                     }
-
-
                     //swap who is the active player in each game
                     swapPlayers();
-
                     //Increment move count
                     moveNumber++;
                 }

@@ -161,10 +161,10 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerRetrieve(int x, int y){
-        tileUnplaceableCheck();
+        //tileUnplaceableCheck();
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
-        if(boardTile.removeTiger(this.currentPlayer.getPlayerId())){
+        if(passCheck() && boardTile.removeTiger(this.currentPlayer.getPlayerId())){
             this.currentPlayer.incrementGoodSupply();
             outAdapter.successfulTurn();
             prepareNextTurn();
@@ -180,12 +180,11 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerPlace(int x, int y){
-        tileUnplaceableCheck();
-        Point position = new Point(x,y);
-        BoardTile boardTile = gameBoard.getTile(position);
-
+        //tileUnplaceableCheck();
         int currentPlayerSupply = currentPlayer.getGoodSupply();
-        if (currentPlayerSupply > 0) {
+        if (passCheck() && currentPlayerSupply > 0) {
+            Point position = new Point(x,y);
+            BoardTile boardTile = gameBoard.getTile(position);
             currentPlayer.decrementGoodSupply();
             Tiger tiger = new Tiger(currentPlayer);
             if (boardTile.placeTiger(tiger)) {
