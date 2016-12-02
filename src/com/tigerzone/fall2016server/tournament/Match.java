@@ -88,10 +88,14 @@ public class Match extends Thread {
                     //timeout to start
                     try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
                         gamePlayer1Response = game1player.readPlayerMessage();
-                    } catch (IOException e) {
+                    } catch (SocketTimeoutException e) {
                         game1Timeout = true;
                         gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
                         forfeitGameMap.put(game1, game1player.getUsername());
+                    } catch (IOException e) {
+                        System.out.println("Caught IOException in match besides timeout (Player 1)");
+                        System.out.println("This is their input " + gamePlayer1Response);
+                        e.printStackTrace();
                     }
                 }
 
@@ -103,10 +107,14 @@ public class Match extends Thread {
                     //timeout to start
                     try {
                         gamePlayer2Response = game2player.readPlayerMessage();
-                    } catch (IOException e) {
+                    }catch (SocketTimeoutException e) {
                         game2Timeout = true;
                         gamePlayer2Response = "GAME " + game2.getGameID() + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                         forfeitGameMap.put(game2, game2player.getUsername());
+                    } catch (IOException e) {
+                        System.out.println("Caught IOException in match besides timeout (Player 2)");
+                        System.out.println("This is their input " + gamePlayer2Response);
+                        e.printStackTrace();
                     }
                 }
                 //A single game will be doing the following in each line of the if statement...
