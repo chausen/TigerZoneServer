@@ -19,8 +19,10 @@ public class TournamentServer {
 
     private static int PORT = 4444;
     private static int seed = 123456789;
-    private static int MAX_CONNECTIONS = 2;
+    private static int MAX_CONNECTIONS = 6;
     private static int tournamentID = 1;
+    private final int numOfChallenges = 1; //the number of challenges is actually this plus 1
+    private int numOfChallengesComplete = 0;
 
     // Default constructor
     public TournamentServer() {}
@@ -56,9 +58,10 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
-        challenge = new Challenge(this, 1, tournamentPlayers);
+        challenge = new Challenge(this, 123, tournamentPlayers);
         challenge.beginChallenge();
     }
+
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
         ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS);
@@ -83,17 +86,19 @@ public class TournamentServer {
 
     public void notifyChallengeComplete() {
         //TODO: end of tournament shut down
-        for(TournamentPlayer tournamentPlayer: tournamentPlayers){
-            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
-            try {
-                tournamentPlayer.closeConnection();
-            } catch (IOException e) {
-                System.out.println("Couldn't close player connection");
-                continue;
-            }
 
-        }
-        // This is here to prevent the GUI from closing at the end of the tournament
+        if(numOfChallengesComplete++ == numOfChallenges) {
+            for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+                tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
+                try {
+                    tournamentPlayer.closeConnection();
+                } catch (IOException e) {
+                    System.out.println("Couldn't close player connection");
+                    continue;
+                }
+
+            }
+            // This is here to prevent the GUI from closing at the end of the tournament
 //        while (true) {
 //            if (Thread.activeCount() > 5) {
 //                // do nothing
@@ -101,7 +106,12 @@ public class TournamentServer {
 //                System.exit(0);
 //            }
 //        }
-        System.exit(0);
+            System.exit(0);
+        }
+        else{
+            challenge = new Challenge(this, 2, tournamentPlayers);
+            challenge.beginChallenge();
+        }
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {

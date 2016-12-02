@@ -1,5 +1,8 @@
 package com.tigerzone.fall2016.area;
 
+import com.tigerzone.fall2016.area.terrainnode.DenTerrainNode;
+import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
+import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.terrain.Terrain;
@@ -52,7 +55,7 @@ public class AreaBuilder {
     private void buildWestFace() {
         if(gameBoard.getLeftAdjacentTile(position) != null) {
             updateTerrainNodes(4, 3);
-            if(singleEdgeMap.get(3) == null) {
+            if(singleEdgeMap.get(3) == null || singleEdgeMap.get(3) == false) {
                 updateTerrainNodes(1, 3); //3 = west
                 updateTerrainNodes(7, 3);
             }
@@ -62,7 +65,7 @@ public class AreaBuilder {
     private void buildSouthFace() {
         if(gameBoard.getBelowAdjacentTile(position) != null) {
             updateTerrainNodes(8, 2);
-            if(singleEdgeMap.get(2) == null) {
+            if(singleEdgeMap.get(2) == null || singleEdgeMap.get(2) == false) {
                 updateTerrainNodes(7, 2);
                 updateTerrainNodes(9, 2);
             }
@@ -72,7 +75,7 @@ public class AreaBuilder {
     private void buildEastFace() {
         if (gameBoard.getRightAdjacentTile(position) != null) {
             updateTerrainNodes(6, 1);
-            if(singleEdgeMap.get(1) == null) {
+            if(singleEdgeMap.get(1) == null || singleEdgeMap.get(1) == false) {
                 updateTerrainNodes(3, 1);
                 updateTerrainNodes(9, 1);
             }
@@ -82,7 +85,7 @@ public class AreaBuilder {
     private void buildNorthFace() {
         if(gameBoard.getAboveAdjacentTile(position) != null) {
             updateTerrainNodes(2, 0);
-            if(singleEdgeMap.get(0) == null) {
+            if(singleEdgeMap.get(0) == null || singleEdgeMap.get(0) == false) {
                 updateTerrainNodes(1, 0);
                 updateTerrainNodes(3, 0);
             }
@@ -156,15 +159,20 @@ public class AreaBuilder {
             terrainNodeCompared = gameBoard.getLeftAdjacentTile(position).getTerrainNode(y);
         }
         if(terrainNode != null && terrainNodeCompared != null && terrainNode.getCanConnectTo().contains(new Integer(y)) && terrainNodeCompared.getCanConnectTo().contains(new Integer(x))) {
-            terrainNode.getCanConnectTo().remove(new Integer(y));
-            terrainNodeCompared.getCanConnectTo().remove(new Integer(x));
-            //Area updatedArea = terrainNode.getArea();
-            //make sure later that the area was actually updated
-            deletedAreas.add(terrainNodeCompared.getArea());
-            terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
-            updatedAreas.add(terrainNode.getArea());
-            completeTerrainNodes.add(terrainNode);
-            singleEdgeMap.put(dir, terrainNode.isSingleEdge());
+            try {
+                terrainNode.getCanConnectTo().remove(new Integer(y));
+                terrainNodeCompared.getCanConnectTo().remove(new Integer(x));
+                //Area updatedArea = terrainNode.getArea();
+                //make sure later that the area was actually updated
+                deletedAreas.add(terrainNodeCompared.getArea());
+                terrainNode.getArea().mergeArea(terrainNodeCompared.getArea());
+                updatedAreas.add(terrainNode.getArea());
+                completeTerrainNodes.add(terrainNode);
+                singleEdgeMap.put(dir, terrainNode.isSingleEdge());
+            }
+            catch(UnsupportedOperationException e){
+
+            }
         }
     }
 

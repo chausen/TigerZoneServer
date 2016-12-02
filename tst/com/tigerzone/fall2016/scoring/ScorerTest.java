@@ -117,6 +117,26 @@ public class ScorerTest {
         scorer.getScore(player1);
     }
 
+    @org.junit.Test
+    public void sampleGame4() throws Exception{
+        areaManager.addTile(new Point(0, 1), new PlayableTile("TJTT-"), new Tiger(player1), 2,  0);
+        areaManager.addTile(new Point(1, 1), new PlayableTile("LLJJ-"), 0);
+        areaManager.addTile(new Point(1, 2), new PlayableTile("TLLT-"), 0);
+        areaManager.addTile(new Point(0, -1), new PlayableTile("TJTJ-"), new Tiger(player2), 3,  0);
+        areaManager.addTile(new Point(1, 0), new PlayableTile("LJLJ-"), new Tiger(player1), 6,  90);
+        areaManager.addTile(new Point(0, 2), new PlayableTile("TJJT-"), 180);
+        areaManager.addTile(new Point(2, 0), new PlayableTile("JLTTB"), new Tiger(player1), 2,  180);
+        areaManager.addTile(new Point(2, 1), new PlayableTile("TLTTP"), new Tiger(player2), 2,  180);
+        areaManager.addTile(new Point(3, 0), new PlayableTile("TJJT-"), 0);
+        areaManager.addTile(new Point(4, 0), new PlayableTile("JLLL-"), 90);
+        areaManager.addTile(new Point(3, -1), new PlayableTile("JJJJ-"), new Tiger(player1), 1,  0);
+        areaManager.addTile(new Point(2, 2), new PlayableTile("TLLLC"),  180);
+        areaManager.addTile(new Point(4, 1), new PlayableTile("LJLJ-"), 0);
+        areaManager.addTile(new Point(3, 2), new PlayableTile("TLTJ-"), 180);
+        scorer.endGameScoring(areaManager);
+        scorer.getScore(player1);
+    }
+
 
     @org.junit.Test
     public void scoreDen() throws Exception {

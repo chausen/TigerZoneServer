@@ -79,6 +79,7 @@ public class IOPort implements PlayerOutAdapter {
         this.currentPlayer = inAdapter.getCurrentPlayer(); // get the TournamentPlayer object associated with the loginID
 
         if (s == null || s=="") {
+            System.out.println("Received null message in ReceiveTurn in IOPort from " + currentPlayer.getPlayerId());
             receiveIllegalMessage();
             return;
         }
@@ -90,7 +91,7 @@ public class IOPort implements PlayerOutAdapter {
         psm.parse(gameContext);
 
         if (!gameContext.wasMoveValid()) {
-
+            System.out.println("Received invalid game context move in IOPort from " + currentPlayer.getPlayerId());
             receiveIllegalMessage();
             return;
 
@@ -231,27 +232,27 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
+       // Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
 
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
+        //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
 
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
        reportScoringEvent(playerScores);
-       Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
+       //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
         reportScoringEvent(playerScores);
-        Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
+        //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
     }
 
     @Override
