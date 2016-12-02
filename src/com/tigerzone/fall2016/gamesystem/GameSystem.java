@@ -64,7 +64,7 @@ public class GameSystem implements PlayerInAdapter {
         //ts = new TileStack(tileStack);
 
         // Tile Unplaceable Test
-        ts = new TileStack(getUnplaceableTestStack());
+        //ts = new TileStack(getUnplaceableTestStack());
 
 
         currentTile = ts.peek();
