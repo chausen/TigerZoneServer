@@ -242,15 +242,15 @@ public class ScorerTest {
         areaManager.addTile(new Point(0,-1), TJTJ, p2Tiger2, 2, 0);
         areaManager.addTile(new Point(1, -1), LJJJ, 270);
         areaManager.addTile(new Point(2,-1), LJJJ, 90);
-        areaManager.addTile(new Point(2,0), JJJJ, p1Tiger3, 0, 0);
-        areaManager.addTile(new Point(3,0), JJJJ, 0);
-        areaManager.addTile(new Point(4,0), JJJJ, p2Tiger2, 0, 0);
         areaManager.addTile(new Point(3,-1), JJJJX, 0);
         areaManager.addTile(new Point(4,-1), JJJJ, 0);
+        areaManager.addTile(new Point(3,0), JJJJ, 0);
+        areaManager.addTile(new Point(4,0), JJJJ, p2Tiger2, 1, 0);
         areaManager.addTile(new Point(2,-2), JJJJ, 0);
         areaManager.addTile(new Point(3,-2), JJJJ, 0);
         areaManager.addTile(new Point(4,-2), JJJJ, 0);
-
+        areaManager.addTile(new Point(2,1), LJJJ, p1Tiger3, 1, 90);
+        areaManager.addTile(new Point(2,0), JJJJ, 0);
 
         scorer.endGameScoring(areaManager);
 

@@ -55,6 +55,6 @@ public class JungleTerrainNode extends TerrainNode {
 
     @Override
     public boolean isSingleEdge() {
-        return false;
+        return true;
     }
 }
