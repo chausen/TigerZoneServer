@@ -222,10 +222,45 @@ public class ScorerTest {
         // No area should have any prey
         // player1 should own each area
 
-        // player1 should have 2 (dens) + 1 (lakes) + 3 (trails) + 8 (jungles) = 14 points
-        // player2 should have 0 points
-//        assertTrue(scorer.getScore(1) == 14);
-//        assertTrue(scorer.getScore(2) == 0);
+
+        PlayableTile LJJJ = new PlayableTile("LJJJ-");
+        PlayableTile JJTJX = new PlayableTile("JJTJX");
+        PlayableTile TJTJ = new PlayableTile("TJTJ-");
+        PlayableTile JJJJ = new PlayableTile("JJJJ-");
+        PlayableTile JJJJX = new PlayableTile("JJJJX");
+
+        Tiger p1Tiger1 = new Tiger(player1);
+        Tiger p1Tiger2 = new Tiger(player1);
+        Tiger p1Tiger3 = new Tiger(player1);
+        Tiger p2Tiger1 = new Tiger(player2);
+        Tiger p2Tiger2 = new Tiger(player2);
+
+        AreaManager areaManager = new AreaManager(scorer);
+
+        areaManager.addTile(new Point(0,1), JJTJX, p1Tiger1, 5, 0);
+        areaManager.addTile(new Point(1,1), LJJJ, p1Tiger2, 6, 270);
+        areaManager.addTile(new Point(0,-1), TJTJ, p2Tiger2, 2, 0);
+        areaManager.addTile(new Point(1, -1), LJJJ, 270);
+        areaManager.addTile(new Point(2,-1), LJJJ, 90);
+        areaManager.addTile(new Point(2,0), JJJJ, p1Tiger3, 0, 0);
+        areaManager.addTile(new Point(3,0), JJJJ, 0);
+        areaManager.addTile(new Point(4,0), JJJJ, p2Tiger2, 0, 0);
+        areaManager.addTile(new Point(3,-1), JJJJX, 0);
+        areaManager.addTile(new Point(4,-1), JJJJ, 0);
+        areaManager.addTile(new Point(2,-2), JJJJ, 0);
+        areaManager.addTile(new Point(3,-2), JJJJ, 0);
+        areaManager.addTile(new Point(4,-2), JJJJ, 0);
+
+
+        scorer.endGameScoring(areaManager);
+
+
+        // player1 should have 3 (dens) + 1 (lakes) + 8 (jungles) = 12 points
+        // player2 should have 3 (trails + 8 (jungles) points = 11 points
+        System.out.println(scorer.getScore(player1));
+        assertTrue(scorer.getScore(player1) == 12);
+        System.out.println(scorer.getScore(player2));
+        assertTrue(scorer.getScore(player2) == 11);
     }
 
     @org.junit.Test
