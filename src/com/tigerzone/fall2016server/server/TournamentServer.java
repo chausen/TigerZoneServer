@@ -58,7 +58,7 @@ public class TournamentServer {
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
         Logger.initializeLogger(tournamentID);
-        challenge = new Challenge(this, 123, tournamentPlayers);
+        challenge = new Challenge(this, 1, tournamentPlayers);
         challenge.beginChallenge();
     }
 
@@ -89,6 +89,7 @@ public class TournamentServer {
 
         if(numOfChallengesComplete++ == numOfChallenges) {
             for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+                tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
                 tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
                 try {
                     tournamentPlayer.closeConnection();

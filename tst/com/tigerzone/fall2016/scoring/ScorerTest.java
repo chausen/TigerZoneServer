@@ -130,7 +130,7 @@ public class ScorerTest {
         areaManager.addTile(new Point(3, 0), new PlayableTile("TJJT-"), 0);
         areaManager.addTile(new Point(4, 0), new PlayableTile("JLLL-"), 90);
         areaManager.addTile(new Point(3, -1), new PlayableTile("JJJJ-"), new Tiger(player1), 1,  0);
-        areaManager.addTile(new Point(2, 2), new PlayableTile("TLLLC"),  180);
+        areaManager.addTile(new Point(2, 2), new PlayableTile("TLLL-"),  180);
         areaManager.addTile(new Point(4, 1), new PlayableTile("LJLJ-"), 0);
         areaManager.addTile(new Point(3, 2), new PlayableTile("TLTJ-"), 180);
         scorer.endGameScoring(areaManager);
