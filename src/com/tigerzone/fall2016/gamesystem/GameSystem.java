@@ -61,13 +61,11 @@ public class GameSystem implements PlayerInAdapter {
         am = new AreaManager(scorer);
         gameBoard = am.getGameBoard();
 
-        ts = new TileStack(tileStack);
+        //ts = new TileStack(tileStack);
 
         // Tile Unplaceable Test
-//        ts = new TileStack(getUnplaceableTestStack());
-//        ts.truncateTS(4);
+        ts = new TileStack(getUnplaceableTestStack());
 
-//       ts.truncateTS(12); // TODO: 11/27/2016 Change this truncation value for different tests
 
         currentTile = ts.peek();
     }
@@ -139,16 +137,21 @@ public class GameSystem implements PlayerInAdapter {
 
     @Override
     public void receivePass(){
-        passCheck();
-        outAdapter.successfulTurn();
-        prepareNextTurn();
-    }
-
-    private void passCheck(){
-        if(!currentTileCannotBePlaced) {
+        if (passCheck()) {
+            outAdapter.successfulTurn();
+            prepareNextTurn();
+        } else {
             outAdapter.forfeitIllegalTile(getCurrentPlayerID());
             endOfGame();
         }
+    }
+
+    private boolean passCheck(){
+        boolean passed = true;
+        if(!currentTileCannotBePlaced) {
+            passed = false;
+        }
+        return passed;
     }
 
 
@@ -252,7 +255,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.notifyEndGame(player1Score, player2Score);
         } else {
             // Check if the next tile is playable
-            currentTileCannotBePlaced = (fsb.needToRemove(currentTile));//needtoRemove returns TRUE if PLACEABLE
+            currentTileCannotBePlaced = (fsb.needToRemove(currentTile));//needtoRemove USED TO return TRUE if PLACEABLE
             // The other player becomes the current player
             currentPlayer = (currentPlayer.equals(player1) ? player2 : player1);
         }

@@ -1,7 +1,6 @@
 package com.tigerzone.fall2016;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.CmdPromptInterface;
 import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 
 import java.util.LinkedList;

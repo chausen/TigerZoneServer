@@ -12,9 +12,8 @@ import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.GameSystem;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.parsing.Context;
-import com.tigerzone.fall2016.parsing.GameContext;
-import com.tigerzone.fall2016.parsing.ProtocolStateMachine;
+import com.tigerzone.fall2016server.server.protocols.MoveProtocolContext;
+import com.tigerzone.fall2016server.server.protocols.ProtocolStateMachine;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
@@ -41,7 +40,7 @@ public class IOPort implements PlayerOutAdapter {
     private String response;
     private boolean didForfeit = false;
     private String forfeitedPlayer = "";
-    private GameContext gameContext;
+    private MoveProtocolContext moveProtocolContext;
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -61,7 +60,7 @@ public class IOPort implements PlayerOutAdapter {
         this.inAdapter = new GameSystem();
         inAdapter.setOutAdapter(this);
         inAdapter.initializeGame(loginName1, loginName2, tileStack);
-        this.gameContext = new GameContext(this.gid);
+        this.moveProtocolContext = new MoveProtocolContext(this.gid);
         this.currentPlayer = inAdapter.getPlayer(loginName1);
     }
 
@@ -86,11 +85,11 @@ public class IOPort implements PlayerOutAdapter {
 
         // Run pass String through move protocol to ensure it is of valid form
         Scanner parserScanner = new Scanner(s);
-        gameContext.setScanner(parserScanner);
+        moveProtocolContext.setScanner(parserScanner);
         ProtocolStateMachine psm = new ProtocolStateMachine();
-        psm.parse(gameContext);
+        psm.parse(moveProtocolContext);
 
-        if (!gameContext.wasMoveValid()) {
+        if (!moveProtocolContext.wasMoveValid()) {
             System.out.println("Received invalid game context move in IOPort from " + currentPlayer.getPlayerId());
             receiveIllegalMessage();
             return;
@@ -168,15 +167,14 @@ public class IOPort implements PlayerOutAdapter {
 
     private void receiveTurnTile(String s){
         Scanner scanner = new Scanner(s);
+        scanner.next(); //This gives us Tile String
         scanner.next();//This gives us UNPLACEABLE.
-        scanner.next();
         String determiner = scanner.next();//This gives us which one we need.
         System.out.println("DETERMINER STRING for unplaceable tile" + determiner);
         switch(determiner){
             case "PASS":
                 inAdapter.receivePass();
                 break;
-
             case "RETRIEVE":
                 scanner.next();//Gives us TIGER
                 scanner.next();//Gives us AT
@@ -184,7 +182,6 @@ public class IOPort implements PlayerOutAdapter {
                 int y = scanner.nextInt();
                 inAdapter.tigerRetrieve(x,y);
                 break;
-
             case "ADD":
                 scanner.next();//Gives us ANOTHER
                 scanner.next();//Gives us TIGER
@@ -193,6 +190,8 @@ public class IOPort implements PlayerOutAdapter {
                 int b = scanner.nextInt();
                 inAdapter.tigerPlace(a,b);
                 break;
+            default:
+                receiveIllegalMessage();
         }
     }
 
@@ -232,27 +231,34 @@ public class IOPort implements PlayerOutAdapter {
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, JungleArea ja) {
         reportScoringEvent(playerScores);
-       // Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
-
+        if (gid != 0) {
+            Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores, ja);
+        }
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, DenArea da) {
         reportScoringEvent(playerScores);
-        //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,da);
-
+        if (gid != 0) {
+            Logger.addFeatureScored(gid, inAdapter, loginName1, loginName2, playerScores, da);
+        }
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, LakeArea la) {
        reportScoringEvent(playerScores);
-       //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,la);
+
+        if (gid != 0) {
+            Logger.addFeatureScored(gid, inAdapter, loginName1, loginName2, playerScores, la);
+        }
     }
 
     @Override
     public void reportScoringEvent(Map<Player, Integer> playerScores, TrailArea ta) {
         reportScoringEvent(playerScores);
-        //Logger.addFeatureScored(gid,inAdapter, loginName1, loginName2, playerScores,ta);
+        if (gid != 0) {
+            Logger.addFeatureScored(gid, inAdapter, loginName1, loginName2, playerScores, ta);
+        }
     }
 
     @Override
@@ -308,10 +314,6 @@ public class IOPort implements PlayerOutAdapter {
     //========== Accessors ==========//
 
 
-    private String getCurrentTurnString(){
-        return currentTurnString;
-    }
-
     public boolean isGameOver() {
         return gameOver;
     }
@@ -319,7 +321,6 @@ public class IOPort implements PlayerOutAdapter {
     public PlayerInAdapter getInAdapter() {
         return this.inAdapter;
     }
-
 
     public String getCurrentTile(){
         return inAdapter.getCurrentTile();
@@ -333,7 +334,4 @@ public class IOPort implements PlayerOutAdapter {
         this.response = response;
     }
 
-    public boolean isDidForfeit(){
-        return didForfeit;
-    }
 }

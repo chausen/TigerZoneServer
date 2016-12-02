@@ -92,7 +92,7 @@ public class Connection {
         this.out.println(message);
     }
 
-    public String receiveMessageFromPlayer() throws IOException{
+    public String receiveMessageFromPlayer() throws IOException, SocketTimeoutException{
         return this.in.readLine();
     }
 

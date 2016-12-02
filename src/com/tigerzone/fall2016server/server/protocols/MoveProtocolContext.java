@@ -1,13 +1,17 @@
-package com.tigerzone.fall2016.parsing;
+package com.tigerzone.fall2016server.server.protocols;
 
 import java.util.Scanner;
 
-import static com.tigerzone.fall2016.parsing.ProtocolStates.START;
-
 /**
  * Created by clayhausen on 11/19/16.
+ *
+ * To be used with a ProtocolStateMachine. Keeps track of the current state of the traversal of a String that is being
+ * parsed. The String is being parsed to determine conformance with the Move Protocol. A ProtocolStateMachine will pass
+ * the context from State to State, and when this recursion completes, the Context can be queried to determine whether
+ * or not the move was valid.
+ *
  */
-public class GameContext implements Context {
+public class MoveProtocolContext implements Context {
     private Scanner scanner;
     ProtocolState currentState;
     ProtocolState previousState;
@@ -15,17 +19,17 @@ public class GameContext implements Context {
     int gid;
     int moveNumber = 1;
 
-    public GameContext(Scanner scanner, int gid) {
+    public MoveProtocolContext(Scanner scanner, int gid) {
         this.scanner = scanner;
-        this.currentState = START;
+        this.currentState = MoveProtocolStates.START;
         this.previousState = null;
         this.validMove = false;
         this.gid = gid;
     }
 
 
-    public GameContext(int gid) {
-        this.currentState = START;
+    public MoveProtocolContext(int gid) {
+        this.currentState = MoveProtocolStates.START;
         this.previousState = null;
         this.validMove = false;
         this.gid = gid;

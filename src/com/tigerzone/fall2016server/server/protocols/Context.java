@@ -1,8 +1,5 @@
-package com.tigerzone.fall2016.parsing;
+package com.tigerzone.fall2016server.server.protocols;
 
-import com.tigerzone.fall2016.gamesystem.Turn;
-
-import java.awt.*;
 import java.util.Scanner;
 
 /**

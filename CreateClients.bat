@@ -1,5 +1,5 @@
-start /B java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain Blue  WookieLover Player1Moves.txt Player2Moves.txt localhost 4444
-java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain Red  Obiwan77 Player1Moves.txt Player2Moves.txt localhost 4444
+start /B java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain TEAMA IAMA Player1Moves.txt Player2Moves.txt localhost 4444
+java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain TEAMB IAMB Player1Moves.txt Player2Moves.txt localhost 4444
 ::start /B java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER3  PASSWORD3 Player1Moves.txt Player2Moves.txt localhost 4444
 ::java -classpath out/production/TigerZone com.tigerzone.fall2016server.client.ParameterizedClientMain PLAYER4  PASSWORD4 Player1Moves.txt Player2Moves.txt localhost 4444
 

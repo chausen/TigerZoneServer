@@ -55,8 +55,6 @@ public class AuthenticationThread extends Thread {
 
             sb.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
 
-            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentials0.txt");
-            //sb.append("/src/com/tigerzone/fall2016server/files/TestCredentialsFourPlayers.txt");
 
             LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
 
@@ -64,7 +62,7 @@ public class AuthenticationThread extends Thread {
 
             out.println(output);
 
-            clientSocket.setSoTimeout(15000);
+            clientSocket.setSoTimeout(45000);
 
 
             while ((input = in.readLine()) != null) { //so this will not sotp
@@ -82,6 +80,7 @@ public class AuthenticationThread extends Thread {
                         TournamentPlayer tournamentPlayer = new TournamentPlayer(user, new Connection(clientSocket));
                         tournamentPlayer.setCommunicationTimeout(1100);
                         tournamentPlayers.add(tournamentPlayer);
+                        System.out.println(user + " joined");
                     } else {
                         System.out.println("Multiple login attempts received");
                         break;
