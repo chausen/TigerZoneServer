@@ -14,7 +14,6 @@ public class LogParser {
             String filename = "";
             int roundID = 0;
             int gameID  = 0;
-            int opposingGameID = 0;
             String player1 = "";
             String player2 = "";
             int lineBreakCount = 0;
@@ -25,7 +24,6 @@ public class LogParser {
                 filename = args[0];
                 roundID = Integer.parseInt(args[1]);
                 gameID = Integer.parseInt(args[2]);
-                opposingGameID = (gameID == 0) ? 1 : 0; // should be the opposite of gameID
                 player1 = args[3];
                 player2 = args[4];
             }

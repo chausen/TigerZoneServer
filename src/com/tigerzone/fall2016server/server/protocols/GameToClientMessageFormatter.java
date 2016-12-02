@@ -19,6 +19,13 @@ public class GameToClientMessageFormatter {
             message = insertTheD.toString();
         }
 
+        else if(message.contains("PASS")){
+            StringBuffer insertTheD = new StringBuffer();
+            insertTheD.append(message);
+            insertTheD.append("ED");
+            message = insertTheD.toString();
+        }
+
         stringBuffer.append(" PLAYER ");
         stringBuffer.append(playerID);
         stringBuffer.append(message);
