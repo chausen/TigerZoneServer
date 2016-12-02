@@ -58,6 +58,14 @@ public class TournamentPlayer {
         return this.connection.receiveMessageFromPlayer();
     }
 
+    public boolean timedOutLastMove() {
+       return this.connection.isTimedOut();
+    }
+
+    public void resetTimeOut() {
+        this.connection.setTimedOut(false);
+    }
+
     public void playerOutput(String message) {
         connection.playerOutput(message);
     }

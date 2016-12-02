@@ -199,7 +199,7 @@ public class GameSystem implements PlayerInAdapter {
             outAdapter.forfeitInvalidMeeple(currentPlayer.getPlayerId());
             endOfGame();
         }
-    }
+    } 
 
     public void truncateTS(int x) {
         ts.truncateTS(x);
@@ -231,15 +231,6 @@ public class GameSystem implements PlayerInAdapter {
     @Override
     public int getPlayerScore(Player p){
         return scorer.getScore(p);
-    }
-
-    // If the current tile can be placed but they are taking one of the actions
-    // for when the tile is unplaceable: invalid move; forfeit
-    private void tileUnplaceableCheck(){
-        if(!currentTileCannotBePlaced) {
-            outAdapter.forfeitIllegalTile(getCurrentPlayerID());
-            endOfGame();
-        }
     }
 
     // Gets the next tile and checks if any remain / if the tile can be placed
