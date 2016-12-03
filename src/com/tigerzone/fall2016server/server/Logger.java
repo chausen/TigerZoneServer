@@ -28,7 +28,6 @@ public class Logger {
     private static PrintWriter pw = null;
     private static CopyOnWriteArrayList<String> logs = new CopyOnWriteArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
-    private static Scoreboard scoreboard;
     private static PlayerBoxController pbc;
 
     /**
@@ -39,12 +38,13 @@ public class Logger {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("./");
+            sb.append(getTimeStamp());
             sb.append(".txt");
             pw = new PrintWriter(new File(sb.toString()));
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-//        pbc = new PlayerBoxController();
+        pbc = new PlayerBoxController();
         begin(tournamentID);
     }
 
@@ -119,8 +119,8 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2.getUsername());
         addLogToLogger(sb.toString());
-//        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
-//        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
+        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player1);
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }

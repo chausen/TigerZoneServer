@@ -4,10 +4,12 @@ import com.tigerzone.fall2016server.files.FileReader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.nio.file.Paths;
@@ -25,10 +27,21 @@ public class Scoreboard extends Application {
     public void start(Stage primaryStage) throws Exception{
         root.setAlignment(Pos.CENTER);
         root.setPrefColumns(6);
+        root.setPrefRows(4);
         root.setVgap(10);
         root.setHgap(10);
+
         primaryStage.setTitle("TigerZone | Challenge " + 1);
-        Scene scene = new Scene(root, 1024, 768);
+
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
+
+        Scene scene = new Scene(root, 1600, 1200);
         primaryStage.setScene(scene);
         scene.getStylesheets().add(Scoreboard.class.getResource("Scoreboard.css").toExternalForm());
         primaryStage.show();
