@@ -8,6 +8,5 @@ logger.txt
 **/*.iml
 **/*.sh
 **/*.bat
-**/*.txt
 /bin
 .DS_Store
