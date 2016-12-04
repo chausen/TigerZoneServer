@@ -137,10 +137,6 @@ public class AreaManager {
                 if (terrainNode.getArea().isAnimalPlaceable(animal)) {
                     terrainNode.getArea().placeAnimal(animal); //changed from placePredator
                     animalPlaced = true; //was crocPlaced
-                    break;
-                }
-                else {
-                    animalPlaced = false; //was crocPlaced
                 }
             }
         }

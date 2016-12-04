@@ -190,7 +190,7 @@ enum MoveProtocolStates implements ProtocolState {
                 if (orientation == 0 || orientation == 90 || orientation == 180 || orientation == 270) {
                     if (scanner.hasNext()) {
                         String token = scanner.next();
-                    if (token.equals("NONE") || token.equals("CROCODILE")) {
+                    if (token.equals("NONE") || token.equals("CROCODILE") || token.equals("GOAT")) {
                         context.setValidMove();
                         context.changeState(START, this);
                         return false; // end iteration through state machine due to valie move

@@ -107,6 +107,7 @@ public class TrailArea extends PlaceableAnimalFriendlyArea {
         area.getPreyList().addAll(this.getPreyList());
         area.getTigerList().addAll(this.getTigerList());
         area.getCrocodileList().addAll(this.getCrocodileList());
+//        area.getGoatList().addAll(this.getGoatList()); //should already be in PreyList
 
     }
 
