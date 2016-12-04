@@ -4,29 +4,28 @@ package com.tigerzone.fall2016server.tournament.tournamentplayer;
  * Created by lenovo on 11/19/2016.
  */
 public class PlayerStats {
-    private int gamesCompleted;
     private int gamesPlayed;
     private int forfeits;
     private int ties;
     private int wins;
     private int losses;
     private int winsByForfeit;
+    private int lossesByForfeit;
     private int totalPoints;
     private int opponentTotalPoints;
     private int largestpointdifference;
     private double largestpointdifferencerelative;
 
     public PlayerStats() {
-        gamesCompleted = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
+        lossesByForfeit = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
         largestpointdifferencerelative = 0.0;
     }
-
-    public int getGamesCompleted() {
-        return gamesCompleted;
+    public int getLossesByForfeit(){
+        return lossesByForfeit;
     }
 
-    public void setGamesCompleted(int gamesCompleted) {
-        this.gamesCompleted = gamesCompleted;
+    public void setLossesByForfeit(int lossesByForfeit){
+        this.lossesByForfeit = lossesByForfeit;
     }
 
     public int getGamesPlayed() {

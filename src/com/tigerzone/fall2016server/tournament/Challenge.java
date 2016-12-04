@@ -59,8 +59,12 @@ public class Challenge {
 
     private void sendEndMessage(){
         Logger.endChallenge(getTournamentID(),challengeID);
+        if(tournamentServer.getNumOfChallenges() == tournamentServer.getNumOfChallengesComplete()) {
+            Logger.createEndStats(players);//Create the log file of all teams that participated, and their wins, losses, etc. that Dave requested.
+        }
         for(TournamentPlayer tournamentPlayer: players){
             if(tournamentServer.getNumOfChallenges() == tournamentServer.getNumOfChallengesComplete()){
+
                 tournamentPlayer.sendMessageToPlayer("END OF CHALLENGES");
                 System.out.println("end of challenges");
             }

@@ -10,3 +10,6 @@ logger.txt
 **/*.bat
 /bin
 .DS_Store
+/module_tigerzone.xml
+/tigerzone.xml
+/tigerzone.properties

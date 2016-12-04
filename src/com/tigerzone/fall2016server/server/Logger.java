@@ -183,6 +183,9 @@ public class Logger {
         sb.append(getGameTabs()+"LOSSES ");
         sb.append(player.getStats().getLosses());
         sb.append("\r\n");
+        sb.append(getGameTabs()+"LOSSES_BY_FORFEIT");
+        sb.append(player.getStats().getLossesByForfeit());
+        sb.append("\r\n");
         sb.append(getGameTabs()+"TOTAL_POINTS ");
         sb.append(player.getStats().getTotalPoints());
         sb.append("\r\n");
@@ -544,5 +547,34 @@ public class Logger {
 
     public static String getGameTabs() {
         return "\t\t\t\t\t\t\t\t\t\t\t\t";
+    }
+
+    //Doing something that Dave requested we show at the end: a player's name, wins, losses, ties, wins by forfeit, and losses by forfeit
+    public static void createEndStats(List<TournamentPlayer> players) {
+        PrintWriter printwriter = null;
+        try {
+            printwriter = new PrintWriter(new File("./FinalStats.txt"));
+        } catch (FileNotFoundException e) {
+            System.err.println("Create a file called FinalStats.txt. This is an error caused by Jeff so yell at him.");
+        }
+
+        printwriter.println("TEAM\tWINS\tLOSSES\tTIES\tWINSFORFEIT\tLOSSESFORFEIT");
+        for(TournamentPlayer player : players){
+            StringBuilder stringb = new StringBuilder();
+            stringb.append(player.getUsername());
+            stringb.append('\t');
+            stringb.append(player.getStats().getWins());
+            printwriter.println('\t');
+            stringb.append(player.getStats().getLosses());
+            stringb.append('\t');
+            stringb.append(player.getStats().getTies());
+            stringb.append('\t');
+            stringb.append(player.getStats().getWinsByForfeit());
+            stringb.append('\t');
+            stringb.append(player.getStats().getLossesByForfeit());
+            printwriter.println(stringb.toString());
+        }
+        printwriter.flush();
+        printwriter.close();
     }
 }
