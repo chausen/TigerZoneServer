@@ -1,17 +1,15 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
-import java.util.List;
 import java.util.Set;
 
 
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class LakeArea extends CrocodileFriendlyArea {
+public class LakeArea extends PlaceableAnimalFriendlyArea {
     private boolean containsBoar;
     private boolean containsBuffalo;
     private boolean containsDeer;
@@ -33,17 +31,15 @@ public class LakeArea extends CrocodileFriendlyArea {
     public void acceptAnimals(LakeArea area) {
         area.getTigerList().addAll(this.getTigerList());
         area.getCrocodileList().addAll(this.getCrocodileList());
+        area.getGoatList().addAll(this.getGoatList());
         if(area.containsBoar() || this.containsBoar()){
-            area.setContainsBoarToTrue();
+            area.containsBoar = true;
         }
         if(area.containsBuffalo() || this.containsBuffalo()){
-            area.setContainsBuffaloToTrue();
+            area.containsBuffalo = true;
         }
         if(area.containsDeer() || this.containsDeer()){
-            area.setContainsDeerToTrue();
-        }
-        if(area.containsGoat() || this.containsGoat()){
-            area.setContainsGoatToTrue();
+            area.containsDeer = true;
         }
     }
 
@@ -125,6 +121,9 @@ public class LakeArea extends CrocodileFriendlyArea {
         if(this.containsDeer){
             count++;
         }
+        if (this.containsGoat) {
+            count++;
+        }
 
         int numOfCrocodiles = getNumOfCrocodiles();
         while(count > 0 && numOfCrocodiles > 0){
@@ -144,19 +143,7 @@ public class LakeArea extends CrocodileFriendlyArea {
     public boolean containsDeer(){
         return this.containsDeer;
     }
-    public boolean containsGoat() { return this.containsGoat; }
-
-    void setContainsBoarToTrue(){
-        this.containsBoar = true;
-    }
-    void setContainsBuffaloToTrue(){
-        this.containsBuffalo = true;
-    }
-    void setContainsDeerToTrue(){
-        this.containsDeer = true;
-    }
-    void setContainsGoatToTrue() { this.containsGoat = true; }
-
+    public boolean containsGoat() { return this.hasGoatInArea(); }
 
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {

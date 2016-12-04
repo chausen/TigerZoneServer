@@ -151,7 +151,8 @@ public class ScorerTest {
         boardTiles.add(boardTile3);
         denArea.addBoardTile(boardTiles);
         Tiger tiger = new Tiger(player1);
-        denArea.placePredator(tiger);
+//        denArea.placePredator(tiger);
+        denArea.placeAnimal(tiger);
         scorer.score(denArea);
 
         // Clay should have 3 points
@@ -176,7 +177,8 @@ public class ScorerTest {
 
         lakeArea.addAnimal(boar);
         lakeArea.addAnimal(deer);
-        lakeArea.placePredator(tiger);
+//        lakeArea.placePredator(tiger);
+        lakeArea.placeAnimal(tiger);
         scorer.score(lakeArea);
         System.out.print(scorer.getScore(player1));
          //Clay should have 3*2*(1+2) = 18 points
@@ -203,7 +205,8 @@ public class ScorerTest {
         Animal boar = new Boar();
         trailArea.addAnimal(boar);
         Tiger tiger = new Tiger(player1);
-        trailArea.placePredator(tiger);
+//        trailArea.placePredator(tiger);
+        trailArea.placeAnimal(tiger);
         scorer.score(trailArea);
 
         // player1 should have 5+1 = 6 points and player2 should have 0 points
@@ -257,9 +260,9 @@ public class ScorerTest {
 
         // player1 should have 3 (dens) + 1 (lakes) + 8 (jungles) = 12 points
         // player2 should have 3 (trails + 8 (jungles) points = 11 points
-        System.out.println(scorer.getScore(player1));
+        System.out.println("This is score for player 1 (should be 12?): " + scorer.getScore(player1));
         assertTrue(scorer.getScore(player1) == 12);
-        System.out.println(scorer.getScore(player2));
+        System.out.println("This is score for player 2 (should be 11?): " + scorer.getScore(player2));
         assertTrue(scorer.getScore(player2) == 11);
     }
 

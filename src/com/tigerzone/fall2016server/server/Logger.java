@@ -155,9 +155,9 @@ public class Logger {
         sb.append(" SCORE ");
         sb.append(game.getPlayerScore(p));
         sb.append(" TIGERS ");
-        sb.append(p.getGoodSupply());
+        sb.append(p.getTigerSupply());
         sb.append(" CROCS ");
-        sb.append(p.getBadSupply());
+        sb.append(p.getCrocSupply());
         addLogToLogger(sb.toString());
     }
 

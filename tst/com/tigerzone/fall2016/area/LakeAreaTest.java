@@ -35,7 +35,9 @@ public class LakeAreaTest {
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = true;
 
-        boolean actualResult = lakeArea.isPredatorPlaceable(crocodile);
+//        boolean actualResult = lakeArea.isPredatorPlaceable(crocodile);
+        boolean actualResult = lakeArea.isAnimalPlaceable((Placeable)crocodile);
+
         assertEquals(expectedResult, actualResult);
     }
 
@@ -44,7 +46,8 @@ public class LakeAreaTest {
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
 
-        boolean actualResult = lakeArea.isPredatorPlaceable(tiger);
+//        boolean actualResult = lakeArea.isPredatorPlaceable(tiger);
+        boolean actualResult = lakeArea.isAnimalPlaceable((Placeable)tiger);
         assertEquals(expectedResult, actualResult);
     }
 
@@ -52,7 +55,8 @@ public class LakeAreaTest {
     public void testPlacePredatorTiger() throws Exception{
         int expectedTigerListSize = 1;
 
-        lakeArea.placePredator(tiger);
+//        lakeArea.placePredator(tiger);
+        lakeArea.placeAnimal((Placeable)tiger);
         int actualTigerListSize = lakeArea.getTigerCountInArea();
         assertEquals(expectedTigerListSize, actualTigerListSize);
     }
@@ -61,7 +65,8 @@ public class LakeAreaTest {
     public void testPlacePredatorCrocodile() throws Exception{
         int expectedCrocodileListSize = 1;
 
-        lakeArea.placePredator(crocodile);
+//        lakeArea.placePredator(crocodile);
+        lakeArea.placeAnimal((Placeable)crocodile);
         int actualCrocodileListSize = lakeArea.getNumOfCrocodiles();
         assertEquals(expectedCrocodileListSize, actualCrocodileListSize);
     }

@@ -1,9 +1,6 @@
 package com.tigerzone.fall2016.area;
-import com.tigerzone.fall2016.animals.Predator;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
-import com.tigerzone.fall2016.area.terrainnode.TrailTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.Set;
 /**
  * Created by lenovo on 11/7/2016.
  */
-public class TrailArea extends CrocodileFriendlyArea {
+public class TrailArea extends PlaceableAnimalFriendlyArea {
 
     private List<Prey> preyList;
     public TrailArea(){

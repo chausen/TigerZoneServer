@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Goat;
 import com.tigerzone.fall2016.animals.Placeable;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.scoring.Scorer;
@@ -46,7 +47,12 @@ public class CrossRoadsArea extends Area{
         return false;
     } //was placeAnimal
 
-//    @Override
+    @Override
+    public boolean placeAnimal(Goat goat) {
+        return false;
+    }
+
+    //    @Override
 //    boolean isPredatorPlaceable(Predator predator) {
 //        return false;
 //    }

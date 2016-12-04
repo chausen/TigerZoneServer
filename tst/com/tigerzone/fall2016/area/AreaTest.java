@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Placeable;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.Player;
@@ -32,12 +33,14 @@ public class AreaTest {
 
     @Test
     public void testPlacePredatorCrocodile() throws Exception {
-        area.placePredator(crocodile);
+//        area.placePredator(crocodile);
+        area.placeAnimal((Placeable)crocodile);
     }
 
     @Test
     public void testPlacePredatorTiger() throws Exception {
-        area.placePredator(tiger);
+//        area.placePredator(tiger);
+        area.placeAnimal((Placeable)tiger);
     }
 
     @Test

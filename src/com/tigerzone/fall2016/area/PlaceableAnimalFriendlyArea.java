@@ -5,24 +5,22 @@ import com.tigerzone.fall2016.animals.Goat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by matthewdiaz on 11/13/16.
  */
-public abstract class CrocodileFriendlyArea extends Area {
+public abstract class PlaceableAnimalFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
     private List<Goat> goatList;
 
 
-
-    public CrocodileFriendlyArea() {
+    public PlaceableAnimalFriendlyArea() {
         this.crocodileList = new ArrayList<>();
         this.goatList = new ArrayList<>();
     }
 
 
-    public void mergeArea(CrocodileFriendlyArea area) {
+    public void mergeArea(PlaceableAnimalFriendlyArea area) {
         super.mergeArea(area);
         this.crocodileList.addAll(area.getCrocodileList());
         this.goatList.addAll(area.getGoatList());
@@ -34,11 +32,11 @@ public abstract class CrocodileFriendlyArea extends Area {
      *
      * @return
      */
-    private boolean hasCrocodileInArea() {
+    public boolean hasCrocodileInArea() {
         return !(this.crocodileList.isEmpty());
     }
 
-    private boolean hasGoatInArea() { return !(this.goatList.isEmpty());}
+    public boolean hasGoatInArea() { return !(this.goatList.isEmpty());}
 
     /**
      * this method should be called when user is placing a Crocodile

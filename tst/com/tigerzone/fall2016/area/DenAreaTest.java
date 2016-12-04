@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Placeable;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.gamesystem.Player;
@@ -39,14 +40,16 @@ public class DenAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = denArea.isPredatorPlaceable(tiger);
+//        boolean actualResult = denArea.isPredatorPlaceable(tiger);
+        boolean actualResult = denArea.isAnimalPlaceable((Placeable) tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = denArea.isPredatorPlaceable(crocodile);
+//        boolean actualResult = denArea.isPredatorPlaceable(crocodile);
+        boolean actualResult = denArea.isAnimalPlaceable((Placeable) crocodile);
         assertEquals(expectedResult, actualResult);
     }
 
