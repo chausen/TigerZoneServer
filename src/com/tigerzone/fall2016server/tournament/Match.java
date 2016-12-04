@@ -14,23 +14,31 @@ import java.util.*;
  * Created by lenovo on 11/17/2016.
  */
 public class Match extends Thread {
+    /**
+     * This class encapsulates a TournamentPlayer and a boolean gamePlayerTimedOut.
+     * If the player times out when sending a response its gamePlayerTimedOut
+     * attribute is set to true.
+     *
+     *NOTE: This class is only used in playMatch()
+     */
     class GamePlayer {
         private TournamentPlayer gamePlayer;
-        private String gamePlayerResponse;
         private boolean gamePlayerTimedOut;
 
         GamePlayer(TournamentPlayer gamePlayer) {
             this.gamePlayer = gamePlayer;
-            this.gamePlayerResponse = null;
             this.gamePlayerTimedOut = false;
         }
 
         public boolean isGamePlayerTimedOut() {
-            return gamePlayerTimedOut;
+            return this.gamePlayerTimedOut;
         }
 
-        public void resetGamePlayerStatus(){
-            this.gamePlayerResponse = null;
+        public void setGamePlayerTimedOut(){
+            this.gamePlayerTimedOut = true;
+        }
+
+        public void resetGamePlayerTimeOutStatus(){
             this.gamePlayerTimedOut = false;
         }
 
@@ -44,14 +52,6 @@ public class Match extends Thread {
 
         public String readGamePlayerResponse() throws  IOException{
             return this.gamePlayer.readPlayerMessage();
-        }
-
-        public String getGamePlayerResponse(){
-            return this.gamePlayerResponse;
-        }
-
-        public void setGamePlayerResponse(String gamePlayerResponse) {
-            this.gamePlayerResponse = gamePlayerResponse;
         }
 
         public String getGamePlayerUserName() {
@@ -111,14 +111,14 @@ public class Match extends Thread {
         game2.initializeIOport();
 
         while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
-            game1player.resetGamePlayerStatus();
-            acquireGamePlayerResponse(game1, moveNumber, game1player);
+            game1player.resetGamePlayerTimeOutStatus();
+            String game1PlayerResponse = acquireGamePlayerResponse(game1, moveNumber, game1player);
 
-            game2player.resetGamePlayerStatus();
-            acquireGamePlayerResponse(game2, moveNumber, game2player);
+            game2player.resetGamePlayerTimeOutStatus();
+            String game2PlayerResponse = acquireGamePlayerResponse(game2, moveNumber, game2player);
 
-            verifyingGamePlayerResponse(game1, game1player);
-            verifyingGamePlayerResponse(game2, game2player);
+            verifyingGamePlayerResponse(game1, game1player, game1PlayerResponse);
+            verifyingGamePlayerResponse(game2, game2player, game2PlayerResponse);
 
             //swap who is the active player in each game
             swapPlayers(game1player, game2player);
@@ -130,23 +130,27 @@ public class Match extends Thread {
     }
 
     /**
+     * This method returns the response from a GamePlayer.
+     * If the a tournamentPlayer times out the returned response is a timed out message
+     * plus the current tournamentPlayer timedOut attribute is set to true.
      *
+     * NOTE: A GamePlayer contains a TournamentPlayer & a timeOut boolean for that TournamentPlayer
      * @param game
      * @param moveNumber
      * @param gamePlayer
      */
-    public void acquireGamePlayerResponse(Game game, int moveNumber, GamePlayer gamePlayer) {
+    private String acquireGamePlayerResponse(Game game, int moveNumber, GamePlayer gamePlayer) {
+        String gamePlayerResponse = null;
         if (!game.isOver()) {
             String gamePlayerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game.getGameID(), 1, moveNumber, game.getCurrentTile());
             gamePlayer.sendGameMessageToGamePlayer(gamePlayerPrompt);
             //timeout to start
-            String gamePlayerResponse = "";
             try {
                 gamePlayerResponse = gamePlayer.readGamePlayerResponse();
             } catch (SocketTimeoutException e) {
                 gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
                         moveNumber, gamePlayer.getGamePlayerUserName(), "FORFEITED: TIMEOUT");
-
+                gamePlayer.setGamePlayerTimedOut();
                 System.out.println("Timeout in game " + game.getGameID() + ": " + gamePlayer.getGamePlayerUserName());
                 forfeitGameMap.put(game, gamePlayer.getGamePlayerUserName());
             } catch (IOException e) {
@@ -154,22 +158,28 @@ public class Match extends Thread {
                 System.out.println("This is their input " + gamePlayerResponse);
                 e.printStackTrace();
             }
-            gamePlayer.setGamePlayerResponse(gamePlayerResponse);
         }
+        return gamePlayerResponse;
     }
 
     /**
+     * This method first checks if the GamePlayer has timed out for the current Game, if it has it sends the response
+     * to the player and ends the current Game.
      *
+     * If the GamePlayer has not timed out this method receives the message from the game and sends the
+     * game's message to the GamePlayer.
+     *
+     * verifies a GamePlayer's response
      * @param game
      * @param gamePlayer
      */
-    public void verifyingGamePlayerResponse(Game game, GamePlayer gamePlayer) {
+    private void verifyingGamePlayerResponse(Game game, GamePlayer gamePlayer, String gamePlayerResponse) {
         if (!game.isOver()) {
             if (gamePlayer.isGamePlayerTimedOut()) {
-                sendGameMessage(gamePlayer.getGamePlayerResponse());
+                sendGameMessage(gamePlayerResponse);
                 game.endGame();
             } else {
-                game.receiveTurn(gamePlayer.getGamePlayerResponse());
+                game.receiveTurn(gamePlayerResponse);
                 String gameResponse = game.getResponse();
                 if (gameResponse.contains("FORFEITED")) {
                     forfeitGameMap.put(game, gamePlayer.getGamePlayerUserName());
@@ -334,5 +344,4 @@ public class Match extends Thread {
     public Game getGame2() {
         return game2;
     }
-
 }
