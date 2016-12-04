@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016.area;
 
 
+import com.tigerzone.fall2016.animals.Placeable;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
@@ -104,7 +105,7 @@ public class AreaManager {
         }
     }
 
-    public boolean addTile(Point position, PlayableTile playableTile, Predator predator, int predatorPlacementZone, int degrees) {
+    public boolean addTile(Point position, PlayableTile playableTile, Placeable animal, int animalPlacementZone, int degrees) {
         BoardTile boardTile = convertToBoardTile(playableTile);
         boardTile.rotateCCW(degrees);
         gameBoard.placeTile(position, boardTile);
@@ -113,34 +114,33 @@ public class AreaManager {
         Set<Area> newAreas = areaBuilder.buildNewAreas();
         Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
         Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
-        //updatedAreas.removeAll(deletedAreas);
         addNewAreas(newAreas);
         deleteAreas(deletedAreas);
         updatedAreas.removeAll(deletedAreas);
         addUpdatedAreas(updatedAreas);
-        boolean predatorPlaceable = false;
-        boolean crocPlaced = false;
-        if (predatorPlacementZone > 0) {
-            TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
-            if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
-                predatorPlaceable = false;
-            } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
-                predatorPlaceable = false;
-            } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
-                predatorPlaceable = false;
+        boolean tigerPlaceable = false;
+        boolean animalPlaced = false;
+        if (animalPlacementZone > 0) {
+            TerrainNode tigerPlacementNode = boardTile.getTerrainNode(animalPlacementZone);
+            if (tigerPlacementNode.getMinimumZoneValue() != animalPlacementZone) {
+                tigerPlaceable = false;
+            } else if (!tigerPlacementNode.getArea().isAnimalPlaceable(animal)) {
+                tigerPlaceable = false;
+            } else if (!tigerPlacementNode.getArea().canPlaceTiger()) {
+                tigerPlaceable = false;
             } else {
-                predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
-                predatorPlaceable = true;
+                tigerPlacementNode.getArea().placeAnimal(animal); //need to check here as well. Changed from placePredator
+                tigerPlaceable = true;
             }
-        } else if (predatorPlacementZone==0){
+        } else if (animalPlacementZone<=0){
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
-                if (terrainNode.getArea().isPredatorPlaceable(predator)) {
-                    terrainNode.getArea().placePredator(predator);
-                    crocPlaced = true;
+                if (terrainNode.getArea().isAnimalPlaceable(animal)) {
+                    terrainNode.getArea().placeAnimal(animal); //changed from placePredator
+                    animalPlaced = true; //was crocPlaced
                     break;
                 }
-                else{
-                    crocPlaced = false;
+                else {
+                    animalPlaced = false; //was crocPlaced
                 }
             }
         }
@@ -164,19 +164,19 @@ public class AreaManager {
                 denArea.acceptScorer(scorer);
             }
         }
-        if (predatorPlacementZone==0) {
-            return crocPlaced;
+        if (animalPlacementZone<=0) {
+            return animalPlaced;
         }
         else {
-            return predatorPlaceable;
+            return tigerPlaceable;
         }
     }
 
-    public boolean invalidMeeplePlacement(PlayableTile playableTile, int predatorPlacementZone , int degrees){
+    public boolean invalidMeeplePlacement(PlayableTile playableTile, int animalPlacementZone , int degrees){
         BoardTile boardTile = convertToBoardTile(playableTile);
         boardTile.rotateCCW(degrees);
-        TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
-        if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+        TerrainNode animalPlacementNode = boardTile.getTerrainNode(animalPlacementZone);
+        if (animalPlacementNode.getMinimumZoneValue() != animalPlacementZone) {
             return true;
         }
         return false;

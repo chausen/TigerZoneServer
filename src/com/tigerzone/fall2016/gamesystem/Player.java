@@ -7,22 +7,24 @@ import java.util.List;
  */
 public class Player {
     private String playerId;
-    private int goodSupply; // Tigers
-    private int badSupply;  // Crocodiles
+    private int tigerSupply; // Tigers
+    private int crocSupply;  // Crocodiles
+    private int goatSupply;
 
     public Player(String playerId) {
         this.playerId = playerId;
-        this.goodSupply = 7;
-        this.badSupply = 2;
+        this.tigerSupply = 7;
+        this.crocSupply = 2;
+        this.goatSupply = 3;
     }
 
     /**
      * Increase supply by 1.
      * PRECONDITION: Supply <= 7
      */
-    public void incrementGoodSupply() {
-        if(this.goodSupply < 7){
-            this.goodSupply++;
+    public void incrementTigerSupply() {
+        if(this.tigerSupply < 7){
+            this.tigerSupply++;
         }
     }
 
@@ -30,9 +32,9 @@ public class Player {
      * Decrease supply by 1.
      * POSTCONDITION: If supply is 0, game is forfeited
      */
-    public void decrementGoodSupply() {
-        if(getGoodSupply() >= 1){
-            this.goodSupply--;
+    public void decrementTigerSupply() {
+        if(this.tigerSupply >= 1){
+            this.tigerSupply--;
         }
     }
 
@@ -40,9 +42,19 @@ public class Player {
      * Decrease supply by 1.
      * POSTCONDITION: If supply is 0, game is forfeited
      */
-    public void decrementBadSupply(){
-        if(getBadSupply() >= 1){
-            this.badSupply--;
+    public void decrementCrocSupply(){
+        if(this.crocSupply >= 1){
+            this.crocSupply--;
+        }
+    }
+
+    /**
+     * Decrease supply by 1.
+     * POSTCONDITION: If supply is 0, game is forfeited
+     */
+    public void decrementGoatSupply(){
+        if(this.goatSupply >= 1){
+            this.goatSupply--;
         }
     }
 
@@ -58,15 +70,24 @@ public class Player {
      * Accessor for good supply (number of tigers)
      * @return int
      */
-    public int getGoodSupply() {
-        return this.goodSupply;
+    public int getTigerSupply() {
+        return this.tigerSupply;
     }
 
     /**
      * Accessor for bad supply (number of crocodiles)
      * @return
      */
-    public int getBadSupply(){ return this.badSupply; }
+    public int getCrocSupply(){ return this.crocSupply; }
+
+
+    /**
+     * Accessor for goat supply (number of goats)
+     * @return
+     */
+    public int getGoatSupply() {
+        return this.goatSupply;
+    }
 
     /**
      * Determines whether this player is equal to another based on playerID

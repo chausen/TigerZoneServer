@@ -113,14 +113,14 @@ public class GameSystem implements PlayerInAdapter {
         } else {
             fsb.placeTile(turn.getPosition(), turn.getPlayableTile());
             // update areas
-            if ( turn.placingPredator() ) {
-                if (am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getPredator(),
-                        turn.getPredatorPlacementZone(), turn.getRotationDegrees())) {
+            if ( turn.placingAnimal() ) {
+                if (am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getAnimal(),
+                        turn.getAnimalPlacementZone(), turn.getRotationDegrees())) {
                     outAdapter.successfulTurn();
                     // notify outAdapter with results
                     prepareNextTurn();
                 }
-                else if( turn.getPredatorPlacementZone()!=0 && am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getPredatorPlacementZone(), turn.getRotationDegrees())){
+                else if( turn.getAnimalPlacementZone()!=0 && am.invalidMeeplePlacement(turn.getPlayableTile(), turn.getAnimalPlacementZone(), turn.getRotationDegrees())){
                     outAdapter.forfeitInvalidMeeple(getCurrentPlayerID());
                     endOfGame();
                 }
@@ -128,7 +128,7 @@ public class GameSystem implements PlayerInAdapter {
                     outAdapter.forfeitIllegalMeeple(getCurrentPlayerID());
                     endOfGame();
                 }
-            } else if ( !turn.placingPredator() ) {
+            } else if ( !turn.placingAnimal() ) {
                 am.addTile(turn.getPosition(), turn.getPlayableTile(), turn.getRotationDegrees());
                 outAdapter.successfulTurn();
                 // notify outAdapter with results
@@ -167,7 +167,7 @@ public class GameSystem implements PlayerInAdapter {
         Point position = new Point(x,y);
         BoardTile boardTile = gameBoard.getTile(position);
         if(passCheck() && boardTile.removeTiger(this.currentPlayer.getPlayerId())){
-            this.currentPlayer.incrementGoodSupply();
+            this.currentPlayer.incrementTigerSupply();
             outAdapter.successfulTurn();
             prepareNextTurn();
         } else {
@@ -182,11 +182,11 @@ public class GameSystem implements PlayerInAdapter {
      * @param y
      */
     public void tigerPlace(int x, int y){
-        int currentPlayerSupply = currentPlayer.getGoodSupply();
+        int currentPlayerSupply = currentPlayer.getTigerSupply();
         if (passCheck() && currentPlayerSupply > 0) {
             Point position = new Point(x,y);
             BoardTile boardTile = gameBoard.getTile(position);
-            currentPlayer.decrementGoodSupply();
+            currentPlayer.decrementTigerSupply();
             Tiger tiger = new Tiger(currentPlayer);
             if (boardTile.placeTiger(tiger)) {
                 outAdapter.successfulTurn();

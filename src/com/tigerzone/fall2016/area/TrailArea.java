@@ -58,6 +58,15 @@ public class TrailArea extends CrocodileFriendlyArea {
     }
 
     /**
+     * this method should be called when a Deer is added from an AreaTile
+     * @param goat
+     */
+    @Override
+    public void addAnimal(Goat goat){
+        this.preyList.add(goat);
+    }
+
+    /**
      * Returns the number of prey after taking into account predation
      * from crocodiles
      * NOTE: This method should only be called for scoring purposes
@@ -76,11 +85,15 @@ public class TrailArea extends CrocodileFriendlyArea {
     }
 
 
-    @Override
-    boolean isPredatorPlaceable(Predator predator) {
-        return predator.placeableInTrail();
-    }
+//    @Override
+//    boolean isPredatorPlaceable(Predator predator) {
+//        return predator.placeableInTrail();
+//    }
 
+    @Override
+    boolean isAnimalPlaceable(Placeable animal) {
+        return animal.placeableInTrail();
+    }
 
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
@@ -97,7 +110,9 @@ public class TrailArea extends CrocodileFriendlyArea {
         area.getPreyList().addAll(this.getPreyList());
         area.getTigerList().addAll(this.getTigerList());
         area.getCrocodileList().addAll(this.getCrocodileList());
+
     }
+
     @Override
     public void acceptAnimals(DenArea area) {
         System.out.println("Wwhy is this getting called in TrailArea?");

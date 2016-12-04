@@ -6,7 +6,7 @@ import com.tigerzone.fall2016.gamesystem.Player;
 /**
  * Created by Aidan on 11/9/2016.
  */
-public class Crocodile extends Predator {
+public class Crocodile extends Predator implements Placeable {
     private Player owner;
 
     public Crocodile(){}
@@ -37,7 +37,8 @@ public class Crocodile extends Predator {
 
     @Override
     public void placeInArea(Area area) {
-        area.placePredator(this);
+//        area.placePredator(this);
+        area.placeAnimal(this);
     }
 
     @Override

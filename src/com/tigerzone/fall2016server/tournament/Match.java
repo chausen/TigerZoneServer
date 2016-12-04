@@ -178,13 +178,13 @@ public class Match extends Thread {
     private void sendStartMessage(TournamentPlayer player, String opponentUserName) {
         player.sendMessageToPlayer("YOUR OPPONENT IS PLAYER " + opponentUserName);
         player.sendMessageToPlayer("STARTING TILE IS TLTJ- AT 0 0 0");
-        player.sendMessageToPlayer("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
+        player.sendMessageToPlayer("THE REMAINING 78 TILES ARE " + tileToSTring(tileStack));
         player.sendMessageToPlayer("MATCH BEGINS IN " + setUpTime + " SECONDS");
 
 
         System.out.println("YOUR OPPONENT IS PLAYER " + opponentUserName);
         System.out.println("STARTING TILE IS TLTJ- AT 0 0 0");
-        System.out.println("THE REMAINING 76 TILES ARE " + tileToSTring(tileStack));
+        System.out.println("THE REMAINING 78 TILES ARE " + tileToSTring(tileStack));
         System.out.println("MATCH BEGINS IN " + setUpTime + " SECONDS");
     }
 

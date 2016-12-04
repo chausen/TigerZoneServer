@@ -21,6 +21,7 @@ public abstract class Area implements SetAddable{
     private Set<Tiger> tigerList;
 
 
+
     /**
      * This constructor is for testing purposes for now
      */
@@ -92,25 +93,57 @@ public abstract class Area implements SetAddable{
 
     public void addAnimal(Boar boar){}
 
-    /**
-     * This method is used when a player tries to place a predator to this Area
-     * @param predator
-     */
-    public void placePredator(Predator predator){
-        if (isPredatorPlaceable(predator)) {
-            predator.placeInArea(this);
+    public void addAnimal(Goat goat) {}
+
+//    /**
+//     * This method is used when a player tries to place a predator to this Area
+//     * @param predator
+//     */
+//    public void placePredator(Predator predator){
+//        if (isPredatorPlaceable(predator)) {
+//            predator.placeInArea(this);
+//        }
+//    }
+
+    public void placeAnimal(Placeable animal) {
+        if(isAnimalPlaceable(animal)) {
+            animal.placeInArea(this);
         }
     }
+
+//    /**
+//     * This method is used when a player tries to place a tiger to this Area
+//     * @param tiger
+//     */
+//    public void placePredator(Tiger tiger){
+//        if(canPlaceTiger()){
+//            this.tigerList.add(tiger);
+//        }
+//    }
 
     /**
      * This method is used when a player tries to place a tiger to this Area
      * @param tiger
      */
-    public void placePredator(Tiger tiger){
-        if(canPlaceTiger()){
+    public void placeAnimal(Tiger tiger) {
+        if (canPlaceTiger()) {
             this.tigerList.add(tiger);
         }
     }
+
+    /**
+     * This method is used when a player tries to place a crocodile to this Area
+     * @param crocodile
+     */
+    public abstract boolean placeAnimal(Crocodile crocodile);
+
+    /**
+     * This method is used when a player tries to place a crocodile to this Area
+     * @param goat
+     */
+    public abstract boolean placeAnimal(Goat goat);
+
+
 
     public boolean canPlaceTiger() {
         boolean placeable = false;
@@ -129,18 +162,20 @@ public abstract class Area implements SetAddable{
         this.tigerList.add(tiger);
     }
 
-    /**
-     * This method is used when a player tries to place a crocodile to this Area
-     * @param crocodile
-     */
-    public abstract boolean placePredator(Crocodile crocodile);
+//    /**
+//     * This method is used when a player tries to place a crocodile to this Area
+//     * @param crocodile
+//     */
+    //public abstract boolean placePredator(Crocodile crocodile);
+
 
     /**
-     * Returns true if the predator is placable in the specific Area Type
-     * @param predator
+     * Returns true if the animal is placable in the specific Area Type
+     * @param animal
      * @return
      */
-    abstract boolean isPredatorPlaceable(Predator predator);
+    //abstract boolean isPredatorPlaceable(Predator predator);
+    abstract boolean isAnimalPlaceable(Placeable animal); //overrriden by each area to define which animals are placeable there
 
     /**
      * Returns true if the Area is complete

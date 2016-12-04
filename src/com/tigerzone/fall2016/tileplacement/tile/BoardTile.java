@@ -545,6 +545,28 @@ public class BoardTile {
                 setBoardTileInTerrainNodes();
 
                 break;
+            case "LTLT-":
+                List<Integer> jungle1EZoneList = new ArrayList<>(Arrays.asList(1,3));
+                List<Integer> jungle1FZoneList = new ArrayList<>(Arrays.asList(7,9));
+                List<Integer> trailTZoneList = new ArrayList<>(Arrays.asList(4,5,6));
+                List<Integer> lakePZoneList = new ArrayList<>(Arrays.asList(2));
+                List<Integer> lakeQZoneList = new ArrayList<>(Arrays.asList(8));
+
+                List<Integer> jungle1ECanConnect = new ArrayList<>(Arrays.asList(1,3));
+                List<Integer> jungle1FCanConnect = new ArrayList<>(Arrays.asList(7,9));
+                List<Integer> trailTCanConnect = new ArrayList<>(Arrays.asList(4,6));
+                List<Integer> lakePCanConnect = new ArrayList<>(Arrays.asList(8));
+                List<Integer> lakeQCanConnect = new ArrayList<>(Arrays.asList(2));
+
+                LakeTerrainNode lakeP = new LakeTerrainNode(lakePCanConnect, lakePZoneList);
+                LakeTerrainNode lakeQ = new LakeTerrainNode(lakeQCanConnect, lakeQZoneList);
+                TrailTerrainNode trailT = new TrailTerrainNode(trailTCanConnect, trailTZoneList);
+                JungleTerrainNode jungle1E = new JungleTerrainNode(jungle1ECanConnect, jungle1EZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeP)), new HashSet<DenTerrainNode>());
+                JungleTerrainNode jungle1F = new JungleTerrainNode(jungle1FCanConnect, jungle1FZoneList, new HashSet<LakeTerrainNode>(Arrays.asList(lakeQ)), new HashSet<DenTerrainNode>());
+                this.terrainNodes = Arrays.asList(jungle1E, jungle1F, trailT, jungle1E, jungle1F);
+                setBoardTileInTerrainNodes();
+
+
         }
     }
 

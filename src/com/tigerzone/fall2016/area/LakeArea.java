@@ -1,9 +1,6 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Boar;
-import com.tigerzone.fall2016.animals.Buffalo;
-import com.tigerzone.fall2016.animals.Deer;
-import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
@@ -18,11 +15,13 @@ public class LakeArea extends CrocodileFriendlyArea {
     private boolean containsBoar;
     private boolean containsBuffalo;
     private boolean containsDeer;
+    private boolean containsGoat;
 
     public LakeArea(){
         this.containsBoar = false;
         this.containsBuffalo = false;
         this.containsDeer = false;
+        this.containsGoat = false;
     }
 
     @Override
@@ -42,6 +41,9 @@ public class LakeArea extends CrocodileFriendlyArea {
         }
         if(area.containsDeer() || this.containsDeer()){
             area.setContainsDeerToTrue();
+        }
+        if(area.containsGoat() || this.containsGoat()){
+            area.setContainsGoatToTrue();
         }
     }
 
@@ -65,11 +67,15 @@ public class LakeArea extends CrocodileFriendlyArea {
         scorer.score(this);
     }
 
-    @Override
-    boolean isPredatorPlaceable(Predator predator) {
-        return predator.placeableInLake();
-    }
+//    @Override
+//    boolean isPredatorPlaceable(Predator predator) {
+//        return predator.placeableInLake();
+//    }
 
+    @Override
+    boolean isAnimalPlaceable(Placeable animal) {
+        return animal.placeableInLake();
+    }
 
     /**
      * this method should be called when a Boar is added from an AreaTile
@@ -132,27 +138,24 @@ public class LakeArea extends CrocodileFriendlyArea {
     public boolean containsBoar(){
         return this.containsBoar;
     }
-
     public boolean containsBuffalo(){
         return this.containsBuffalo;
     }
-
     public boolean containsDeer(){
         return this.containsDeer;
     }
+    public boolean containsGoat() { return this.containsGoat; }
 
     void setContainsBoarToTrue(){
         this.containsBoar = true;
     }
-
     void setContainsBuffaloToTrue(){
         this.containsBuffalo = true;
     }
-
     void setContainsDeerToTrue(){
         this.containsDeer = true;
     }
-
+    void setContainsGoatToTrue() { this.containsGoat = true; }
 
 
     @Override

@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016.gamesystem;
 
+import com.tigerzone.fall2016.animals.Placeable;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
@@ -20,15 +21,21 @@ public class Turn
     private String playerID;
     private int rotationDegrees = 0;
     private Point position;
-    private Predator predator;
-    private int predatorPlacementZone;
+//    private Predator predator;
+    private Placeable animal;
+    private int animalPlacementZone;
 
     public int getRotationDegrees() {
         return rotationDegrees;
     }
-    public Predator getPredator() {
-        return predator;
+//    public Predator getPredator() {
+//        return predator;
+//    }
+
+    public Placeable getAnimal() {
+        return animal;
     }
+
     public String getPlayerID(){
         return playerID;
     }
@@ -42,25 +49,30 @@ public class Turn
      * @return PlayableTile: Tile that is located in this Turn.
      */
 
-    public int getPredatorPlacementZone() {
-        return predatorPlacementZone;
+    public int getAnimalPlacementZone() {
+        return animalPlacementZone;
     }
     public PlayableTile getPlayableTile() {
         return playableTile;
     }
 
-    public boolean placingPredator(){
-        return (predator == null) ? false : true;//If we have a Direction, there was a Follower placed.
+//    public boolean placingPredator(){
+//        return (predator == null) ? false : true;//If we have a Direction, there was a Follower placed.
+//    }
+
+    public boolean placingAnimal(){
+        return (animal==null) ? false : true;
     }
 
     // TODO: 11/15/2016 the input adapter coverts the tileString to a playableTile, creates predator, creates Point2D, etc. and makes this turn
-    public Turn(String playerID, PlayableTile playableTile, Point tilePlacement, int rotationDegrees, Predator predator, int zone) {
+    public Turn(String playerID, PlayableTile playableTile, Point tilePlacement, int rotationDegrees, Placeable animal, int zone) {
         this.playerID = playerID;
         this.playableTile = playableTile;
         this.rotationDegrees = rotationDegrees;
         this.position = tilePlacement;
-        this.predator=predator;
-        this.predatorPlacementZone = zone;
+        //this.predator=predator;
+        this.animal = animal;
+        this.animalPlacementZone = zone;
     }
 
 

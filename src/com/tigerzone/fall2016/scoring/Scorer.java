@@ -55,7 +55,8 @@ public class Scorer {
     private void returnTigerToOwnerAfterScoring(Set<Tiger> tigerList){
         for(Tiger tiger : tigerList){
             Player tigerOwner = tiger.getOwner();
-            tigerOwner.incrementGoodSupply();
+            //tigerOwner.incrementGoodSupply();
+            tigerOwner.incrementTigerSupply();
         }
     }
 

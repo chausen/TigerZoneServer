@@ -20,7 +20,7 @@ public class TileStackGenerator {
             "LLJJ-","LLJJ-","JLJL-","JLJL-","JLJL-","LJLJ-","LJLJ-","LJLJ-","LJJJ-","LJJJ-","LJJJ-","LJJJ-",
             "LJJJ-","JLLJ-","JLLJ-","TLJT-","TLJTP","TLJTP","JLTT-","JLTTB","JLTTB","TLTJ-","TLTJ-",
             "TLTJD","TLTJD","TLLL-","TLTT-","TLTTP","TLTTP","TLLT-","TLLT-","TLLT-","TLLTB","TLLTB",
-            "LJTJ-","LJTJD","LJTJD","TLLLC","TLLLC"};
+            "LJTJ-","LJTJD","LJTJD","TLLLC","TLLLC", "LTLT-", "LTLT-"};
 
 
     public TileStackGenerator() { }
