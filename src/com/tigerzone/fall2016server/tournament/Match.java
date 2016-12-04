@@ -89,7 +89,8 @@ public class Match extends Thread {
                 try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
                     gamePlayer1Response = game1player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
-                    game1Timeout = true;
+                    game1Timeout = true; //somewhat redundant to have this boolean when have the line below
+                    game1player.timeOut();
                     gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
                     System.out.println("Timeout in game 1: " + game1player.getUsername());
                     forfeitGameMap.put(game1, game1player.getUsername());
@@ -109,7 +110,8 @@ public class Match extends Thread {
                 try {
                     gamePlayer2Response = game2player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
-                    game2Timeout = true;
+                    game2Timeout = true; //somewhat redundant to have this boolean when have the line below
+                    game2player.timeOut();
                     gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                     System.out.println("Timeout in game 2: " + game2player.getUsername());
                     forfeitGameMap.put(game2, game2player.getUsername());

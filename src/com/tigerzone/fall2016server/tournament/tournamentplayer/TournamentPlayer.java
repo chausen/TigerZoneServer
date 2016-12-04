@@ -71,6 +71,10 @@ public class TournamentPlayer {
        return this.connection.isTimedOut();
     }
 
+    public void timeOut(){
+        this.connection.setTimedOut(true);
+    }
+
     public void resetTimeOut() {
         this.connection.setTimedOut(false);
     }
