@@ -21,7 +21,7 @@ public class TournamentServer {
     private static int seed = 123;
     private static int MAX_CONNECTIONS = 20;
     private static int tournamentID = 1;
-    private final int numOfChallenges = 9; //the number of challenges is actually this plus 1
+    private static int numOfChallenges = 9; //the number of challenges is actually this plus 1
 
     public int getNumOfChallengesComplete() {
         return numOfChallengesComplete;
@@ -36,19 +36,28 @@ public class TournamentServer {
     // Default constructor
     public TournamentServer() {}
 
-    // Constructor used for parameterized main
+    // Constructor used for parameterized main: 3 arguments
     public TournamentServer(int port, int seed, int maxConnections) {
         this.PORT = port;
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
     }
 
-    // Constructor used for parameterized main
+    // Constructor used for parameterized main: 4 arguments
     public TournamentServer(int port, int seed, int maxConnections, int tournamentID) {
         this.PORT = port;
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
         this.tournamentID = tournamentID;
+    }
+
+    // Constructor used for parameterized main: 5 arguments
+    public TournamentServer(int port, int seed, int maxConnections, int tournamentID, int numOfChallenges) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
     }
 
     public int getTournamentID() {

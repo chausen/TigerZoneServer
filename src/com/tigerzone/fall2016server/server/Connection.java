@@ -112,11 +112,25 @@ public class Connection {
         clientSocket.close();
     }
 
+    /**
+     * Query whether or not this connection has timed out
+     * @return boolean that is true if this connection timed out
+     */
     public boolean isTimedOut() {
         return timedOut;
     }
 
-    public void setTimedOut(boolean timedOut) {
-        this.timedOut = timedOut;
+    /**
+     * Indicate that this connection timed out for future queries
+     */
+    public void timedOut() {
+        this.timedOut = true;
+    }
+
+    /**
+     * Indicate that this connection has not timed out for future queries
+     */
+    public void resetTimedOut() {
+        this.timedOut = false;
     }
 }

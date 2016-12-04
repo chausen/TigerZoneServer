@@ -26,6 +26,14 @@ public class TournamentServerMain {
             int tournamentID = Integer.parseInt(args[3]);
             tournamentServer = new TournamentServer(port, seed, maxConnections, tournamentID);
 
+        } else if (args.length == 5) {
+
+            int port = Integer.parseInt(args[0]);
+            int seed = Integer.parseInt(args[1]);
+            int maxConnections = Integer.parseInt(args[2]);
+            int tournamentID = Integer.parseInt(args[3]);
+            int numOfChallenges = Integer.parseInt(args[4]);
+            tournamentServer = new TournamentServer(port, seed, maxConnections, tournamentID, numOfChallenges);
 
         } else {
 

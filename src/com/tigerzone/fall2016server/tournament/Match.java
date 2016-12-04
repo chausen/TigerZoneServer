@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
+import com.tigerzone.fall2016server.server.Connection;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
@@ -20,6 +21,8 @@ public class Match extends Thread {
     private TournamentPlayer player2;
     private TournamentPlayer game1player;
     private TournamentPlayer game2player;
+    private Connection player1Connection;
+    private Connection player2Connection;
     private LinkedList<PlayableTile> tileStack;
     private Round round;
     private int matchID;
@@ -36,6 +39,8 @@ public class Match extends Thread {
         game2 = new Game(2, player2, player1, tileStack, this);
         this.game1player = player1;
         this.game2player = player2;
+        this.player1Connection = game1player.getConnection();
+        this.player2Connection = game2player.getConnection();
     }
 
     private void swapPlayers() {
@@ -66,7 +71,7 @@ public class Match extends Thread {
         boolean game1EndNotified = false;
         boolean game2EndNotified = false;
 
-        while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
+        while ((!game1.isOver() || !game2.isOver()) && moveNumber < tileStack.size() + 1) {
 
 //            if (game1.isOver() && !game1EndNotified) {
 //                sendEndMessage(game1);
@@ -79,7 +84,6 @@ public class Match extends Thread {
             //Send each player their own prompt message
             //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
 
-            boolean game1Timeout = false;
             String gamePlayer1Response = null;
 
             if (!game1.isOver()) {
@@ -89,7 +93,7 @@ public class Match extends Thread {
                 try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
                     gamePlayer1Response = game1player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
-                    game1Timeout = true;
+                    game1player.timedOut();
                     gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
                     System.out.println("Timeout in game 1: " + game1player.getUsername());
                     forfeitGameMap.put(game1, game1player.getUsername());
@@ -100,7 +104,6 @@ public class Match extends Thread {
                 }
             }
 
-            boolean game2Timeout = false;
             String gamePlayer2Response = null;
             if (!game2.isOver()) {
                 String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
@@ -109,7 +112,7 @@ public class Match extends Thread {
                 try {
                     gamePlayer2Response = game2player.readPlayerMessage();
                 } catch (SocketTimeoutException e) {
-                    game2Timeout = true;
+                    game2player.timedOut();
                     gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
                     System.out.println("Timeout in game 2: " + game2player.getUsername());
                     forfeitGameMap.put(game2, game2player.getUsername());
@@ -127,7 +130,7 @@ public class Match extends Thread {
             //If there move is not legal put the player in the forfeit map for the game which they were the active player
 
             if (!game1.isOver()) {
-                if (game1Timeout) {
+                if (game1player.isTimedOut()) {
                     sendGameMessage(gamePlayer1Response);
                     game1.endGame();
                 } else {
@@ -140,7 +143,7 @@ public class Match extends Thread {
                 }
             }
             if (!game2.isOver()) {
-                if (game2Timeout) {
+                if (game2player.isTimedOut()) {
                     sendGameMessage(gamePlayer2Response);
                     game2.endGame();
                 } else {
