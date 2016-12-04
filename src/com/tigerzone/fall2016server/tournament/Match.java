@@ -2,13 +2,11 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
-import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.*;
 
@@ -16,10 +14,57 @@ import java.util.*;
  * Created by lenovo on 11/17/2016.
  */
 public class Match extends Thread {
+    class GamePlayer {
+        private TournamentPlayer gamePlayer;
+        private String gamePlayerResponse;
+        private boolean gamePlayerTimedOut;
+
+        GamePlayer(TournamentPlayer gamePlayer) {
+            this.gamePlayer = gamePlayer;
+            this.gamePlayerResponse = null;
+            this.gamePlayerTimedOut = false;
+        }
+
+        public boolean isGamePlayerTimedOut() {
+            return gamePlayerTimedOut;
+        }
+
+        public void resetGamePlayerStatus(){
+            this.gamePlayerResponse = null;
+            this.gamePlayerTimedOut = false;
+        }
+
+        public TournamentPlayer getGamePlayer() {
+            return gamePlayer;
+        }
+
+        public void setGamePlayer(TournamentPlayer gamePlayer) {
+            this.gamePlayer = gamePlayer;
+        }
+
+        public String readGamePlayerResponse() throws  IOException{
+            return this.gamePlayer.readPlayerMessage();
+        }
+
+        public String getGamePlayerResponse(){
+            return this.gamePlayerResponse;
+        }
+
+        public void setGamePlayerResponse(String gamePlayerResponse) {
+            this.gamePlayerResponse = gamePlayerResponse;
+        }
+
+        public String getGamePlayerUserName() {
+            return this.gamePlayer.getUsername();
+        }
+
+        public void sendGameMessageToGamePlayer(String gameMessage) {
+            this.gamePlayer.sendMessageToPlayer(gameMessage);
+        }
+    }
+
     private TournamentPlayer player1;
     private TournamentPlayer player2;
-    private TournamentPlayer game1player;
-    private TournamentPlayer game2player;
     private LinkedList<PlayableTile> tileStack;
     private Round round;
     private int matchID;
@@ -34,14 +79,12 @@ public class Match extends Thread {
         this.player2 = player2;
         game1 = new Game(1, player1, player2, tileStack, this);
         game2 = new Game(2, player2, player1, tileStack, this);
-        this.game1player = player1;
-        this.game2player = player2;
     }
 
-    private void swapPlayers() {
-        TournamentPlayer placeHolder = this.game1player;
-        this.game1player = this.game2player;
-        this.game2player = placeHolder;
+    private void swapPlayers(GamePlayer game1player, GamePlayer game2player) {
+        TournamentPlayer placeHolder = game1player.getGamePlayer();
+        game1player.setGamePlayer(game2player.getGamePlayer());
+        game2player.setGamePlayer(placeHolder);
     }
 
     public void run() {
@@ -59,102 +102,26 @@ public class Match extends Thread {
     }
 
     private void playMatch() {
+        GamePlayer game1player = new GamePlayer(player1);
+        GamePlayer game2player = new GamePlayer(player2);
+
         forfeitGameMap = new HashMap<>();
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
-        boolean game1EndNotified = false;
-        boolean game2EndNotified = false;
 
         while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
+            game1player.resetGamePlayerStatus();
+            acquireGamePlayerResponse(game1, moveNumber, game1player);
 
-//            if (game1.isOver() && !game1EndNotified) {
-//                sendEndMessage(game1);
-//            } else if (game2.isOver() && !game2EndNotified) {
-//                sendEndMessage(game2);
-//            } else {
+            game2player.resetGamePlayerStatus();
+            acquireGamePlayerResponse(game2, moveNumber, game2player);
 
-            //A single game will be doing the following in each line of the if statement...
-            //Create prompt message for both players
-            //Send each player their own prompt message
-            //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
-
-            boolean game1Timeout = false;
-            String gamePlayer1Response = null;
-
-            if (!game1.isOver()) {
-                String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
-                game1player.sendMessageToPlayer(game1playerPrompt);
-                //timeout to start
-                try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
-                    gamePlayer1Response = game1player.readPlayerMessage();
-                } catch (SocketTimeoutException e) {
-                    game1Timeout = true;
-                    gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
-                    System.out.println("Timeout in game 1: " + game1player.getUsername());
-                    forfeitGameMap.put(game1, game1player.getUsername());
-                } catch (IOException e) {
-                    System.out.println("Caught IOException in match besides timeout (Player 1)");
-                    System.out.println("This is their input " + gamePlayer1Response);
-                    e.printStackTrace();
-                }
-            }
-
-            boolean game2Timeout = false;
-            String gamePlayer2Response = null;
-            if (!game2.isOver()) {
-                String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
-                game2player.sendMessageToPlayer(game2playerPrompt);
-                //timeout to start
-                try {
-                    gamePlayer2Response = game2player.readPlayerMessage();
-                } catch (SocketTimeoutException e) {
-                    game2Timeout = true;
-                    gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-                    System.out.println("Timeout in game 2: " + game2player.getUsername());
-                    forfeitGameMap.put(game2, game2player.getUsername());
-                } catch (IOException e) {
-                    System.out.println("Caught IOException in match besides timeout (Player 2)");
-                    System.out.println("This is their input " + gamePlayer2Response);
-                    e.printStackTrace();
-                }
-            }
-            //A single game will be doing the following in each line of the if statement...
-            //Get each player's response after 1 second
-            //Send each player's response to the respective gamePort
-            //Get the ioPort's response
-            //Send the ioPort's response to both players. Note that each player gets the same message
-            //If there move is not legal put the player in the forfeit map for the game which they were the active player
-
-            if (!game1.isOver()) {
-                if (game1Timeout) {
-                    sendGameMessage(gamePlayer1Response);
-                    game1.endGame();
-                } else {
-                    game1.receiveTurn(gamePlayer1Response);
-                    String gameResponse = game1.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
-                        forfeitGameMap.put(game1, game1player.getUsername());
-                    }
-                    sendGameMessage(gameResponse);
-                }
-            }
-            if (!game2.isOver()) {
-                if (game2Timeout) {
-                    sendGameMessage(gamePlayer2Response);
-                    game2.endGame();
-                } else {
-                    game2.receiveTurn(gamePlayer2Response);
-                    String gameResponse = game2.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
-                        forfeitGameMap.put(game2, game2player.getUsername());
-                    }
-                    sendGameMessage(gameResponse);
-                }
-            }
+            verifyingGamePlayerResponse(game1, game1player);
+            verifyingGamePlayerResponse(game2, game2player);
 
             //swap who is the active player in each game
-            swapPlayers();
+            swapPlayers(game1player, game2player);
             //Increment move count
             moveNumber++;
         }
@@ -162,6 +129,55 @@ public class Match extends Thread {
         round.notifyComplete();
     }
 
+    /**
+     *
+     * @param game
+     * @param moveNumber
+     * @param gamePlayer
+     */
+    public void acquireGamePlayerResponse(Game game, int moveNumber, GamePlayer gamePlayer) {
+        if (!game.isOver()) {
+            String gamePlayerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game.getGameID(), 1, moveNumber, game.getCurrentTile());
+            gamePlayer.sendGameMessageToGamePlayer(gamePlayerPrompt);
+            //timeout to start
+            String gamePlayerResponse = "";
+            try {
+                gamePlayerResponse = gamePlayer.readGamePlayerResponse();
+            } catch (SocketTimeoutException e) {
+                gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
+                        moveNumber, gamePlayer.getGamePlayerUserName(), "FORFEITED: TIMEOUT");
+
+                System.out.println("Timeout in game " + game.getGameID() + ": " + gamePlayer.getGamePlayerUserName());
+                forfeitGameMap.put(game, gamePlayer.getGamePlayerUserName());
+            } catch (IOException e) {
+                System.out.println("Caught IOException in match besides timeout (Player 2)");
+                System.out.println("This is their input " + gamePlayerResponse);
+                e.printStackTrace();
+            }
+            gamePlayer.setGamePlayerResponse(gamePlayerResponse);
+        }
+    }
+
+    /**
+     *
+     * @param game
+     * @param gamePlayer
+     */
+    public void verifyingGamePlayerResponse(Game game, GamePlayer gamePlayer) {
+        if (!game.isOver()) {
+            if (gamePlayer.isGamePlayerTimedOut()) {
+                sendGameMessage(gamePlayer.getGamePlayerResponse());
+                game.endGame();
+            } else {
+                game.receiveTurn(gamePlayer.getGamePlayerResponse());
+                String gameResponse = game.getResponse();
+                if (gameResponse.contains("FORFEITED")) {
+                    forfeitGameMap.put(game, gamePlayer.getGamePlayerUserName());
+                }
+                sendGameMessage(gameResponse);
+            }
+        }
+    }
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -195,24 +211,34 @@ public class Match extends Thread {
 
     private void notifyEndGameToPlayers() {
         if (forfeitGameMap.get(game1) == null) {
-            sendEndMessage(game1);
+            sendEndGameMessage(game1);
+
+            sendFinalGameMessage(game1);
         } else {
             sendForfeitMessage(game1);
         }
         if (forfeitGameMap.get(game2) == null) {
-            sendEndMessage(game2);
+            sendFinalGameMessage(game2);
         } else {
             sendForfeitMessage(game2);
         }
     }
 
-    private void sendEndMessage(Game game) {
+    private void sendEndGameMessage(Game game) {
+        String endGameMessage = "GAME " + game.getGameID() + " OVER SEND OUTCOME";
         TournamentPlayer p1 = game.getPlayer1();
         TournamentPlayer p2 = game.getPlayer2();
-        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
+        p1.sendMessageToPlayer(endGameMessage);
+        p2.sendMessageToPlayer(endGameMessage);
+    }
+
+    private void sendFinalGameMessage(Game game) {
+        TournamentPlayer p1 = game.getPlayer1();
+        TournamentPlayer p2 = game.getPlayer2();
+
+        sendGameMessage(GameToClientMessageFormatter.generateGameOverMessage(game.getGameID(),
+                p1.getUsername(), p2.getUsername(), "" + game.getPlayer1FinalScore(),"" + game.getPlayer2FinalScore()));
+
         updatePlayerStatistics(game, p1, p2);
     }
 
@@ -221,18 +247,13 @@ public class Match extends Thread {
         TournamentPlayer p2 = game.getPlayer2();
         String player1score = (forfeitGameMap.get(game) != p1.getUsername() ? "WIN" : "FORFEITED");
         String player2score = (forfeitGameMap.get(game) != p2.getUsername() ? "WIN" : "FORFEITED");
-        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
-        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
+
+        sendGameMessage(GameToClientMessageFormatter.generateGameOverMessage(game.getGameID(),
+                p1.getUsername(), p2.getUsername(), player1score, player2score));
         updatePlayerStatistics(game, p1, p2);
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2) {
-       /* HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
-        playerLookup.put(p1.getUsername(), p1);
-        playerLookup.put(p2.getUsername(), p2);
-        */
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
