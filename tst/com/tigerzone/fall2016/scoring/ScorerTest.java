@@ -12,7 +12,6 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
 import java.awt.*;
-import java.net.SocketPermission;
 import java.util.*;
 import java.util.List;
 
@@ -151,7 +150,7 @@ public class ScorerTest {
         boardTiles.add(boardTile3);
         denArea.addBoardTile(boardTiles);
         Tiger tiger = new Tiger(player1);
-        denArea.placePredator(tiger);
+        denArea.placePlaceableAnimal(tiger);
         scorer.score(denArea);
 
         // Clay should have 3 points
@@ -176,7 +175,7 @@ public class ScorerTest {
 
         lakeArea.addAnimal(boar);
         lakeArea.addAnimal(deer);
-        lakeArea.placePredator(tiger);
+        lakeArea.placePlaceableAnimal(tiger);
         scorer.score(lakeArea);
         System.out.print(scorer.getScore(player1));
          //Clay should have 3*2*(1+2) = 18 points
@@ -203,7 +202,7 @@ public class ScorerTest {
         Animal boar = new Boar();
         trailArea.addAnimal(boar);
         Tiger tiger = new Tiger(player1);
-        trailArea.placePredator(tiger);
+        trailArea.placePlaceableAnimal(tiger);
         scorer.score(trailArea);
 
         // player1 should have 5+1 = 6 points and player2 should have 0 points

@@ -6,13 +6,10 @@ import com.tigerzone.fall2016.gamesystem.Player;
 /**
  * Created by Aidan on 11/9/2016.
  */
-public class Crocodile extends Predator {
-    private Player owner;
-
+public class Crocodile extends Predator{
     public Crocodile(){}
-
     public Crocodile(Player owner) {
-        this.owner = owner;
+        super(owner);
     }
 
     @Override
@@ -26,33 +23,18 @@ public class Crocodile extends Predator {
     }
 
     @Override
-    public boolean placeableInTrail() {
-        return true;
-    }
-
-    @Override
-    public boolean placeableInLake() {
-        return true;
-    }
-
-    @Override
-    public void placeInArea(Area area) {
-        area.placePredator(this);
+    public boolean placeInArea(Area area) {
+        return area.placePlaceableAnimal(this);
     }
 
     @Override
     public void addToArea(Area area){ area.addAnimal(this);}
 
-    public Player getOwner(){
-        return this.owner;
-    }
-
     public boolean hasOwner() {
-        if(this.owner!=null) {
+        if(getOwner()!= null) {
             return true;
         } else {
             return false;
         }
     }
-
 }

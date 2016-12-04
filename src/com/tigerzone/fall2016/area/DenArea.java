@@ -1,12 +1,12 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.Goat;
+import com.tigerzone.fall2016.animals.PlaceableAnimal;
 import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Set;
 
 
@@ -52,7 +52,7 @@ public class DenArea extends Area {
     }
 
     @Override
-    public boolean placePredator(Crocodile crocodile) {
+    public boolean placePlaceableAnimal(Crocodile crocodile) {
         return false;
     }
 
@@ -61,8 +61,8 @@ public class DenArea extends Area {
     }
 
     @Override
-    boolean isPredatorPlaceable(Predator predator) {
-        return predator.placeableInDen();
+    boolean isAnimalPlaceable(PlaceableAnimal placeableAnimal) {
+        return placeableAnimal.placeableInDen();
     }
 
     @Override
@@ -85,7 +85,5 @@ public class DenArea extends Area {
 
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {
-
-
     }
 }

@@ -1,17 +1,16 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.PlaceableAnimal;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import javafx.geometry.Point2D;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -20,8 +19,8 @@ import static org.junit.Assert.*;
  */
 public class JungleAreaTest {
     private Area jungleArea;
-    private Predator crocodile;
-    private Predator tiger;
+    private PlaceableAnimal crocodile;
+    private PlaceableAnimal tiger;
     private Player owner;
 
     @Before
@@ -36,14 +35,14 @@ public class JungleAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = jungleArea.isPredatorPlaceable(tiger);
+        boolean actualResult = jungleArea.isAnimalPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
-        boolean actualResult = jungleArea.isPredatorPlaceable(crocodile);
+        boolean actualResult = jungleArea.isAnimalPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 

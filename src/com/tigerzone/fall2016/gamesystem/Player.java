@@ -9,11 +9,14 @@ public class Player {
     private String playerId;
     private int goodSupply; // Tigers
     private int badSupply;  // Crocodiles
+    //new Meeple type Goat
+    private int goatSupply;
 
     public Player(String playerId) {
         this.playerId = playerId;
         this.goodSupply = 7;
         this.badSupply = 2;
+        this.goatSupply = 3;
     }
 
     /**
@@ -23,6 +26,16 @@ public class Player {
     public void incrementGoodSupply() {
         if(this.goodSupply < 7){
             this.goodSupply++;
+        }
+    }
+
+    /**
+     * Decrease supply by 1.
+     * POSTCONDITION: If supply is 0, game is forfeited
+     */
+    public void decrementGoatSupply() {
+        if(getGoatSupply() >= 1){
+            this.goodSupply--;
         }
     }
 
@@ -67,6 +80,13 @@ public class Player {
      * @return
      */
     public int getBadSupply(){ return this.badSupply; }
+
+
+    /**
+     * Accessor for goat supply (number of goat)
+     * @return
+     */
+    public int getGoatSupply(){ return this.goatSupply; }
 
     /**
      * Determines whether this player is equal to another based on playerID

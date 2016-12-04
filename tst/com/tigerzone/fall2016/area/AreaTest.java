@@ -32,12 +32,12 @@ public class AreaTest {
 
     @Test
     public void testPlacePredatorCrocodile() throws Exception {
-        area.placePredator(crocodile);
+        area.placePlaceableAnimal(crocodile);
     }
 
     @Test
     public void testPlacePredatorTiger() throws Exception {
-        area.placePredator(tiger);
+        area.placePlaceableAnimal(tiger);
     }
 
     @Test

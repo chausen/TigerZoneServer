@@ -1,9 +1,6 @@
 package com.tigerzone.fall2016.area;
-import com.tigerzone.fall2016.animals.Predator;
 
 import com.tigerzone.fall2016.animals.*;
-import com.tigerzone.fall2016.area.terrainnode.JungleTerrainNode;
-import com.tigerzone.fall2016.area.terrainnode.TrailTerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 
 import java.util.ArrayList;
@@ -77,10 +74,9 @@ public class TrailArea extends CrocodileFriendlyArea {
 
 
     @Override
-    boolean isPredatorPlaceable(Predator predator) {
-        return predator.placeableInTrail();
+    boolean isAnimalPlaceable(PlaceableAnimal placeableAnimal) {
+        return placeableAnimal.placeableInTrail();
     }
-
 
     @Override
     public void addToAppropriateSet(Set<TrailArea> trailAreas, Set<JungleArea> jungleAreas, Set<LakeArea> lakeAreas) {

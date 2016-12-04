@@ -1,6 +1,9 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
+import com.tigerzone.fall2016.animals.Goat;
+import com.tigerzone.fall2016.animals.PlaceableAnimal;
+import com.tigerzone.fall2016.gamesystem.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +14,11 @@ import java.util.concurrent.ExecutionException;
  */
 public abstract class CrocodileFriendlyArea extends Area {
     private List<Crocodile> crocodileList;
-
+    private List<Goat> goatList;
 
     public CrocodileFriendlyArea() {
         this.crocodileList = new ArrayList<>();
+        this.goatList = new ArrayList<>();
     }
 
 
@@ -23,9 +27,16 @@ public abstract class CrocodileFriendlyArea extends Area {
         this.crocodileList.addAll(getCrocodileList());
     }
 
+    /**
+     * Returns true if Goat list is not empty
+     * @return
+     */
+    private boolean hasGoatInArea(){
+        return !(this.goatList.isEmpty());
+    }
 
     /**
-     * Returns true if list is not empty
+     * Returns true if Crocodile list is not empty
      *
      * @return
      */
@@ -39,7 +50,7 @@ public abstract class CrocodileFriendlyArea extends Area {
      * @param crocodile
      */
     @Override
-    public boolean placePredator(Crocodile crocodile) {
+    public boolean placePlaceableAnimal(Crocodile crocodile) {
         if (!hasCrocodileInArea()) {
             this.addAnimal(crocodile);
             return true;
@@ -47,8 +58,21 @@ public abstract class CrocodileFriendlyArea extends Area {
             this.addAnimal(crocodile);
             return true;
         } else {
-            //throw forfeit!! // TODO: 11/17/2016 add logic here
+            return false;
+        }
+    }
 
+    /**
+     * this method should be called when user is placing a Goat
+     *
+     * @param goat
+     */
+    @Override
+    public boolean placePlaceableAnimal(Goat goat) {
+        if (!hasGoatInArea()) {
+            this.addAnimal(goat);
+            return true;
+        } else {
             return false;
         }
     }
@@ -62,6 +86,13 @@ public abstract class CrocodileFriendlyArea extends Area {
     public void addAnimal(Crocodile crocodile) {
         this.crocodileList.add(crocodile);
     }
+
+    /**
+     * this method should be called when a Goat is added from an AreaTile
+     * @param goat
+     */
+    @Override
+    public void addAnimal(Goat goat){ this.goatList.add(goat);}
 
     /**
      * Returns the number of Crocodiles in this area

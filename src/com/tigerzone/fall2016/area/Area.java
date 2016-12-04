@@ -6,7 +6,6 @@ import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -14,10 +13,8 @@ import java.util.List;
  * Created by lenovo on 11/7/2016.
  */
 public abstract class Area implements SetAddable{
-
     private Set<BoardTile> boardTiles;
     private Set<TerrainNode> terrainNodes;
-//    private List<Tiger> tigerList;
     private Set<Tiger> tigerList;
 
 
@@ -25,15 +22,11 @@ public abstract class Area implements SetAddable{
      * This constructor is for testing purposes for now
      */
     public Area(){
-//        this.tigerList = new ArrayList<>();
         this.tigerList = new HashSet<>();
         this.boardTiles = new HashSet<>();
         this.terrainNodes = new HashSet<>();
     }
 
-//    public List<Tiger> getTigerList() {
-//        return tigerList;
-//    }
     public Set<Tiger> getTigerList() {return tigerList;}
 
     public void removeTiger(Tiger tiger) {
@@ -46,7 +39,6 @@ public abstract class Area implements SetAddable{
         }
         addBoardTile(area.getBoardTiles());
         addTerrainNode(area.getTerrainNodes());
-       // this.tigerList.addAll(area.getTigerList());
         mergeAnimals(area);
     }
 
@@ -56,7 +48,6 @@ public abstract class Area implements SetAddable{
     public abstract void acceptAnimals(TrailArea area);
     public abstract void acceptAnimals(DenArea area);
     public abstract void acceptAnimals(JungleArea area);
-
     public abstract void acceptScorer(Scorer scorer);
 
 
@@ -86,6 +77,8 @@ public abstract class Area implements SetAddable{
 
     public void addAnimal(Crocodile crocodile){}
 
+    public void addAnimal(Goat goat){}
+
     public void addAnimal(Buffalo buffalo){}
 
     public void addAnimal(Deer deer){}
@@ -93,24 +86,41 @@ public abstract class Area implements SetAddable{
     public void addAnimal(Boar boar){}
 
     /**
-     * This method is used when a player tries to place a predator to this Area
-     * @param predator
+     * this method should only be called When you are passing in PlaceableAnimal
+     * however IOPort usually passes in a more specific type such as Tiger or Crocodile
+     * @param placeableAnimal
      */
-    public void placePredator(Predator predator){
-        if (isPredatorPlaceable(predator)) {
-            predator.placeInArea(this);
+    public boolean placePlaceableAnimal(PlaceableAnimal placeableAnimal){
+        if(isAnimalPlaceable(placeableAnimal)){
+            return placeableAnimal.placeInArea(this);
         }
+        return false;
     }
 
     /**
      * This method is used when a player tries to place a tiger to this Area
      * @param tiger
      */
-    public void placePredator(Tiger tiger){
-        if(canPlaceTiger()){
+    public boolean placePlaceableAnimal(Tiger tiger){
+        if(this.tigerList.isEmpty()){
             this.tigerList.add(tiger);
+            return true;
         }
+        return false;
     }
+
+    /**
+     * This method is used when a player tries to place a crocodile to this Area
+     * @param crocodile
+     */
+    public boolean placePlaceableAnimal(Crocodile crocodile){ return false;}
+
+    /**
+     * This method is used when a player tries to place a Goat to this Area
+     * @param goat
+     * @return
+     */
+    public boolean placePlaceableAnimal(Goat goat){ return false;}
 
     public boolean canPlaceTiger() {
         boolean placeable = false;
@@ -121,26 +131,22 @@ public abstract class Area implements SetAddable{
     }
 
     /**
+     * Checks to see if PlaceableAnimal is placeable in the area
+     * NOTE: This method checks only if the placeableAnimal can be checked
+     * based on the terrain type that the player is trying to place the placeableAnimal on.
+     * @param placeableAnimal
+     * @return
+     */
+    abstract boolean isAnimalPlaceable(PlaceableAnimal placeableAnimal);
+
+    /**
      * This method adds a tiger to an area without any checking!
      * NOTE: This method should only be called in the special case where a tile is not placable.
      * @param tiger
      */
-    public void placeTigerSpecialCase(Tiger tiger) { //must have already passed all checks in TerrainNode placeTiger
+    public void placeTigerSpecialCase(Tiger tiger) {
         this.tigerList.add(tiger);
     }
-
-    /**
-     * This method is used when a player tries to place a crocodile to this Area
-     * @param crocodile
-     */
-    public abstract boolean placePredator(Crocodile crocodile);
-
-    /**
-     * Returns true if the predator is placable in the specific Area Type
-     * @param predator
-     * @return
-     */
-    abstract boolean isPredatorPlaceable(Predator predator);
 
     /**
      * Returns true if the Area is complete

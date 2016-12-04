@@ -540,8 +540,8 @@ public class BoardTile {
 
                 this.terrainNodes = Arrays.asList(jungle1C, jungle1D, trailS, lakeO);
                 Crocodile crocodile = new Crocodile();
-                lakeO.getArea().placePredator(crocodile);
-                trailS.getArea().placePredator(crocodile);
+                lakeO.getArea().placePlaceableAnimal(crocodile);
+                trailS.getArea().placePlaceableAnimal(crocodile);
                 setBoardTileInTerrainNodes();
 
                 break;

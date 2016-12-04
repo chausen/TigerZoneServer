@@ -5,12 +5,11 @@ import java.util.regex.Pattern;
 
 /**
  * Created by chausen on 11/19/16.
- *
+ * <p>
  * Each enum implements a parse method determines whether part of a String follows the Move Protocol.
  * A Context is passed along to each state and keeps track of the current state of the String traversal.
  * parse(Context context) will return false if the traversal should end (the current String is done being parsed) or
  * True otherwise. The boolean does not determine whether or not the Move was valid; the Context keeps track of this.
- *
  */
 enum MoveProtocolStates implements ProtocolState {
 
@@ -22,8 +21,8 @@ enum MoveProtocolStates implements ProtocolState {
                 String token = scanner.next();
                 if (token.equals("GAME")) {
                     int gid = context.getGid();
-                    if(scanner.hasNextInt()) {
-                        if(scanner.nextInt() == gid) {
+                    if (scanner.hasNextInt()) {
+                        if (scanner.nextInt() == gid) {
                             context.changeState(MOVE, this);
                             return true;
                         }
@@ -42,8 +41,8 @@ enum MoveProtocolStates implements ProtocolState {
             if (scanner.hasNext()) {
                 String token = scanner.next();
                 if (token.equals("MOVE")) {
-                    if(scanner.hasNextInt()) {
-                        if(context.compareMoveNum(scanner.nextInt())) {
+                    if (scanner.hasNextInt()) {
+                        if (context.compareMoveNum(scanner.nextInt())) {
                             context.changeState(GAME, this);
                             return true;
                         }
@@ -190,16 +189,19 @@ enum MoveProtocolStates implements ProtocolState {
                 if (orientation == 0 || orientation == 90 || orientation == 180 || orientation == 270) {
                     if (scanner.hasNext()) {
                         String token = scanner.next();
-                    if (token.equals("NONE") || token.equals("CROCODILE")) {
-                        context.setValidMove();
-                        context.changeState(START, this);
-                        return false; // end iteration through state machine due to valie move
-                    } else if (token.equals("TIGER")) {
-                        context.changeState(ZONE, this);
+                        if (token.equals("NONE") || token.equals("CROCODILE")) {
+                            context.setValidMove();
+                            context.changeState(START, this);
+                            return false; // end iteration through state machine due to valie move
+                        } else if (token.equals("TIGER")) {
+                            context.changeState(ZONE, this);
+                            return true;
+                        } else if (token.equals("GOAT")) {
+                            context.changeState(ZONE, this);
+                            return true;
+                        }
                         return true;
                     }
-                    return true;
-                }
                 }
             }
             context.setIllegalMove();

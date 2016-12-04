@@ -2,9 +2,7 @@ package com.tigerzone.fall2016.ports;
 
 import com.tigerzone.fall2016.adapters.PlayerInAdapter;
 import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
-import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.animals.Tiger;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.DenArea;
 import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
@@ -135,31 +133,28 @@ public class IOPort implements PlayerOutAdapter {
         int x = sc.nextInt();           // This gives us the x coord
         int y = sc.nextInt();           // This gives us the y coord
         int orientation = sc.nextInt(); // This gives us the orientation (rotation degree)
-        String predatorStr = sc.next(); // Conditional logic below determines what kind of predator
-        Predator predator = null;       // This will hold the predator (tiger, crocodile, null if "NONE" is recieved)
+        String animalStr = sc.next(); // Conditional logic below determines what kind of animal the player will place
+        PlaceableAnimal placeableAnimal = null; // This will hold the placeableAnimal (tiger, crocodile, goat, or
+                                                // null if "NONE" is received)
         // The zone of the tile where the predator will be placed
         int zone = 0;
 
-        if (predatorStr.equals("TIGER")) {
+        if (animalStr.equals("TIGER")) {
             this.currentPlayer.decrementGoodSupply();
-            predator = new Tiger(currentPlayer);
+            placeableAnimal = new Tiger(currentPlayer);
             if (sc.hasNext()) {
                 zone = sc.nextInt();//This gives us zone
             }
-        } else if (predatorStr.equals("CROCODILE")) {
+        } else if (animalStr.equals("CROCODILE")) {
             currentPlayer.decrementBadSupply();
-            predator = new Crocodile(currentPlayer);
-
-        } else if (predatorStr.equals("NONE")) {
-            predator = null;
+            placeableAnimal = new Crocodile(currentPlayer);
+        } else if (animalStr.equals("GOAT")){
+            currentPlayer.decrementGoatSupply();
+            placeableAnimal = new Goat(currentPlayer);
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
-//        if(zone < 1 || zone > 9){
-//            forfeitInvalidMeeple(currentPlayer.getPlayerId());
-//            return;
-//        }
-        Turn t = new Turn(currentPlayer.getPlayerId(), playableTile, new Point(x,y), orientation, predator, zone);
+        Turn t = new Turn(currentPlayer.getPlayerId(), playableTile, new Point(x,y), orientation, placeableAnimal, zone);
 
         // Send turn downstream
         inAdapter.receiveTurn(t);

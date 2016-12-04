@@ -29,14 +29,14 @@ public class TrailAreaTest {
     @Test
     public void testIsTigerPlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = trailArea.isPredatorPlaceable(tiger);
+        boolean actualResult = trailArea.isAnimalPlaceable(tiger);
         assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = true;
-        boolean actualResult = trailArea.isPredatorPlaceable(crocodile);
+        boolean actualResult = trailArea.isAnimalPlaceable(crocodile);
         assertEquals(expectedResult, actualResult);
     }
 

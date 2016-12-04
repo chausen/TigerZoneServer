@@ -1,10 +1,10 @@
 package com.tigerzone.fall2016.area;
 
 import com.tigerzone.fall2016.animals.Crocodile;
-import com.tigerzone.fall2016.animals.Predator;
+import com.tigerzone.fall2016.animals.Goat;
+import com.tigerzone.fall2016.animals.PlaceableAnimal;
 import com.tigerzone.fall2016.scoring.Scorer;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,12 +41,12 @@ public class CrossRoadsArea extends Area{
     public void acceptScorer(Scorer scorer) {}
 
     @Override
-    public boolean placePredator(Crocodile crocodile) {
+    public boolean placePlaceableAnimal(Crocodile crocodile) {
         return false;
     }
 
     @Override
-    boolean isPredatorPlaceable(Predator predator) {
+    boolean isAnimalPlaceable(PlaceableAnimal placeableAnimal) {
         return false;
     }
 

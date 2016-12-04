@@ -7,6 +7,5 @@ import com.tigerzone.fall2016.area.Area;
  */
 public abstract class Animal {
     public Animal(){}
-
     public void addToArea(Area area){}
 }

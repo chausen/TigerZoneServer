@@ -1,13 +1,8 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.animals.Boar;
-import com.tigerzone.fall2016.animals.Buffalo;
-import com.tigerzone.fall2016.animals.Deer;
-import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.area.terrainnode.LakeTerrainNode;
+import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.scoring.Scorer;
 
-import java.util.List;
 import java.util.Set;
 
 
@@ -66,8 +61,8 @@ public class LakeArea extends CrocodileFriendlyArea {
     }
 
     @Override
-    boolean isPredatorPlaceable(Predator predator) {
-        return predator.placeableInLake();
+    boolean isAnimalPlaceable(PlaceableAnimal placeableAnimal) {
+        return placeableAnimal.placeableInLake();
     }
 
 
