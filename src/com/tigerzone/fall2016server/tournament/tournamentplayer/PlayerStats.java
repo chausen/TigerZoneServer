@@ -49,7 +49,7 @@ public class PlayerStats {
 
     public void setLossesByForfeit(int lossesByForfeit){
         this.lossesByForfeit = lossesByForfeit;
-        this.lossesProperty.set(lossesByForfeit);
+        this.lossesByForfeitProperty.set(lossesByForfeit);
     }
 
     public int getGamesPlayed() {
