@@ -33,6 +33,7 @@ public class Logger {
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
     // Old GUI
 //    private static PlayerBoxController pbc;
+    private static ViewOutAdapter viewOutAdapter;
     private static ObservableList<PlayerStats> listOfPlayerStats = FXCollections.observableArrayList();
 
     /**
@@ -50,7 +51,8 @@ public class Logger {
         e.printStackTrace();
         }
 //        pbc = new PlayerBoxController();
-        adapter.giveListOfPlayerStats(listOfPlayerStats);
+        viewOutAdapter = adapter;
+        viewOutAdapter.giveListOfPlayerStats(listOfPlayerStats);
         begin(tournamentID);
     }
 
@@ -115,6 +117,8 @@ public class Logger {
         sb.append(" of ");
         sb.append(numOfRounds);
         addLogToLogger(sb.toString());
+        System.out.println("ViewAdapter: " + viewOutAdapter);
+        viewOutAdapter.notifyEndOfRound(roundID, numOfRounds);
     }
 
     public static void endGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, TournamentPlayer player1, TournamentPlayer player2) {

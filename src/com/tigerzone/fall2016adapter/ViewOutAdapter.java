@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
  * Created by chausen on 12/5/16.
  */
 public interface ViewOutAdapter {
+    void notifyEndOfRound(int roundsCompleted, int totalRounds);
     void notifyEndOfTournament();
     void giveListOfPlayerStats(ObservableList<PlayerStats> listOfPlayerStats);
 }

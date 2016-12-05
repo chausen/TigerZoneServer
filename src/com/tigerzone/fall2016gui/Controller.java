@@ -4,18 +4,17 @@ import com.tigerzone.fall2016adapter.ViewInAdapter;
 import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Controller implements ViewOutAdapter {
     private boolean tournamentInProgress = false;
+    private boolean cancellingTournament = false;
     private ViewInAdapter adapter;
 
     @FXML
@@ -64,6 +63,12 @@ public class Controller implements ViewOutAdapter {
     private TableColumn<PlayerStats,Number> lossesByForfeitColumn;
 
     @FXML
+    private ProgressBar progressBar;
+
+    @FXML
+    private Label roundProgress;
+
+    @FXML
     private void initialize() {
         try {
             ipAddress.setText(InetAddress.getLocalHost().toString());
@@ -76,6 +81,7 @@ public class Controller implements ViewOutAdapter {
         tiesColumn.setCellValueFactory(cellData -> cellData.getValue().tiesProperty());
         winsByForfeitColumn.setCellValueFactory(cellData -> cellData.getValue().winsByForfeitProperty());
         lossesByForfeitColumn.setCellValueFactory(cellData -> cellData.getValue().lossesByForfeitProperty());
+        progressBar.setProgress(0);
     }
 
     @FXML
@@ -108,10 +114,13 @@ public class Controller implements ViewOutAdapter {
     }
 
     private void cancelTournament() {
-        adapter.cancelTournament();
-        tournamentButton.setText("Cancelling");
-        tournamentButton.getStyleClass().remove("cancel-button");
-        tournamentButton.getStyleClass().add("cancelling-button");
+        if (!cancellingTournament) {
+            cancellingTournament = true;
+            adapter.cancelTournament();
+            tournamentButton.setText("Cancelling");
+            tournamentButton.getStyleClass().remove("cancel-button");
+            tournamentButton.getStyleClass().add("cancelling-button");
+        }
     }
 
 
@@ -119,8 +128,27 @@ public class Controller implements ViewOutAdapter {
     public void notifyEndOfTournament() {
         tournamentInProgress = false;
         tournamentButton.setText("Start Tournament");
-        tournamentButton.getStyleClass().remove("cancel-button");
+        if (!cancellingTournament) {
+
+            tournamentButton.getStyleClass().remove("cancel-button");
+
+        } else {
+
+            tournamentButton.getStyleClass().remove("cancelling-button");
+
+        }
         tournamentButton.getStyleClass().add("activate-button");
+    }
+
+    @Override
+    public void notifyEndOfRound(int roundsCompleted, int totalRounds) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(new Double(roundsCompleted) / new Double(totalRounds));
+                roundProgress.setText("Rounds\n" + roundsCompleted + " of " + totalRounds);
+            }
+        });
     }
 
     @Override
