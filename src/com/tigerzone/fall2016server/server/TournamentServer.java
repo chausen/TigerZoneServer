@@ -106,7 +106,7 @@ public class TournamentServer implements ViewInAdapter, Runnable {
 
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS);
+        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS, PORT);
         connectionHandler.start();
         try {
             connectionHandler.join();
