@@ -1,7 +1,7 @@
 package com.tigerzone.fall2016.gamesystem;
 
-import com.tigerzone.fall2016.adapters.PlayerInAdapter;
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016adapter.PlayerInAdapter;
+import com.tigerzone.fall2016adapter.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.AreaManager;
 import com.tigerzone.fall2016.scoring.Scorer;
@@ -9,7 +9,6 @@ import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 
 import java.awt.*;
 import java.util.*;
@@ -68,6 +67,8 @@ public class GameSystem implements PlayerInAdapter {
 
         // Tile Unplaceable Pass Test
         // ts = new TileStack(getUnplaceablePassTestStack());
+
+        ts.truncateTS(20);
 
         currentTile = ts.peek();
     }

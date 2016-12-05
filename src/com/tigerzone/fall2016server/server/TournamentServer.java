@@ -1,7 +1,10 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016adapter.ViewInAdapter;
+import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.tournament.Challenge;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,11 +12,12 @@ import java.util.*;
 /**
  * Created by lenovo on 11/19/2016.
  */
-public class TournamentServer {
+public class TournamentServer implements ViewInAdapter, Runnable {
 
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
     private static List<String> userNames = new ArrayList<>();
+    private ViewOutAdapter viewOutAdapter;
 
     Challenge challenge;
 
@@ -70,12 +74,13 @@ public class TournamentServer {
             startChallenge(tournamentPlayers);
         } else{
             System.out.println("Not enough players for a tournament");
-            System.exit(1);
+            viewOutAdapter.notifyEndOfTournament();
+//            System.exit(1);
         }
     }
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
-        Logger.initializeLogger(tournamentID);
+        Logger.initializeLogger(tournamentID, viewOutAdapter);
         challenge = new Challenge(this, seed, tournamentPlayers);
         challenge.beginChallenge();
     }
@@ -124,12 +129,16 @@ public class TournamentServer {
 //                System.exit(0);
 //            }
 //        }
-            System.exit(0);
+            viewOutAdapter.notifyEndOfTournament();
         }
         else{
             challenge = new Challenge(this, seed--, tournamentPlayers);
             challenge.beginChallenge();
         }
+    }
+
+    public void setViewOutAdapter(ViewOutAdapter adapter) {
+        this.viewOutAdapter = adapter;
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
@@ -142,6 +151,11 @@ public class TournamentServer {
 
     public static List<String> getUserNames() {
         return userNames;
+    }
+
+    @Override
+    public void run() {
+        runTournament();
     }
 }
 

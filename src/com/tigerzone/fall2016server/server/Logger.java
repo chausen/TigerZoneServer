@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016.adapters.PlayerInAdapter;
+import com.tigerzone.fall2016adapter.PlayerInAdapter;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Prey;
 import com.tigerzone.fall2016.animals.Tiger;
@@ -9,10 +9,13 @@ import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
+import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.scoreboard.PlayerBoxController;
-import com.tigerzone.fall2016server.scoreboard.Scoreboard;
 import com.tigerzone.fall2016server.tournament.Game;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,12 +31,14 @@ public class Logger {
     private static PrintWriter pw = null;
     private static CopyOnWriteArrayList<String> logs = new CopyOnWriteArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
-    private static PlayerBoxController pbc;
+//    private static PlayerBoxController pbc;
+    private static ObservableList<PlayerStats> listOfPlayerStats = FXCollections.observableArrayList();
+    private ViewOutAdapter adapter;
 
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
      */
-    public static void initializeLogger(int tournamentID) {
+    public static void initializeLogger(int tournamentID, ViewOutAdapter adapter) {
 
         try {
             StringBuilder sb = new StringBuilder();
@@ -44,7 +49,8 @@ public class Logger {
         }catch (FileNotFoundException e) {
         e.printStackTrace();
         }
-        pbc = new PlayerBoxController();
+//        pbc = new PlayerBoxController();
+        adapter.giveListOfPlayerStats(listOfPlayerStats);
         begin(tournamentID);
     }
 
@@ -119,8 +125,9 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2.getUsername());
         addLogToLogger(sb.toString());
-        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
-        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+//        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
+//        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player1);
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }

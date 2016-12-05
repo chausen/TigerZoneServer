@@ -95,7 +95,14 @@ public class Connection {
 
     public String receiveMessageFromPlayer() throws IOException{
         try {
-            return this.in.readLine();
+            Long startTime = System.nanoTime();
+            String input = this.in.readLine();
+            Long endTime = System.nanoTime();
+            System.out.println(endTime - startTime);
+//            System.out.println("===== Delay: " + (endTime - startTime) + "ns =====");
+
+            return input;
+//            return this.in.readLine();
         }
         catch (SocketException e){
             return null;
