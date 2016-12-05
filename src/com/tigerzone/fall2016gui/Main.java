@@ -11,8 +11,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
+        Scene scene = new Scene(root, 800, 800);
+        scene.getStylesheets().add(getClass().getResource("dashboard.css").toExternalForm());
         primaryStage.setTitle("tigerzone Server");
-        primaryStage.setScene(new Scene(root, 800, 800));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

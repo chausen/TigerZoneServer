@@ -11,32 +11,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0"
-           xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="com.tigerzone.fall2016gui.Controller">
+<SplitPane dividerPositions="0.35" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tigerzone.fall2016gui.Controller">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Label alignment="CENTER" layoutY="-5.0" prefHeight="149.0" prefWidth="234.0" text="tigerzone Server" textAlignment="CENTER" AnchorPane.bottomAnchor="654.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
+            <Label alignment="CENTER" layoutY="-5.0" prefHeight="149.0" prefWidth="234.0" styleClass="app-title-background" textAlignment="CENTER" AnchorPane.bottomAnchor="654.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-5.0">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label layoutX="20.0" layoutY="200.0" text="Port:" />
-             <TextField fx:id="port" layoutX="70.0" layoutY="195.0" prefHeight="26.0" prefWidth="156.0" />
-            <Label layoutX="20.0" layoutY="275.0" text="Seed:" />
-             <TextField fx:id="seed" layoutX="70.0" layoutY="270.0" prefHeight="26.0" prefWidth="156.0" />
-            <Label layoutX="20.0" layoutY="350.0" text="MaxConnections:" />
-             <TextField fx:id="maxConnections" layoutX="70.0" layoutY="345.0" prefHeight="26.0" prefWidth="156.0" />
-            <Label layoutX="20.0" layoutY="425.0" text="TournamentID:" />
-             <TextField fx:id="tournamentID" layoutX="70.0" layoutY="420.0" prefHeight="26.0" prefWidth="156.0" />
-            <Label layoutX="20.0" layoutY="500.0" text="# Challenges:" />
-             <TextField fx:id="numChallenges" layoutX="70.0" layoutY="495.0" prefHeight="26.0" prefWidth="156.0" />
-            <Label layoutX="20.0" layoutY="575.0" text="Server Password:" AnchorPane.bottomAnchor="207.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="575.0" />
-             <TextField fx:id="serverPassword" layoutX="70.0" layoutY="570.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="645.0" />
+            <Label alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="91.0" prefWidth="275.0" styleClass="app-title" text="tigerzone Server" textAlignment="CENTER" AnchorPane.bottomAnchor="704.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="3.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="35.0" layoutY="200.0" text="Port:" AnchorPane.bottomAnchor="582.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="200.0" />
+             <TextField fx:id="port" layoutX="120.0" layoutY="195.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="577.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="195.0" />
+            <Label layoutX="35.0" layoutY="275.0" prefHeight="16.0" prefWidth="48.0" text="Seed:" AnchorPane.bottomAnchor="507.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="192.0" AnchorPane.topAnchor="275.0" />
+             <TextField fx:id="seed" layoutX="120.0" layoutY="270.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="502.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="270.0" />
+            <Label layoutX="6.0" layoutY="350.0" prefHeight="16.0" prefWidth="125.0" text="Max Connections:" AnchorPane.bottomAnchor="432.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="144.0" AnchorPane.topAnchor="350.0" />
+             <TextField fx:id="maxConnections" layoutX="120.0" layoutY="345.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="427.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="345.0" />
+            <Label layoutX="9.0" layoutY="425.0" text="Tournament ID:" AnchorPane.bottomAnchor="357.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="163.0" AnchorPane.topAnchor="425.0" />
+             <TextField fx:id="tournamentID" layoutX="120.0" layoutY="420.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="352.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="420.0" />
+            <Label layoutX="10.0" layoutY="500.0" text="# Challenges:" AnchorPane.bottomAnchor="282.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="163.0" AnchorPane.topAnchor="500.0" />
+             <TextField fx:id="numChallenges" layoutX="120.0" layoutY="495.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="277.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="495.0" />
+            <Label layoutX="6.0" layoutY="575.0" prefHeight="16.0" prefWidth="140.0" text="Server Password:" AnchorPane.bottomAnchor="207.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="88.0" AnchorPane.topAnchor="575.0" />
+             <TextField fx:id="ipAddress" layoutX="70.0" layoutY="570.0" prefHeight="26.0" prefWidth="156.0" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="645.0" />
             <Label layoutX="20.0" layoutY="650.0" text="IP:" AnchorPane.bottomAnchor="132.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="650.0" />
-            <TextField fx:id="ipAddress" layoutX="70.0" layoutY="645.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.bottomAnchor="202.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="570.0" />
-             <Button fx:id="tournamentButton" layoutX="31.0" layoutY="721.0" mnemonicParsing="false" onAction="#startTournament"
-                     prefHeight="26.0" prefWidth="162.0" text="Start Tournament" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="721.0" />
+            <TextField fx:id="serverPassword" layoutX="120.0" layoutY="645.0" prefHeight="26.0" prefWidth="122.0" AnchorPane.bottomAnchor="202.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="570.0" />
+             <Button fx:id="tournamentButton" layoutX="31.0" layoutY="721.0" mnemonicParsing="false" onAction="#tournamentButtonClick" prefHeight="26.0" prefWidth="162.0" styleClass="activate-button" text="Start Tournament" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="721.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -44,22 +47,23 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="6.0" prefHeight="720.0" prefWidth="500.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0" />
-                        <TableView fx:id="playerStatsTable" layoutY="6.0" prefHeight="720.0" prefWidth="500.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="6.0" prefHeight="720.0" prefWidth="515.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="6.0" />
+                        <TableView fx:id="playerStatsTable" layoutY="6.0" prefHeight="720.0" prefWidth="515.0" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="6.0">
                           <columns>
                             <TableColumn fx:id="teamColumn" prefWidth="75.0" text="Team" />
                             <TableColumn fx:id="winsColumn" prefWidth="75.0" text="Wins" />
                               <TableColumn fx:id="lossesColumn" prefWidth="75.0" text="Losses" />
                               <TableColumn fx:id="tiesColumn" prefWidth="75.0" text="Ties" />
-                              <TableColumn fx:id="winsByForfeitColumn" prefWidth="75.0" text="Wins by Forfeit" />
-                              <TableColumn fx:id="lossesByForfeitColumn" prefWidth="75.0" text="Losses by Forfeit" />
+                              <TableColumn fx:id="winsByForfeitColumn" prefWidth="96.0" text="Wins by Forfeit" />
+                              <TableColumn fx:id="lossesByForfeitColumn" prefWidth="113.0" text="Losses by Forfeit" />
                           </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="561.0">
                      <children>
-                        <ProgressBar layoutX="20.0" layoutY="25.0" prefHeight="20.0" prefWidth="400.0" progress="0.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="25.0" />
+                        <ProgressBar fx:id="progressBar" layoutX="20.0" layoutY="25.0" prefHeight="20.0" prefWidth="400.0" progress="0.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="141.0" AnchorPane.topAnchor="25.0" />
+                        <Label fx:id="roundProgress" layoutX="420.0" layoutY="28.0" text="---" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="28.0" />
                      </children>
                   </AnchorPane>
               </items>

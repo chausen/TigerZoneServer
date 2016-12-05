@@ -5,4 +5,5 @@ package com.tigerzone.fall2016adapter;
  */
 public interface ViewInAdapter {
     void setViewOutAdapter(ViewOutAdapter adapter);
+    void cancelTournament();
 }

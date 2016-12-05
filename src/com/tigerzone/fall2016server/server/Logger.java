@@ -31,6 +31,7 @@ public class Logger {
     private static PrintWriter pw = null;
     private static CopyOnWriteArrayList<String> logs = new CopyOnWriteArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
+    // Old GUI
 //    private static PlayerBoxController pbc;
     private static ObservableList<PlayerStats> listOfPlayerStats = FXCollections.observableArrayList();
 

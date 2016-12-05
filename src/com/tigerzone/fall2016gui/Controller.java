@@ -1,11 +1,11 @@
 package com.tigerzone.fall2016gui;
 
+import com.tigerzone.fall2016adapter.ViewInAdapter;
 import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +15,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Controller implements ViewOutAdapter {
+    private boolean tournamentInProgress = false;
+    private ViewInAdapter adapter;
+
     @FXML
     private TextField port;
 
@@ -76,25 +79,48 @@ public class Controller implements ViewOutAdapter {
     }
 
     @FXML
+    private void tournamentButtonClick() {
+        if (tournamentInProgress) {
+            cancelTournament();
+        } else {
+            startTournament();
+        }
+    }
+
     private void startTournament() {
         int portNumber = Integer.parseInt(port.getText());
         int seedNumber = Integer.parseInt(seed.getText());
         int maxConnectionsNumber = Integer.parseInt(maxConnections.getText());
         int tournamentIDNumber = Integer.parseInt(tournamentID.getText());
         int numChallengesNumber = Integer.parseInt(numChallenges.getText());
+
         TournamentServer tournamentServer =
                 new TournamentServer(portNumber, seedNumber, maxConnectionsNumber, tournamentIDNumber, numChallengesNumber);
-
         tournamentServer.setViewOutAdapter(this);
-        Thread t = new Thread(tournamentServer);
-        t.start();
-        tournamentButton.setText("Tournament in progress...");
+        Thread thread = new Thread(tournamentServer);
+        thread.start();
+
+        adapter = tournamentServer;
+        tournamentInProgress = true;
+        tournamentButton.setText("In Progress");
+        tournamentButton.getStyleClass().remove("activate-button");
+        tournamentButton.getStyleClass().add("cancel-button");
+    }
+
+    private void cancelTournament() {
+        adapter.cancelTournament();
+        tournamentButton.setText("Cancelling");
+        tournamentButton.getStyleClass().remove("cancel-button");
+        tournamentButton.getStyleClass().add("cancelling-button");
     }
 
 
     @Override
     public void notifyEndOfTournament() {
+        tournamentInProgress = false;
         tournamentButton.setText("Start Tournament");
+        tournamentButton.getStyleClass().remove("cancel-button");
+        tournamentButton.getStyleClass().add("activate-button");
     }
 
     @Override

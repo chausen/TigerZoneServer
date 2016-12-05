@@ -37,6 +37,8 @@ public class TournamentServer implements ViewInAdapter, Runnable {
 
     private int numOfChallengesComplete = 0;
 
+    boolean tournamentCancelled = false;
+
     // Default constructor
     public TournamentServer() {}
 
@@ -110,7 +112,7 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     public void notifyChallengeComplete() {
         //TODO: end of tournament shut down
 
-        if(numOfChallengesComplete++ == numOfChallenges) {
+        if(numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
             for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
                 tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
                 try {
@@ -121,14 +123,6 @@ public class TournamentServer implements ViewInAdapter, Runnable {
                 }
 
             }
-            // This is here to prevent the GUI from closing at the end of the tournament
-//        while (true) {
-//            if (Thread.activeCount() > 5) {
-//                // do nothing
-//            } else {
-//                System.exit(0);
-//            }
-//        }
             viewOutAdapter.notifyEndOfTournament();
         }
         else{
@@ -137,8 +131,14 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         }
     }
 
+    @Override
     public void setViewOutAdapter(ViewOutAdapter adapter) {
         this.viewOutAdapter = adapter;
+    }
+
+    @Override
+    public void cancelTournament() {
+        tournamentCancelled = true;
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
