@@ -1,11 +1,9 @@
-package com.tigerzone.fall2016.ports;
+package com.tigerzone.fall2016adapter.ports;
 
-import com.tigerzone.fall2016.gamesystem.TileStackTest;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import com.tigerzone.fall2016server.tournament.TileStackGenerator;
 import org.junit.Test;
-import sun.awt.image.ImageWatched;
 
 import java.io.File;
 import java.io.FileNotFoundException;

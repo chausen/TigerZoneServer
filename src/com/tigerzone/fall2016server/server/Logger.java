@@ -33,7 +33,6 @@ public class Logger {
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
 //    private static PlayerBoxController pbc;
     private static ObservableList<PlayerStats> listOfPlayerStats = FXCollections.observableArrayList();
-    private ViewOutAdapter adapter;
 
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
@@ -583,5 +582,9 @@ public class Logger {
         }
         printwriter.flush();
         printwriter.close();
+    }
+
+    public static void addPlayerStats(PlayerStats playerStats) {
+        listOfPlayerStats.add(playerStats);
     }
 }

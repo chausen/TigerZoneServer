@@ -1,12 +1,6 @@
 package com.tigerzone.fall2016.gamesystem;
 
-import com.tigerzone.fall2016.ports.TextFilePort;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.Array;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Jeff on 2016/11/10.

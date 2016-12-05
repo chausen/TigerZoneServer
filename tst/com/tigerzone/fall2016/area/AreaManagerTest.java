@@ -1,9 +1,9 @@
 package com.tigerzone.fall2016.area;
 
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016adapter.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.ports.IOPort;
-import com.tigerzone.fall2016.ports.TextFilePort;
+import com.tigerzone.fall2016adapter.ports.IOPort;
+import com.tigerzone.fall2016adapter.ports.TextFilePort;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Before;

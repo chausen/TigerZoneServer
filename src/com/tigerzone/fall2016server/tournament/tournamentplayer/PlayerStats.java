@@ -1,5 +1,6 @@
 package com.tigerzone.fall2016server.tournament.tournamentplayer;
 
+import com.tigerzone.fall2016server.server.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -40,6 +41,7 @@ public class PlayerStats {
         tiesProperty = new SimpleIntegerProperty(ties);
         winsByForfeitProperty = new SimpleIntegerProperty(winsByForfeit);
         lossesByForfeitProperty = new SimpleIntegerProperty(lossesByForfeit);
+        Logger.addPlayerStats(this);
     }
     public int getLossesByForfeit(){
         return lossesByForfeit;
