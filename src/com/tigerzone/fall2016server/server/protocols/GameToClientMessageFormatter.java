@@ -41,6 +41,22 @@ public class GameToClientMessageFormatter {
         return stringBuffer.toString();
     }
 
+    public static String generateGameOverMessage(int gameID, String player1ID, String player2ID, String player1score,
+                                                 String player2score) {
+        return new StringBuffer()
+                .append("GAME ")
+                .append(gameID)
+                .append(" OVER PLAYER ")
+                .append(player1ID)
+                .append(" ")
+                .append(player1score)
+                .append(" ")
+                .append(player2ID)
+                .append(" ")
+                .append(player2score)
+                .toString();
+    }
+
     public static String generateMessageToActivePlayer(int gameID, int maxTime, int moveNum, String tile){
         String secondOrSeconds = (maxTime == 1) ? " SECOND" : " SECONDS";
 
