@@ -129,13 +129,18 @@ public class AreaManager {
             } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
                 predatorPlaceable = false;
             } else {
-                predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
-                predatorPlaceable = true;
+                Area area = predatorPlacementNode.getArea();
+                predatorPlaceable = false;
+                if(area != null){
+                    area.placePredator(predator);
+                    predatorPlaceable = true;
+                }
             }
         } else if (predatorPlacementZone==0){
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
-                if (terrainNode.getArea().isPredatorPlaceable(predator)) {
-                    terrainNode.getArea().placePredator(predator);
+                Area area = terrainNode.getArea();
+                if ((area != null) && area.isPredatorPlaceable(predator)) {
+                    area.placePredator(predator);
                     crocPlaced = true;
                 }
             }

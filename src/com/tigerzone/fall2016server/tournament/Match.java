@@ -103,7 +103,7 @@ public class Match extends Thread {
      * @param gamePlayer
      */
     private void verifyingGamePlayerResponse(Game game, TournamentPlayer gamePlayer, String gamePlayerResponse) {
-        if (!game.isOver() && (gamePlayerResponse != null)) {
+        if (!game.isOver()) {
             if (gamePlayer.isTimedOut()) {
                 sendGameMessage(gamePlayerResponse);
                 game.endGame();
