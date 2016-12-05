@@ -39,6 +39,21 @@ public class Logger {
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
      */
+    public static void initializeLogger(int tournamentID) {
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("./");
+            sb.append(getTimeStamp());
+            sb.append(".txt");
+            pw = new PrintWriter(new File(sb.toString()));
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+//        pbc = new PlayerBoxController();
+        begin(tournamentID);
+    }
+
     public static void initializeLogger(int tournamentID, ViewOutAdapter adapter) {
 
         try {
@@ -48,7 +63,7 @@ public class Logger {
             sb.append(".txt");
             pw = new PrintWriter(new File(sb.toString()));
         }catch (FileNotFoundException e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
 //        pbc = new PlayerBoxController();
         viewOutAdapter = adapter;
@@ -117,8 +132,9 @@ public class Logger {
         sb.append(" of ");
         sb.append(numOfRounds);
         addLogToLogger(sb.toString());
-        System.out.println("ViewAdapter: " + viewOutAdapter);
-        viewOutAdapter.notifyEndOfRound(roundID, numOfRounds);
+        if (viewOutAdapter != null) {
+            viewOutAdapter.notifyEndOfRound(roundID, numOfRounds);
+        }
     }
 
     public static void endGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, TournamentPlayer player1, TournamentPlayer player2) {

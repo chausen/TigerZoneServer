@@ -3,7 +3,9 @@ package com.tigerzone.fall2016server.server;
 import com.tigerzone.fall2016adapter.ViewInAdapter;
 import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.tournament.Challenge;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+import javafx.collections.ObservableList;
 import sun.rmi.runtime.Log;
 
 import java.io.IOException;
@@ -17,7 +19,22 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
     private static List<String> userNames = new ArrayList<>();
-    private ViewOutAdapter viewOutAdapter;
+    private ViewOutAdapter viewOutAdapter = new ViewOutAdapter() {
+        @Override
+        public void notifyEndOfRound(int roundsCompleted, int totalRounds) {
+
+        }
+
+        @Override
+        public void notifyEndOfTournament() {
+            System.exit(0);
+        }
+
+        @Override
+        public void giveListOfPlayerStats(ObservableList<PlayerStats> listOfPlayerStats) {
+
+        }
+    };
 
     Challenge challenge;
 
