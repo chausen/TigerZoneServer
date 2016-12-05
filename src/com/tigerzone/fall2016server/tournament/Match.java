@@ -80,7 +80,7 @@ public class Match extends Thread {
                 gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
                         moveNumber, gamePlayer.getUsername(), "FORFEITED: TIMEOUT");
                 gamePlayer.timedOut();
-                System.out.println("Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
+                System.out.println("FORFEIT: Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
                 forfeitGameMap.put(game, gamePlayer.getUsername());
             } catch (IOException e) {
                 System.out.println("Caught IOException in match besides timeout (Player 2)");
@@ -103,7 +103,7 @@ public class Match extends Thread {
      * @param gamePlayer
      */
     private void verifyingGamePlayerResponse(Game game, TournamentPlayer gamePlayer, String gamePlayerResponse) {
-        if (!game.isOver() && (gamePlayerResponse != null)) {
+        if (!game.isOver()) {
             if (gamePlayer.isTimedOut()) {
                 sendGameMessage(gamePlayerResponse);
                 game.endGame();
@@ -111,6 +111,8 @@ public class Match extends Thread {
                 game.receiveTurn(gamePlayerResponse);
                 String gameResponse = game.getResponse();
                 if (gameResponse.contains("FORFEITED")) {
+                    System.out.println("FORFEIT: Invalid move in game " + game.getGameID() + ": " +
+                            gamePlayer.getUsername() + " player response " + gamePlayerResponse);
                     forfeitGameMap.put(game, gamePlayer.getUsername());
                 }
                 sendGameMessage(gameResponse);

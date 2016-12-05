@@ -134,7 +134,7 @@ public class AreaManager {
             }
         } else if (predatorPlacementZone==0){
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
-                if (terrainNode.getArea().isPredatorPlaceable(predator)) {
+                if ((terrainNode.getArea() != null) && terrainNode.getArea().isPredatorPlaceable(predator)) {
                     terrainNode.getArea().placePredator(predator);
                     crocPlaced = true;
                 }
