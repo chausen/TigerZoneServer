@@ -107,7 +107,6 @@ public class Logger {
     }
 
     private static void end(int tournamentID){
-        System.out.println("END OF TOURNAMENT");
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID));
         appendPlayerID("---",sb);
         sb.append("END TOURNAMENT");

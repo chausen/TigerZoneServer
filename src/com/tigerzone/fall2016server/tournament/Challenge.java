@@ -73,7 +73,6 @@ public class Challenge {
                 tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
                 System.out.println("still more challenges");
             }
-            //tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
         }
     }
 
@@ -82,9 +81,11 @@ public class Challenge {
             String message = "NEW CHALLENGE " + (cid + 1)  + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
                 tournamentPlayer.sendMessageToPlayer(message + " MATCH");
+                System.out.println(message + " MATCH");
             }
             else {
                 tournamentPlayer.sendMessageToPlayer(message + " MATCHES");
+                System.out.println(message + " MATCHES");
             }
         }
     }

@@ -33,6 +33,9 @@ public class Controller implements ViewOutAdapter {
     private TextField numChallenges;
 
     @FXML
+    private TextField tournamentOfDeath;
+
+    @FXML
     private TextField serverPassword;
 
     @FXML
@@ -99,9 +102,11 @@ public class Controller implements ViewOutAdapter {
         int maxConnectionsNumber = Integer.parseInt(maxConnections.getText());
         int tournamentIDNumber = Integer.parseInt(tournamentID.getText());
         int numChallengesNumber = Integer.parseInt(numChallenges.getText());
+        boolean isTournamentOfDeath = Boolean.parseBoolean(tournamentOfDeath.getText());
 
         TournamentServer tournamentServer =
-                new TournamentServer(portNumber, seedNumber, maxConnectionsNumber, tournamentIDNumber, numChallengesNumber);
+                new TournamentServer(portNumber, seedNumber, maxConnectionsNumber,
+                        tournamentIDNumber, numChallengesNumber, isTournamentOfDeath);
         tournamentServer.setViewOutAdapter(this);
         Thread thread = new Thread(tournamentServer);
         thread.start();

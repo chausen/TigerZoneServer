@@ -77,8 +77,11 @@ public class Match extends Thread {
                 gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
                         moveNumber, gamePlayer.getUsername(), "FORFEITED: TIMEOUT");
                 gamePlayer.timedOut();
-                System.out.println("FORFEIT: Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
+
                 forfeitGameMap.put(game, gamePlayer.getUsername());
+                addForfeitPlayerToRoundList(gamePlayer);
+
+                System.out.println("FORFEIT: Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
             } catch (IOException e) {
                 System.out.println("Caught IOException in match besides timeout (Player 2)");
                 System.out.println("This is their input " + gamePlayerResponse);
@@ -108,9 +111,11 @@ public class Match extends Thread {
                 game.receiveTurn(gamePlayerResponse);
                 String gameResponse = game.getResponse();
                 if (gameResponse.contains("FORFEITED")) {
-                    System.out.println("FORFEIT: Invalid move in game " + game.getGameID() + ": " +
-                            gamePlayer.getUsername() + " player response " + gamePlayerResponse);
                     forfeitGameMap.put(game, gamePlayer.getUsername());
+                    addForfeitPlayerToRoundList(gamePlayer);
+
+                    System.out.println("FORFEIT: Invalid move in game " + game.getGameID() + ": " +
+                            gamePlayer.getUsername() + " response " + gamePlayerResponse);
                 }
                 sendGameMessage(gameResponse);
             }
@@ -246,6 +251,10 @@ public class Match extends Thread {
         p2stats.setOpponentTotalPoints(p2stats.getOpponentTotalPoints() + game.getPlayer1FinalScore());
 
         Logger.endGame(c.getTournamentID(), c.getChallengeID(), r.getRoundID(), m.getMatchID(), game.getGameID(), p1, p2);
+    }
+
+    private void addForfeitPlayerToRoundList(TournamentPlayer forfeitPlayer){
+        this.round.addPlayerToForfeitList(forfeitPlayer);
     }
 
     public TournamentPlayer getPlayer1() {

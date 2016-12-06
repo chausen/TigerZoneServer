@@ -157,13 +157,17 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     }
 
     public void notifyChallengeComplete() {
+        System.out.println("INSIDE OF NOTIFY CHALLENGE COMPLETE");
         if (numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
             endCommunicationWithPlayer(this.tournamentPlayers);
             viewOutAdapter.notifyEndOfTournament();
             System.exit(0);
         } else {
-            if (eliminationTournament) {
+            if (this.eliminationTournament) {
                 Set<TournamentPlayer> playersForfeitedInChallenge = this.challenge.getForfeitedPlayerSet();
+                playersForfeitedInChallenge.forEach((player)->{
+                    System.out.println("Players that Forfeited in this Challenge: " + player.getUsername());
+                });
                 this.tournamentPlayers.removeAll(playersForfeitedInChallenge);
                 endCommunicationWithPlayer(playersForfeitedInChallenge);
                 //if last challenge forfeited all but one Player then Tournament ends early.
@@ -174,8 +178,8 @@ public class TournamentServer implements ViewInAdapter, Runnable {
                     System.exit(0);
                 }
             }
-            challenge = new Challenge(this, seed--, this.tournamentPlayers);
-            challenge.beginChallenge();
+            this.challenge = new Challenge(this, seed--, this.tournamentPlayers);
+            this.challenge.beginChallenge();
         }
     }
 
