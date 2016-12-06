@@ -19,6 +19,8 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
     private static List<String> userNames = new ArrayList<>();
+    private boolean eliminationTournament;
+
     private ViewOutAdapter viewOutAdapter = new ViewOutAdapter() {
         @Override
         public void notifyEndOfRound(int roundsCompleted, int totalRounds) {
@@ -42,7 +44,9 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     private static int seed = 123;
     private static int MAX_CONNECTIONS = 20;
     private static int tournamentID = 1;
-    private static int numOfChallenges = 9; //the number of challenges is actually this plus 1
+    private static int numOfChallenges = 3; //the number of challenges is actually this plus 1
+    //set true when teams are dropped from next challenge if they forfeit in previous challenge
+
 
     public int getNumOfChallengesComplete() {
         return numOfChallengesComplete;
@@ -57,13 +61,15 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     boolean tournamentCancelled = false;
 
     // Default constructor
-    public TournamentServer() {}
+    public TournamentServer() {
+    }
 
     // Constructor used for parameterized main: 3 arguments
     public TournamentServer(int port, int seed, int maxConnections) {
         this.PORT = port;
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
+        this.eliminationTournament = false;
     }
 
     // Constructor used for parameterized main: 4 arguments
@@ -72,6 +78,7 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
         this.tournamentID = tournamentID;
+        this.eliminationTournament = false;
     }
 
     // Constructor used for parameterized main: 5 arguments
@@ -81,6 +88,18 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         this.MAX_CONNECTIONS = maxConnections;
         this.tournamentID = tournamentID;
         this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = false;
+    }
+
+    // Constructor used for parameterized main: 6 arguments
+    public TournamentServer(int port, int seed, int maxConnections,
+                            int tournamentID, int numOfChallenges, boolean eliminationTournament) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = eliminationTournament;
     }
 
     public int getTournamentID() {
@@ -89,9 +108,9 @@ public class TournamentServer implements ViewInAdapter, Runnable {
 
     public void runTournament() {
         authentication();
-        if(tournamentPlayers.size()>1) {
+        if (tournamentPlayers.size() > 1) {
             startChallenge(tournamentPlayers);
-        } else{
+        } else {
             System.out.println("Not enough players for a tournament");
             viewOutAdapter.notifyEndOfTournament();
 //            System.exit(1);
@@ -126,24 +145,36 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         }
     }
 
-    public void notifyChallengeComplete() {
-        //TODO: end of tournament shut down
-
-        if(numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
-            for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
-                tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
-                try {
-                    tournamentPlayer.closeConnection();
-                } catch (IOException e) {
-                    System.out.println("Couldn't close player connection");
-                    continue;
-                }
-
+    private void endCommunicationWithPlayer(Collection<TournamentPlayer> tournamentPlayers) {
+        tournamentPlayers.forEach((tournamentPlayer -> {
+            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
+            try {
+                tournamentPlayer.closeConnection();
+            } catch (IOException e) {
+                System.out.println("Couldn't close player connection");
             }
+        }));
+    }
+
+    public void notifyChallengeComplete() {
+        if (numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
+            endCommunicationWithPlayer(this.tournamentPlayers);
             viewOutAdapter.notifyEndOfTournament();
-        }
-        else{
-            challenge = new Challenge(this, seed--, tournamentPlayers);
+            System.exit(0);
+        } else {
+            if (eliminationTournament) {
+                Set<TournamentPlayer> playersForfeitedInChallenge = this.challenge.getForfeitedPlayerSet();
+                this.tournamentPlayers.removeAll(playersForfeitedInChallenge);
+                endCommunicationWithPlayer(playersForfeitedInChallenge);
+                //if last challenge forfeited all but one Player then Tournament ends early.
+                if (this.tournamentPlayers.size() < 2) {
+                    System.out.println("Tournament has to few players; ending early");
+                    endCommunicationWithPlayer(this.tournamentPlayers);
+                    viewOutAdapter.notifyEndOfTournament();
+                    System.exit(0);
+                }
+            }
+            challenge = new Challenge(this, seed--, this.tournamentPlayers);
             challenge.beginChallenge();
         }
     }

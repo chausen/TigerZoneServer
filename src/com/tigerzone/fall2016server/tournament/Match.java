@@ -1,15 +1,12 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.server.Connection;
 import com.tigerzone.fall2016server.server.Logger;
-import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.*;
 
@@ -207,10 +204,6 @@ public class Match extends Thread {
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2) {
-       /* HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
-        playerLookup.put(p1.getUsername(), p1);
-        playerLookup.put(p2.getUsername(), p2);
-        */
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -291,5 +284,4 @@ public class Match extends Thread {
     public Game getGame2() {
         return game2;
     }
-
 }

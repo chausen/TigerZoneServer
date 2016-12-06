@@ -20,9 +20,9 @@ public class Challenge {
     List<Round> rounds;
     Round currentRound;
     int currentRoundNumber;
+    Set<TournamentPlayer> forfeitPlayerSet;
 
     public Challenge(TournamentServer tournamentServers, long seed, List<TournamentPlayer> players) {
-
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
 
@@ -36,6 +36,7 @@ public class Challenge {
             numOfRounds = players.size();
         }
         this.players = players;
+        this.forfeitPlayerSet = new HashSet<>();
     }
 
     public void beginChallenge() {
@@ -102,6 +103,10 @@ public class Challenge {
         return challengeID;
     }
 
+    public Set<TournamentPlayer> getForfeitedPlayerSet(){
+        return this.forfeitPlayerSet;
+    }
+
     public List<TournamentPlayer> getPlayers() {
         return players;
     }
@@ -120,5 +125,9 @@ public class Challenge {
 
     public int getTournamentID() {
         return tournamentServer.getTournamentID();
+    }
+
+    public void addForfeitPlayers(Set<TournamentPlayer> forfeitedPlayersInRound) {
+        this.forfeitPlayerSet.addAll(forfeitedPlayersInRound);
     }
 }

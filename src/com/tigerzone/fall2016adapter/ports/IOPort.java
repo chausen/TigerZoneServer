@@ -90,7 +90,7 @@ public class IOPort implements PlayerOutAdapter {
         psm.parse(moveProtocolContext);
 
         if (!moveProtocolContext.wasMoveValid()) {
-            System.out.println("Receiving something that didn't pass the moveprotocolcontext in ioport from "  + currentPlayer.getPlayerId() + " message " + s);
+            System.out.println("Receiving something that didn't pass the move protocol context in ioport from "  + currentPlayer.getPlayerId() + " message " + s);
             receiveIllegalMessage();
             return;
 

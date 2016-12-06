@@ -49,6 +49,7 @@ public class PlayerBoxController{
             userInfoBox.setLargestLossPointDifferential(playerStats.getLosses());
             userInfoBox.setLargestLossRelative(playerStats.getLargestpointdifferencerelative());
             userInfoBox.setLosses(playerStats.getLosses());
+            userInfoBox.setLossesByForfeit(playerStats.getLossesByForfeit());
             userInfoBox.setWinsByForfeit(playerStats.getWinsByForfeit());
             userInfoBox.setTies(playerStats.getTies());
             userInfoBox.setTotalPoints(playerStats.getTotalPoints());

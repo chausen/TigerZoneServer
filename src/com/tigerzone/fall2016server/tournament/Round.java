@@ -4,10 +4,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -21,16 +18,19 @@ public class Round {
     private int numOfMatchesComplete = 0;
     private int numOfRounds;
     List<Match> matches;
+    Set<TournamentPlayer> forfeitPlayerSet;
 
     public Round(List<Match> matches) {
         this.matches = matches;
         this.numOfMatches = matches.size();
+        this.forfeitPlayerSet = new HashSet<>();
     }
 
     public Round(Challenge challenge, List<Match> matches) {
         this.challenge = challenge;
         this.matches = matches;
         this.numOfMatches = matches.size();
+        this.forfeitPlayerSet = new HashSet<>();
         getChallengeInfo();
     }
 
@@ -43,6 +43,7 @@ public class Round {
         for (Match match : matches) {
             match.setRound(this);
         }
+        forfeitPlayerSet = new HashSet<>();
     }
 
     public void playRound() {
@@ -110,6 +111,7 @@ public class Round {
             for (TournamentPlayer tournamentPlayer : getActivePlayers()) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
             }
+            challenge.addForfeitPlayers(this.forfeitPlayerSet);
             challenge.roundComplete();
         }
     }
@@ -136,5 +138,9 @@ public class Round {
 
     public int getRoundID() {
         return roundID;
+    }
+
+    public void addPlayerToForfeitList(TournamentPlayer tournamentPlayer){
+        this.forfeitPlayerSet.add(tournamentPlayer);
     }
 }
