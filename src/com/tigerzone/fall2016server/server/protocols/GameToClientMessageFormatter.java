@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Created by lenovo on 11/21/2016.
  */
 public class GameToClientMessageFormatter {
-    public static String generateConfirmationMessageToBothPlayers(int gameID, int moveNum, String playerID, String message){
+    public static String generateConfirmationMessageToBothPlayers(int gameID, int moveNum, String playerID, String message) {
         StringBuffer stringBuffer = generateMessagePrefix(gameID, moveNum);
 
         // Remove GAME <gid> MOVE <#> from the message we received from the player
@@ -17,9 +17,7 @@ public class GameToClientMessageFormatter {
             insertTheD.append(message);
             insertTheD.insert(6, 'D');
             message = insertTheD.toString();
-        }
-
-        else if(message.contains("PASS")){
+        } else if (message.contains("PASS")) {
             StringBuffer insertTheD = new StringBuffer();
             insertTheD.append(message);
             insertTheD.append("ED");
@@ -32,7 +30,7 @@ public class GameToClientMessageFormatter {
         return stringBuffer.toString();
     }
 
-    public static String generateForfeitMessageToBothPlayers(int gameID, int moveNum, String playerID, String message){
+    public static String generateForfeitMessageToBothPlayers(int gameID, int moveNum, String playerID, String message) {
         StringBuffer stringBuffer = generateMessagePrefix(gameID, moveNum);
         stringBuffer.append(" PLAYER ");
         stringBuffer.append(playerID);
@@ -41,7 +39,23 @@ public class GameToClientMessageFormatter {
         return stringBuffer.toString();
     }
 
-    public static String generateMessageToActivePlayer(int gameID, int maxTime, int moveNum, String tile){
+    public static String generateGameOverMessage(int gameID, String player1ID, String player2ID, String player1score,
+                                                 String player2score) {
+        return new StringBuffer()
+                .append("GAME ")
+                .append(gameID)
+                .append(" OVER PLAYER ")
+                .append(player1ID)
+                .append(" ")
+                .append(player1score)
+                .append(" ")
+                .append(player2ID)
+                .append(" ")
+                .append(player2score)
+                .toString();
+    }
+
+    public static String generateMessageToActivePlayer(int gameID, int maxTime, int moveNum, String tile) {
         String secondOrSeconds = (maxTime == 1) ? " SECOND" : " SECONDS";
 
         StringBuffer stringBuffer = new StringBuffer();

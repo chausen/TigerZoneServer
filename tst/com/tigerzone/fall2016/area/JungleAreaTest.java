@@ -43,6 +43,9 @@ public class JungleAreaTest {
     public void testIsCrocodilePlacable() throws Exception {
         boolean expectedResult = false;
         boolean actualResult = jungleArea.isAnimalPlaceable(crocodile);
+        String me = null;
+
+
         assertEquals(expectedResult, actualResult);
     }
 
@@ -61,9 +64,6 @@ public class JungleAreaTest {
         LakeArea lakeArea = new LakeArea();
         LakeTerrainNode lakeTerrainNode = new LakeTerrainNode(null, Arrays.asList(2));
         LakeTerrainNode lakeTerrainNode2 = new LakeTerrainNode(null, Arrays.asList(8));
-
-
-
     }
 
     @Test
