@@ -23,9 +23,10 @@ public class TournamentServer implements ViewInAdapter, Runnable {
 
     private ViewOutAdapter viewOutAdapter = new ViewOutAdapter() {
         @Override
-        public void notifyEndOfRound(int roundsCompleted, int totalRounds) {
+        public void notifyBeginningOfRound(int roundsCompleted, int totalRounds) {}
 
-        }
+        @Override
+        public void notifyBeginningOfChallenge(int challengeID, int numOfChallenges) {}
 
         @Override
         public void notifyEndOfTournament() {
@@ -33,9 +34,7 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         }
 
         @Override
-        public void giveListOfPlayerStats(ObservableList<PlayerStats> listOfPlayerStats) {
-
-        }
+        public void giveListOfPlayerStats(ObservableList<PlayerStats> listOfPlayerStats) {}
     };
 
     Challenge challenge;
@@ -157,7 +156,6 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     }
 
     public void notifyChallengeComplete() {
-        System.out.println("INSIDE OF NOTIFY CHALLENGE COMPLETE");
         if (numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
             endCommunicationWithPlayer(this.tournamentPlayers);
             viewOutAdapter.notifyEndOfTournament();

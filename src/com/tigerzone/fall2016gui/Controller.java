@@ -72,6 +72,9 @@ public class Controller implements ViewOutAdapter {
     private Label roundProgress;
 
     @FXML
+    private Label challengeProgress;
+
+    @FXML
     private void initialize() {
         try {
             ipAddress.setText(InetAddress.getLocalHost().toString());
@@ -84,7 +87,7 @@ public class Controller implements ViewOutAdapter {
         tiesColumn.setCellValueFactory(cellData -> cellData.getValue().tiesProperty());
         winsByForfeitColumn.setCellValueFactory(cellData -> cellData.getValue().winsByForfeitProperty());
         lossesByForfeitColumn.setCellValueFactory(cellData -> cellData.getValue().lossesByForfeitProperty());
-        progressBar.setProgress(0);
+        //progressBar.setProgress(0);
     }
 
     @FXML
@@ -128,7 +131,6 @@ public class Controller implements ViewOutAdapter {
         }
     }
 
-
     @Override
     public void notifyEndOfTournament() {
         tournamentInProgress = false;
@@ -146,12 +148,23 @@ public class Controller implements ViewOutAdapter {
     }
 
     @Override
-    public void notifyEndOfRound(int roundsCompleted, int totalRounds) {
+    public void notifyBeginningOfRound(int roundsCompleted, int totalRounds) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 progressBar.setProgress(new Double(roundsCompleted) / new Double(totalRounds));
                 roundProgress.setText("Rounds\n" + roundsCompleted + " of " + totalRounds);
+            }
+        });
+    }
+
+    @Override
+    public void notifyBeginningOfChallenge(int challengesCompleted, int totalChallenges) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(0);
+                challengeProgress.setText("Challenges\n" + challengesCompleted + " of " + totalChallenges);
             }
         });
     }

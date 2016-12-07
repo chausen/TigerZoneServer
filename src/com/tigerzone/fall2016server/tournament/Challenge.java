@@ -42,7 +42,6 @@ public class Challenge {
     public void beginChallenge() {
         currentRoundNumber=1;
         sendNewChallengeMessageToPlayers();
-        Logger.beginChallenge(1,challengeID);
         rounds = generateRounds();
         rounds.get(currentRoundNumber-1).playRound();
     }
@@ -77,6 +76,7 @@ public class Challenge {
     }
 
     private void sendNewChallengeMessageToPlayers(){
+        Logger.beginChallenge(getTournamentID(),challengeID,  this.tournamentServer.getNumOfChallenges() + 1);
         for(TournamentPlayer tournamentPlayer: players){
             String message = "NEW CHALLENGE " + (cid + 1)  + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
