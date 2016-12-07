@@ -206,10 +206,7 @@ public class IOPort implements PlayerOutAdapter {
         }
 
         PlayableTile playableTile = new PlayableTile(tileString);
-//        if(zone < 1 || zone > 9){
-//            forfeitInvalidMeeple(currentPlayer.getPlayerId());
-//            return;
-//        }
+
         Turn t = new Turn(currentPlayer.getPlayerId(), playableTile, new Point(x,y), orientation, animal, zone);
 
         // Send turn downstream

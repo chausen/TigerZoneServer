@@ -63,16 +63,8 @@ public class Match extends Thread {
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
-        boolean game1EndNotified = false;
-        boolean game2EndNotified = false;
 
         while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
-
-//            if (game1.isOver() && !game1EndNotified) {
-//                sendEndMessage(game1);
-//            } else if (game2.isOver() && !game2EndNotified) {
-//                sendEndMessage(game2);
-//            } else {
 
             //A single game will be doing the following in each line of the if statement...
             //Create prompt message for both players
@@ -188,10 +180,6 @@ public class Match extends Thread {
         game.receiveScoreGuess(tournamentPlayer.getUsername(), response);
     }
 
-    private void checkScoringGuessForfeits() {
-
-    }
-
 
     private String tileToSTring(LinkedList<PlayableTile> tileStack) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -254,18 +242,6 @@ public class Match extends Thread {
                 player1Score + " PLAYER " + p2.getUsername() + " " + player2Score);
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
                 player1Score + " PLAYER " + p2.getUsername() + " " + player2Score);
-        updatePlayerStatistics(game, p1, p2);
-    }
-
-    private void sendForfeitMessage(Game game) {
-        TournamentPlayer p1 = game.getPlayer1();
-        TournamentPlayer p2 = game.getPlayer2();
-        String player1score = (forfeitGameMap.get(game) != p1.getUsername() ? "WIN" : "FORFEITED");
-        String player2score = (forfeitGameMap.get(game) != p2.getUsername() ? "WIN" : "FORFEITED");
-        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
-        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
         updatePlayerStatistics(game, p1, p2);
     }
 

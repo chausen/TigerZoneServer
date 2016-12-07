@@ -24,7 +24,6 @@ public interface PlayerOutAdapter
     public void forfeitIllegalMeeple(String currentPlayerID);
     public void forfeitIllegalTile(String currentPlayerID);
     void forfeitInvalidScore(String currentPlayerID);
-    //public void notifyEndGame(Map<Player,Integer> playerScores);
     public void notifyEndGame(int score1, int score2);
     public int getFinalScore(String playerId);
 }
