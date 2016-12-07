@@ -160,25 +160,36 @@ public class Match extends Thread {
             //Increment move count
             moveNumber++;
         }
-        notifyEndGameToPlayers();
+        notifyEndGameToPlayers(); //sends players the "send outcome" message
 
-        verifyClientScore();
+        checkPlayerScoreResponse(game1, game1.player1);
+        checkPlayerScoreResponse(game1, game1.player2);
+        displayForfeitMessages(game1);
+        displayFinalScore(game1);
+
+        checkPlayerScoreResponse(game2, game2.player1);
+        checkPlayerScoreResponse(game2, game2.player2);
+        displayForfeitMessages(game2);
+        displayFinalScore(game2);
+
         round.notifyComplete();
     }
 
-    private void clientScoreResponse() {
+    private void checkPlayerScoreResponse(Game game, TournamentPlayer tournamentPlayer) {
+        String response = null;
         try {
-            String response = game1player.readPlayerMessage();
-            String response2 = game2player.readPlayerMessage();
+            response = tournamentPlayer.readPlayerMessage();
         } catch (SocketTimeoutException e) {
-
+            tournamentPlayer.timeOut();
+            game.addForfeitMessage(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(), tournamentPlayer.getUsername(), "FORFEITED: TIMEOUT"));
         } catch (IOException e) {
-//            game2Timeout = true; //somewhat redundant to have this boolean when have the line below
-//            game2player.timeOut();
-//            gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-//            System.out.println("Timeout in game 2: " + game2player.getUsername());
-//            forfeitGameMap.put(game2, game2player.getUsername());
+            System.out.println("Some IOException in getScoreResponse from player: " + tournamentPlayer.getUsername());
         }
+        game.receiveScoreGuess(tournamentPlayer.getUsername(), response);
+    }
+
+    private void checkScoringGuessForfeits() {
+
     }
 
 
@@ -213,16 +224,8 @@ public class Match extends Thread {
     }
 
     private void notifyEndGameToPlayers() {
-        if (forfeitGameMap.get(game1) == null) {
             sendEndMessage(game1);
-        } else {
-            sendForfeitMessage(game1);
-        }
-        if (forfeitGameMap.get(game2) == null) {
             sendEndMessage(game2);
-        } else {
-            sendForfeitMessage(game2);
-        }
     }
 
     private void sendEndMessage(Game game) {
@@ -231,16 +234,27 @@ public class Match extends Thread {
 
         player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER SEND OUTCOME");
         player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER SEND OUTCOME");
-
-//        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-//                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-//        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-//                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
         updatePlayerStatistics(game, p1, p2);
     }
 
-    private void verifyClientScore() {
+    private void displayForfeitMessages(Game game) {
+        for (String forfeitMessage: game.getForfeitMessages()) {
+            player1.sendMessageToPlayer(forfeitMessage);
+            player2.sendMessageToPlayer(forfeitMessage);
+        }
+    }
 
+
+    private void displayFinalScore(Game game) {
+        TournamentPlayer p1 = game.getPlayer1();
+        TournamentPlayer p2 = game.getPlayer2();
+        int player1Score = game.getPlayer1FinalScore();
+        int player2Score = game.getPlayer2FinalScore();
+        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+                player1Score + " PLAYER " + p2.getUsername() + " " + player2Score);
+        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
+                player1Score + " PLAYER " + p2.getUsername() + " " + player2Score);
+        updatePlayerStatistics(game, p1, p2);
     }
 
     private void sendForfeitMessage(Game game) {

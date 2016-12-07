@@ -253,6 +253,19 @@ public class GameSystem implements PlayerInAdapter {
         }
     }
 
+    @Override
+    public void verifyScoreGuesses(String playerID, HashMap<String, Integer> scoreGuesses) {
+        if (scoreGuesses.containsKey(player1.getPlayerId()) && scoreGuesses.containsKey(player2.getPlayerId())) {
+            int p1guess = scoreGuesses.get(player1.getPlayerId());
+            int p2guess = scoreGuesses.get(player2.getPlayerId());
+            if (p1guess!=getPlayerScore(player1) || p2guess!=getPlayerScore(player2)) {
+                outAdapter.forfeitInvalidScore(playerID);
+            }
+        } else {
+            outAdapter.forfeitInvalidScore(playerID);
+        }
+    }
+
     /**
      * Only called in the event an illegal message is received so that the GameSystem is always the
      * object to trigger the end of a game. Notifies the outAdapter of end of game.

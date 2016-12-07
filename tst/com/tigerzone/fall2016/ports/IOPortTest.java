@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
@@ -74,6 +75,11 @@ public class IOPortTest {
                 sb.append(" ");
                 //TODO add stuff that isn't stable in Tile
                 turn = sb.toString();
+            }
+
+            @Override
+            public void verifyScoreGuesses(String playerID, HashMap<String, Integer> scoreGuesses) {
+
             }
 
             @Override

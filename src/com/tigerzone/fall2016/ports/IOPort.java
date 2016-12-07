@@ -39,6 +39,9 @@ public class IOPort implements PlayerOutAdapter {
     private boolean didForfeit = false;
     private String forfeitedPlayer = "";
     private MoveProtocolContext moveProtocolContext;
+
+    private Queue<String> forfeitMessageQueue;
+
     /**
      * Constructor: Create a new IOPort which then creates GameSystem/new match for two players.
      * @param gid Game ID
@@ -52,6 +55,7 @@ public class IOPort implements PlayerOutAdapter {
         this.loginName1 = loginName1;
         this.loginName2 = loginName2;
         this.tileStack = tileStack;
+        forfeitMessageQueue = new LinkedList<>();
     }
 
     public void initialize() {
@@ -98,7 +102,8 @@ public class IOPort implements PlayerOutAdapter {
 
             sc.next(); // Get GAME
             sc.next(); // Get gid
-            sc.next(); // Get MOVE
+            sc.next(); // Get MOVE or OVER
+
             sc.next(); // Get move#
 
             //Moving past the GAME and gid
@@ -121,6 +126,49 @@ public class IOPort implements PlayerOutAdapter {
             }
         }
         //return received;
+    }
+
+    public void receiveScoreGuess(String playerID, String message) {
+        if (message == null ||  message =="") {
+            System.out.println("Received null message in ReceiveScoreGuess in IOPort");
+            forfeitInvalidScore(playerID);
+            return;
+        }
+
+        // Run pass String through move protocol to ensure it is of valid form
+        Scanner parserScanner = new Scanner(message);
+        moveProtocolContext.setScanner(parserScanner);
+        ProtocolStateMachine psm = new ProtocolStateMachine();
+        psm.parse(moveProtocolContext);
+
+        if (!moveProtocolContext.wasMoveValid()) {
+            System.out.println("Receiving something that didn't pass the moveprotocolcontext in ioport from "  + playerID + " message " + message);
+            forfeitInvalidScore(playerID);
+            return;
+
+        } else {
+            HashMap<String, Integer> scoring = new HashMap<>();
+            Scanner sc = new Scanner(message);
+
+            sc.next(); // Get GAME
+            int gameID = sc.nextInt(); // Get gid
+            sc.next(); // Get OVER
+            sc.next(); //get PLAYER
+            String p1 = sc.next();
+            int p1Score = sc.nextInt();
+            scoring.put(p1, p1Score);
+            sc.next(); //get PLAYER
+            String p2 = sc.next();
+            int p2Score = sc.nextInt();
+            scoring.put(p2, p2Score);
+
+            if (gameID!=this.gid) {
+                forfeitInvalidScore(playerID);
+            } else {
+                inAdapter.verifyScoreGuesses(playerID, scoring);
+            }
+
+        }
     }
 
     //========== Helper Methods for Receive Turn ==========//
@@ -198,8 +246,8 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
-    private void receiveEndGameScoringMessage(String s) {
-
+    public void forfeitInvalidScore(String forfeitedPlayer) {
+        forfeitMessageQueue.add(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, forfeitedPlayer, "FORFEITED: DOES NOT KNOW OUTCOME"));
     }
 
     private void receiveIllegalMessage() {
@@ -208,6 +256,7 @@ public class IOPort implements PlayerOutAdapter {
         setResponse(GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(this.gid, this.turnCount, this.currentPlayer.getPlayerId(), "FORFEITED: ILLEGAL MESSAGE RECEIVED "));
         inAdapter.forfeit();
     }
+
 
     // Only forfeit condition handled in adapter
     // Called in this way to make interface more expressive
@@ -291,9 +340,6 @@ public class IOPort implements PlayerOutAdapter {
         forfeitedPlayer = currentPlayer;
     }
 
-    public String getForfeitedPlayer(){
-        return forfeitedPlayer;
-    }
 
     @Override
     public void notifyEndGame(int player1Score, int player2Score) {
@@ -341,4 +387,11 @@ public class IOPort implements PlayerOutAdapter {
         this.response = response;
     }
 
+    public void addForfeitMessage(String message) {
+        forfeitMessageQueue.add(message);
+    }
+
+    public Queue<String> getForfeitMessages() {
+        return forfeitMessageQueue;
+    }
 }

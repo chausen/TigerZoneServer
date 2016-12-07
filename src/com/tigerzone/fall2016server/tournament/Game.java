@@ -8,6 +8,7 @@ import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Queue;
 
 
 /**
@@ -22,6 +23,8 @@ public class Game {
 
     LinkedList<PlayableTile> tileStack;
     private IOPort ioPort;
+    Queue<String> forfeitMessageQueue;
+
 
     public Game(int gameID, TournamentPlayer player1, TournamentPlayer player2,
                 LinkedList<PlayableTile> tileStack, Match match) {
@@ -33,11 +36,7 @@ public class Game {
         this.match = match;
 
         ioPort = new IOPort(this.gameID, player1.getUsername(), player2.getUsername(), tileStack);
-
-    }
-
-    public String getForfeitedPlayer(){
-        return ioPort.getForfeitedPlayer();
+        forfeitMessageQueue = new LinkedList<>();
     }
 
     public void initializeIOport(){
@@ -62,6 +61,10 @@ public class Game {
             Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(), getMatch().getRound().getChallenge().getChallengeID(), getMatch().getRound().getRoundID(), getMatch().getMatchID(), gameID, player2.getUsername(), message);
         }
         else Logger.messageReceived(getMatch().getRound().getChallenge().getTournamentID(),getMatch().getRound().getChallenge().getChallengeID(),getMatch().getRound().getRoundID(),getMatch().getMatchID(),gameID,player1.getUsername(),message);
+    }
+
+    public void receiveScoreGuess(String playerID, String message) {
+        ioPort.receiveScoreGuess(playerID, message);
     }
 
     public String getResponse(){
@@ -107,4 +110,13 @@ public class Game {
     public int getPlayer2FinalScore(){
         return ioPort.getFinalScore(player2.getUsername());
     }
+
+    public Queue<String> getForfeitMessages() {
+        return ioPort.getForfeitMessages();
+    }
+
+    public void addForfeitMessage(String message) {
+        ioPort.addForfeitMessage(message);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public interface PlayerInAdapter
     public void initializeGame(String player1id, String player2id, LinkedList<PlayableTile> playableTiles);
     public void setOutAdapter(PlayerOutAdapter outAdapter);
     public void receiveTurn(Turn t);
+    void verifyScoreGuesses(String playerID, HashMap<String, Integer> scoreGuesses);
     public void receivePass();
     public void tigerRetrieve(int x, int y);
     public void tigerPlace(int x, int y);

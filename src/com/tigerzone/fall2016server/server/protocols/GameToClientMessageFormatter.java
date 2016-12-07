@@ -41,6 +41,18 @@ public class GameToClientMessageFormatter {
         return stringBuffer.toString();
     }
 
+    /* This forfeit message is used for the FORFEITED: DOES NOT KNOW OUTCOME (invalid score guess) case */
+    public static String generateForfeitMessageToBothPlayers(int gameID, String playerID, String message) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("GAME ");
+        stringBuffer.append(gameID);
+        stringBuffer.append(" PLAYER ");
+        stringBuffer.append(playerID);
+        stringBuffer.append(" ");
+        stringBuffer.append(message);
+        return stringBuffer.toString();
+    }
+
     public static String generateMessageToActivePlayer(int gameID, int maxTime, int moveNum, String tile){
         String secondOrSeconds = (maxTime == 1) ? " SECOND" : " SECONDS";
 
