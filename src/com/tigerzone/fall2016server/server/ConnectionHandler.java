@@ -18,8 +18,9 @@ public class ConnectionHandler extends Thread {
     private int maxConnections;
 
 
-    public ConnectionHandler(int maxConnections) {
+    public ConnectionHandler(int maxConnections, int port) {
         this.maxConnections = maxConnections;
+        this.port = port;
         connectedPlayers = TournamentServer.getTournamentPlayers();
     }
 

@@ -1,15 +1,12 @@
 package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
-import com.tigerzone.fall2016server.server.Connection;
 import com.tigerzone.fall2016server.server.Logger;
-import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.*;
 
@@ -80,8 +77,11 @@ public class Match extends Thread {
                 gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
                         moveNumber, gamePlayer.getUsername(), "FORFEITED: TIMEOUT");
                 gamePlayer.timedOut();
-                System.out.println("Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
+
                 forfeitGameMap.put(game, gamePlayer.getUsername());
+                addForfeitPlayerToRoundList(gamePlayer);
+
+                System.out.println("FORFEIT: Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
             } catch (IOException e) {
                 System.out.println("Caught IOException in match besides timeout (Player 2)");
                 System.out.println("This is their input " + gamePlayerResponse);
@@ -112,6 +112,10 @@ public class Match extends Thread {
                 String gameResponse = game.getResponse();
                 if (gameResponse.contains("FORFEITED")) {
                     forfeitGameMap.put(game, gamePlayer.getUsername());
+                    addForfeitPlayerToRoundList(gamePlayer);
+
+                    System.out.println("FORFEIT: Invalid move in game " + game.getGameID() + ": " +
+                            gamePlayer.getUsername() + " response " + gamePlayerResponse);
                 }
                 sendGameMessage(gameResponse);
             }
@@ -205,10 +209,6 @@ public class Match extends Thread {
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2) {
-       /* HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
-        playerLookup.put(p1.getUsername(), p1);
-        playerLookup.put(p2.getUsername(), p2);
-        */
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -253,6 +253,10 @@ public class Match extends Thread {
         Logger.endGame(c.getTournamentID(), c.getChallengeID(), r.getRoundID(), m.getMatchID(), game.getGameID(), p1, p2);
     }
 
+    private void addForfeitPlayerToRoundList(TournamentPlayer forfeitPlayer){
+        this.round.addPlayerToForfeitList(forfeitPlayer);
+    }
+
     public TournamentPlayer getPlayer1() {
         return player1;
     }
@@ -289,5 +293,4 @@ public class Match extends Thread {
     public Game getGame2() {
         return game2;
     }
-
 }

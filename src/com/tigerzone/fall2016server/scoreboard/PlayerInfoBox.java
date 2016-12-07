@@ -17,6 +17,7 @@ public class PlayerInfoBox {
     private static final String WINS_BY_FORFEIT = "WINS BY FORFEIT: ";
     private static final String TIES = "TIES: ";
     private static final String LOSSES = "LOSSES: ";
+    private static final String LOSSES_BY_FORFEIT = "LOSSES BY FORFIET: ";
     private static final String TOTAL_POINTS = "TOTAL POINTS: ";
     private static final String AVERAGE_RELATIVE_PERFORMANCE = "AVG. REL. PERFORMANCE: ";
     private static final String LARGEST_LOSS_POINT_DIFF  = "LARGEST LOSS POINT DIFF: ";
@@ -29,6 +30,8 @@ public class PlayerInfoBox {
     private Label winsByForfeit;
     private Label ties;
     private Label losses;
+
+    private Label lossesByForfeit;
     private Label totalPoints;
     private Label averageRelativePerformance;
     private Label largestLossPointDifferential;
@@ -42,6 +45,7 @@ public class PlayerInfoBox {
         this.winsByForfeit = new Label(WINS_BY_FORFEIT + 0);
         this.ties = new Label(TIES + 0);
         this.losses = new Label(LOSSES + 0);
+        this.lossesByForfeit = new Label(LOSSES_BY_FORFEIT + 0);
         this.totalPoints = new Label(TOTAL_POINTS + 0);
         this.averageRelativePerformance = new Label(AVERAGE_RELATIVE_PERFORMANCE + 0);
         this.largestLossPointDifferential = new Label(LARGEST_LOSS_POINT_DIFF + 0);
@@ -84,6 +88,11 @@ public class PlayerInfoBox {
         updateBox();
     }
 
+    public void setLossesByForfeit(int lossesByForfeit) {
+        this.lossesByForfeit = new Label(LOSSES_BY_FORFEIT + lossesByForfeit);
+        updateBox();
+    }
+
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = new Label(TOTAL_POINTS + totalPoints);
         updateBox();
@@ -116,6 +125,7 @@ public class PlayerInfoBox {
                 vBox.getChildren().add(winsByForfeit);
                 vBox.getChildren().add(ties);
                 vBox.getChildren().add(losses);
+                vBox.getChildren().add(lossesByForfeit);
                 vBox.getChildren().add(totalPoints);
                 vBox.getChildren().add(averageRelativePerformance);
                 vBox.getChildren().add(largestLossPointDifferential);

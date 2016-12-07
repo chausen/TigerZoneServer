@@ -1,6 +1,7 @@
 package com.tigerzone.fall2016server.tournament.tournamentplayer;
 
 import com.tigerzone.fall2016server.server.Connection;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -24,7 +25,7 @@ public class TournamentPlayer {
         this.username = username;
         this.connection = connection;
         this.tournamentPlayerGameConnection = new PlayerGameCommunication(this.connection);
-        this.stats = new PlayerStats();
+        this.stats = new PlayerStats(new SimpleStringProperty(username));
     }
 
     public String getUsername() {

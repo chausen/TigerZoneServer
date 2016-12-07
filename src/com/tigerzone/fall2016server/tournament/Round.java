@@ -4,10 +4,7 @@ import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lenovo on 11/17/2016.
@@ -21,16 +18,19 @@ public class Round {
     private int numOfMatchesComplete = 0;
     private int numOfRounds;
     List<Match> matches;
+    Set<TournamentPlayer> forfeitPlayerSet;
 
     public Round(List<Match> matches) {
         this.matches = matches;
         this.numOfMatches = matches.size();
+        this.forfeitPlayerSet = new HashSet<>();
     }
 
     public Round(Challenge challenge, List<Match> matches) {
         this.challenge = challenge;
         this.matches = matches;
         this.numOfMatches = matches.size();
+        this.forfeitPlayerSet = new HashSet<>();
         getChallengeInfo();
     }
 
@@ -43,6 +43,7 @@ public class Round {
         for (Match match : matches) {
             match.setRound(this);
         }
+        forfeitPlayerSet = new HashSet<>();
     }
 
     public void playRound() {
@@ -60,17 +61,16 @@ public class Round {
                 m.getGame2().getGameID(), m.getPlayer2().getUsername(), m.getPlayer1().getUsername());
     }
 
-    public void getChallengeInfo() {
+    private void getChallengeInfo() {
         this.players = challenge.getPlayers();
         this.numOfRounds = challenge.getNumOfRounds();
         this.tiles = challenge.getTiles();
     }
 
-
-    private Set<TournamentPlayer> getActivePlayers(){
+    private Set<TournamentPlayer> getActivePlayers() {
         Set<TournamentPlayer> playersInRound = new HashSet<>();
 
-        matches.forEach((match)->{
+        matches.forEach((match) -> {
             playersInRound.add(match.getPlayer1());
             playersInRound.add(match.getPlayer2());
         });
@@ -79,7 +79,6 @@ public class Round {
 
     private void sendMessageToPlayers() {
         Logger.beginRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
-
         for (TournamentPlayer tournamentPlayer : getActivePlayers()) {
             tournamentPlayer.sendMessageToPlayer("BEGIN ROUND " + roundID + " OF " + numOfRounds);
             System.out.println("BEGIN ROUND " + roundID + " OF " + numOfRounds);
@@ -87,29 +86,24 @@ public class Round {
     }
 
     public void notifyComplete() {
-       numOfMatchesComplete++;
+        numOfMatchesComplete++;
         if (numOfMatchesComplete == numOfMatches) {
-            String roundCompleteMessage;
-            if(challenge.getCurrentRoundNumber() == challenge.getNumOfRounds()) {
-                roundCompleteMessage = new StringBuffer()
-                        .append("END OF ROUND ")
-                        .append(roundID)
-                        .append(" OF ")
-                        .append(numOfRounds).toString();
-                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+            Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
+            StringBuffer roundCompleteMessageStringBuffer = new StringBuffer()
+                    .append("END OF ROUND ")
+                    .append(roundID)
+                    .append(" OF ")
+                    .append(numOfRounds);
+
+            if (challenge.getCurrentRoundNumber() != numOfRounds) {
+                roundCompleteMessageStringBuffer.append(" PLEASE WAIT FOR THE NEXT MATCH");
             }
-            else{
-                roundCompleteMessage = new StringBuffer()
-                        .append("END OF ROUND ")
-                        .append(roundID)
-                        .append(" OF ")
-                        .append(numOfRounds).toString() + " PLEASE WAIT FOR THE NEXT MATCH";
-                Logger.endRound(getChallenge().getTournamentID(), getChallenge().getChallengeID(), roundID, numOfRounds);
-            }
+            String roundCompleteMessage = roundCompleteMessageStringBuffer.toString();
 
             for (TournamentPlayer tournamentPlayer : getActivePlayers()) {
                 tournamentPlayer.sendMessageToPlayer(roundCompleteMessage);
             }
+            challenge.addForfeitPlayers(this.forfeitPlayerSet);
             challenge.roundComplete();
         }
     }
@@ -136,5 +130,9 @@ public class Round {
 
     public int getRoundID() {
         return roundID;
+    }
+
+    public void addPlayerToForfeitList(TournamentPlayer tournamentPlayer) {
+        this.forfeitPlayerSet.add(tournamentPlayer);
     }
 }

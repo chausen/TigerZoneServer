@@ -1,7 +1,7 @@
-package com.tigerzone.fall2016.ports;
+package com.tigerzone.fall2016adapter.ports;
 
-import com.tigerzone.fall2016.adapters.PlayerInAdapter;
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016adapter.PlayerInAdapter;
+import com.tigerzone.fall2016adapter.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Predator;
 import com.tigerzone.fall2016.animals.Tiger;
@@ -90,7 +90,7 @@ public class IOPort implements PlayerOutAdapter {
         psm.parse(moveProtocolContext);
 
         if (!moveProtocolContext.wasMoveValid()) {
-            System.out.println("Receiving something that didn't pass the moveprotocolcontext in ioport from "  + currentPlayer.getPlayerId() + " message " + s);
+            System.out.println("Receiving something that didn't pass the move protocol context in ioport from "  + currentPlayer.getPlayerId() + " message " + s);
             receiveIllegalMessage();
             return;
 

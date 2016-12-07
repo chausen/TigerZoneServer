@@ -95,7 +95,10 @@ public class Connection {
 
     public String receiveMessageFromPlayer() throws IOException{
         try {
-            return this.in.readLine();
+            String input = this.in.readLine();
+
+            return input;
+//            return this.in.readLine();
         }
         catch (SocketException e){
             return null;

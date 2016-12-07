@@ -1,10 +1,9 @@
 package com.tigerzone.fall2016;
 
-import com.tigerzone.fall2016.ports.IOPort;
+import com.tigerzone.fall2016adapter.ports.IOPort;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 /**

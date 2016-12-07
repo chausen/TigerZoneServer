@@ -20,9 +20,9 @@ public class Challenge {
     List<Round> rounds;
     Round currentRound;
     int currentRoundNumber;
+    Set<TournamentPlayer> forfeitPlayerSet;
 
     public Challenge(TournamentServer tournamentServers, long seed, List<TournamentPlayer> players) {
-
         cid = challengeID++;
         this.tournamentServer = tournamentServers;
 
@@ -36,12 +36,12 @@ public class Challenge {
             numOfRounds = players.size();
         }
         this.players = players;
+        this.forfeitPlayerSet = new HashSet<>();
     }
 
     public void beginChallenge() {
         currentRoundNumber=1;
         sendNewChallengeMessageToPlayers();
-        Logger.beginChallenge(1,challengeID);
         rounds = generateRounds();
         rounds.get(currentRoundNumber-1).playRound();
     }
@@ -72,18 +72,20 @@ public class Challenge {
                 tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
                 System.out.println("still more challenges");
             }
-            //tournamentPlayer.sendMessageToPlayer("PLEASE WAIT FOR THE NEXT CHALLENGE TO BEGIN");
         }
     }
 
     private void sendNewChallengeMessageToPlayers(){
+        Logger.beginChallenge(getTournamentID(),challengeID,  this.tournamentServer.getNumOfChallenges() + 1);
         for(TournamentPlayer tournamentPlayer: players){
             String message = "NEW CHALLENGE " + (cid + 1)  + " YOU WILL PLAY " + numOfRounds;
             if(numOfRounds == 1) {
                 tournamentPlayer.sendMessageToPlayer(message + " MATCH");
+                System.out.println(message + " MATCH");
             }
             else {
                 tournamentPlayer.sendMessageToPlayer(message + " MATCHES");
+                System.out.println(message + " MATCHES");
             }
         }
     }
@@ -100,6 +102,10 @@ public class Challenge {
 
     public int getChallengeID() {
         return challengeID;
+    }
+
+    public Set<TournamentPlayer> getForfeitedPlayerSet(){
+        return this.forfeitPlayerSet;
     }
 
     public List<TournamentPlayer> getPlayers() {
@@ -120,5 +126,9 @@ public class Challenge {
 
     public int getTournamentID() {
         return tournamentServer.getTournamentID();
+    }
+
+    public void addForfeitPlayers(Set<TournamentPlayer> forfeitedPlayersInRound) {
+        this.forfeitPlayerSet.addAll(forfeitedPlayersInRound);
     }
 }

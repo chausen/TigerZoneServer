@@ -1,7 +1,7 @@
-package com.tigerzone.fall2016.ports;
+package com.tigerzone.fall2016adapter.ports;
 
-import com.tigerzone.fall2016.adapters.PlayerInAdapter;
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016adapter.PlayerInAdapter;
+import com.tigerzone.fall2016adapter.PlayerOutAdapter;
 import com.tigerzone.fall2016.gamesystem.Player;
 import com.tigerzone.fall2016.gamesystem.Turn;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
