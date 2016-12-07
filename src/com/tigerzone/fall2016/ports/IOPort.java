@@ -198,6 +198,10 @@ public class IOPort implements PlayerOutAdapter {
         }
     }
 
+    private void receiveEndGameScoringMessage(String s) {
+
+    }
+
     private void receiveIllegalMessage() {
         // TODO: 11/26/2016 Need to set message prefix appropriately (player currently null)
         forfeit(this.currentPlayer.getPlayerId());

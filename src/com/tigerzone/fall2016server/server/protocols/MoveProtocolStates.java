@@ -48,6 +48,30 @@ enum MoveProtocolStates implements ProtocolState {
                             return true;
                         }
                     }
+                } else if(token.equals("OVER")) {
+                    if (scanner.hasNext()) {
+                        if (scanner.next().equals("PLAYER")) {
+                            if (scanner.hasNextInt()) {
+                                scanner.next(); //pid
+                                if (scanner.hasNextInt()) {
+                                    scanner.next(); //score
+                                    if(scanner.next().equals("PLAYER")) {
+                                        if (scanner.hasNextInt()) {
+                                            scanner.next(); //pid
+                                            if(scanner.hasNextInt()) {
+                                                scanner.next(); //score
+                                                if (!scanner.hasNext()) {
+                                                    context.setValidMove();
+                                                    context.changeState(START, this);
+                                                    return false; // end iteration through state machine due to valid move
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
             context.setIllegalMove();
