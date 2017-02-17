@@ -82,4 +82,4 @@ NOTE 2: The location of your class files must be in `out/production/TigerZone` v
  + [TeamM](https://github.com/wheelsandbytes/tigerzone)
  
  ### TigerZoneServer GUI
- ![alt text](https://github.com/chausen/TigerZoneServer/tree/master/img/tigerZoneGUI.png)
+ ![TigerZone](https://github.com/chausen/TigerZone/blob/master/img/tigerZoneGUI.png)
