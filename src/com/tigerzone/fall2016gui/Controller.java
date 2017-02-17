@@ -106,10 +106,11 @@ public class Controller implements ViewOutAdapter {
         int tournamentIDNumber = Integer.parseInt(tournamentID.getText());
         int numChallengesNumber = Integer.parseInt(numChallenges.getText());
         boolean isTournamentOfDeath = Boolean.parseBoolean(tournamentOfDeath.getText());
+        String tournamentPassword = serverPassword.getText();
 
         TournamentServer tournamentServer =
                 new TournamentServer(portNumber, seedNumber, maxConnectionsNumber,
-                        tournamentIDNumber, numChallengesNumber, isTournamentOfDeath);
+                        tournamentIDNumber, numChallengesNumber, isTournamentOfDeath, tournamentPassword);
         tournamentServer.setViewOutAdapter(this);
         Thread thread = new Thread(tournamentServer);
         thread.start();

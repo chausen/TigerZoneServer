@@ -19,17 +19,18 @@ public class LoginProtocol {
     private int enterAttempts = 0;
     private int loginAttempts = 0;
     private String user = null;
-    private String tournamentPass = "TIGERZONE";
+    private String tournamentPassword = "TIGERZONE";
 
     private HashMap<String, String> credentials = new HashMap<>();
 
     public LoginProtocol() {
-        credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials
-        credentials.put("PLAYER2", "PASSWORD2"); //dummy credentials
+        this.credentials.put("PLAYER1", "PASSWORD1"); //dummy credentials
+        this.credentials.put("PLAYER2", "PASSWORD2"); //dummy credentials
     }
 
-    public LoginProtocol(String credentialsFilename) {
-        credentials = FileReader.getCredentials(credentialsFilename);
+    public LoginProtocol(String credentialsFilename, String tournamentPassword) {
+        this.credentials = FileReader.getCredentials(credentialsFilename);
+        this.tournamentPassword = tournamentPassword;
     }
 
     public LoginProtocol(HashMap<String, String> credentials) {
@@ -48,7 +49,7 @@ public class LoginProtocol {
             state = LOGIN;
         } else if (state == LOGIN) {
             enterAttempts++;
-            if (input.equals("JOIN " + tournamentPass)) {
+            if (input.equals("JOIN " + this.tournamentPassword)) {
                 output = "HELLO!";
                 state = CREDENTIALS;
             } else if (enterAttempts < 3) {

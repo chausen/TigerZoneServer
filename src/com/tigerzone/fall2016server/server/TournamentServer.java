@@ -19,7 +19,6 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
     private static List<String> userNames = new ArrayList<>();
-    private boolean eliminationTournament;
 
     private ViewOutAdapter viewOutAdapter = new ViewOutAdapter() {
         @Override
@@ -44,7 +43,8 @@ public class TournamentServer implements ViewInAdapter, Runnable {
     private static int MAX_CONNECTIONS = 20;
     private static int tournamentID = 1;
     private static int numOfChallenges = 3; //the number of challenges is actually this plus 1
-    //set true when teams are dropped from next challenge if they forfeit in previous challenge
+    private static boolean eliminationTournament = false; //true if forfeit teams are dropped in next challenge
+    private static String tournamentPassword = "TigerZone";
 
 
     public int getNumOfChallengesComplete() {
@@ -101,6 +101,20 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         this.eliminationTournament = eliminationTournament;
     }
 
+    // Constructor used for parameterized main: 7 arguments
+    public TournamentServer(int port, int seed, int maxConnections,
+                            int tournamentID, int numOfChallenges,
+                            boolean eliminationTournament, String tournamentPassword) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = eliminationTournament;
+        this.tournamentPassword   = tournamentPassword;
+    }
+
+
     public int getTournamentID() {
         return tournamentID;
     }
@@ -124,7 +138,7 @@ public class TournamentServer implements ViewInAdapter, Runnable {
 
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS, PORT);
+        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS, PORT, this.tournamentPassword);
         connectionHandler.start();
         try {
             connectionHandler.join();
@@ -136,13 +150,13 @@ public class TournamentServer implements ViewInAdapter, Runnable {
         }
     }
 
-    public void authenticationExecutor() {
-        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
-        new Thread(connectionExecutor).start();
-        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
-            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
-        }
-    }
+//    public void authenticationExecutor() {
+//        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
+//        new Thread(connectionExecutor).start();
+//        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+//            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
+//        }
+//    }
 
     private void endCommunicationWithPlayer(Collection<TournamentPlayer> tournamentPlayers) {
         tournamentPlayers.forEach((tournamentPlayer -> {
