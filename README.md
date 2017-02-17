@@ -57,12 +57,10 @@ Providing no arguments will start the server with the default values of:
 ## Running a tournament
 #### From the command-line
 
-Run (*from the root directory*):
-
-`java -classpath out com.tigerzone.fall2016gui.Main`
+Run (*from the root directory*): `java -classpath out com.tigerzone.fall2016server.server.TournamentServerMain`
  
 #### From IntelliJ
-*To be added...*
+Click Run: Run Main.java in `fall2016gui` directory
  
 #### From a bash script
 Included in the root directory is a bash script called `StartServer.sh`. 
@@ -83,5 +81,5 @@ NOTE 2: The location of your class files must be in `out/production/TigerZone` v
  + [TeamP](https://github.com/ldfreedman/TZP) 
  + [TeamM](https://github.com/wheelsandbytes/tigerzone)
  
- ### TigerZoneServer UI
+ ### TigerZoneServer GUI
  ![alt text](https://github.com/chausen/TigerZoneServer/tree/master/img/tigerZoneGUI.png)
