@@ -70,16 +70,16 @@ with a random seed and incrementing tournamentID.
 
 NOTE 2: The location of your class files must be in `out/production/TigerZone` vs. just `out`, or the script will be modified.
 
-### Running Tests
+## Running Tests
 
 #### From IntelliJ
 + Make sure the `tst` directory is marked as your *Tests Root*
 + Make sure **JUnit4** is added to your classpath. 
 + Right-click `tst` and click `Run 'All Tests'` or enter `Ctrl-Shift-F10` (using the default key-mapping)
  
- ### TigerZone Stellar AIs
- + [TeamP](https://github.com/ldfreedman/TZP) 
- + [TeamM](https://github.com/wheelsandbytes/tigerzone)
+## TigerZone Stellar AIs
++ [TeamP](https://github.com/ldfreedman/TZP) 
++ [TeamM](https://github.com/wheelsandbytes/tigerzone)
  
- ### TigerZoneServer GUI
- ![TigerZone](https://github.com/chausen/TigerZone/blob/master/img/tigerZoneGUI.png)
+## TigerZoneServer GUI
+![TigerZone](https://github.com/chausen/TigerZone/blob/master/img/tigerZoneGUI.png)
