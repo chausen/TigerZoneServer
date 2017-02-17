@@ -1,6 +1,6 @@
 package com.tigerzone.fall2016server.server;
 
-import com.tigerzone.fall2016.adapters.PlayerInAdapter;
+import com.tigerzone.fall2016adapter.PlayerInAdapter;
 import com.tigerzone.fall2016.animals.Crocodile;
 import com.tigerzone.fall2016.animals.Prey;
 import com.tigerzone.fall2016.animals.Tiger;
@@ -9,10 +9,12 @@ import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016server.scoreboard.PlayerBoxController;
-import com.tigerzone.fall2016server.scoreboard.Scoreboard;
+import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.tournament.Game;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +30,9 @@ public class Logger {
     private static PrintWriter pw = null;
     private static CopyOnWriteArrayList<String> logs = new CopyOnWriteArrayList<>();
     private static HashMap<Integer, Integer[]> gameLookup = new HashMap<>();
-    private static PlayerBoxController pbc;
+
+    private static ViewOutAdapter viewOutAdapter;
+    private static ObservableList<PlayerStats> listOfPlayerStats = FXCollections.observableArrayList();
 
     /**
      * Initializes the Logger with the PrintWriter for a text-based Logger (mostly for testing) and adds the tournament
@@ -42,9 +46,24 @@ public class Logger {
             sb.append(".txt");
             pw = new PrintWriter(new File(sb.toString()));
         }catch (FileNotFoundException e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
-        pbc = new PlayerBoxController();
+        begin(tournamentID);
+    }
+
+    public static void initializeLogger(int tournamentID, ViewOutAdapter adapter) {
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("./");
+            sb.append(getTimeStamp());
+            sb.append(".txt");
+            pw = new PrintWriter(new File(sb.toString()));
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        viewOutAdapter = adapter;
+        viewOutAdapter.giveListOfPlayerStats(listOfPlayerStats);
         begin(tournamentID);
     }
 
@@ -55,11 +74,14 @@ public class Logger {
         addLogToLogger(sb.toString());
     }
 
-    public static void beginChallenge(int tournamentID, int challengeID) {
+    public static void beginChallenge(int tournamentID, int challengeID, int numOfChallenges) {
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID, challengeID));
         appendPlayerID("---",sb);
         sb.append("BEGIN CHALLENGE");
         addLogToLogger(sb.toString());
+        if (viewOutAdapter != null) {
+            viewOutAdapter.notifyBeginningOfChallenge(challengeID, numOfChallenges);
+        }
     }
 
     public static void beginRound(int tournamentID, int challengeID, int roundID, int numOfRounds) {
@@ -70,6 +92,9 @@ public class Logger {
         sb.append(" of ");
         sb.append(numOfRounds);
         addLogToLogger(sb.toString());
+        if (viewOutAdapter != null) {
+            viewOutAdapter.notifyBeginningOfRound(roundID, numOfRounds);
+        }
     }
 
     public static void beginGame(int tournamentID, int challengeID, int roundID, int matchID, int gameID, String player1ID, String player2ID) {
@@ -84,7 +109,6 @@ public class Logger {
     }
 
     private static void end(int tournamentID){
-        System.out.println("END OF TOURNAMENT");
         StringBuilder sb = new StringBuilder(getPrefix(tournamentID));
         appendPlayerID("---",sb);
         sb.append("END TOURNAMENT");
@@ -119,8 +143,7 @@ public class Logger {
         sb.append(" PLAYER2 ");
         sb.append(player2.getUsername());
         addLogToLogger(sb.toString());
-        pbc.updatePlayerInfoBox(player1.getUsername(),player1.getStats());
-        pbc.updatePlayerInfoBox(player2.getUsername(),player2.getStats());
+
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player1);
         addStats(tournamentID, challengeID, roundID, matchID, gameID, player2);
     }
@@ -182,6 +205,9 @@ public class Logger {
         sb.append("\r\n");
         sb.append(getGameTabs()+"LOSSES ");
         sb.append(player.getStats().getLosses());
+        sb.append("\r\n");
+        sb.append(getGameTabs()+"LOSSES_BY_FORFEIT");
+        sb.append(player.getStats().getLossesByForfeit());
         sb.append("\r\n");
         sb.append(getGameTabs()+"TOTAL_POINTS ");
         sb.append(player.getStats().getTotalPoints());
@@ -537,12 +563,40 @@ public class Logger {
         pw.flush();
     }
 
-    public static void loggerTest(){
-        beginGame(6,5,4,3,2,"1","0");
-        //endChallenge(6,5);
-    }
-
     public static String getGameTabs() {
         return "\t\t\t\t\t\t\t\t\t\t\t\t";
+    }
+
+    //Doing something that Dave requested we show at the end: a player's name, wins, losses, ties, wins by forfeit, and losses by forfeit
+    public static void createEndStats(List<TournamentPlayer> players) {
+        PrintWriter printwriter = null;
+        try {
+            printwriter = new PrintWriter(new File("./FinalStats.txt"));
+        } catch (FileNotFoundException e) {
+            System.err.println("Create a file called FinalStats.txt. This is an error caused by Jeff so yell at him.");
+        }
+
+        printwriter.println("TEAM\tWINS\tLOSSES\tTIES\tWINSFORFEIT\tLOSSESFORFEIT");
+        for(TournamentPlayer player : players){
+            StringBuilder stringb = new StringBuilder();
+            stringb.append(player.getUsername());
+            stringb.append('\t');
+            stringb.append(player.getStats().getWins());
+            printwriter.println('\t');
+            stringb.append(player.getStats().getLosses());
+            stringb.append('\t');
+            stringb.append(player.getStats().getTies());
+            stringb.append('\t');
+            stringb.append(player.getStats().getWinsByForfeit());
+            stringb.append('\t');
+            stringb.append(player.getStats().getLossesByForfeit());
+            printwriter.println(stringb.toString());
+        }
+        printwriter.flush();
+        printwriter.close();
+    }
+
+    public static void addPlayerStats(PlayerStats playerStats) {
+        listOfPlayerStats.add(playerStats);
     }
 }

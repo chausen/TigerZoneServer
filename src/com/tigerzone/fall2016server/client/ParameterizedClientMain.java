@@ -14,14 +14,19 @@ public class ParameterizedClientMain {
         String player2MovesFilename = "";
         String hostname = "localhost"; // default
         int port = 4444; // default
+        boolean useTimeOutClient = false;
 
-        if (args.length != 4 && args.length != 6) {
+        if (args.length != 4 && args.length != 6 && args.length != 7) {
             System.out.println(args.length);
             System.out.println("Proper usages: ParameterizedClientMain <loginName> <password> <filename1> <filename2>. Exiting...");
             return;
         } else if (args.length == 6) {
             hostname = args[4];
             port = Integer.parseInt(args[5]);
+        } else if (args.length == 7) {
+            // use the ParameterizedTimeOutClient
+            if (args[6].equals("true") || args[6].equals("t"))
+                useTimeOutClient = true;
         }
 
         loginName = args[0];
@@ -29,7 +34,13 @@ public class ParameterizedClientMain {
         player1MovesFilename = args[2];
         player2MovesFilename = args[3];
 
-        ParameterizedClient client = new ParameterizedClient(hostname, port, player1MovesFilename, player2MovesFilename);
+        ParameterizedClient client;
+
+        if (useTimeOutClient) {
+            client = new ParameterizedTimeOutClient(hostname, port, player1MovesFilename, player2MovesFilename);
+        } else {
+            client = new ParameterizedClient(hostname, port, player1MovesFilename, player2MovesFilename);
+        }
         try {
             client.login(loginName, password);
         } catch (Exception e) {

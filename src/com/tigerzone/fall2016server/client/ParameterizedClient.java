@@ -30,6 +30,22 @@ public class ParameterizedClient {
     private int gid;
     private HashMap<Integer, Iterator> gidToMoveset = new HashMap<>(); // Used to map a moveset to a gid for a match
 
+    public ParameterizedClient() {
+        this.host = "localhost";
+        this.port = 4444;
+        this.player1MovesFilename = "moveset1_P1.txt";
+        this.player2MovesFilename = "moveset1_P2.txt";
+        try {
+            clientSocket = new Socket(this.host, this.port);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException e) {
+            System.out.println("Some ioexception");
+        }
+        player1Moves = FileReader.getMoves(fullDirectoryPath(player1MovesFilename));
+        player2Moves = FileReader.getMoves(fullDirectoryPath(player2MovesFilename));
+    }
+
 
     public ParameterizedClient(String host, int port, String player1MovesFilename, String player2MovesFilename) {
         this.host = host;

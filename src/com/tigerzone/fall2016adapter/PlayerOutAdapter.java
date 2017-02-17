@@ -1,15 +1,11 @@
-package com.tigerzone.fall2016.adapters;
+package com.tigerzone.fall2016adapter;
 import com.tigerzone.fall2016.area.DenArea;
 import com.tigerzone.fall2016.area.JungleArea;
 import com.tigerzone.fall2016.area.LakeArea;
 import com.tigerzone.fall2016.area.TrailArea;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.gamesystem.Turn;
-import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 public interface PlayerOutAdapter
 {

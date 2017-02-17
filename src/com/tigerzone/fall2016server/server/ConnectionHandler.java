@@ -14,12 +14,15 @@ import java.util.List;
 public class ConnectionHandler extends Thread {
 
     private static int port = 4444;
+    private String tournamentPassword;
     private List<TournamentPlayer> connectedPlayers;
     private int maxConnections;
 
 
-    public ConnectionHandler(int maxConnections) {
+    public ConnectionHandler(int maxConnections, int port, String tournamentPassword) {
         this.maxConnections = maxConnections;
+        this.port = port;
+        this.tournamentPassword = tournamentPassword;
         connectedPlayers = TournamentServer.getTournamentPlayers();
     }
 
@@ -43,7 +46,7 @@ public class ConnectionHandler extends Thread {
             while (!tournamentReady(startTime)) { //might need to spin a thread for authentication itself so can interrupt?
                 try {
                     clientSocket = serverSocket.accept();
-                    new AuthenticationThread(clientSocket).start();
+                    new AuthenticationThread(clientSocket, this.tournamentPassword).start();
                 } catch (SocketTimeoutException ste) {
                     //System.out.println("Waited 1000 millis but no connection made");
                 }

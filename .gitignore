@@ -8,6 +8,8 @@ logger.txt
 **/*.iml
 **/*.sh
 **/*.bat
-**/*.txt
 /bin
 .DS_Store
+/module_tigerzone.xml
+/tigerzone.xml
+/tigerzone.properties

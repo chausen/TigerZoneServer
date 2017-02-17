@@ -1,6 +1,5 @@
-package com.tigerzone.fall2016.ports;
-import com.tigerzone.fall2016.adapters.TileReadAdapter;
-import com.tigerzone.fall2016.tileplacement.terrain.*;
+package com.tigerzone.fall2016adapter.ports;
+import com.tigerzone.fall2016adapter.TileReadAdapter;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
 import java.io.File;

@@ -21,12 +21,15 @@ public class AuthenticationThread extends Thread {
     private Socket clientSocket;
     private BufferedReader in;
     private PrintWriter out;
+    private String tournamentPassword;
 
     List<TournamentPlayer> tournamentPlayers;
     List<String> userNames;
 
-    public AuthenticationThread(Socket socket) {
+
+    public AuthenticationThread(Socket socket, String tournamentPassword) {
         this.clientSocket = socket;
+        this.tournamentPassword = tournamentPassword;
         userNames = TournamentServer.getUserNames();
         tournamentPlayers = TournamentServer.getTournamentPlayers();
         try {
@@ -50,13 +53,13 @@ public class AuthenticationThread extends Thread {
 
             // For multiple clients
             String currentDirectory = Paths.get(".").toAbsolutePath().normalize().toString();
-            StringBuilder sb = new StringBuilder();
-            sb.append(currentDirectory);
+            StringBuilder pathOfCredentialsFilename = new StringBuilder();
+            pathOfCredentialsFilename.append(currentDirectory);
 
-            sb.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
+            pathOfCredentialsFilename.append("/src/com/tigerzone/fall2016server/files/TournamentCredentials.txt");
 
 
-            LoginProtocol loginProtocol = new LoginProtocol(sb.toString());
+            LoginProtocol loginProtocol = new LoginProtocol(pathOfCredentialsFilename.toString(), this.tournamentPassword);
 
             output = loginProtocol.login(null);
 

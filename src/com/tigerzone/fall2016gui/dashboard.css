@@ -1,0 +1,26 @@
+.app-title-background {
+    -fx-background-color: #abbcbf;
+    -fx-background-image: url("white_tiger.png");
+}
+
+.app-title {
+    -fx-font-family: fantasy;
+    -fx-font-weight: 700;
+    -fx-font-color: white;
+}
+
+.activate-button {
+
+}
+
+.cancel-button {
+    -fx-background-color: #ef6b66;
+}
+
+.cancelling-button {
+    -fx-background-color: #faff78;
+}
+
+.progress-label {
+    -fx-font-size: 8px;
+}

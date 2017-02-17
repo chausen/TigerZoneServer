@@ -2,7 +2,6 @@ package com.tigerzone.fall2016.area;
 
 
 import com.tigerzone.fall2016.animals.Predator;
-import com.tigerzone.fall2016.animals.Tiger;
 import com.tigerzone.fall2016.area.terrainnode.TerrainNode;
 import com.tigerzone.fall2016.scoring.Scorer;
 import com.tigerzone.fall2016.tileplacement.GameBoard;
@@ -81,7 +80,7 @@ public class AreaManager {
         Set<Area> updatedAreas = areaBuilder.getUpdatedAreas();
         Set<Area> deletedAreas = areaBuilder.getDeletedAreas();
         addNewAreas(newAreas);
-      // updatedAreas.removeAll(deletedAreas);
+        // updatedAreas.removeAll(deletedAreas);
         deleteAreas(deletedAreas);
         addUpdatedAreas(updatedAreas);
         for(Area area : updatedAreas){
@@ -122,25 +121,25 @@ public class AreaManager {
         boolean crocPlaced = false;
         if (predatorPlacementZone > 0) {
             TerrainNode predatorPlacementNode = boardTile.getTerrainNode(predatorPlacementZone);
-            if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
+            Area predatorPlacementArea = predatorPlacementNode.getArea();
+            if(predatorPlacementArea == null) {
                 predatorPlaceable = false;
-            } else if (!predatorPlacementNode.getArea().isPredatorPlaceable(predator)) {
+            } else if (predatorPlacementNode.getMinimumZoneValue() != predatorPlacementZone) {
                 predatorPlaceable = false;
-            } else if (!predatorPlacementNode.getArea().canPlaceTiger()) {
+            } else if (!predatorPlacementArea.isPredatorPlaceable(predator)) {
+                predatorPlaceable = false;
+            } else if (!predatorPlacementArea.canPlaceTiger()) {
                 predatorPlaceable = false;
             } else {
-                predatorPlacementNode.getArea().placePredator(predator); //need to check here as well
+                predatorPlacementArea.placePredator(predator); //need to check here as well
                 predatorPlaceable = true;
             }
         } else if (predatorPlacementZone==0){
             for (TerrainNode terrainNode: boardTile.getTerrainNodeList()) {
-                if (terrainNode.getArea().isPredatorPlaceable(predator)) {
-                    terrainNode.getArea().placePredator(predator);
+                Area predatorPlacementArea = terrainNode.getArea();
+                if ((predatorPlacementArea != null) && predatorPlacementArea.isPredatorPlaceable(predator)) {
+                    predatorPlacementArea.placePredator(predator);
                     crocPlaced = true;
-                    break;
-                }
-                else{
-                    crocPlaced = false;
                 }
             }
         }

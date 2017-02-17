@@ -1,18 +1,17 @@
 package com.tigerzone.fall2016.scoring;
 
-import com.tigerzone.fall2016.adapters.PlayerOutAdapter;
+import com.tigerzone.fall2016adapter.PlayerOutAdapter;
 import com.tigerzone.fall2016.animals.*;
 import com.tigerzone.fall2016.area.*;
 import com.tigerzone.fall2016.gamesystem.Player;
-import com.tigerzone.fall2016.ports.IOPort;
-import com.tigerzone.fall2016.ports.TextFilePort;
+import com.tigerzone.fall2016adapter.ports.IOPort;
+import com.tigerzone.fall2016adapter.ports.TextFilePort;
 import com.tigerzone.fall2016.tileplacement.FreeSpaceBoard;
 import com.tigerzone.fall2016.tileplacement.tile.BoardTile;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import org.junit.Test;
 
 import java.awt.*;
-import java.net.SocketPermission;
 import java.util.*;
 import java.util.List;
 

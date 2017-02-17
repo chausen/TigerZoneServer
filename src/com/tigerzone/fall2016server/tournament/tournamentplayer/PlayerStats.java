@@ -1,32 +1,55 @@
 package com.tigerzone.fall2016server.tournament.tournamentplayer;
 
+import com.tigerzone.fall2016server.server.Logger;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * Created by lenovo on 11/19/2016.
  */
 public class PlayerStats {
-    private int gamesCompleted;
     private int gamesPlayed;
     private int forfeits;
     private int ties;
     private int wins;
     private int losses;
     private int winsByForfeit;
+    private int lossesByForfeit;
     private int totalPoints;
     private int opponentTotalPoints;
     private int largestpointdifference;
     private double largestpointdifferencerelative;
 
-    public PlayerStats() {
-        gamesCompleted = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
+    // Properties used by javafx for GUI
+    private StringProperty usernameProperty;
+    private IntegerProperty winsProperty;
+    private IntegerProperty lossesProperty;
+    private IntegerProperty forfeitsProperty;
+    private IntegerProperty tiesProperty;
+    private IntegerProperty winsByForfeitProperty;
+    private IntegerProperty lossesByForfeitProperty;
+
+    public PlayerStats(StringProperty username) {
+        this.usernameProperty = username;
+        lossesByForfeit = gamesPlayed = forfeits = ties = wins = losses = winsByForfeit = totalPoints = opponentTotalPoints = largestpointdifference = 0;
         largestpointdifferencerelative = 0.0;
+
+        winsProperty = new SimpleIntegerProperty(wins);
+        lossesProperty = new SimpleIntegerProperty(losses);
+        forfeitsProperty = new SimpleIntegerProperty(forfeits);
+        tiesProperty = new SimpleIntegerProperty(ties);
+        winsByForfeitProperty = new SimpleIntegerProperty(winsByForfeit);
+        lossesByForfeitProperty = new SimpleIntegerProperty(lossesByForfeit);
+        Logger.addPlayerStats(this);
+    }
+    public int getLossesByForfeit(){
+        return lossesByForfeit;
     }
 
-    public int getGamesCompleted() {
-        return gamesCompleted;
-    }
-
-    public void setGamesCompleted(int gamesCompleted) {
-        this.gamesCompleted = gamesCompleted;
+    public void setLossesByForfeit(int lossesByForfeit){
+        this.lossesByForfeit = lossesByForfeit;
+        this.lossesByForfeitProperty.set(lossesByForfeit);
     }
 
     public int getGamesPlayed() {
@@ -43,6 +66,7 @@ public class PlayerStats {
 
     public void setForfeits(int forfeits) {
         this.forfeits = forfeits;
+        this.forfeitsProperty.set(forfeits);
     }
 
     public int getTies() {
@@ -51,6 +75,7 @@ public class PlayerStats {
 
     public void setTies(int ties) {
         this.ties = ties;
+        this.tiesProperty.set(ties);
     }
 
     public int getWins() {
@@ -59,6 +84,7 @@ public class PlayerStats {
 
     public void setWins(int wins) {
         this.wins = wins;
+        this.winsProperty.set(wins);
     }
 
     public int getLosses() {
@@ -67,6 +93,7 @@ public class PlayerStats {
 
     public void setLosses(int losses) {
         this.losses = losses;
+        this.lossesProperty.set(losses);
     }
 
     public int getWinsByForfeit(){
@@ -75,6 +102,7 @@ public class PlayerStats {
 
     public void setWinsByForfeit(int winsByForfeit){
         this.winsByForfeit = winsByForfeit;
+        this.winsByForfeitProperty.set(winsByForfeit);
     }
 
     public void setLargestpointdifference(int mypoints, int opponentpoints){
@@ -117,5 +145,33 @@ public class PlayerStats {
 
     public void setTotalPoints(int totalpoints) {
         totalPoints = totalpoints;
+    }
+
+    public StringProperty usernameProperty() {
+        return this.usernameProperty;
+    }
+
+    public IntegerProperty winsProperty() {
+        return winsProperty;
+    }
+
+    public IntegerProperty lossesProperty() {
+        return lossesProperty;
+    }
+
+    public IntegerProperty forfeitsProperty() {
+        return forfeitsProperty;
+    }
+
+    public IntegerProperty tiesProperty() {
+        return tiesProperty;
+    }
+
+    public IntegerProperty winsByForfeitProperty() {
+        return winsByForfeitProperty;
+    }
+
+    public IntegerProperty lossesByForfeitProperty() {
+        return lossesByForfeitProperty;
     }
 }

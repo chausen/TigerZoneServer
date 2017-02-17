@@ -2,13 +2,11 @@ package com.tigerzone.fall2016server.tournament;
 
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 import com.tigerzone.fall2016server.server.Logger;
-import com.tigerzone.fall2016server.server.TournamentServer;
 import com.tigerzone.fall2016server.server.protocols.GameToClientMessageFormatter;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.*;
 
@@ -58,100 +56,84 @@ public class Match extends Thread {
         }
     }
 
+    /**
+     * This method returns the response from a GamePlayer.
+     * If the a tournamentPlayer times out the returned response is a timed out message
+     * plus the current tournamentPlayer timedOut attribute is set to true.
+     *
+     * NOTE: A GamePlayer contains a TournamentPlayer & a timeOut boolean for that TournamentPlayer
+     * @param game
+     * @param moveNumber
+     * @param gamePlayer
+     */
+    private String acquireGamePlayerResponse(Game game, int moveNumber, TournamentPlayer gamePlayer) {
+        String gamePlayerResponse = null;
+        if (!game.isOver()) {
+            String gamePlayerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game.getGameID(), 1, moveNumber, game.getCurrentTile());
+            gamePlayer.sendMessageToPlayer(gamePlayerPrompt);
+            try {
+                gamePlayerResponse = gamePlayer.readPlayerMessage();
+            } catch (SocketTimeoutException e) {
+                gamePlayerResponse = GameToClientMessageFormatter.generateForfeitMessageToBothPlayers(game.getGameID(),
+                        moveNumber, gamePlayer.getUsername(), "FORFEITED: TIMEOUT");
+                gamePlayer.timedOut();
+
+                forfeitGameMap.put(game, gamePlayer.getUsername());
+                addForfeitPlayerToRoundList(gamePlayer);
+
+                System.out.println("FORFEIT: Timeout in game " + game.getGameID() + ": " + gamePlayer.getUsername());
+            } catch (IOException e) {
+                System.out.println("Caught IOException in match besides timeout (Player 2)");
+                System.out.println("This is their input " + gamePlayerResponse);
+                e.printStackTrace();
+            }
+        }
+        return gamePlayerResponse;
+    }
+
+    /**
+     * This method first checks if the GamePlayer has timed out for the current Game, if it has it sends the response
+     * to the player and ends the current Game.
+     *
+     * If the GamePlayer has not timed out this method receives the message from the game and sends the
+     * game's message to the GamePlayer.
+     *
+     * verifies a GamePlayer's response
+     * @param game
+     * @param gamePlayer
+     */
+    private void verifyingGamePlayerResponse(Game game, TournamentPlayer gamePlayer, String gamePlayerResponse) {
+        if (!game.isOver()) {
+            if (gamePlayer.isTimedOut()) {
+                sendGameMessage(gamePlayerResponse);
+                game.endGame();
+            } else {
+                game.receiveTurn(gamePlayerResponse);
+                String gameResponse = game.getResponse();
+                if (gameResponse.contains("FORFEITED")) {
+                    forfeitGameMap.put(game, gamePlayer.getUsername());
+                    addForfeitPlayerToRoundList(gamePlayer);
+
+                    System.out.println("FORFEIT: Invalid move in game " + game.getGameID() + ": " +
+                            gamePlayer.getUsername() + " response " + gamePlayerResponse);
+                }
+                sendGameMessage(gameResponse);
+            }
+        }
+    }
+
     private void playMatch() {
         forfeitGameMap = new HashMap<>();
         int moveNumber = 1;
         game1.initializeIOport();
         game2.initializeIOport();
-        boolean game1EndNotified = false;
-        boolean game2EndNotified = false;
 
-        while ((!game1.isOver() || !game2.isOver()) && moveNumber < 77) {
+        while ((!game1.isOver() || !game2.isOver()) && moveNumber < tileStack.size() + 1) {
+            String gamePlayer1Response = acquireGamePlayerResponse(game1, moveNumber, game1player);
+            String gamePlayer2Response = acquireGamePlayerResponse(game2, moveNumber, game2player);
 
-//            if (game1.isOver() && !game1EndNotified) {
-//                sendEndMessage(game1);
-//            } else if (game2.isOver() && !game2EndNotified) {
-//                sendEndMessage(game2);
-//            } else {
-
-            //A single game will be doing the following in each line of the if statement...
-            //Create prompt message for both players
-            //Send each player their own prompt message
-            //If a player didn't respond in time put them in the forfeitMap for the game they should have sent in a move for
-
-            boolean game1Timeout = false;
-            String gamePlayer1Response = null;
-
-            if (!game1.isOver()) {
-                String game1playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game1.getGameID(), 1, moveNumber, game1.getCurrentTile());
-                game1player.sendMessageToPlayer(game1playerPrompt);
-                //timeout to start
-                try { //here, we attempt to read from the client socket and throw a timeout exception if it isn't done fast enough
-                    gamePlayer1Response = game1player.readPlayerMessage();
-                } catch (SocketTimeoutException e) {
-                    game1Timeout = true;
-                    gamePlayer1Response = "GAME " + game1.getGameID() + " MOVE " + moveNumber + " PLAYER " + game1player.getUsername() + " FORFEITED: TIMEOUT";
-                    System.out.println("Timeout in game 1: " + game1player.getUsername());
-                    forfeitGameMap.put(game1, game1player.getUsername());
-                } catch (IOException e) {
-                    System.out.println("Caught IOException in match besides timeout (Player 1)");
-                    System.out.println("This is their input " + gamePlayer1Response);
-                    e.printStackTrace();
-                }
-            }
-
-            boolean game2Timeout = false;
-            String gamePlayer2Response = null;
-            if (!game2.isOver()) {
-                String game2playerPrompt = GameToClientMessageFormatter.generateMessageToActivePlayer(game2.getGameID(), 1, moveNumber, game2.getCurrentTile());
-                game2player.sendMessageToPlayer(game2playerPrompt);
-                //timeout to start
-                try {
-                    gamePlayer2Response = game2player.readPlayerMessage();
-                } catch (SocketTimeoutException e) {
-                    game2Timeout = true;
-                    gamePlayer2Response = "GAME " + game2.getGameID() + " MOVE " + moveNumber + " PLAYER " + game2player.getUsername() + " FORFEITED: TIMEOUT";
-                    System.out.println("Timeout in game 2: " + game2player.getUsername());
-                    forfeitGameMap.put(game2, game2player.getUsername());
-                } catch (IOException e) {
-                    System.out.println("Caught IOException in match besides timeout (Player 2)");
-                    System.out.println("This is their input " + gamePlayer2Response);
-                    e.printStackTrace();
-                }
-            }
-            //A single game will be doing the following in each line of the if statement...
-            //Get each player's response after 1 second
-            //Send each player's response to the respective gamePort
-            //Get the ioPort's response
-            //Send the ioPort's response to both players. Note that each player gets the same message
-            //If there move is not legal put the player in the forfeit map for the game which they were the active player
-
-            if (!game1.isOver()) {
-                if (game1Timeout) {
-                    sendGameMessage(gamePlayer1Response);
-                    game1.endGame();
-                } else {
-                    game1.receiveTurn(gamePlayer1Response);
-                    String gameResponse = game1.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
-                        forfeitGameMap.put(game1, game1player.getUsername());
-                    }
-                    sendGameMessage(gameResponse);
-                }
-            }
-            if (!game2.isOver()) {
-                if (game2Timeout) {
-                    sendGameMessage(gamePlayer2Response);
-                    game2.endGame();
-                } else {
-                    game2.receiveTurn(gamePlayer2Response);
-                    String gameResponse = game2.getResponse();
-                    if (gameResponse.contains("FORFEITED")) {
-                        forfeitGameMap.put(game2, game2player.getUsername());
-                    }
-                    sendGameMessage(gameResponse);
-                }
-            }
+            verifyingGamePlayerResponse(game1, game1player, gamePlayer1Response);
+            verifyingGamePlayerResponse(game2, game2player, gamePlayer2Response);
 
             //swap who is the active player in each game
             swapPlayers();
@@ -209,10 +191,9 @@ public class Match extends Thread {
     private void sendEndMessage(Game game) {
         TournamentPlayer p1 = game.getPlayer1();
         TournamentPlayer p2 = game.getPlayer2();
-        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
-        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                game.getPlayer1FinalScore() + " PLAYER " + p2.getUsername() + " " + game.getPlayer2FinalScore());
+
+        sendGameMessage(GameToClientMessageFormatter.generateGameOverMessage(game.getGameID(),
+                p1.getUsername(), p2.getUsername(), "" + game.getPlayer1FinalScore(),"" + game.getPlayer2FinalScore()));
         updatePlayerStatistics(game, p1, p2);
     }
 
@@ -221,18 +202,13 @@ public class Match extends Thread {
         TournamentPlayer p2 = game.getPlayer2();
         String player1score = (forfeitGameMap.get(game) != p1.getUsername() ? "WIN" : "FORFEITED");
         String player2score = (forfeitGameMap.get(game) != p2.getUsername() ? "WIN" : "FORFEITED");
-        player1.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
-        player2.sendMessageToPlayer("GAME " + game.getGameID() + " OVER PLAYER " + p1.getUsername() + " " +
-                player1score + " PLAYER " + p2.getUsername() + " " + player2score);
+
+        sendGameMessage(GameToClientMessageFormatter.generateGameOverMessage(game.getGameID(),
+                p1.getUsername(), p2.getUsername(), player1score, player2score));
         updatePlayerStatistics(game, p1, p2);
     }
 
     private void updatePlayerStatistics(Game game, TournamentPlayer p1, TournamentPlayer p2) {
-       /* HashMap<String, TournamentPlayer> playerLookup = new HashMap<>();
-        playerLookup.put(p1.getUsername(), p1);
-        playerLookup.put(p2.getUsername(), p2);
-        */
         Match m = game.getMatch();
         Round r = m.getRound();
         Challenge c = r.getChallenge();
@@ -246,13 +222,13 @@ public class Match extends Thread {
             PlayerStats ps = p1.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p2stats.setWinsByForfeit(p2stats.getWinsByForfeit() + 1);//Else, ps is player 2, P2 forfeited.
-            p1stats.setLosses(p1stats.getLosses() + 1);
+            p1stats.setLossesByForfeit(p1stats.getLossesByForfeit() + 1);
         }//p2 forfeited
         else if (forfeitGameMap.get(game) != null && forfeitGameMap.get(game) == p2.getUsername()) {
             PlayerStats ps = p2.getStats();
             ps.setForfeits(ps.getForfeits() + 1);
             p1stats.setWinsByForfeit(p1stats.getWinsByForfeit() + 1);//If our ps is the same as p1stats, it means P1 forfeited.
-            p2stats.setLosses(p2stats.getLosses() + 1);
+            p2stats.setLossesByForfeit(p2stats.getLossesByForfeit() + 1);
         } else {
             if (game.getPlayer1FinalScore() > game.getPlayer2FinalScore()) {
                 p1stats.setWins(p1stats.getWins() + 1);
@@ -275,6 +251,10 @@ public class Match extends Thread {
         p2stats.setOpponentTotalPoints(p2stats.getOpponentTotalPoints() + game.getPlayer1FinalScore());
 
         Logger.endGame(c.getTournamentID(), c.getChallengeID(), r.getRoundID(), m.getMatchID(), game.getGameID(), p1, p2);
+    }
+
+    private void addForfeitPlayerToRoundList(TournamentPlayer forfeitPlayer){
+        this.round.addPlayerToForfeitList(forfeitPlayer);
     }
 
     public TournamentPlayer getPlayer1() {
@@ -313,5 +293,4 @@ public class Match extends Thread {
     public Game getGame2() {
         return game2;
     }
-
 }

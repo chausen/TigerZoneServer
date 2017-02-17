@@ -1,8 +1,7 @@
 package com.tigerzone.fall2016.gamesystem;
-import com.tigerzone.fall2016.adapters.TileReadAdapter;
+import com.tigerzone.fall2016adapter.TileReadAdapter;
 import com.tigerzone.fall2016.tileplacement.tile.PlayableTile;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;

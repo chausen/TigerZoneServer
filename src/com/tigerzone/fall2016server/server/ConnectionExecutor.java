@@ -50,7 +50,7 @@ public class ConnectionExecutor implements Runnable {
                 try {
                     clientSocket = serverSocket.accept();
                     this.threadPool.execute(
-                            new AuthenticationThread(clientSocket));
+                            new AuthenticationThread(clientSocket, "TigerZone"));
                 } catch (IOException e) {
                     System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
                 }

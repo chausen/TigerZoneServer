@@ -1,7 +1,12 @@
 package com.tigerzone.fall2016server.server;
 
+import com.tigerzone.fall2016adapter.ViewInAdapter;
+import com.tigerzone.fall2016adapter.ViewOutAdapter;
 import com.tigerzone.fall2016server.tournament.Challenge;
+import com.tigerzone.fall2016server.tournament.tournamentplayer.PlayerStats;
 import com.tigerzone.fall2016server.tournament.tournamentplayer.TournamentPlayer;
+import javafx.collections.ObservableList;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,11 +14,27 @@ import java.util.*;
 /**
  * Created by lenovo on 11/19/2016.
  */
-public class TournamentServer {
+public class TournamentServer implements ViewInAdapter, Runnable {
 
     private static HashMap<TournamentPlayer, AuthenticationThread> playerThreads = new LinkedHashMap<TournamentPlayer, AuthenticationThread>();
     private static List<TournamentPlayer> tournamentPlayers = new ArrayList<TournamentPlayer>();
     private static List<String> userNames = new ArrayList<>();
+
+    private ViewOutAdapter viewOutAdapter = new ViewOutAdapter() {
+        @Override
+        public void notifyBeginningOfRound(int roundsCompleted, int totalRounds) {}
+
+        @Override
+        public void notifyBeginningOfChallenge(int challengeID, int numOfChallenges) {}
+
+        @Override
+        public void notifyEndOfTournament() {
+            System.exit(0);
+        }
+
+        @Override
+        public void giveListOfPlayerStats(ObservableList<PlayerStats> listOfPlayerStats) {}
+    };
 
     Challenge challenge;
 
@@ -21,7 +42,10 @@ public class TournamentServer {
     private static int seed = 123;
     private static int MAX_CONNECTIONS = 20;
     private static int tournamentID = 1;
-    private final int numOfChallenges = 9; //the number of challenges is actually this plus 1
+    private static int numOfChallenges = 3; //the number of challenges is actually this plus 1
+    private static boolean eliminationTournament = false; //true if forfeit teams are dropped in next challenge
+    private static String tournamentPassword = "TigerZone";
+
 
     public int getNumOfChallengesComplete() {
         return numOfChallengesComplete;
@@ -33,23 +57,63 @@ public class TournamentServer {
 
     private int numOfChallengesComplete = 0;
 
-    // Default constructor
-    public TournamentServer() {}
+    boolean tournamentCancelled = false;
 
-    // Constructor used for parameterized main
+    // Default constructor
+    public TournamentServer() {
+    }
+
+    // Constructor used for parameterized main: 3 arguments
     public TournamentServer(int port, int seed, int maxConnections) {
         this.PORT = port;
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
+        this.eliminationTournament = false;
     }
 
-    // Constructor used for parameterized main
+    // Constructor used for parameterized main: 4 arguments
     public TournamentServer(int port, int seed, int maxConnections, int tournamentID) {
         this.PORT = port;
         this.seed = seed;
         this.MAX_CONNECTIONS = maxConnections;
         this.tournamentID = tournamentID;
+        this.eliminationTournament = false;
     }
+
+    // Constructor used for parameterized main: 5 arguments
+    public TournamentServer(int port, int seed, int maxConnections, int tournamentID, int numOfChallenges) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = false;
+    }
+
+    // Constructor used for parameterized main: 6 arguments
+    public TournamentServer(int port, int seed, int maxConnections,
+                            int tournamentID, int numOfChallenges, boolean eliminationTournament) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = eliminationTournament;
+    }
+
+    // Constructor used for parameterized main: 7 arguments
+    public TournamentServer(int port, int seed, int maxConnections,
+                            int tournamentID, int numOfChallenges,
+                            boolean eliminationTournament, String tournamentPassword) {
+        this.PORT = port;
+        this.seed = seed;
+        this.MAX_CONNECTIONS = maxConnections;
+        this.tournamentID = tournamentID;
+        this.numOfChallenges = numOfChallenges - 1;
+        this.eliminationTournament = eliminationTournament;
+        this.tournamentPassword   = tournamentPassword;
+    }
+
 
     public int getTournamentID() {
         return tournamentID;
@@ -57,23 +121,24 @@ public class TournamentServer {
 
     public void runTournament() {
         authentication();
-        if(tournamentPlayers.size()>1) {
+        if (tournamentPlayers.size() > 1) {
             startChallenge(tournamentPlayers);
-        } else{
+        } else {
             System.out.println("Not enough players for a tournament");
-            System.exit(1);
+            viewOutAdapter.notifyEndOfTournament();
+//            System.exit(1);
         }
     }
 
     public void startChallenge(List<TournamentPlayer> tournamentPlayers) {
-        Logger.initializeLogger(tournamentID);
+        Logger.initializeLogger(tournamentID, viewOutAdapter);
         challenge = new Challenge(this, seed, tournamentPlayers);
         challenge.beginChallenge();
     }
 
 
     public void authentication() { //creates a connectionHandler thread to handle authentication
-        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS);
+        ConnectionHandler connectionHandler = new ConnectionHandler(MAX_CONNECTIONS, PORT, this.tournamentPassword);
         connectionHandler.start();
         try {
             connectionHandler.join();
@@ -85,42 +150,59 @@ public class TournamentServer {
         }
     }
 
-    public void authenticationExecutor() {
-        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
-        new Thread(connectionExecutor).start();
-        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
-            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
-        }
+//    public void authenticationExecutor() {
+//        ConnectionExecutor connectionExecutor = new ConnectionExecutor(MAX_CONNECTIONS);
+//        new Thread(connectionExecutor).start();
+//        for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
+//            System.out.println("These are the tournament players " + tournamentPlayer.getUsername());
+//        }
+//    }
+
+    private void endCommunicationWithPlayer(Collection<TournamentPlayer> tournamentPlayers) {
+        tournamentPlayers.forEach((tournamentPlayer -> {
+            tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
+            try {
+                tournamentPlayer.closeConnection();
+            } catch (IOException e) {
+                System.out.println("Couldn't close player connection");
+            }
+        }));
     }
 
     public void notifyChallengeComplete() {
-        //TODO: end of tournament shut down
-
-        if(numOfChallengesComplete++ == numOfChallenges) {
-            for (TournamentPlayer tournamentPlayer : tournamentPlayers) {
-                tournamentPlayer.sendMessageToPlayer("THANK YOU FOR PLAYING! GOODBYE");
-                try {
-                    tournamentPlayer.closeConnection();
-                } catch (IOException e) {
-                    System.out.println("Couldn't close player connection");
-                    continue;
-                }
-
-            }
-            // This is here to prevent the GUI from closing at the end of the tournament
-//        while (true) {
-//            if (Thread.activeCount() > 5) {
-//                // do nothing
-//            } else {
-//                System.exit(0);
-//            }
-//        }
+        if (numOfChallengesComplete++ == numOfChallenges || tournamentCancelled) {
+            endCommunicationWithPlayer(this.tournamentPlayers);
+            viewOutAdapter.notifyEndOfTournament();
             System.exit(0);
+        } else {
+            if (this.eliminationTournament) {
+                Set<TournamentPlayer> playersForfeitedInChallenge = this.challenge.getForfeitedPlayerSet();
+                playersForfeitedInChallenge.forEach((player)->{
+                    System.out.println("Players that Forfeited in this Challenge: " + player.getUsername());
+                });
+                this.tournamentPlayers.removeAll(playersForfeitedInChallenge);
+                endCommunicationWithPlayer(playersForfeitedInChallenge);
+                //if last challenge forfeited all but one Player then Tournament ends early.
+                if (this.tournamentPlayers.size() < 2) {
+                    System.out.println("Tournament has to few players; ending early");
+                    endCommunicationWithPlayer(this.tournamentPlayers);
+                    viewOutAdapter.notifyEndOfTournament();
+                    System.exit(0);
+                }
+            }
+            this.challenge = new Challenge(this, seed--, this.tournamentPlayers);
+            this.challenge.beginChallenge();
         }
-        else{
-            challenge = new Challenge(this, seed--, tournamentPlayers);
-            challenge.beginChallenge();
-        }
+    }
+
+    @Override
+    public void setViewOutAdapter(ViewOutAdapter adapter) {
+        this.viewOutAdapter = adapter;
+    }
+
+    @Override
+    public void cancelTournament() {
+        tournamentCancelled = true;
     }
 
     public static HashMap<TournamentPlayer, AuthenticationThread> getPlayerThreads() {
@@ -133,6 +215,11 @@ public class TournamentServer {
 
     public static List<String> getUserNames() {
         return userNames;
+    }
+
+    @Override
+    public void run() {
+        runTournament();
     }
 }
 
